@@ -1,222 +1,1156 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FSCSS Compiler</title>
-  <link rel="stylesheet" href="styles/style.css">
- <meta name="description" content="FSCSS — Figured Shorthand Cascading Style Sheet compiler">
-  <link rel="icon" href="fscss_logo.png" type="image/png">
-  <meta property="og:image" content="fscss_logo.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630"><title>FSCSS Documentation</title>
- 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3f37c9;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
       margin: 0;
       padding: 0;
-      background: #f8f9fa;
-      color: #333;
+      box-sizing: border-box;
     }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+    }
+    
+    /* Header Styles */
     header {
-      background: #333;
-      color: #eea;
-      padding: 2rem;
-      text-align: center;
+      background: var(--dark);
+      color: white;
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
     }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-icon {
+      background: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .logo span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    
     .subtitle {
       font-size: 1rem;
-      color: #677;
-      margin-top: 0.5rem;
+      color: var(--light-gray);
+      margin-top: 0.25rem;
     }
-    .container {
+    
+    nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    nav a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    nav a.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    nav a i {
+      margin-right: 8px;
+    }
+    
+    /* Main Content */
+    .main-content {
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
       padding: 2rem;
     }
-    .editor-wrapper {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    
+    .compiler-wrapper {
+      background: var(--dark);
+      border-radius: var(--radius);
       overflow: hidden;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 3rem;
     }
-    .editor-header {
-      display: flex;
-      background: #222;
+    
+    .compiler-header {
+      background: var(--darker);
       color: white;
-      padding: 0.5rem 1rem;
+      padding: 1rem;
+      display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid var(--border);
     }
-    .editor-header h3 {
-      margin: 0;
-      font-size: 1rem;
+    
+    .compiler-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
     }
+    
+    .compiler-header h2 i {
+      color: var(--accent);
+    }
+    
+    .editor-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    
     .editor-panels {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       gap: 1px;
-      height: 400px;
+      background: var(--border);
     }
+    
+    @media (min-width: 900px) {
+      .editor-panels {
+        flex-direction: row;
+        height: 500px;
+      }
+    }
+    
     .editor-pane {
       flex: 1;
       display: flex;
       flex-direction: column;
+      background: var(--dark);
     }
-    .editor-pane label {
-      background: #eee;
-      padding: 0.5rem;
-      font-weight: bold;
-      border-bottom: 1px solid #ccc;
+    
+    .editor-pane-header {
+      background: rgba(30, 41, 59, 0.7);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--light-gray);
+      border-bottom: 1px solid var(--border);
     }
-    textarea, pre {
+    
+    .editor-pane-header .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+    
+    .editor-content {
       flex: 1;
-      font-family: monospace;
-      margin: 0;
-      border: none;
       padding: 1rem;
+      overflow: auto;
+      position: relative;
+    }
+    
+    .editor-input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: var(--light);
+      font-family: 'Fira Code', monospace;
       font-size: 0.95rem;
-      outline: none;
-    }
-    textarea {
-      background: #f7f7f7;
+      line-height: 1.5;
       resize: none;
-      color: #335;
+      outline: none;
+      tab-size: 2;
     }
-    pre {
-      background: #272822;
-      color: #f8f8f2;
-      overflow-x: auto;
+    
+    .editor-output {
+      background: #1a1f2d;
+      color: #e2e8f0;
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow: auto;
     }
-    .actions {
+    
+    .editor-output .comment {
+      color: #64748b;
+    }
+    
+    .editor-output .property {
+      color: #f8fafc;
+    }
+    
+    .editor-output .value {
+      color: #38bdf8;
+    }
+    
+    .editor-output .selector {
+      color: #f472b6;
+    }
+    
+    .editor-output .variable {
+      color: #a78bfa;
+    }
+    
+    .message-area {
+      padding: 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: var(--radius);
+      margin-top: 1rem;
+      border: 1px solid var(--success);
+      color: var(--light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .message-area.error {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--danger);
+    }
+    
+    .message-area i {
+      font-size: 1.2rem;
+    }
+    
+    .message-area.success i {
+      color: var(--success);
+    }
+    
+    .message-area.error i {
+      color: var(--danger);
+    }
+    
+    /* Features Section */
+    .section-title {
+      color: var(--light);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .section-title i {
+      color: var(--accent);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border-top: 3px solid var(--primary);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .feature-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    
+    .feature-card h3 i {
+      font-size: 1.2rem;
+    }
+    
+    .feature-card ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    .feature-card li {
+      margin-bottom: 0.75rem;
+      color: var(--light-gray);
+    }
+    
+    .feature-card .highlight {
+      color: var(--accent);
+      font-weight: 600;
+      background: rgba(247, 37, 133, 0.1);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+    }
+    
+    /* Example Section */
+    .example-container {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+    }
+    
+    .example-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .example-header h3 {
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .example-code {
+      background: #1a1f2d;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      position: relative;
+      overflow: auto;
+    }
+    
+    .example-code .comment {
+      color: #64748b;
+    }
+    
+    .example-code .property {
+      color: #f8fafc;
+    }
+    
+    .example-code .value {
+      color: #38bdf8;
+    }
+    
+    .example-code .variable {
+      color: #a78bfa;
+    }
+    
+    .example-code .selector {
+      color: #f472b6;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--darker);
+      color: var(--light-gray);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer-links {
       display: flex;
       justify-content: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .btn {
-      background: #0066cc;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .success-message {
-      text-align: center;
-      margin-top: 1rem;
-      color: green;
-      font-weight: bold;
-    }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
       gap: 2rem;
-      margin-top: 3rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
     }
-    .feature-card {
-      flex: 1 1 30%;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      padding: 1.5rem;
+    
+    .footer-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: var(--transition);
     }
-    .highlight {
-      color: #0066cc;
-      font-weight: bold;
+    
+    .footer-links a:hover {
+      color: white;
     }
-    .example-container {
-      margin-top: 3rem;
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: #f1f1f1;
+    
+    .copyright {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--gray);
       font-size: 0.9rem;
-      color: #777;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      nav {
+        justify-content: center;
+      }
+      
+      .editor-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <img src="fscss_logo.png" width="100%" height="60px" style="border-radius:10px;" alt="fscss image">
-    <h1>FSCSS Compiler</h1>
-    <p class="subtitle">Write concise FSCSS and see the compiled CSS in real-time. Powered by Figured Shorthand Cascading Style Sheets.</p>
-  </header>  <div class="container">
-    <div class="editor-wrapper">
-      <div class="editor-header">
-        <h3>🧪 FSCSS ⇄ CSS Preview</h3>
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
         <div>
-          <button id="process-btn" class="btn">▶ Run</button>
-          <button id="reset-btn" class="btn">Reset</button>
-          <button id="example-btn" class="btn">Example</button>
+          <h1>FSCSS <span>Compiler</span></h1>
+          <p class="subtitle">Write concise FSCSS and see compiled CSS in real-time</p>
         </div>
       </div>
+      
+      <nav>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="active"><i class="fas fa-play-circle"></i> Compiler</a>
+        <a href="#"><i class="fas fa-book"></i> Docs</a>
+        <a href="#"><i class="fab fa-github"></i> GitHub</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Compiler Section -->
+    <div class="compiler-wrapper">
+      <div class="compiler-header">
+        <h2><i class="fas fa-bolt"></i> FSCSS ⇄ CSS Compiler</h2>
+        <div class="editor-actions">
+          <button id="process-btn" class="btn"><i class="fas fa-play"></i> Run</button>
+          <button id="reset-btn" class="btn btn-outline"><i class="fas fa-redo"></i> Reset</button>
+          <button id="example-btn" class="btn btn-outline"><i class="fas fa-lightbulb"></i> Example</button>
+          <button id="copy-btn" class="btn btn-outline"><i class="fas fa-copy"></i> Copy CSS</button>
+          <button id="format-btn" class="btn btn-outline"><i class="fas fa-align-left"></i> Format</button>
+        </div>
+      </div>
+      
       <div class="editor-panels">
         <div class="editor-pane">
-          <label>FSCSS Input</label>
-          <textarea id="input">/* Try these FSCSS features! */
+          <div class="editor-pane-header">
+            <div>FSCSS Input</div>
+            <div class="status">
+              <div class="status-indicator"></div>
+              <span>Ready</span>
+            </div>
+          </div>
+          <div class="editor-content">
+            <textarea id="input" class="editor-input">/* Try these FSCSS features! */
 $main-blue: #20f;
-$main-box-size: 200px;str(main divStyle, " mxs(width, height, max-height, max-width, min-width, min-height,'$div-init-size!') color: #100200 copy(7, dogblack); background: conic-gradient(#ffe, $dogblack!); ")
+$div-init-size: 200px;
+$dogblack: #100200;
 
-str(onHover divStyle, " background: conic-gradient($dogblack!); -*-text-stroke: 1px #072; ")
+str(main divStyle, " 
+  mxs(width, height, max-height, max-width, min-width, min-height,'$div-init-size!') 
+  color: #100200 copy(7, dogblack); 
+  background: conic-gradient(#ffe, $dogblack!); 
+")
 
-div { main divStyle }
+str(onHover divStyle, " 
+  background: conic-gradient($dogblack!); 
+  -*-text-stroke: 1px #072; 
+")
 
-div:hover { onHover divStyle }</textarea> </div> <div class="editor-pane"> <label>CSS Output</label> <pre id="css-output"></pre> </div> </div> </div>
+div { 
+  main divStyle 
+  transition: all 0.3s ease;
+}
 
-<div class="success-message" id="message">
-  CSS processed successfully! No errors detected.
-</div>
+div:hover { 
+  onHover divStyle 
+}
 
-<div class="features">
-  <div class="feature-card">
-    <h3>FSCSS Features</h3>
-    <ul>
-      <li><span class="highlight">Variables</span>: Define and reuse values</li>
-      <li><span class="highlight">Nesting</span>: Cleaner, hierarchical CSS</li>
-      <li><span class="highlight">Mixins</span>: Reuse style logic</li>
-      <li><span class="highlight">Value Extraction</span>: Shorten repetitive values</li>
-    </ul>
-  </div>
-  <div class="feature-card">
-    <h3>Advanced Functions</h3>
-    <ul>
-      <li><span class="highlight">copy()</span>: Extract & assign parts of values</li>
-      <li><span class="highlight">mx()/mxs()</span>: Property-group shortcuts</li>
-      <li><span class="highlight">re(), str()</span>: Replace shorthand patterns</li>
-      <li><span class="highlight">%1–%6</span>: Index-based styling</li>
-    </ul>
-  </div>
-  <div class="feature-card">
-    <h3>Special Syntax</h3>
-    <ul>
-      <li><span class="highlight">$var</span>: Access reusable values</li>
-      <li><span class="highlight">$(@keyframes)</span>: Animation shorthand</li>
-      <li><span class="highlight">-*-</span>: Auto-vendor prefixing</li>
-    </ul>
-  </div>
-</div>
+/* Keyframes example */
+$(@keyframes pulse, .pulse-box, &[2s infinite]) {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}</textarea>
+          </div>
+        </div>
+        
+        <div class="editor-pane">
+          <div class="editor-pane-header">
+            <div>CSS Output</div>
+            <div class="status">
+              <div class="status-indicator"></div>
+              <span>Waiting</span>
+            </div>
+          </div>
+          <div class="editor-content">
+            <div id="css-output" class="editor-output"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="message-area" class="message-area success">
+      <i class="fas fa-check-circle"></i>
+      <div>
+        <strong>CSS processed successfully!</strong> No errors detected. Your FSCSS is valid and ready to use.
+      </div>
+    </div>
+    
+    <!-- Features Section -->
+    <h2 class="section-title"><i class="fas fa-star"></i> FSCSS Features</h2>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3><i class="fas fa-magic"></i> Core Syntax</h3>
+        <ul>
+          <li><span class="highlight">Variables</span>: Define and reuse values with <code>$name: value;</code></li>
+          <li><span class="highlight">Nesting</span>: Cleaner, hierarchical CSS structure</li>
+          <li><span class="highlight">Mixins</span>: Reuse style logic with <code>mx()</code> and <code>mxs()</code></li>
+          <li><span class="highlight">Value Extraction</span>: Shorten repetitive values with <code>copy()</code></li>
+        </ul>
+      </div>
+      
+      <div class="feature-card">
+        <h3><i class="fas fa-cogs"></i> Advanced Functions</h3>
+        <ul>
+          <li><span class="highlight">copy(n, var)</span>: Extract & assign parts of values</li>
+          <li><span class="highlight">rpt(n, value)</span>: Repeat values for content generation</li>
+          <li><span class="highlight">re()/str()</span>: Replace shorthand patterns</li>
+          <li><span class="highlight">%1–%6</span>: Index-based styling shortcuts</li>
+        </ul>
+      </div>
+      
+      <div class="feature-card">
+        <h3><i class="fas fa-code"></i> Special Syntax</h3>
+        <ul>
+          <li><span class="highlight">$var!</span>: Access reusable values</li>
+          <li><span class="highlight">$(@keyframes)</span>: Animation shorthand</li>
+          <li><span class="highlight">-*-</span>: Auto-vendor prefixing</li>
+          <li><span class="highlight">$(attr:value)</span>: Attribute selector shorthand</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Example Section -->
+    <div class="example-container">
+      <div class="example-header">
+        <h3><i class="fas fa-lightbulb"></i> FSCSS Example</h3>
+      </div>
+      
+      <div class="example-code">
+        <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        <div class="comment">/* Define variables */</div>
+        <div>$primary: <span class="value">#4361ee</span>;</div>
+        <div>$secondary: <span class="value">#3f37c9</span>;</div>
+        <br>
+        <div><span class="selector">nav</span> {</div>
+        <div>&nbsp;&nbsp;<span class="selector">ul</span> {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">list-style</span>: <span class="value">none</span>;</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="selector">li</span> {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="selector">a</span> {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">color</span>: <span class="variable">$primary!</span>;</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="selector">&:hover</span> {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">color</span>: <span class="variable">$secondary!</span>;</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+        <div>&nbsp;&nbsp;}</div>
+        <div>}</div>
+        <br>
+        <div><span class="selector">.container</span> { </div>
+        <div>&nbsp;&nbsp;<span class="property">mxs</span>(<span class="value">width, height, max-width, min-width</span>, <span class="value">"200px"</span>) </div>
+        <div>}</div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-book"></i> Documentation</a>
+        <a href="#"><i class="fab fa-github"></i> GitHub</a>
+        <a href="#"><i class="fab fa-npm"></i> npm Package</a>
+        <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+      </div>
+      
+      <div class="copyright">
+        <p>Made with 💡 by Figsh, David Hux and Ekuyik Sam</p>
+        <p>FSCSS Compiler v1.1.6 | © 2025 | MIT License</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Enhanced FSCSS Compiler
+    class FSCSSCompiler {
+      constructor() {
+        this.variables = {};
+        this.stores = {};
+        this.keyframes = [];
+        this.errors = [];
+        this.warnings = [];
+      }
+      
+      compile(fscss) {
+        this.errors = [];
+        this.warnings = [];
+        this.variables = {};
+        this.stores = {};
+        this.keyframes = [];
+        
+        try {
+          // Step 1: Extract variables
+          this.extractVariables(fscss);
+          
+          // Step 2: Extract style stores
+          this.extractStores(fscss);
+          
+          // Step 3: Extract keyframes
+          this.extractKeyframes(fscss);
+          
+          // Step 4: Process FSCSS
+          let css = this.processFSCSS(fscss);
+          
+          // Step 5: Add extracted keyframes
+          css += this.processKeyframes();
+          
+          // Step 6: Format CSS
+          return this.formatCSS(css);
+        } catch (error) {
+          this.errors.push(error.message);
+          return `/* Compilation Error: ${error.message} */`;
+        }
+      }
+      
+      extractVariables(fscss) {
+        const varRegex = /\$([a-zA-Z0-9_-]+)\s*:\s*([^;]+);/g;
+        let match;
+        
+        while ((match = varRegex.exec(fscss)) !== null) {
+          const varName = match[1];
+          const varValue = match[2].trim();
+          this.variables[varName] = varValue;
+        }
+      }
+      
+      extractStores(fscss) {
+        const storeRegex = /(?:str|store|re)\s*\(\s*([a-zA-Z0-9_-]+)\s*,\s*"([\s\S]*?)"\s*\)/g;
+        let match;
+        
+        while ((match = storeRegex.exec(fscss)) !== null) {
+          const storeName = match[1];
+          const storeValue = match[2];
+          this.stores[storeName] = storeValue;
+        }
+      }
+      
+      extractKeyframes(fscss) {
+        const keyframeRegex = /\$\(@keyframes\s+([a-zA-Z0-9_-]+)\s*,\s*([^,]+)\s*(?:,\s*&\[([^\]]+)\])?\)\s*\{([\s\S]*?)\}/g;
+        let match;
+        
+        while ((match = keyframeRegex.exec(fscss)) !== null) {
+          this.keyframes.push({
+            name: match[1],
+            selector: match[2].trim(),
+            timing: match[3] ? match[3].trim() : '',
+            content: match[4].trim()
+          });
+        }
+      }
+      
+      processFSCSS(fscss) {
+        // Remove variable definitions
+        let css = fscss.replace(/\$([a-zA-Z0-9_-]+)\s*:\s*([^;]+);/g, '');
+        
+        // Remove store definitions
+        css = css.replace(/(?:str|store|re)\s*\(\s*([a-zA-Z0-9_-]+)\s*,\s*"([\s\S]*?)"\s*\)/g, '');
+        
+        // Remove keyframe definitions
+        css = css.replace(/\$\(@keyframes\s+([a-zA-Z0-9_-]+)\s*,\s*([^,]+)\s*(?:,\s*&\[([^\]]+)\])?\)\s*\{([\s\S]*?)\}/g, '');
+        
+        // Replace store references
+        for (const storeName in this.stores) {
+          const regex = new RegExp(`\\b${storeName}\\b`, 'g');
+          css = css.replace(regex, this.stores[storeName]);
+        }
+        
+        // Replace variable references
+        for (const varName in this.variables) {
+          const regex = new RegExp(`\\$${varName}!`, 'g');
+          css = css.replace(regex, this.variables[varName]);
+        }
+        
+        // Process copy function
+        css = css.replace(/copy\s*\(\s*(\d+)\s*,\s*([a-zA-Z0-9_-]+)\s*\)/g, (match, index, varName) => {
+          if (this.variables[varName]) {
+            const values = this.variables[varName].split(',');
+            const idx = parseInt(index) - 1;
+            return idx >= 0 && idx < values.length ? values[idx].trim() : '';
+          }
+          return '';
+        });
+        
+        // Process mxs mixin
+        css = css.replace(/mxs\s*\(\s*([^)]+),\s*"([^"]+)"\s*\)/g, (match, properties, value) => {
+          const propList = properties.split(',').map(p => p.trim());
+          return propList.map(prop => `${prop}: ${value};`).join('\n');
+        });
+        
+        // Process vendor prefixes
+        css = css.replace(/-(\*)-([a-zA-Z-]+)\s*:\s*([^;]+);/g, (match, prefix, property, value) => {
+          return `
+            -webkit-${property}: ${value};
+            -moz-${property}: ${value};
+            -ms-${property}: ${value};
+            -o-${property}: ${value};
+            ${property}: ${value};
+          `.trim();
+        });
+        
+        // Remove empty lines and trim
+        css = css.split('\n')
+          .filter(line => line.trim() !== '')
+          .map(line => line.trim())
+          .join('\n');
+        
+        return css;
+      }
+      
+      processKeyframes() {
+        if (this.keyframes.length === 0) return '';
+        
+        let keyframeCSS = '';
+        
+        for (const kf of this.keyframes) {
+          // Add animation rule
+          keyframeCSS += `${kf.selector} {\n`;
+          keyframeCSS += `  animation: ${kf.name}${kf.timing ? ' ' + kf.timing : ''};\n`;
+          keyframeCSS += `}\n\n`;
+          
+          // Add keyframes definition
+          keyframeCSS += `@keyframes ${kf.name} {\n`;
+          keyframeCSS += kf.content + '\n';
+          keyframeCSS += `}\n\n`;
+        }
+        
+        return keyframeCSS;
+      }
+      
+      formatCSS(css) {
+        // Simple CSS formatting (indentation)
+        let indentLevel = 0;
+        const formatted = [];
+        const lines = css.split('\n');
+        
+        for (let line of lines) {
+          line = line.trim();
+          
+          if (line.endsWith('}')) indentLevel--;
+          if (line.endsWith('{')) indentLevel++;
+          
+          const indentation = '  '.repeat(Math.max(0, indentLevel - (line.endsWith('}') ? 1 : 0)));
+          formatted.push(indentation + line);
+          
+          if (line.endsWith('{')) indentLevel++;
+          if (line.endsWith('}')) indentLevel = Math.max(0, indentLevel);
+        }
+        
+        return formatted.join('\n');
+      }
+      
+      getErrors() {
+        return this.errors;
+      }
+      
+      getWarnings() {
+        return this.warnings;
+      }
+    }
 
-<div class="example-container">
-  <h3 class="example-title">FSCSS Example</h3>
-  <pre>
+    // Initialize compiler when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('input');
+      const output = document.getElementById('css-output');
+      const processBtn = document.getElementById('process-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const exampleBtn = document.getElementById('example-btn');
+      const copyBtn = document.getElementById('copy-btn');
+      const formatBtn = document.getElementById('format-btn');
+      const messageArea = document.getElementById('message-area');
+      
+      const compiler = new FSCSSCompiler();
+      
+      // Initial example output
+      const exampleOutput = `div {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 200px;
+  color: #100200;
+  background: conic-gradient(#ffe, #100200);
+  transition: all 0.3s ease;
+}
 
-/* Define variables */ $primary: #4361ee; $secondary: #3f37c9;
+div:hover {
+  background: conic-gradient(#100200);
+  -webkit-text-stroke: 1px #072;
+  -moz-text-stroke: 1px #072;
+  -ms-text-stroke: 1px #072;
+  -o-text-stroke: 1px #072;
+}
 
-nav { ul { list-style: none; li { a { color: $primary; &:hover { color: $secondary; } } } } }
+.pulse-box {
+  animation: pulse 2s infinite;
+}
 
-.container { mxs(width, height, max-width, min-width, "200px") } </pre> </div>
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}`;
+      
+      output.textContent = exampleOutput;
+      
+      // Process button handler
+      processBtn.addEventListener('click', function() {
+        const fscssCode = input.value;
+        
+        try {
+          const compiledCSS = compiler.compile(fscssCode);
+          output.textContent = compiledCSS;
+          
+          // Show success message
+          messageArea.className = 'message-area success';
+          messageArea.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <strong>CSS processed successfully!</strong> No errors detected.
+            </div>
+          `;
+        } catch (error) {
+          // Show error message
+          messageArea.className = 'message-area error';
+          messageArea.innerHTML = `
+            <i class="fas fa-exclamation-circle"></i>
+            <div>
+              <strong>Compilation Error:</strong> ${error.message}
+            </div>
+          `;
+          console.error('Compilation error:', error);
+        }
+      });
+      
+      // Reset button handler
+      resetBtn.addEventListener('click', function() {
+        input.value = `/* Try these FSCSS features! */
+$main-blue: #20f;
+$div-init-size: 200px;
+$dogblack: #100200;
 
-<footer>
-  <p>FSCSS Compiler v1.0 | A modern shorthand CSS toolkit</p>
-</footer>
+str(main divStyle, " 
+  mxs(width, height, max-height, max-width, min-width, min-height,'$div-init-size!') 
+  color: #100200 copy(7, dogblack); 
+  background: conic-gradient(#ffe, $dogblack!); 
+")
 
-  </div>
-  <script src="scripts/compile.js"></script>
+str(onHover divStyle, " 
+  background: conic-gradient($dogblack!); 
+  -*-text-stroke: 1px #072; 
+")
+
+div { 
+  main divStyle 
+  transition: all 0.3s ease;
+}
+
+div:hover { 
+  onHover divStyle 
+}
+
+/* Keyframes example */
+$(@keyframes pulse, .pulse-box, &[2s infinite]) {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}`;
+        
+        output.textContent = exampleOutput;
+        messageArea.className = 'message-area success';
+        messageArea.innerHTML = `
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <strong>Compiler reset!</strong> Ready for new input.
+          </div>
+        `;
+      });
+      
+      // Example button handler
+      exampleBtn.addEventListener('click', function() {
+        input.value = `/* Navbar example */
+$primary: #4361ee;
+$secondary: #3a0ca3;
+$text-light: #f8f9fa;
+
+str(navbarStyle, "
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: $primary!;
+  color: $text-light!;
+")
+
+str(navItemHover, "
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+")
+
+nav {
+  navbarStyle
+  
+  ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    
+    li {
+      a {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          navItemHover
+        }
+      }
+    }
+  }
+}`;
+        
+        const exampleResult = `nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #4361ee;
+  color: #f8f9fa;
+}
+
+nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+
+nav ul li a {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}`;
+        
+        output.textContent = exampleResult;
+        messageArea.className = 'message-area success';
+        messageArea.innerHTML = `
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <strong>Example loaded!</strong> Press "Run" to compile.
+          </div>
+        `;
+      });
+      
+      // Copy CSS button
+      copyBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(output.textContent).then(() => {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+      
+      // Format CSS button
+      formatBtn.addEventListener('click', function() {
+        const css = output.textContent;
+        const formatted = compiler.formatCSS(css);
+        output.textContent = formatted;
+        
+        messageArea.className = 'message-area success';
+        messageArea.innerHTML = `
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <strong>CSS formatted!</strong> Output has been beautified.
+          </div>
+        `;
+      });
+      
+      // Copy example button
+      document.querySelector('.example-code .copy-btn').addEventListener('click', function() {
+        const exampleCode = document.querySelector('.example-code').textContent;
+        navigator.clipboard.writeText(exampleCode).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
