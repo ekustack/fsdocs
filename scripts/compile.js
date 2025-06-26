@@ -411,7 +411,7 @@ function applyFscssTransformations(css) {
         css = transformCssValues(css);      // Process copy() functions
     css = applyFscssTransformations(css); // Apply all other transformations
     css = replaceRe(css);
-          
+    css = flattenNestedCSS(css, {validate: true})
         return css;
       }
       
