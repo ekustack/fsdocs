@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS Compiler</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background: #333;
+      color: #eea;
+      padding: 2rem;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: #677;
+      margin-top: 0.5rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .editor-wrapper {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    .editor-header {
+      display: flex;
+      background: #222;
+      color: white;
+      padding: 0.5rem 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .editor-header h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .editor-panels {
+      display: flex;
+      flex-direction: row;
+      gap: 1px;
+      height: 400px;
+    }
+    .editor-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .editor-pane label {
+      background: #eee;
+      padding: 0.5rem;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+    }
+    textarea, pre {
+      flex: 1;
+      font-family: monospace;
+      margin: 0;
+      border: none;
+      padding: 1rem;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    textarea {
+      background: #f7f7f7;
+      resize: none;
+      color: #335;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      overflow-x: auto;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .btn {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .success-message {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .feature-card {
+      flex: 1 1 30%;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+    .highlight {
+      color: #0066cc;
+      font-weight: bold;
+    }
+    .example-container {
+      margin-top: 3rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #f1f1f1;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fshbrbuo36ilb2js3k373.jpg" width="100%" height="60px" style="border-radius:10px;" alt="fscss image">
+    <h1>FSCSS Compiler</h1>
+    <p class="subtitle">Write concise FSCSS and see the compiled CSS in real-time. Powered by Figured Shorthand Cascading Style Sheets.</p>
+  </header>  <div class="container">
+    <div class="editor-wrapper">
+      <div class="editor-header">
+        <h3>🧪 FSCSS ⇄ CSS Preview</h3>
+        <div>
+          <button id="process-btn" class="btn">▶ Run</button>
+          <button id="reset-btn" class="btn">Reset</button>
+          <button id="example-btn" class="btn">Example</button>
+        </div>
+      </div>
+      <div class="editor-panels">
+        <div class="editor-pane">
+          <label>FSCSS Input</label>
+          <textarea id="input">/* Try these FSCSS features! */
+$main-blue: #20f;
+$main-box-size: 200px;str(main divStyle, " mxs(width, height, max-height, max-width, min-width, min-height,'$div-init-size!') color: #100200 copy(7, dogblack); background: conic-gradient(#ffe, $dogblack!); ")
+
+str(onHover divStyle, " background: conic-gradient($dogblack!); -*-text-stroke: 1px #072; ")
+
+div { main divStyle }
+
+div:hover { onHover divStyle }</textarea> </div> <div class="editor-pane"> <label>CSS Output</label> <pre id="css-output"></pre> </div> </div> </div>
+
+<div class="success-message" id="message">
+  CSS processed successfully! No errors detected.
+</div>
+
+<div class="features">
+  <div class="feature-card">
+    <h3>FSCSS Features</h3>
+    <ul>
+      <li><span class="highlight">Variables</span>: Define and reuse values</li>
+      <li><span class="highlight">Nesting</span>: Cleaner, hierarchical CSS</li>
+      <li><span class="highlight">Mixins</span>: Reuse style logic</li>
+      <li><span class="highlight">Value Extraction</span>: Shorten repetitive values</li>
+    </ul>
+  </div>
+  <div class="feature-card">
+    <h3>Advanced Functions</h3>
+    <ul>
+      <li><span class="highlight">copy()</span>: Extract & assign parts of values</li>
+      <li><span class="highlight">mx()/mxs()</span>: Property-group shortcuts</li>
+      <li><span class="highlight">re(), str()</span>: Replace shorthand patterns</li>
+      <li><span class="highlight">%1–%6</span>: Index-based styling</li>
+    </ul>
+  </div>
+  <div class="feature-card">
+    <h3>Special Syntax</h3>
+    <ul>
+      <li><span class="highlight">$var</span>: Access reusable values</li>
+      <li><span class="highlight">$(@keyframes)</span>: Animation shorthand</li>
+      <li><span class="highlight">-*-</span>: Auto-vendor prefixing</li>
+    </ul>
+  </div>
+</div>
+
+<div class="example-container">
+  <h3 class="example-title">FSCSS Example</h3>
+  <pre>
+
+/* Define variables */ $primary: #4361ee; $secondary: #3f37c9;
+
+nav { ul { list-style: none; li { a { color: $primary; &:hover { color: $secondary; } } } } }
+
+.container { mxs(width, height, max-width, min-width, "200px") } </pre> </div>
+
+<footer>
+  <p>FSCSS Compiler v1.0 | A modern shorthand CSS toolkit</p>
+</footer>
+
+  </div>
+  <script src="scripts/compile.js"></script>
+</body>
+</html>

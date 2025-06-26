@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon/jpg" href="https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fshbrbuo36ilb2js3k373.jpg">
+  <title>FSCSS Documentation</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      color: #333;
+    }
+    .doc-header {
+      background: #333;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    .doc-header h1 {
+      margin: 0 0 0.5rem;
+    }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      background: #222;
+    }
+    .doc-nav a {
+      color: #eee;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .doc-content {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    section h2 {
+      color: #0066cc;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    code {
+      font-family: monospace;
+    }
+    i {
+      display: block;
+      font-style: normal;
+      font-size: 0.9em;
+      margin: 0.5rem 0;
+      color: #666;
+    }
+    .doc-footer {
+      text-align: center;
+      padding: 2rem;
+      background: #f1f1f1;
+      font-size: 0.9em;
+      color: #777;
+    }
+    p.description {
+      font-size: 0.95em;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <img src="https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fshbrbuo36ilb2js3k373.jpg" width="100%" height="60px" style="border-radius:10px;" alt="fscss image">
+    <h1>FSCSS Documentation</h1>
+    <p class="intro">Explore all shorthand powers of FSCSS with real examples.</p>
+    <nav class="doc-nav">
+      <a href="#vars">Variables</a>
+      <a href="#replace">re()</a>
+      <a href="#repeat">rpt()</a>
+      <a href="#copy">copy()</a>
+      <a href="#mixins">mx()</a>
+      <a href="#share">%</a>
+      <a href="#attr">$(...)</a>
+      <a href="#keyframes">$(@...)</a>
+      <a href="#vendors">-* vendors</a>
+    </nav>
+  </header>  <main class="doc-content">
+    <section id="vars">
+      <h2>Variables ($var: ...)</h2>
+      <p class="description">FSCSS lets you define variables using <code>$name: value;</code> and use them with <code>$name!</code>. This helps reduce repetition and improves readability.</p>
+      <i>fscss</i><pre><code>$myColor: #3498db;
+.box {
+  background: $myColor!;
+}</code></pre>
+      <i>css</i>
+      <pre><code>:root{ --myColor: #3498db; }
+.box {
+  background: var(--myColor);
+}</code></pre>
+    </section><section id="replace">
+  <h2>re(), str(), store() Replace</h2>
+  <p class="description">Use <code>str()</code>, <code>re()</code>, or <code>store()</code> to store reusable CSS property groups and reference them by name inside selectors.</p>
+  <i>fscss</i>
+  <pre><code>str(headerStyle, "font-size: 2em; font-weight: bold;")
+
+header { headerStyle } .header { headerStyle }</code></pre> <i>css</i> <pre><code>header { font-size: 2em; font-weight: bold; } .header { font-size: 2em; font-weight: bold; }</code></pre> </section>
+
+<section id="repeat">
+  <h2>rpt() Repeat</h2>
+  <p class="description">The <code>rpt(n, value)</code> function repeats a value or text a specified number of times. Useful for visual indicators or generating content strings.</p>
+  <i>fscss</i>
+  <pre><code>p::after {
+
+content: "rpt(5, 'Hey ')"; }</code></pre> <i>css</i> <pre><code>p::after { content: "Hey Hey Hey Hey Hey "; }</code></pre> </section>
+
+<section id="copy">
+  <h2>copy() Extract parts of values</h2>
+  <p class="description">The <code>copy(n, var)</code> function allows value extraction and partial reuse from a defined string, helpful when slicing lists or values.</p>
+  <i>fscss</i>
+  <pre><code>p::after {
+
+content: "blue,red copy(4,my-blue)"; color: $my-blue!; }</code></pre> <i>css</i> <pre><code>p::after { content: "blue,red"; color: var(--my-blue); } :root { --my-blue: blue; }</code></pre> </section>
+
+<section id="mixins">
+  <h2>mx() / mxs() Mixins</h2>
+  <p class="description">Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value. <code>mxs</code> uses a shared value string, while <code>mx</code> requires appending colons manually.</p>
+  <i>fscss</i>
+  <pre><code>.card {
+
+mxs(width, height, max-height, max-width, min-width, min-height, '200px') } .box { mx(width, height, max-height, max-width, min-width, min-height, ': 200px;') }</code></pre> <i>css</i> <pre><code>.card { width: 200px; height: 200px; max-height: 200px; max-width: 200px; min-width: 200px; min-height: 200px; } .box { width: 200px; height: 200px; max-height: 200px; max-width: 200px; min-width: 200px; min-height: 200px; }</code></pre> </section>
+
+<section id="share">
+  <h2>Share Properties: %1 - %6, %i</h2>
+  <p class="description">Shared values are assigned to indexes like <code>%1</code>, <code>%2</code>, and so on. They can be injected directly into selectors using shorthand.</p>
+  <i>fscss</i>
+  <pre><code>div{%2(width, height[:200px;])}</code></pre>
+  <i>css</i>
+  <pre><code>div {
+
+width: 200px; height: 200px; }</code></pre> </section>
+
+<section id="attr">
+  <h2>$(attribute: value)</h2>
+  <p class="description">Shorthand for attribute selectors. Converts <code>$(type: submit)</code> into <code>[type='submit']</code>.</p>
+  <i>fscss</i>
+  <pre><code>$(type:submit) {
+
+background: green; color: white; }</code></pre> <i>css</i> <pre><code>[type='submit'] { background: green; color: white; }</code></pre> </section>
+
+<section id="keyframes">
+  <h2>Keyframes Compact</h2>
+  <p class="description">Write animations compactly using <code>$(@keyframes name, selectors, [&lt;timing&gt;])</code>. FSCSS will expand this into both animation rules and the actual keyframe block.</p>
+  <i>fscss</i>
+  <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+
+from { transform: translateX(-100%); } to { transform: translateX(0); } }</code></pre> <i>css</i> <pre><code>.box, .card { animation: slideIn 3s linear infinite; } @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }</code></pre> </section>
+
+<section id="vendors">
+  <h2>Vendor Prefixing (-*-)</h2>
+  <p class="description">Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.</p>
+  <i>fscss</i>
+  <pre><code>.box {
+
+-*-transform: rotate(45deg); }</code></pre> <i>css</i> <pre><code>.box { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); }</code></pre> </section>
+
+  </main>  <footer class="doc-footer">
+    <p>Made with 💡 by Figsh, David Hux and Ekuyik Sam</p>
+    <p>©2025</p>
+  </footer>
+</body>
+</html>
