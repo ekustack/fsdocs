@@ -15,6 +15,7 @@ class FSCSSCompiler {
       css = this.extractStores(css);
       css = this.extractKeyframes(css);
       css = this.replaceStores(css);
+      css = this.replaceRe(css);
       css = this.applyFscssTransformations(css);
       css = this.transformCssValues(css)
       css += this.processKeyframes();
@@ -53,7 +54,53 @@ class FSCSSCompiler {
       return '';
     });
   }
+  replaceRe(css) {
+  // Enhanced regex to capture re() declarations with flexibility
+ const reRegex = /(?:store|str|re)\(\s*([^:,]+)\s*[,:]\s*(?:"([^"]*)"|'([^']*)')\s*\)/gi;
+  const variableMap = new Map();
   
+  // Step 1: Remove re() declarations and store variable-value mappings
+  let cleanedCss = css.replace(reRegex, (match, variable, dqValue, sqValue) => {
+    const value = dqValue || sqValue;
+    variable = variable.trim();
+    variableMap.set(variable, value);
+    return ''; // Completely remove the re() call
+  });
+
+  // If no variables found, return cleaned CSS
+  if (variableMap.size === 0) return cleanedCss;
+
+  // Step 2: Replace variables throughout the CSS
+  let changed;
+  let iterations = 0;
+  const maxIterations = 100;
+  let current = cleanedCss;
+  
+  do {
+    changed = false;
+    for (const [variable, value] of variableMap.entries()) {
+      // Use word boundaries to avoid partial replacements
+      const varRegex = new RegExp(`\\b${escapeRegExp(variable)}\\b`, 'g');
+      const newCss = current.replace(varRegex, value);
+      
+      if (newCss !== current) {
+        changed = true;
+        current = newCss;
+      }
+    }
+    iterations++;
+  } while (changed && iterations < maxIterations);
+
+  if (iterations >= maxIterations) {
+    console.warn('Maximum iterations reached. Possible circular dependency.');
+  }
+
+  return current;
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}|[\]\\]/g, '\\$&');
+}
   replaceStores(css) {
     let changed;
     let iterations = 0;
