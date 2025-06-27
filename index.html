@@ -557,7 +557,45 @@ async function applyStyle() {
 
 applyStyle();</code></pre>
       </div>
-      
+      <p>
+        <h4>✨ Developer Experience: Callbacks, Error Handling, and Maintainability</h4>
+
+<ul><li><b>Built-in Callbacks:</b> FSCSS provides onSuccess and onError hooks for better control over style execution results. Use them to log, debug, or respond to runtime style application.</li>
+
+<li><b>Error Reporting:</b> Errors are caught and reported through a clean callback interface, making debugging straightforward and user notifications possible.</li>
+
+<li><b>Maintainable Structure:</b> The exec() method uses named parameters, improving readability and maintainability—especially useful for scaling or integrating multiple stylesheets.</li></ul>
+      <h4>🧪 Example: Dynamically Load a Remote FSCSS File with Debugging</h4>
+      </p>
+      <div class="code-container">
+        <div class="code-header">
+          <span>JavaScript</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <pre><code>
+  import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/xfscss.min.js";
+
+  const DEBUG = true;
+
+  function applyFSCSS({ type, content }) {
+    exec({
+      type,
+      content,
+      onSuccess: (styleElement) => {
+        if (DEBUG) console.log("✅ FSCSS applied:", styleElement);
+      },
+      onError: (error) => {
+        console.error("❌ Failed to apply FSCSS:", error);
+        alert("⚠️ Could not load styles. Please try again later.");
+      }
+    });
+  }
+
+  applyFSCSS({
+    type: "URL",
+    content: "https://raw.githubusercontent.com/Figsh/style_sheet/refs/heads/main/ecard.min.fscss"
+  });</code></pre>
+      </div>
       <a href="compiler.html" class="btn"><i class="fas fa-play-circle"></i> Try It Live on the FSCSS Compiler</a>
     </section>
     
