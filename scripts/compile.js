@@ -80,7 +80,7 @@ class FSCSSCompiler {
     changed = false;
     for (const [variable, value] of variableMap.entries()) {
       // Use word boundaries to avoid partial replacements
-      const varRegex = new RegExp(`\\b${escapeRegExp(variable)}\\b`, 'g');
+      const varRegex = new RegExp(`\\b${this.escapeRegExp(variable)}\\b`, 'g');
       const newCss = current.replace(varRegex, value);
       
       if (newCss !== current) {
@@ -98,7 +98,7 @@ class FSCSSCompiler {
   return current;
 }
 
-function escapeRegExp(string) {
+escapeRegExp(string) {
   return string.replace(/[.*+?^${}|[\]\\]/g, '\\$&');
 }
   replaceStores(css) {
