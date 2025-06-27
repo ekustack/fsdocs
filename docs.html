@@ -1,182 +1,982 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FSCSS — Figured Shorthand Cascading Style Sheet Docs">
-  <link rel="icon" href="fscss_logo.png" type="image/png">
-  <meta property="og:image" content="fscss_logo.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630"><title>FSCSS Documentation</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comprehensive documentation for FSCSS - Figured Shorthand Cascading Style Sheets">
+  <title>FSCSS Documentation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      line-height: 1.6;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #3b82f6;
+      --accent: #7c3aed;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --border: #cbd5e1;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
       margin: 0;
       padding: 0;
-      background: #f8f9fa;
-      color: #333;
+      box-sizing: border-box;
     }
-    .doc-header {
-      background: #333;
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: var(--light);
+      color: var(--dark);
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: var(--dark);
       color: white;
-      padding: 2rem;
+      padding: 2rem 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      transition: var(--transition);
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo-icon {
+      background: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .compiler-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+    
+    .compiler-info i {
+      margin-right: 8px;
+      color: var(--success);
+    }
+    
+    .sidebar h3 {
+      font-size: 1.1rem;
+      margin: 1.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar ul {
+      list-style: none;
+    }
+    
+    .sidebar li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .sidebar a.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .sidebar a i {
+      margin-right: 10px;
+      width: 20px;
       text-align: center;
     }
-    .doc-header h1 {
-      margin: 0 0 0.5rem;
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 3rem;
+      max-width: 1000px;
     }
-    .doc-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1rem;
-      background: #222;
-    }
-    .doc-nav a {
-      color: #eee;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .doc-content {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem;
-    }
-    section {
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 3rem;
+      border-radius: var(--radius);
       margin-bottom: 3rem;
+      box-shadow: var(--shadow);
     }
-    section h2 {
-      color: #0066cc;
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
-    pre {
-      background: #272822;
-      color: #f8f8f2;
-      padding: 1rem;
-      overflow-x: auto;
-      border-radius: 8px;
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      color: white;
     }
-    code {
+    
+    .btn {
+      display: inline-block;
+      background: white;
+      color: var(--primary);
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    
+    .section h2 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+    }
+    
+    .section h2 i {
+      margin-right: 12px;
+      background: var(--light-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+    
+    .section h3 {
+      color: var(--dark);
+      font-size: 1.3rem;
+      margin: 1.5rem 0 1rem;
+    }
+    
+    .section p {
+      margin-bottom: 1.2rem;
+      color: var(--gray);
+      line-height: 1.8;
+    }
+    
+    .feature-card {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .feature-card h4 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+    }
+    
+    .feature-card h4 i {
+      margin-right: 10px;
+    }
+    
+    .code-container {
+      position: relative;
+      margin: 1.5rem 0;
+    }
+    
+    .code-header {
+      background: var(--dark);
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
       font-family: monospace;
     }
-    i {
-      display: block;
-      font-style: normal;
-      font-size: 0.9em;
-      margin: 0.5rem 0;
-      color: #666;
+    
+    .copy-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
-    .doc-footer {
+    
+    .copy-btn:hover {
+      color: var(--secondary);
+    }
+    
+    pre {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      overflow-x: auto;
+      border-radius: 0 0 var(--radius) var(--radius);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+      tab-size: 2;
+    }
+    
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    
+    .code-comment {
+      color: #a0aec0;
+      font-style: italic;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .example-grid > div {
+      background: var(--light);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    
+    .example-grid h5 {
+      background: var(--dark);
+      color: white;
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .benefit-card {
+      background: var(--light);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      text-align: center;
+      transition: var(--transition);
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .benefit-card i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .benefit-card h4 {
+      margin-bottom: 0.8rem;
+      color: var(--dark);
+    }
+    
+    .footer {
       text-align: center;
       padding: 2rem;
-      background: #f1f1f1;
-      font-size: 0.9em;
-      color: #777;
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--light-gray);
     }
-    p.description {
-      font-size: 0.95em;
-      color: #444;
-      margin-bottom: 1rem;
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 240px;
+        padding: 1.5rem 1rem;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+        padding: 2rem;
+      }
+      
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 1.5rem;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1.5rem;
+      }
+      
+      .logo {
+        justify-content: center;
+      }
+      
+      .hero {
+        padding: 2rem;
+        text-align: center;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="doc-header">
-    <img src="fscss_logo.png" width="100%" height="60px" style="border-radius:10px;" alt="fscss image">
-    <h1>FSCSS Documentation</h1>
-    <p class="intro">Explore all shorthand powers of FSCSS with real examples.</p>
-    <nav class="doc-nav">
-      <a href="#vars">Variables</a>
-      <a href="#replace">re()</a>
-      <a href="#repeat">rpt()</a>
-      <a href="#copy">copy()</a>
-      <a href="#mixins">mx()</a>
-      <a href="#share">%</a>
-      <a href="#attr">$(...)</a>
-      <a href="#keyframes">$(@...)</a>
-      <a href="#vendors">-* vendors</a>
-    </nav>
-  </header>  <main class="doc-content">
-    <section id="vars">
-      <h2>Variables ($var: ...)</h2>
-      <p class="description">FSCSS lets you define variables using <code>$name: value;</code> and use them with <code>$name!</code>. This helps reduce repetition and improves readability.</p>
-      <i>fscss</i><pre><code>$myColor: #3498db;
-.box {
-  background: $myColor!;
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-code"></i>
+      </div>
+      <h1>FSCSS</h1>
+    </div>
+    
+    <div class="compiler-info">
+      <i class="fas fa-check-circle"></i>
+      <span>Compiler is production ready</span>
+    </div>
+    
+    <h3><i class="fas fa-home"></i> Getting Started</h3>
+    <ul>
+      <li><a href="#home" class="active"><i class="fas fa-play-circle"></i> Introduction</a></li>
+      <li><a href="/#install"><i class="fas fa-download"></i> Installation</a></li>
+      <li><a href="/#usage"><i class="fas fa-cog"></i> Setup & Usage</a></li>
+    </ul>
+    
+    <h3><i class="fas fa-star"></i> Core Features</h3>
+    <ul>
+      <li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+      <li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
+      <li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
+      <li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
+      <li><a href="#drops"><i class="fas fa-puzzle-piece"></i> Drops</a></li>
+      <li><a href="#share"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
+      <li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
+      <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
+      <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
+    </ul>
+    
+    <h3><i class="fas fa-book"></i> Resources</h3>
+    <ul>
+      <li><a href="compiler.html#examples"><i class="fas fa-laptop-code"></i> Examples</a></li>
+      <li><a href="compiler.html#cheatsheet"><i class="fas fa-file-alt"></i> Cheat Sheet</a></li>
+      <li><a href="https://dev.to/fscss-ttr"><i class="fas fa-users"></i> Community</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Home Section -->
+    <section id="home" class="section">
+      <div class="hero">
+        <h1>FSCSS Documentation</h1>
+        <p>Figured Shorthand CSS is a powerful CSS preprocessor that simplifies your stylesheets with intuitive shorthand syntax, reusable patterns, and enhanced functionality.</p>
+        <a href="#installation" class="btn">
+          <i class="fas fa-rocket"></i> Get Started
+        </a>
+      </div>
+      
+      <h2><i class="fas fa-lightbulb"></i> Why Use FSCSS?</h2>
+      <p>FSCSS streamlines your CSS workflow with features designed to reduce repetition, improve readability, and enhance maintainability of your stylesheets.</p>
+      
+      <div class="benefits">
+        <div class="benefit-card">
+          <i class="fas fa-bolt"></i>
+          <h4>Faster Development</h4>
+          <p>Write complex CSS with significantly less code using intuitive shorthand syntax</p>
+        </div>
+        
+        <div class="benefit-card">
+          <i class="fas fa-sync-alt"></i>
+          <h4>Improved Maintainability</h4>
+          <p>Reuse styles and variables across your project for consistent updates</p>
+        </div>
+        
+        <div class="benefit-card">
+          <i class="fas fa-magic"></i>
+          <h4>Enhanced Readability</h4>
+          <p>Clear, concise syntax makes your stylesheets easier to understand</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Variables Section -->
+    <section id="variables" class="section">
+      <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
+      <p>FSCSS variables provide a powerful way to store and reuse values throughout your stylesheets. Define once, use everywhere.</p>
+      
+      <div class="feature-card">
+        <h4><i class="fas fa-check-circle"></i> Key Features</h4>
+        <p>- Define variables with <code>$name: value;</code></p>
+        <p>- Reference variables with <code>$name!</code></p>
+        <p>- Variables compile to CSS custom properties</p>
+        <p>- Scoped to <code>:root</code> by default</p>
+      </div>
+      
+      <h3>Basic Usage</h3>
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>// Define color variables
+$primary: #3b82f6;
+$secondary: #8b5cf6;
+$text: #1e293b;
+
+// Use variables
+.button {
+  background: $primary!;
+  color: white;
+  border: 2px solid $secondary!;
+}
+
+.heading {
+  color: $text!;
+  font-size: 2rem;
 }</code></pre>
-      <i>css</i>
-      <pre><code>:root{ --myColor: #3498db; }
-.box {
-  background: var(--myColor);
+      </div>
+      
+      <div class="code-container">
+        <div class="code-header">
+          <span>compiled css</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>:root {
+  --primary: #3b82f6;
+  --secondary: #8b5cf6;
+  --text: #1e293b;
+}
+
+.button {
+  background: var(--primary);
+  color: white;
+  border: 2px solid var(--secondary);
+}
+
+.heading {
+  color: var(--text);
+  font-size: 2rem;
 }</code></pre>
-    </section><section id="replace">
-  <h2>re(), str(), store() Replace</h2>
-  <p class="description">Use <code>str()</code>, <code>re()</code>, or <code>store()</code> to store reusable CSS property groups and reference them by name inside selectors.</p>
-  <i>fscss</i>
-  <pre><code>str(headerStyle, "font-size: 2em; font-weight: bold;")
+      </div>
+    </section>
+    
+    <!-- Replace Section -->
+    <section id="replace" class="section">
+      <h2><i class="fas fa-retweet"></i> Style Replacement (str(), re(), store())</h2>
+      <p>Store reusable style patterns and inject them wherever needed. Perfect for maintaining consistent styles across components.</p>
+      
+      <div class="feature-card">
+        <h4><i class="fas fa-check-circle"></i> When to Use</h4>
+        <p>- Creating reusable style patterns</p>
+        <p>- Maintaining consistent component styles</p>
+        <p>- Reducing repetition in your stylesheets</p>
+        <p>- Applying complex styles with a simple reference</p>
+      </div>
+      
+      <h3>Practical Example</h3>
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>// Store a card style pattern
+str(cardStyle, "
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: white;
+  transition: transform 0.3s ease;
+")
 
-header { headerStyle } .header { headerStyle }</code></pre> <i>css</i> <pre><code>header { font-size: 2em; font-weight: bold; } .header { font-size: 2em; font-weight: bold; }</code></pre> </section>
+// Store a hover effect
+str(cardHover, "
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+")
 
-<section id="repeat">
-  <h2>rpt() Repeat</h2>
-  <p class="description">The <code>rpt(n, value)</code> function repeats a value or text a specified number of times. Useful for visual indicators or generating content strings.</p>
-  <i>fscss</i>
-  <pre><code>p::after {
+// Apply stored styles
+.product-card {
+  cardStyle
+  max-width: 300px;
+  
+  &:hover {
+    cardHover
+  }
+}
 
-content: "rpt(5, 'Hey ')"; }</code></pre> <i>css</i> <pre><code>p::after { content: "Hey Hey Hey Hey Hey "; }</code></pre> </section>
+.user-profile {
+  cardStyle
+  background: #f0f9ff;
+}</code></pre>
+      </div>
+    </section>
+    
+    <!-- Repeat Section -->
+    <section id="repeat" class="section">
+      <h2><i class="fas fa-redo"></i> Repeat Function (rpt())</h2>
+      <p>Generate repeated patterns, content, or values with the <code>rpt()</code> function. Ideal for visual indicators, loading states, and generated content.</p>
+      
+      <h3>Use Cases</h3>
+      <div class="example-grid">
+        <div>
+          <h5>Loading Indicators</h5>
+          <div class="code-container">
+            <pre><code>.loading::after {
+  content: "rpt(5, '• ')";
+}</code></pre>
+          </div>
+        </div>
+        
+        <div>
+          <h5>Visual Ratings</h5>
+          <div class="code-container">
+            <pre><code>.rating-4::before {
+  content: "rpt(4, '★')";
+  color: gold;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>// Create a decorative separator
+.separator::after {
+  content: "rpt(10, '— ')";
+  display: block;
+  text-align: center;
+  color: #94a3b8;
+  margin: 1rem 0;
+}
 
-<section id="copy">
-  <h2>copy() Extract parts of values</h2>
-  <p class="description">The <code>copy(n, var)</code> function allows value extraction and partial reuse from a defined string, helpful when slicing lists or values.</p>
-  <i>fscss</i>
-  <pre><code>p::after {
+// Generate background pattern
+.grid-bg {
+  background-image: 
+    linear-gradient(90deg, 
+      rgba(0,0,0,0.1) 1px, 
+      transparent 1px),
+    linear-gradient(180deg, 
+      rgba(0,0,0,0.1) 1px, 
+      transparent 1px);
+  background-size: 
+    rpt(8, '20px ') 100%, 
+    100% rpt(8, '20px ');
+}</code></pre>
+      </div>
+    </section>
+    
+    <!-- Copy Section -->
+    <section id="copy" class="section">
+      <h2><i class="fas fa-copy"></i> Copy Function (copy())</h2>
+      <p>Extract and reuse parts of values with the <code>copy()</code> function. Perfect for working with design tokens and value lists.</p>
+      
+      <div class="feature-card">
+        <h4><i class="fas fa-check-circle"></i> How It Works</h4>
+        <p><code>copy(index, variable)</code> extracts the value at the specified index from a comma-separated list stored in a variable.</p>
+      </div>
+      
+      <h3>Practical Example</h3>
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>
+body{
+  /* primary color = #4ff */
+  background:#4ff000 copy(4, primary-color);
+  color: $primary-color!;
+}
+          a{
+            color: $primary-color!;
+          }
+</code></pre>
+      </div>
+    </section>
+    <!-- mx -->
+    <section id="drops" class="section">
+  <h2><i class="fas fa-code-branch"></i> mx() / mxs() Mixins</h2>
+  <p>Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value. <code>mxs</code> uses a shared value string, while <code>mx</code> requires appending colons manually.</p>
 
-content: "blue,red copy(4,my-blue)"; color: $my-blue!; }</code></pre> <i>css</i> <pre><code>p::after { content: "blue,red"; color: var(--my-blue); } :root { --my-blue: blue; }</code></pre> </section>
+  <h3>Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Consistent Box Sizes</h5>
+      <div class="code-container">
+        <pre><code>.card {
+  mxs(width, height, max-height, max-width, min-width, min-height, '200px')
+}</code></pre>
+      </div>
+    </div>
 
-<section id="mixins">
-  <h2>mx() / mxs() Mixins</h2>
-  <p class="description">Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value. <code>mxs</code> uses a shared value string, while <code>mx</code> requires appending colons manually.</p>
-  <i>fscss</i>
-  <pre><code>.card {
+    <div>
+      <h5>Flexible Value Declaration</h5>
+      <div class="code-container">
+        <pre><code>.box {
+  mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
+}</code></pre>
+      </div>
+    </div>
+  </div>
 
-mxs(width, height, max-height, max-width, min-width, min-height, '200px') } .box { mx(width, height, max-height, max-width, min-width, min-height, ': 200px;') }</code></pre> <i>css</i> <pre><code>.card { width: 200px; height: 200px; max-height: 200px; max-width: 200px; min-width: 200px; min-height: 200px; } .box { width: 200px; height: 200px; max-height: 200px; max-width: 200px; min-width: 200px; min-height: 200px; }</code></pre> </section>
+      <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>.card {
+  mxs(width, height, max-height, max-width, min-width, min-height, ' 200px')
+}
+.box {
+  mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
+}</code></pre>
+  </div>
+      
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>.card {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}
+.box {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}</code></pre>
+  </div>
+</section>
+    <!-- share -->
+    <section id="share" class="section">
+  <h2><i class="fas fa-layer-group"></i> Shared Properties (%1 - %6, %i)</h2>
+  <p>Shared values are assigned to indexes like <code>%1</code>, <code>%2</code>, and so on. They can be injected directly into selectors using shorthand.</p>
 
-<section id="share">
-  <h2>Share Properties: %1 - %6, %i</h2>
-  <p class="description">Shared values are assigned to indexes like <code>%1</code>, <code>%2</code>, and so on. They can be injected directly into selectors using shorthand.</p>
-  <i>fscss</i>
-  <pre><code>div{%2(width, height[:200px;])}</code></pre>
-  <i>css</i>
-  <pre><code>div {
+  <h3>Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Apply Shared Dimensions</h5>
+      <div class="code-container">
+        <pre><code>div{%2(width, height[:200px;])}</code></pre>
+      </div>
+    </div>
+  </div>
 
-width: 200px; height: 200px; }</code></pre> </section>
+      <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>div {
+  %2(width,
+  height[: 200px;])
+}</code></pre>
+  </div>
+      
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>div {
+  width: 200px;
+  height: 200px;
+}</code></pre>
+  </div>
+</section>
+    <!-- attr-->
+    
+    <section id="attr" class="section">
+  <h2><i class="fas fa-crosshairs"></i> Attribute Selector Shortcut</h2>
+  <p>Shorthand for attribute selectors. Converts <code>$(type: submit)</code> into <code>[type='submit']</code>.</p>
 
-<section id="attr">
-  <h2>$(attribute: value)</h2>
-  <p class="description">Shorthand for attribute selectors. Converts <code>$(type: submit)</code> into <code>[type='submit']</code>.</p>
-  <i>fscss</i>
-  <pre><code>$(type:submit) {
+  <h3>Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Target Form Buttons</h5>
+      <div class="code-container">
+        <pre><code>$(type:submit) {
+  background: green;
+  color: white;
+}</code></pre>
+      </div>
+    </div>
+  </div>
 
-background: green; color: white; }</code></pre> <i>css</i> <pre><code>[type='submit'] { background: green; color: white; }</code></pre> </section>
+      <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>$(type:submit){
+  background: green;
+  color: white;
+}</code></pre>
+  </div>
+      
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>[type='submit'] {
+  background: green;
+  color: white;
+}</code></pre>
+  </div>
+</section>
+    <!-- keyframes -->
+    
+    
+    <section id="keyframes" class="section">
+  <h2><i class="fas fa-film"></i> Keyframes Compact</h2>
+  <p>Write animations compactly using <code>$(@keyframes name, selectors, &[&lt;timing&gt;])</code>. FSCSS will expand this into both animation rules and the actual keyframe block.</p>
 
-<section id="keyframes">
-  <h2>Keyframes Compact</h2>
-  <p class="description">Write animations compactly using <code>$(@keyframes name, selectors, [&lt;timing&gt;])</code>. FSCSS will expand this into both animation rules and the actual keyframe block.</p>
-  <i>fscss</i>
-  <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+  <h3>Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Slide Animation</h5>
+      <div class="code-container">
+        <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}</code></pre>
+      </div>
+    </div>
+  </div>
 
-from { transform: translateX(-100%); } to { transform: translateX(0); } }</code></pre> <i>css</i> <pre><code>.box, .card { animation: slideIn 3s linear infinite; } @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }</code></pre> </section>
+      <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}</code></pre>
+  </div>
+      
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>.box, .card {
+  animation: slideIn 3s linear infinite;
+}
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}</code></pre>
+  </div>
+</section>
+    <!-- vendors -->
+    
+    <section id="vendors" class="section">
+  <h2><i class="fas fa-toolbox"></i> Vendor Prefixing (-*-)</h2>
+  <p>Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.</p>
 
-<section id="vendors">
-  <h2>Vendor Prefixing (-*-)</h2>
-  <p class="description">Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.</p>
-  <i>fscss</i>
-  <pre><code>.box {
+  <h3>Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Cross-Browser Transforms</h5>
+      <div class="code-container">
+        <pre><code>.box {
+  -*-transform: rotate(45deg);
+}</code></pre>
+      </div>
+    </div>
+  </div>
 
--*-transform: rotate(45deg); }</code></pre> <i>css</i> <pre><code>.box { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); }</code></pre> </section>
-
-  </main>  <footer class="doc-footer">
-    <p>Made with 💡 by Figsh, David Hux and Ekuyik Sam</p>
-    <p>©2025</p>
-  </footer>
+        <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>.box {
+  -*-transform: rotate(45deg);
+}</code></pre>
+  </div>
+      
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+    <pre><code>.box {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+}</code></pre>
+  </div>
+</section>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <p>Made with ❤️ by Figsh, David Hux and Ekuyik Sam</p>
+      <p>FSCSS v1.1.6 | © 2025 | MIT License</p>
+    </div>
+  </main>
+  
+  <script>
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const pre = this.parentElement.nextElementSibling;
+        const text = pre.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.textContent;
+          this.textContent = 'Copied!';
+          
+          setTimeout(() => {
+            this.textContent = originalText;
+          }, 2000);
+        });
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 20,
+            behavior: 'smooth'
+          });
+          
+          // Update active link
+          document.querySelectorAll('.sidebar a.active').forEach(link => {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
+      });
+    });
+    
+    // Update active link on scroll
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('.section');
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+      
+      document.querySelectorAll('.sidebar a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
