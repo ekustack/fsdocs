@@ -16,7 +16,7 @@ class FSCSSCompiler {
       css = this.extractKeyframes(css);
       css = this.replaceStores(css);
       css = this.applyFscssTransformations(css);
-      
+      css = this.transformCssValues(css)
       css += this.processKeyframes();
       return this.formatCSS(css);
     } catch (error) {
