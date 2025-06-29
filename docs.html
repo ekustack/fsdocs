@@ -874,7 +874,36 @@ body{
   to { transform: translateX(0); }
 }</code></pre>
   </div>
-</section>
+      <p>
+<b>Fast Application of Animation to Multiple Selectors</b><br>
+This "fscss" snippet demonstrates a concise way to define and apply a CSS animation to multiple HTML elements (<code>div, h1, h2, p</code>) simultaneously. It encapsulates the @keyframes definition and its application within a single, streamlined block.
+The output automatically generates the @keyframes rule with an animation name derived from the first selector (in this case, div), and then applies this animation to all specified elements with the designated duration and timing function.
+<br><b>fscss Input:</b>
+      </p>
+           <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>$(@keyframes div, h1, h2, p &[5s ease-in]){
+          0%{ color: #001133;} 
+          50%{ color: #001044;} 
+          100%{ color: #000122;}
+          }</code></pre>
+      </div>
+      <b>CSS output:</b>
+      <div class="code-container">
+<div class="code-header">
+<span>fscss</span>
+<button class="copy-btn">Copy</button>
+</div>
+  <pre><code>div, h1, h2, p {animation:div 5s ease-in;}@keyframes div{
+0%{ color: #001133;}
+50%{ color: #001044;}
+100%{ color: #000122;}
+}</code></pre>
+      </div>
+    </section>
     <!-- vendors -->
     
     <section id="vendors" class="section">
