@@ -1078,6 +1078,46 @@ The output automatically generates the @keyframes rule with an animation name de
   </ul>
  
 </section>
+    <section id="fscss-files" class="section">
+  <h2>FSCSS File Structure Overview</h2>
+
+  <ul>
+    <li>
+      <h3><code>/exec.min.js</code> (from jsDelivr)</h3>
+      <p>
+        This is likely a minified version of an executable JavaScript file. “Minified” means all unnecessary characters (like spaces and comments) have been removed to make the file smaller and faster to load. It's delivered via <strong>jsDelivr</strong>, a popular Content Delivery Network (CDN) used for efficient global delivery.
+      </p>
+    </li>
+
+    <li>
+      <h3><code>/exec.js</code> (original)</h3>
+      <p>
+        This is the original, un-minified version of the executable JavaScript file. Developers use this version for easier reading and debugging. The minified version (<code>exec.min.js</code>) is typically generated from this for deployment.
+      </p>
+    </li>
+
+    <li>
+      <h3><code>/index.js</code> (npm default)</h3>
+      <p>
+        This is the standard main entry point for JavaScript projects using npm (Node Package Manager). When a project is run or imported as a package, <code>index.js</code> is typically the first file executed.
+      </p>
+    </li>
+
+    <li>
+      <h3><code>/xfscss.min.js</code> (for importation)</h3>
+      <p>
+        A minified JavaScript file designed to handle FSCSS functions, such as dynamic CSS processing and styling within JavaScript environments. This file is optimized for production use and integration via script imports.
+      </p>
+    </li>
+
+    <li>
+      <h3><code>/e/</code> (available in version <strong>1.1.6+</strong>)</h3>
+      <p>
+        This directory/module contains utilities related to error handling and logging. Introduced in version <strong>1.1.6</strong>, it provides <em>developer-friendly</em> tools for debugging and diagnostics, making it easier to identify and fix issues during development.
+      </p>
+    </li>
+  </ul>
+</section>
     
     <!-- Footer -->
     <div class="footer">
