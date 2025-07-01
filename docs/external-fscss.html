@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS - Including External Files</title>
+  <meta name="description" content="Tips on styling with fscss ">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3f37c9;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+    }
+    
+    .docs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .docs-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+    }
+    
+    .docs-header h1 {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    
+    .docs-header p {
+      font-size: 1.2rem;
+      color: var(--light-gray);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .method-section {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .method-section h2 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .method-section h2 i {
+      background: var(--light-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+    
+    .method-section h3 {
+      color: var(--light);
+      font-size: 1.4rem;
+      margin: 1.5rem 0 1rem;
+    }
+    
+    .method-section p {
+      margin-bottom: 1.2rem;
+      color: var(--light-gray);
+      line-height: 1.8;
+    }
+    
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .step {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .step-number {
+      background: var(--primary);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .code-container {
+      position: relative;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    
+    .code-header {
+      background: var(--darker);
+      color: white;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .code-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .code-tab {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .code-tab.active {
+      background: var(--primary);
+    }
+    
+    .code-content {
+      background: #1a1f2d;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: none;
+    }
+    
+    .code-content.active {
+      display: block;
+    }
+    
+    .code-content pre {
+      margin: 0;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+    
+    .code-content .comment {
+      color: #64748b;
+    }
+    
+    .code-content .property {
+      color: #f8fafc;
+    }
+    
+    .code-content .value {
+      color: #38bdf8;
+    }
+    
+    .code-content .selector {
+      color: #f472b6;
+    }
+    
+    .code-content .variable {
+      color: #a78bfa;
+    }
+    
+    .code-content .string {
+      color: #10b981;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary);
+    }
+    
+    .note {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--success);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+    }
+    
+    .warning {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid var(--danger);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+    }
+    
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .comparison-item {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    
+    .comparison-item h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+      
+      .step {
+        flex-direction: column;
+      }
+      
+      .step-number {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-container">
+    <div class="docs-header">
+      <h1>Including External FSCSS Files</h1>
+      <p>Learn how to integrate FSCSS into your HTML projects using different methods for various use cases.</p>
+    </div>
+    
+    <div class="note">
+      <i class="fas fa-info-circle"></i> FSCSS is a preprocessor - your .fscss files are converted to standard CSS at runtime by the FSCSS execution script.
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-tag"></i> Method 1: Using HTML Link Tag</h2>
+      <p>The simplest way to include FSCSS in your HTML projects.</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Create your FSCSS file</h3>
+            <p>Create a file with the .fscss extension (e.g., <code>styles.fscss</code>) and add your FSCSS code.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>styles.fscss</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content active">
+                <pre><span class="comment">/* Variables */</span>
+$primary-color: midnightblue;
+$bg-stack: #FF9955 url(image.png) no-repeat center;
+$border: 1px solid #4CAF50;
+
+<span class="comment">/* Body element styling */</span>
+Body {
+  Background: linear-gradient(30deg, #111, #000);
+  color: $primary-color!;
+}
+
+<span class="comment">/* Select by name attribute */</span>
+$(name: foo) {
+  Background: $bg-stack!;
+  Border: $border!;
+  %2(width, height[:200px;])
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Link in your HTML</h3>
+            <p>In your HTML file, use a <code>&lt;link&gt;</code> tag with <code>type="text/fscss"</code> and include the FSCSS execution script.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>index.html</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content active">
+                <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;FSCSS Example&lt;/title&gt;
+  
+  <span class="comment">&lt;!-- FSCSS file --&gt;</span>
+  &lt;link href="styles/style.fscss" rel="stylesheet" type="text/fscss"&gt;
+  
+  <span class="comment">&lt;!-- FSCSS execution script --&gt;</span>
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.js" async&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div name="foo"&gt;
+    This div will be styled by FSCSS.
+  &lt;/div&gt;
+  
+  <span class="comment">&lt;!-- Regular CSS still works --&gt;</span>
+  &lt;style&gt;
+    body {
+      font-family: sans-serif;
+    }
+  &lt;/style&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="note">
+        <i class="fas fa-lightbulb"></i> <strong>Key points:</strong> 
+        <ul>
+          <li>Set <code>type="text/fscss"</code> to identify the file for processing</li>
+          <li>Include the FSCSS execution script from CDN</li>
+          <li>Regular CSS still works alongside FSCSS</li>
+          <li>Paths to local files should be relative to your HTML file</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-code"></i> Method 2: Using JavaScript</h2>
+      <p>For more control, especially with dynamic loading or error handling.</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Option A: Direct Script Loading</h3>
+            <p>Good for simple projects without module systems.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>index.html</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content active">
+                <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;FSCSS JavaScript Load&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div name="card" class="card"&gt;
+    This is a card styled with FSCSS.
+  &lt;/div&gt;
+
+  <span class="comment">&lt;!-- Load FSCSS execution script --&gt;</span>
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.js"&gt;&lt;/script&gt;
+  
+  &lt;script&gt;
+    <span class="comment">// Call the exec function after loading</span>
+    exec({
+      type: 'URL',
+      content: 'styles/style.fscss',
+      onSuccess: (styleElement) => {
+        console.log('CSS applied:', styleElement);
+      },
+      onError: (msg) => {
+        console.warn('Error applying CSS:', msg);
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Option B: ES Modules (Modern Approach)</h3>
+            <p>Better for applications using JavaScript modules.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>index.html</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content active">
+                <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;FSCSS ES Module Load&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div name="card" class="card"&gt;
+    Another card styled with FSCSS.
+  &lt;/div&gt;
+
+  &lt;script type="module"&gt;
+    <span class="comment">// Import the exec function</span>
+    import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/xfscss.min.js";
+    
+    <span class="comment">// Call the exec function</span>
+    exec({
+      type: 'URL',
+      content: 'styles/style.fscss',
+      onSuccess: (styleElement) => {
+        console.log('CSS applied:', styleElement);
+      },
+      onError: (msg) => {
+        console.warn('Error applying CSS:', msg);
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-bug"></i> Enhanced JavaScript with Error Handling</h2>
+      <p>A robust implementation for production applications.</p>
+      
+      <div class="code-container">
+        <div class="code-header">
+          <span>script.js</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <div class="code-content active">
+          <pre>import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/xfscss.min.js";
+
+<span class="comment">// Set to false for production</span>
+const DEBUG = true; 
+
+function applyFSCSS({ type, content }) {
+  exec({
+    type,
+    content,
+    onSuccess: (styleElement) => {
+      if (DEBUG) {
+        console.log("✅ FSCSS applied successfully:", styleElement);
+      }
+    },
+    onError: (error) => {
+      console.error("❌ Failed to apply FSCSS:", error);
+      
+      <span class="comment">// User-friendly error message</span>
+      const errorElement = document.createElement('div');
+      errorElement.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px;
+        background: #ff4757;
+        color: white;
+        border-radius: 5px;
+        z-index: 1000;
+        max-width: 300px;
+      `;
+      errorElement.innerHTML = `
+        &lt;strong&gt;⚠️ Style Error&lt;/strong&gt;
+        &lt;p&gt;Could not load styles. Please try again later.&lt;/p&gt;
+      `;
+      document.body.appendChild(errorElement);
+      
+      <span class="comment">// Remove error after 5 seconds</span>
+      setTimeout(() => {
+        errorElement.remove();
+      }, 5000);
+    }
+  });
+}
+
+<span class="comment">// Example usage:</span>
+applyFSCSS({
+  type: "URL",
+  content: "styles/main.fscss"
+});</pre>
+        </div>
+      </div>
+      
+      <div class="comparison">
+        <div class="comparison-item">
+          <h4><i class="fas fa-check-circle"></i> Benefits</h4>
+          <ul>
+            <li>DEBUG flag for development/production modes</li>
+            <li>Detailed error logging in console</li>
+            <li>User-friendly error notifications</li>
+            <li>Modular and reusable code</li>
+            <li>Automatic cleanup of error messages</li>
+          </ul>
+        </div>
+        
+        <div class="comparison-item">
+          <h4><i class="fas fa-cogs"></i> Features</h4>
+          <ul>
+            <li>Success confirmation logging</li>
+            <li>Visual error alerts for users</li>
+            <li>Positioned notification that doesn't disrupt layout</li>
+            <li>Automatic removal of error messages</li>
+            <li>Reusable function for multiple style sheets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-lightbulb"></i> Key Considerations</h2>
+      
+      <div class="note">
+        <i class="fas fa-exclamation-triangle"></i> <strong>Important Notes:</strong>
+        <ul>
+          <li>You <strong>must</strong> include the FSCSS execution script</li>
+          <li>For HTML method, <code>type="text/fscss"</code> is required</li>
+          <li>CDN is recommended for reliable script delivery</li>
+          <li>Path to local files should be relative to your HTML file</li>
+          <li>FSCSS processes files at runtime (no build step required)</li>
+        </ul>
+      </div>
+      
+      <div class="comparison">
+        <div class="comparison-item">
+          <h4><i class="fas fa-tag"></i> HTML Link Method</h4>
+          <p><strong>When to use:</strong></p>
+          <ul>
+            <li>Simple websites and projects</li>
+            <li>Quick prototyping</li>
+            <li>When you have static stylesheets</li>
+            <li>When you prefer declarative approach</li>
+          </ul>
+        </div>
+        
+        <div class="comparison-item">
+          <h4><i class="fas fa-code"></i> JavaScript Method</h4>
+          <p><strong>When to use:</strong></p>
+          <ul>
+            <li>Dynamic applications</li>
+            <li>When loading styles conditionally</li>
+            <li>When you need error handling</li>
+            <li>Modern JavaScript applications</li>
+            <li>When loading from external sources</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const pre = this.closest('.code-container').querySelector('pre');
+        const text = pre.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+    
+    // Tab functionality
+    document.querySelectorAll('.code-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const container = this.closest('.code-container');
+        const tabs = container.querySelectorAll('.code-tab');
+        const contents = container.querySelectorAll('.code-content');
+        
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        this.classList.add('active');
+        const target = this.getAttribute('data-target');
+        container.querySelector(`.code-content${target}`).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
