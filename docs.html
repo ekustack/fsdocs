@@ -664,7 +664,7 @@ str(cardHover, "
     
     <!-- Copy Section -->
     <section id="copy" class="section">
-      <h2><i class="fas fa-copy"></i> Copy Function (copy())</h2>
+      <a href="#fscss-copy-function"><h2><i class="fas fa-copy"></i> Copy Function (copy())</h2></a>
       <p>Extract and reuse parts of values with the <code>copy()</code> function. Perfect for working with design tokens and value lists.</p>
       
       <div class="feature-card">
@@ -695,6 +695,7 @@ span:before{
          } 
 </code></pre>
       </div>
+      <a href="fscss-copy-function">Understand more about the copy function</a>
     </section>
     <!-- mx -->
     <section id="drops" class="section">
@@ -1028,6 +1029,64 @@ The output automatically generates the @keyframes rule with an animation name de
   -o-transform: rotate(45deg);
 }</code></pre>
   </div>
+</section>
+<section id="fscss-copy-function" class="section">
+  <h2>Understanding more about the <code>copy()</code> Function</h2>  <p>The <code>copy()</code> function in FSCSS is a powerful tool for extracting and reusing parts of string values—very useful for design tokens or list manipulation.</p>  <h3>How <code>copy(length, variable)</code> Works</h3>
+  <ul>
+    <li><strong>length</strong>: Determines how many characters to extract.</li>
+    <ul>
+      <li>Positive number: Extracts from the start.</li>
+      <li>Negative number: Extracts from the end.</li>
+      <li>Length exceeding string: Returns entire string.</li>
+    </ul>
+    <li><strong>variable</strong>: Name of the FSCSS variable to store the extracted result.</li>
+  </ul>  <h3>Practical Example</h3>
+  <div class="code-container">
+    <pre><code>body {
+  /* primary-color = #4ff */
+  background: #4ff000 copy(4, primary-color);
+  color: $primary-color!;
+}a { color: $primary-color!; }
+
+span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "blue or midnightblue copy(-14, my-darkblue)"; border: 2px solid $my-darkblue!; }</code></pre>
+
+  </div>  <h3>Section 1: Extracting from Background Property</h3>
+  <ul>
+    <li><code>background: #4ff000 copy(4, primary-color);</code></li>
+    <ul>
+      <li>Extracts first 4 characters of <code>#4ff000</code> → <code>#4ff</code></li>
+      <li>Stores value in <code>$primary-color</code></li>
+    </ul>
+    <li><code>color: $primary-color!;</code></li>
+    <ul>
+      <li>Applies extracted value as the text color</li>
+    </ul>
+  </ul>  <h3>Section 2: Reusing the Variable</h3>
+  <p>The variable <code>$primary-color</code> is reused in other selectors, promoting consistency:</p>
+  <div class="code-container">
+    <pre><code>a {
+  color: $primary-color!;
+}</code></pre>
+  </div>  <h3>Section 3: Extracting with a Negative Length</h3>
+  <ul>
+    <li><code>content: "blue or midnightblue copy(-14, my-darkblue)";</code></li>
+    <ul>
+      <li>Attempts to extract last 14 characters of <code>"blue or midnightblue"</code></li>
+      <li>Likely result: <code>"r midnightblue"</code>, but the intention was probably <code>"midnightblue"</code></li>
+    </ul>
+    <li><code>border: 2px solid $my-darkblue!;</code></li>
+    <ul>
+      <li>Uses the extracted value for border styling</li>
+    </ul>
+  </ul>  <h3>Summary and Key Takeaways</h3>
+  <ul>
+    <li><strong>Extraction:</strong> <code>copy()</code> lets you grab a part of a string by position.</li>
+    <li><strong>Positive/Negative:</strong> Choose from beginning or end of string.</li>
+    <li><strong>Reusable:</strong> Stores results in variables for DRY code.</li>
+    <li><strong>Design Tokens:</strong> Great for dynamic styling logic.</li>
+    <li><strong>String Manipulation:</strong> Can be used on any string-based CSS value.</li>
+    <li><strong>Be Precise:</strong> Miscounts in length may lead to unexpected results.</li>
+  </ul>
 </section>
 
 <section id="fscss-dev" class="section">
