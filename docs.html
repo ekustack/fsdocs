@@ -690,7 +690,7 @@ body{
           }
 span:before{
           /* copy 'midnightblue' and store it as 'my-darkblue' */
-          content: "blue or midnightblue copy(-14, my-darkblue)";
+          content: "blue or midnightblue copy(-13, my-darkblue)";
           border: 2px solid $my-darkblue!;
          } 
 </code></pre>
@@ -1069,10 +1069,10 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
 }</code></pre>
   </div>  <h3>Section 3: Extracting with a Negative Length</h3>
   <ul>
-    <li><code>content: "blue or midnightblue copy(-14, my-darkblue)";</code></li>
+    <li><code>content: "blue or midnightblue copy(-13, my-darkblue)";</code></li>
     <ul>
-      <li>Attempts to extract last 14 characters of <code>"blue or midnightblue"</code></li>
-      <li>Likely result: <code>"r midnightblue"</code>, but the intention was probably <code>"midnightblue"</code></li>
+      <li>Attempts to extract last 13 characters of <code>"blue or midnightblue"</code></li>
+      <li>Likely result: <code>" midnightblue"</code>, but the intention was probably <code>"midnightblue"</code></li>
     </ul>
     <li><code>border: 2px solid $my-darkblue!;</code></li>
     <ul>
