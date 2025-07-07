@@ -17,7 +17,7 @@ class FSCSSCompiler {
       css = this.replaceStores(css);
       css = this.replaceRe(css);
       css = this.applyFscssTransformations(css);
-      css = this.transformCssValues(css)
+      css = this.transformCssValues(css);
       css += this.processKeyframes();
       return this.formatCSS(css);
     } catch (error) {
@@ -143,8 +143,8 @@ escapeRegExp(string) {
     .replace(/%4\((([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$9$4$9$6$9$8$9')
     .replace(/%3\((([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$7$4$7$6$7')
     .replace(/%2\((([^\,\[\]]*)\,)?(([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$5$4$5')
-    .replace(/%1\((([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$3')
-    
+    .replace(/%1\((([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$3');
+    css=this.procP(css);
     // Process list-based shorthands
     }
     
@@ -165,7 +165,16 @@ escapeRegExp(string) {
     
     return css;
   }
-  
+  procP(text) {
+  return text.replace(/%(\d+)\(([^[]+)\[\s*([^\]]+)\]\)/g, (match, number, properties, value) => {
+    const propList = properties.split(',').map(p => p.trim());
+    if (propList.length != number) {
+      console.warn(`Number of properties ${propList.length} does not match %${number}`);
+      return match;
+    }
+    return propList.map(prop => `${prop}${value}`).join("");
+  });
+}
   
   transformCssValues(css) {
     const customProperties = new Set();
