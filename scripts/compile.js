@@ -18,7 +18,6 @@ class FSCSSCompiler {
       css = this.replaceRe(css);
       css = this.applyFscssTransformations(css);
       css = this.transformCssValues(css);
-      css = this.procP(css);
       css += this.processKeyframes();
       return this.formatCSS(css);
     } catch (error) {
@@ -144,10 +143,10 @@ escapeRegExp(string) {
     .replace(/%4\((([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$9$4$9$6$9$8$9')
     .replace(/%3\((([^\,\[\]]*)\,)?(([^\,\[\]]*)\,)?(([^\,\[\]]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$7$4$7$6$7')
     .replace(/%2\((([^\,\[\]]*)\,)?(([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$5$4$5')
-    .replace(/%1\((([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$3');
-    
+    .replace(/%1\((([^\,\]\[]*))?\s*\[([^\]\[]*)\]\)/gi, '$2$3')
+    css=this.procP(css);
     // Process list-based shorthands
-    }
+    
     
     // Handle dynamic imports
     css = css.replace(/@import\(\s*\exec\((.*)(.{5})\)\s*\)/gi, '@import url("$1css")');
@@ -166,8 +165,9 @@ escapeRegExp(string) {
     
     return css;
   }
-  procP(text) {
-  return text.replace(/%(\d+)\(([^[]+)\[\s*([^\]]+)\]\)/g, (match, number, properties, value) => {
+
+  procP(css) {
+  return css.replace(/%(\d+)\(([^[]+)\[\s*([^\]]+)\]\)/g, (match, number, properties, value) => {
     const propList = properties.split(',').map(p => p.trim());
     if (propList.length != number) {
       console.warn(`fscss: Number of properties ${propList.length} does not match %${number} in %${number}()`);
