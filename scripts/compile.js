@@ -167,10 +167,17 @@ escapeRegExp(string) {
   }
 
   procP(css) {
+    const msgArea = document.getElementById('message-area');
   return css.replace(/%(\d+)\(([^[]+)\[\s*([^\]]+)\]\)/g, (match, number, properties, value) => {
     const propList = properties.split(',').map(p => p.trim());
     if (propList.length != number) {
       console.warn(`fscss: Number of properties ${propList.length} does not match %${number} in %${number}()`);
+      msgArea.className = 'message-area error';
+      msgArea.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        <div>
+          <strong>Compilation warn:</strong> Number of properties ${propList.length} does not match %${number} in %${number}()
+        </div>`;
       return match;
     }
     return propList.map(prop => `${prop}${value}`).join("");
