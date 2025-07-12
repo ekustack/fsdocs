@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS compiler r2 functionality</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --dark: #1a2530;
+      --light: #ecf0f1;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--primary), var(--dark));
+      color: var(--light);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--secondary);
+      text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    }
+    
+    .subtitle {
+      color: #95a5a6;
+      font-size: 1.1rem;
+    }
+    
+    .panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .editor-container {
+      flex: 1;
+      min-width: 300px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .panel-header {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px 15px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .editor-box {
+      height: 40vh;
+      background: #1a2530;
+      color: #ecf0f1;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      resize: none;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      border-radius: 0 0 10px 10px;
+      overflow: auto;
+      tab-size: 2;
+    }
+    
+    .editor-box:focus {
+      outline: 2px solid var(--secondary);
+    }
+    
+    .output-container {
+      position: relative;
+    }
+    
+    #cssBox {
+      white-space: pre;
+      overflow: auto;
+    }
+    
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+    
+    .btn {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+    
+    .btn-success {
+      background: var(--success);
+    }
+    
+    .btn-success:hover {
+      background: #27ae60;
+    }
+    
+    .download-section {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .download-section input {
+      padding: 12px 15px;
+      border-radius: 50px;
+      border: 2px solid var(--secondary);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      min-width: 250px;
+      font-size: 1rem;
+    }
+    
+    .download-section input:focus {
+      outline: none;
+      border-color: var(--success);
+    }
+    
+    .log-container {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      margin-bottom: 25px;
+    }
+    
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 15px;
+    }
+    
+    .log-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .log-count {
+      background: var(--danger);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .log-content {
+      height: 200px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #1a2530;
+    }
+    
+    .log-entry {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background: rgba(231, 76, 60, 0.15);
+      border-left: 3px solid var(--danger);
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 14px;
+      color: #ff9e9e;
+    }
+    
+    .log-entry:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Syntax Highlighting */
+    .selector {
+      color: #f8f;
+    }
+    
+    .property {
+      color: #0ff;
+    }
+    
+    .value {
+      color: #ff0;
+    }
+    
+    .brace {
+      color: #f90;
+    }
+    
+    .error {
+      background: rgba(231, 76, 60, 0.2);
+      color: #ff9e9e;
+      border-left: 2px solid var(--danger);
+    }
+    
+    .comment {
+      color: #6c757d;
+    }
+    
+    .at-rule {
+      color: #9b59b6;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .panel {
+        flex-direction: column;
+      }
+      
+      .editor-container {
+        width: 100%;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>FSCSS Compiler</h1>
+      <p class="subtitle">Enhanced with Syntax Highlighting & Error Logging</p>
+    </header>
+    
+    <div class="panel">
+      <div class="editor-container">
+        <div class="panel-header">
+          <span>FSCSS Input</span>
+          <div>
+            <button class="btn" id="upload-btn">
+              <i>📁</i> Upload
+            </button>
+            <input type="file" hidden id="upload" accept="text/*">
+          </div>
+        </div>
+        <textarea class="editor-box" id="fscssBox" placeholder="Enter your FSCSS code here...">
+          $primary-color: midnightblue;
+          $main-background: #000044;
+          str(main style, "
+          background: $main-background!;
+          color: #dddddd;
+          font-size: 15pt;
+          border-style: groove;
+          ")
+          body{
+          main style;
+          border: 0;
+         } 
+         div{
+         main style;
+         %2(width, height[:50px;])
+         border-color: #300030 copy(3, var-color);
+         border-width: 2px;
+         color: $primary-color!;
+        } 
+        div.grid{
+        %4(max-width, max-height, width, height[: 200px;])
+        outline: 4px double $var-color!;
+        }
+        </textarea>
+      </div>
+      
+      <div class="editor-container output-container">
+        <div class="panel-header">
+          <span>CSS Output</span>
+          <button class="btn" id="copy-btn">
+            <i>📋</i> Copy
+          </button>
+        </div>
+        <pre class="editor-box" id="cssBox"><code>Compiled CSS will appear here...</code></pre>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn btn-success" id="run">
+        <i>▶️</i> Compile FSCSS
+      </button>
+      <button class="btn btn-danger" id="clear-log-btn">
+        <i>🗑️</i> Clear Log
+      </button>
+    </div>
+    
+    <div class="download-section">
+      <input type="text" id="fileName" value="stylesheet" placeholder="Enter file name...">
+      <button class="btn btn-success" id="download">
+        <i>💾</i> Download CSS
+      </button>
+    </div>
+    
+    <div class="log-container">
+      <div class="log-header">
+        <div class="log-title">Compilation Log</div>
+        <div class="log-count">Errors: <span id="error-count">0</span></div>
+      </div>
+      <div class="log-content" id="log-container">
+        <div class="log-entry">No errors yet. Compile your FSCSS to see any errors.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="compiler.js"></script>
+</body>
+</html>
