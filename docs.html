@@ -447,6 +447,7 @@
       <li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
       <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
       <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
+      <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
     </ul>
     
     <h3><i class="fas fa-book"></i> Resources</h3>
@@ -1028,6 +1029,105 @@ The output automatically generates the @keyframes rule with an animation name de
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
 }</code></pre>
+  </div>
+</section>
+    <section id="fun" class="doc-section">
+  <h2 class="section-title">Function based (@fun)</h2>
+  <p class="section-intro">
+    This guide demonstrates how to use <code>@fun</code> blocks in FSCSS to modularize and reuse style values in your stylesheets. It introduces a cleaner, more maintainable approach to logic-based grouping and referencing in design.
+  </p>
+
+  <div class="doc-subsection" id="functional-blocks">
+    <h3 class="subsection-title">🔧 Functional Blocks in FSCSS</h3>
+    <p>
+      FSCSS enables you to define grouped variables using <code>@fun(name){...}</code>. These can represent sizes, colors, property sets, and more. Reference them anywhere using dot-notation.
+    </p>
+  </div>
+
+  <div class="doc-subsection" id="define-sizes">
+    <h3 class="subsection-title">📐 Define Sizes – <code>@fun(e)</code></h3>
+    <div class="code-container">
+      <pre><code>@fun(e){
+  a: 100px;
+  b: 200px;
+  c: 300px;
+}</code></pre>
+    </div>
+    <p>Efficiently store reusable measurements like widths, spacing, etc.</p>
+    <ul class="ref-list">
+      <li><code>@fun.e.a.value</code> → 100px</li>
+      <li><code>@fun.e.c.value</code> → 300px</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="define-colors">
+    <h3 class="subsection-title">🎨 Define Color Palette – <code>@fun(col)</code></h3>
+    <div class="code-container">
+      <pre><code>@fun(col){
+  1: #550066;
+  2: #005523;
+}</code></pre>
+    </div>
+    <p>Centralize theming and maintain consistent color usage across your UI.</p>
+    <ul class="ref-list">
+      <li><code>@fun.col.1.value</code> → Dark purple</li>
+      <li><code>@fun.col.2.value</code> → Forest green</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="define-properties">
+    <h3 class="subsection-title">🧱 Define CSS Property Groups – <code>@fun(pr)</code></h3>
+    <div class="code-container">
+      <pre><code>@fun(pr){
+  border: 2px groove red;
+  border-radius: 40px 60px 0 6px;
+}</code></pre>
+    </div>
+    <p>Bundle multiple related CSS properties under a single reusable group.</p>
+    <ul class="ref-list">
+      <li><code>@fun.pr.border.value</code> → 2px groove red</li>
+      <li><code>@fun.pr.border-radius.value</code> → 40px 60px 0 6px</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="apply-functional-values">
+    <h3 class="subsection-title">💡 Apply Styles with Functional Values</h3>
+    <p>Use functional values in actual styles:</p>
+    <div class="code-container">
+      <pre><code>body {
+  background: @fun.col.1.value;
+}</code></pre>
+    </div>
+    <p>This example sets the background color using a centralized functional value.</p>
+  </div>
+
+  <div class="doc-subsection" id="styled-div">
+    <h3 class="subsection-title">🧩 <code>&lt;div&gt;</code> Styling</h3>
+    <div class="code-container">
+      <pre><code>div {
+  background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
+  @fun.pr;
+  outline: @fun.pr.border.value;
+  %2(width, height[:@fun.e.a.value;]);
+}</code></pre>
+    </div>
+    <p><strong>Breakdown:</strong></p>
+    <ul class="usage-list">
+      <li>✅ <code>background</code>: Gradient using two predefined colors.</li>
+      <li>✅ <code>@fun.pr</code>: Injects grouped border styles.</li>
+      <li>✅ <code>outline</code>: Applies same border style to outline.</li>
+      <li>✅ <code>%2(...)</code>: FSCSS shorthand for multiple property assignment.</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="developer-benefits">
+    <h3 class="subsection-title">🚀 Developer Benefits</h3>
+    <ul class="benefits-list">
+      <li><strong>Modular:</strong> Style tokens are centrally defined and managed.</li>
+      <li><strong>Readable:</strong> Logic is separated from raw values.</li>
+      <li><strong>Reusable:</strong> A single source can be injected into many components.</li>
+      <li><strong>Maintainable:</strong> Ideal for design systems and long-term projects.</li>
+    </ul>
   </div>
 </section>
 <section id="fscss-copy-function" class="section">
