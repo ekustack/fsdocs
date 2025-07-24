@@ -318,7 +318,10 @@ function procFun(code) {
       if (!line) continue;
       const colonIdx = line.indexOf(':');
       if (colonIdx === -1) {
-        console.warn(`fscss[@fun] Invalid style line (missing colon): "${line}"`);
+        const emsg=(`fscss[@fun] Invalid style line (missing colon): "${line}"`);
+        console.warn(emsg);
+addLogEntry(emsg);
+
         continue;
       }
       const prop = line.substring(0, colonIdx).trim();
@@ -326,7 +329,9 @@ function procFun(code) {
       if (prop) {
         props[prop] = value;
       } else {
-        console.warn(`fscss[@fun] Empty property name in line: "${line}"`);
+        const epmsg=(`fscss[@fun] Empty property name in line: "${line}"`);
+          console.warn(epmsg);
+addLogEntry(epmsg);
       }
     }
     return props;
@@ -338,7 +343,9 @@ function procFun(code) {
     const varName = funMatch[1];
     const rawStyles = funMatch[2].trim();
     if (variables[varName]) {
-      console.warn(`fscss[@fun] Duplicate @fun variable declaration: "${varName}". The last one will overwrite previous declarations.`);
+      const evmsg=(`fscss[@fun] Duplicate @fun variable declaration: "${varName}". The last one will overwrite previous declarations.`);
+        console.warn(evmsg);
+addLogEntry(evmsg);
     }
     variables[varName] = {
       raw: rawStyles,
@@ -351,7 +358,9 @@ function procFun(code) {
     if (variables[varName] && variables[varName].props[prop]) {
       return variables[varName].props[prop];
     } else {
-      console.warn(`fscss[@fun] Value extraction failed for "@fun.${varName}.${prop}.value". Variable or property not found.`);
+      const evnmsg=(`fscss[@fun] Value extraction failed for "@fun.${varName}.${prop}.value". Variable or property not found.`);
+        console.warn(evnmsg);
+addLogEntry(evnmsg);
     }
     return match;
   });
@@ -359,7 +368,9 @@ function procFun(code) {
     if (variables[varName] && variables[varName].props[prop]) {
       return `${prop}: ${variables[varName].props[prop]};`;
     } else {
-      console.warn(`fscss[@fun] Single property rule failed for "@fun.${varName}.${prop}". Variable or property not found.`);
+      const epnmsg=(`fscss[@fun] Single property rule failed for "@fun.${varName}.${prop}". Variable or property not found.`);
+        console.warn(epnmsg);
+addLogEntry(epnmsg);
     }
     return match;
   });
@@ -367,7 +378,9 @@ function procFun(code) {
     if (variables[varName]) {
       return variables[varName].raw;
     } else {
-      console.warn(`fscss[@fun] Full variable block replacement failed for "@fun.${varName}". Variable not found.`);
+      const efmsg=(`fscss[@fun] Full variable block replacement failed for "@fun.${varName}". Variable not found.`);
+        console.warn(efmsg);
+addLogEntry(efmsg);
     }
     return match;
   });
@@ -390,7 +403,9 @@ function procArr(input) {
     let output = input.replace(/([^{}]*?)\{([^}]*?@arr\.([\w\-\_\—0-9]+)\[][^}]*?)\}/g,
         (fullMatch, selector, content, arrayName) => {
             if (!arraysExfscss[arrayName]) {
-                console.warn(`fscss[@arr] Warning: Array '${arrayName}' not found for loop processing.`);
+                const eamsg=(`fscss[@arr] Warning: Array '${arrayName}' not found for loop processing.`);
+                console.warn(eamsg);
+addLogEntry(eamsg);
                 return fullMatch;
             }
 
@@ -407,9 +422,13 @@ function procArr(input) {
         (fullMatch, arrayName, index) => {
             const idx = parseInt(index) - 1;
             if (!arraysExfscss[arrayName]) {
-                console.warn(`fscss[@arr] Warning: Array '${arrayName}' not found for specific accessor.`);
+                const evnmsg=(`fscss[@arr] Warning: Array '${arrayName}' not found for specific accessor.`);
+                console.warn(evnmsg);
+addLogEntry(evnmsg);
             } else if (arraysExfscss[arrayName]?.[idx] === undefined) {
-                console.warn(`fscss[@arr] Warning: Index ${index} out of bounds for array '${arrayName}'.`);
+                const eomsg=(`fscss[@arr] Warning: Index ${index} out of bounds for array '${arrayName}'.`);
+                console.warn(eomsg);
+addLogEntry(eomsg);
             }
             return arraysExfscss[arrayName]?.[idx] || fullMatch;
         });
