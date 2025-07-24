@@ -307,6 +307,118 @@
       const result = parseBlock(css, 0);
       return result.output;
     }
+function procFun(code) {
+  const variables = {};
+
+  function parseStyle(styleStr) {
+    const props = {};
+    const lines = styleStr.split(';');
+    for (let line of lines) {
+      line = line.trim();
+      if (!line) continue;
+      const colonIdx = line.indexOf(':');
+      if (colonIdx === -1) {
+        console.warn(`fscss[@fun] Invalid style line (missing colon): "${line}"`);
+        continue;
+      }
+      const prop = line.substring(0, colonIdx).trim();
+      const value = line.substring(colonIdx + 1).trim();
+      if (prop) {
+        props[prop] = value;
+      } else {
+        console.warn(`fscss[@fun] Empty property name in line: "${line}"`);
+      }
+    }
+    return props;
+  }
+
+  const funRegex = /@fun\(([\w\-\_\—0-9]+)\)\s*\{([\s\S]*?)\}\s*/g;
+  let funMatch;
+  while ((funMatch = funRegex.exec(code)) !== null) {
+    const varName = funMatch[1];
+    const rawStyles = funMatch[2].trim();
+    if (variables[varName]) {
+      console.warn(`fscss[@fun] Duplicate @fun variable declaration: "${varName}". The last one will overwrite previous declarations.`);
+    }
+    variables[varName] = {
+      raw: rawStyles,
+      props: parseStyle(rawStyles)
+    };
+  }
+
+  let processedCode = code;
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)\.value/g, (match, varName, prop) => {
+    if (variables[varName] && variables[varName].props[prop]) {
+      return variables[varName].props[prop];
+    } else {
+      console.warn(`fscss[@fun] Value extraction failed for "@fun.${varName}.${prop}.value". Variable or property not found.`);
+    }
+    return match;
+  });
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)/g, (match, varName, prop) => {
+    if (variables[varName] && variables[varName].props[prop]) {
+      return `${prop}: ${variables[varName].props[prop]};`;
+    } else {
+      console.warn(`fscss[@fun] Single property rule failed for "@fun.${varName}.${prop}". Variable or property not found.`);
+    }
+    return match;
+  });
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)(?=[\s;}])/g, (match, varName) => {
+    if (variables[varName]) {
+      return variables[varName].raw;
+    } else {
+      console.warn(`fscss[@fun] Full variable block replacement failed for "@fun.${varName}". Variable not found.`);
+    }
+    return match;
+  });
+  processedCode = processedCode.replace(/@fun\(([\w\-\_\d\—]+)\s*\{[\s\S]*?\}\s*/g, '');
+  processedCode = processedCode.replace(/\/\/.*$/gm, '');
+  processedCode = processedCode.replace(/^\s*[\r\n]/gm, '');
+  processedCode = processedCode.trim();
+return processedCode;
+}
+const arraysExfscss = {}; 
+function procArr(input) {
+    for (const key in arraysExfscss) delete arraysExfscss[key];
+    const arrayRegex = /@arr\(([\w\-\_\—0-9]+)\[([^\]]+)\]\)/g;
+    let match;
+    while ((match = arrayRegex.exec(input)) !== null) {
+        const arrayName = match[1];
+        const arrayValues = match[2].split(',').map(item => item.trim());
+        arraysExfscss[arrayName] = arrayValues;
+    }
+    let output = input.replace(/([^{}]*?)\{([^}]*?@arr\.([\w\-\_\—0-9]+)\[][^}]*?)\}/g,
+        (fullMatch, selector, content, arrayName) => {
+            if (!arraysExfscss[arrayName]) {
+                console.warn(`fscss[@arr] Warning: Array '${arrayName}' not found for loop processing.`);
+                return fullMatch;
+            }
+
+            return arraysExfscss[arrayName].map((value, index) => {
+                const replacedSelector = selector.replace(`@arr.${arrayName}[]`, index + 1);
+                const replacedContent = content.replace(
+                    new RegExp(`@arr\\.${arrayName}\\[\\]`, 'g'),
+                    value
+                );
+                return `${replacedSelector} {${replacedContent}}`;
+            }).join('\n');
+        });
+    output = output.replace(/@arr\.([\w\-\_\—0-9]+)\[(\d+)\]/g,
+        (fullMatch, arrayName, index) => {
+            const idx = parseInt(index) - 1;
+            if (!arraysExfscss[arrayName]) {
+                console.warn(`fscss[@arr] Warning: Array '${arrayName}' not found for specific accessor.`);
+            } else if (arraysExfscss[arrayName]?.[idx] === undefined) {
+                console.warn(`fscss[@arr] Warning: Index ${index} out of bounds for array '${arrayName}'.`);
+            }
+            return arraysExfscss[arrayName]?.[idx] || fullMatch;
+        });
+    return output
+        .replace(/@arr\(([\w\-\_\—0-9]+)\[([^\]]+)\]\)/g, '')
+        .replace(/\/\/[^\n]*\n/g, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+}
 
     function procP(text) {
       return text.replace(/%(\d+)\(([^[]+)\[\s*([^\]]+)\]\)/g, (match, number, properties, value) => {
@@ -449,6 +561,8 @@
       const fscssBox = document.getElementById("fscssBox");
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
+        css=procFun(css);
+        css=procArr(css);
         css = transformCssValues(css);      // Process copy() functions
         css = applyFscssTransformations(css); // Apply all other transformations
         css = replaceRe(css);
