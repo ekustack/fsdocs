@@ -449,6 +449,7 @@
       <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
       <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
       <li><a href="#arr"> Array method</a></li>
+      <li><a href="random">🎲 Random function</li>
     </ul>
     
     <h3><i class="fas fa-book"></i> Resources</h3>
@@ -1269,6 +1270,68 @@ section :nth-child(3) {
     </p>
   </div>
 </section>
+    <section id="random" class="section">
+  <h2>🎲 FSCSS @random() Method</h2>
+  <p>
+    The <code>@random()</code> method lets you apply randomized values to CSS properties, enabling dynamic, ever-changing styles without JavaScript. When used with <code>@arr()</code>, it becomes a powerful tool for clean and reusable random styling.
+  </p>
+<div>
+  <h3>🔧 Syntax</h3>
+    <div class="code-container">
+  <pre><code>
+@random([value1, value2, value3, ...])
+</code></pre></div>
+  <p>Returns a randomly selected value from the array on each stylesheet render.</p>
+</div>
+
+<div>
+  <h3>✨ Example: Randomized Button Style</h3>
+    <div class="code-container">
+  <pre><code>
+@arr(e[ @random([lightgreen, yellow, white, skyblue]), 
+        #@random([500,009,550]) ]);
+
+.btn {
+  padding: 10px 20px;
+  margin: 10px;
+  background: @arr.e[2];
+  color: @arr.e[1];
+  border: 2px groove @arr.e[1];
+  transform: translate(@random([10,30,60])px);
+  rotate: @random([0,90,150])deg;
+}
+</code></pre></div>
+  <p>
+    Each page load applies a new combination of background, color, translation, and rotation to <code>.btn</code>.
+  </p>
+</div>
+
+<div>
+  <h3>✅ Use Cases</h3>
+  <ul>
+    <li>Random button colors or positions</li>
+    <li>Playful or animated UI elements</li>
+    <li>Prototype variations fast</li>
+  </ul>
+</div>
+
+<div>
+  <h3>🚀 Benefits</h3>
+  <ul>
+    <li><strong>Dynamic UI:</strong> Refreshing styles each load</li>
+    <li><strong>Reusable:</strong> Combine with <code>@arr()</code> arrays</li>
+    <li><strong>No JS Needed:</strong> Pure CSS-style logic</li>
+    <li><strong>Clean Syntax:</strong> Short, clear, maintainable</li>
+  </ul>
+</div>
+
+<div>
+  <h3>🔚 Summary</h3>
+  <p>
+    FSCSS <code>@random()</code> simplifies randomized styling for developers—perfect for adding motion, contrast, or playfulness with zero JavaScript.
+  </p>
+</div>
+    </section>
 <section id="fscss-copy-function" class="section">
   <h2>Understanding more about the copy() Function</h2>  <p>The <code>copy()</code> function in FSCSS is a powerful tool for extracting and reusing parts of string values—very useful for design tokens or list manipulation.</p>  <h3>How <code>copy(length, variable)</code> Works</h3>
   <ul>
