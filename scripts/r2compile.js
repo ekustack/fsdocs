@@ -307,6 +307,46 @@
       const result = parseBlock(css, 0);
       return result.output;
     }
+const orderedxFscssRandom = {};
+
+function procRan(input) {
+  return input.replace(/@random\(\[([^\]]+)\](?:, *ordered)?\)/g, (match, valuesStr) => {
+    const isOrdered = /, *ordered\)/.test(match);
+    const values = valuesStr.split(',').map(v => v.trim());
+    
+    if (values.length === 0) {
+      addLogEntry("fscss[@random] Warning: Empty array provided for @random. Returning empty string.");
+      return '';
+    }
+    
+    if (isOrdered) {
+      // Create consistent key for value sequences
+      const sequenceKey = values.join(':');
+      
+      if (!orderedxFscssRandom[sequenceKey]) {
+        orderedxFscssRandom[sequenceKey] = {
+          values,
+          index: 0,
+        };
+        addLogEntry(`fscss[@random] Warning: New ordered sequence created for [${valuesStr}].`);
+      }
+      
+      const store = orderedxFscssRandom[sequenceKey];
+      const val = store.values[store.index % store.values.length];
+      
+      if (store.index >= store.values.length && store.index % store.values.length === 0) {
+        addLogEntry(`fscss[@random] Warning: Ordered sequence [${valuesStr}] is looping back to the beginning.`);
+      }
+      
+      store.index++;
+      return val;
+    } else {
+      // Regular random selection
+      const randIndex = Math.floor(Math.random() * values.length);
+      return values[randIndex];
+    }
+  });
+}
 function procFun(code) {
   const variables = {};
 
@@ -579,6 +619,7 @@ addLogEntry(eomsg);
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
         css=procFun(css);
+        css=procRan(css);
         css=procArr(css);
         css = transformCssValues(css);      // Process copy() functions
         css = applyFscssTransformations(css); // Apply all other transformations
