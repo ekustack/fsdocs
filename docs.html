@@ -448,6 +448,7 @@
       <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
       <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
       <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
+      <li><a href="#arr"> Array method</a></li>
     </ul>
     
     <h3><i class="fas fa-book"></i> Resources</h3>
@@ -1128,6 +1129,144 @@ The output automatically generates the @keyframes rule with an animation name de
       <li><strong>Reusable:</strong> A single source can be injected into many components.</li>
       <li><strong>Maintainable:</strong> Ideal for design systems and long-term projects.</li>
     </ul>
+  </div>
+</section>
+    <section id="arr" class="section">
+  <h2 class="section-title">Array <code>@arr()</code> Method</h2>
+  <p class="section-intro">
+    The <code>@arr()</code> directive is a powerful array-based syntax for reusable value lists such as delays, colors, or dimensions. It's ideal for staggered animations, theming, and scalable utilities.
+  </p>
+
+  <div class="doc-subsection" id="array-syntax">
+    <h3 class="subsection-title">🔧 Syntax Overview</h3>
+    <div class="code-container">
+      <pre><code>@arr(name[ item1, item2, item3, ... ]);</code></pre>
+    </div>
+    <ul class="usage-list">
+      <li><strong><code>name</code>:</strong> The identifier used to reference the array.</li>
+      <li><strong>Items:</strong> Can be numbers, strings, colors—any valid CSS value.</li>
+      <li><strong>1-Indexed:</strong> Access begins from index <code>[1]</code>, not <code>[0]</code>.</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="example-usage">
+    <h3 class="subsection-title">✨ Example: Animating with FSCSS Arrays</h3>
+    <div class="code-container">
+      <pre><code>@arr(e[0.1, 2.5, 7]);
+@arr(col[red, blue, green]);
+
+section {
+  background: @arr.col[2];
+}
+
+section :nth-child(@arr.e[]) {
+  animation: spin 3s linear infinite;
+  animation-delay: @arr.e[]s;
+  rotate: 0;
+  background: @arr.col[3];
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="doc-subsection" id="how-it-works">
+    <h3 class="subsection-title">🧠 How It Works</h3>
+    <ul class="ref-list">
+      <li><code>@arr(e[0.1, 2.5, 7])</code> creates: <code>e[1] = 0.1</code>, <code>e[2] = 2.5</code>, <code>e[3] = 7</code></li>
+      <li><code>@arr(col[red, blue, green])</code> creates: <code>col[1] = red</code>, <code>col[2] = blue</code>, <code>col[3] = green</code></li>
+      <li>Use values with <code>@arr.name[index]</code></li>
+      <li>Arrays start at index <strong>1</strong>, not <strong>0</strong></li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="looping">
+    <h3 class="subsection-title">🔁 Looping with <code>@arr.name[]</code></h3>
+    <p>
+      Using <code>@arr.name[]</code> without a specific index creates automatically expanded blocks—perfect for animations, lists, or patterns.
+    </p>
+    <p><strong>Example:</strong></p>
+    <div class="code-container">
+      <pre><code>section :nth-child(@arr.e[]) {
+  animation-delay: @arr.e[]s;
+}</code></pre>
+    </div>
+    <p><strong>Compiles to:</strong></p>
+    <div class="code-container">
+      <pre><code>section :nth-child(1) { animation-delay: 0.1s; }
+section :nth-child(2) { animation-delay: 2.5s; }
+section :nth-child(3) { animation-delay: 7s; }</code></pre>
+    </div>
+  </div>
+
+  <div class="doc-subsection" id="use-cases">
+    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
+    <ul class="benefits-list">
+      <li>Staggered animations with different delays</li>
+      <li>Repeating sections with changing background colors</li>
+      <li>Themeable components using color palettes</li>
+      <li>Responsive breakpoints via predefined size arrays</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="important-notes">
+    <h3 class="subsection-title">⚠️ Important Notes</h3>
+    <ul class="ref-list">
+      <li>FSCSS arrays are <strong>1-indexed</strong></li>
+      <li>Accessing out-of-bound indexes returns <code>undefined</code></li>
+      <li>For synced effects, align multiple arrays by matching lengths</li>
+      <li><code>@arr.name[]</code> inside <code>:nth-child()</code> uses index automatically</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="best-practices">
+    <h3 class="subsection-title">✅ Best Practices</h3>
+    <ul class="usage-list">
+      <li>Name arrays descriptively: <code>colors</code>, <code>delays</code>, <code>breakpoints</code></li>
+      <li>Check array length if using fixed indexes</li>
+      <li>Use <code>@arr.name[]</code> for dynamic, loop-based styling</li>
+      <li>Use inside <code>:nth-child()</code> for built-in indexing behavior</li>
+    </ul>
+  </div>
+
+  <div class="doc-subsection" id="final-output">
+    <h3 class="subsection-title">✅ Final Compiled Output (From Example)</h3>
+    <div class="code-container">
+      <pre><code>section {
+  background: blue;
+}
+
+section :nth-child(1) {
+  animation: spin 3s linear infinite;
+  animation-delay: 0.1s;
+  rotate: 0;
+  background: green;
+}
+
+section :nth-child(2) {
+  animation: spin 3s linear infinite;
+  animation-delay: 2.5s;
+  rotate: 0;
+  background: green;
+}
+
+section :nth-child(3) {
+  animation: spin 3s linear infinite;
+  animation-delay: 7s;
+  rotate: 0;
+  background: green;
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="doc-subsection" id="summary">
+    <h3 class="subsection-title">🔚 Summary</h3>
+    <p>
+      The <code>@arr()</code> directive provides dynamic looping and organized value referencing for scalable styling. Whether it's animations, themes, or UI patterns, FSCSS arrays bring JavaScript-like power into your stylesheets with clean, semantic syntax.
+    </p>
   </div>
 </section>
 <section id="fscss-copy-function" class="section">
