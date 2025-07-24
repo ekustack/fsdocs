@@ -385,7 +385,6 @@ addLogEntry(efmsg);
     return match;
   });
   processedCode = processedCode.replace(/@fun\(([\w\-\_\d\—]+)\s*\{[\s\S]*?\}\s*/g, '');
-  processedCode = processedCode.replace(/\/\/.*$/gm, '');
   processedCode = processedCode.replace(/^\s*[\r\n]/gm, '');
   processedCode = processedCode.trim();
 return processedCode;
@@ -434,7 +433,6 @@ addLogEntry(eomsg);
         });
     return output
         .replace(/@arr\(([\w\-\_\—0-9]+)\[([^\]]+)\]\)/g, '')
-        .replace(/\/\/[^\n]*\n/g, '')
         .replace(/\n{3,}/g, '\n\n')
         .trim();
 }
