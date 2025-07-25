@@ -610,20 +610,78 @@ addLogEntry(eomsg);
         .replace(/\$\(([^\:^\)]*)\)/gi, '[$1]');
       return css;
     }
+const exfMAX_DEPTH = 10;
+async function processImports(cssText, depth = 0, baseURL = window.location.href) { // Mark as async
+  if (depth > exfMAX_DEPTH) {
+    addLogEntry('Maximum import depth exceeded. Skipping further imports.');
+    return cssText;
+  }
+
+  const importRegex = /@import\s*\(\s*exec\s*\(\s*((?:'[^']*'|"[^"]*"|[^'")]\S*)\s*)\)\s*\)/g;
+  const matches = Array.from(cssText.matchAll(importRegex));
+
+  if (matches.length === 0) return cssText;
+
+  // Await the resolution of all import promises
+  const fetchedContents = await Promise.all(
+    matches.map(async (match) => {
+      const [fullMatch, urlSpec] = match;
+      try {
+        const cleanUrl = urlSpec.replace(/^['"](.*)['"]$/, '$1').trim();
+        const absoluteUrl = new URL(cleanUrl, baseURL).href;
+
+        const response = await fetch(absoluteUrl); // Await fetch
+        if (!response.ok) throw new Error(`HTTP ${response.status} for ${absoluteUrl}`);
+
+        const importedText = await response.text(); // Await text()
+        return processImports(importedText, depth + 1, absoluteUrl); // Recursive call should also be awaited if it were directly used, but here it's fine as it returns a Promise
+      } catch (error) {
+        addLogEntry(`Failed to import "${urlSpec}" from "${baseURL}":`, error);
+        return `/* Error importing "${urlSpec}": ${error.message} */`;
+      }
+    })
+  );
+
+  // Now, fetchedContents holds the actual processed CSS strings
+  let lastIndex = 0;
+  let result = '';
+  matches.forEach((match, i) => {
+    result += cssText.slice(lastIndex, match.index);
+    result += fetchedContents[i]; // Use the resolved content
+    lastIndex = match.index + match[0].length;
+  });
+  result += cssText.slice(lastIndex);
+
+  return result;
+}
+
+// Fixed version: Proper async handling
+async function procImp(css) {
+  try {
+    const processedCSS = await processImports(css);
+    return processedCSS;
+  } catch (error) {
+    addLogEntry('Processing failed:', error);
+    addLogEntry(`fscss[@import] Warning: can't resolve imports`);
+    return css; // Return original CSS as fallback
+  }
+}
 
     // Processes all <style> elements in document
-    function processStyles() {
+async function processStyles() {
       clearLog(); // Clear previous logs
       
       const fscssBox = document.getElementById("fscssBox");
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
-        css=procFun(css);
-        css=procRan(css);
-        css=procArr(css);
-        css = transformCssValues(css);      // Process copy() functions
-        css = applyFscssTransformations(css); // Apply all other transformations
-        css = replaceRe(css);
+        css = await procImp(css); // Await procImp
+    css = procFun(css);
+    css = procRan(css);
+    css = procArr(css);
+    css = transformCssValues(css);
+    css = applyFscssTransformations(css);
+    css = replaceRe(css);// Apply all other transformations
+        
         
         // Flatten nested CSS with error logging
         
@@ -635,11 +693,14 @@ addLogEntry(eomsg);
 
     // Event listeners
     document.getElementById("run").addEventListener("click", e => {
-      try {
-        processStyles();
-      } catch (error) {
-        addLogEntry(`Error processing styles: ${error.message}`);
-      }
+      (async () => { // Use an IIFE to await the top-level call
+  try {
+    await processStyles();
+      // This can run after styles are processed
+  } catch (error) {
+    addLogEntry('Error processing styles or draw elements:', error);
+  }
+})();
     });
 
     document.getElementById("upload").addEventListener("change", function(event) {
