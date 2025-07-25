@@ -300,7 +300,7 @@
       <i class="fas fa-info-circle"></i> FSCSS is a preprocessor - your .fscss files are converted to standard CSS at runtime by the FSCSS execution script.
     </div>
   <div>
-    <h3>@import method: </h3>
+    <h3>@import method: <small>Recommended</small></h3>
     <p>importing fscss in another fscss </p>
     <div class="code-container">
               <div class="code-header">
@@ -308,10 +308,7 @@
                 <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
               </div>
               <div class="code-content active">
-                <pre>
-                  <code>@import(exec(style.fscss))
-                  /*your styling ...*/</code>
-                </pre>
+                <pre><code>@import(exec(style.fscss))<br/>/*your styling ...*/</code></pre>
               </div>
     </div>
     </div>
@@ -328,7 +325,7 @@
             
             <div class="code-container">
               <div class="code-header">
-                <span>styles.fscss</span>
+                <span>style.fscss</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
               </div>
               <div class="code-content active">
