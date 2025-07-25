@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS - @import Method</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3f37c9;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .docs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .method-section {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .method-section h2 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .method-section h2 i {
+      background: var(--light-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+    
+    .method-section h3 {
+      color: var(--accent);
+      font-size: 1.4rem;
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .method-section h3 i {
+      color: var(--accent);
+    }
+    
+    .method-section p {
+      margin-bottom: 1.2rem;
+      color: var(--light-gray);
+      line-height: 1.8;
+    }
+    
+    .recommended-badge {
+      background: var(--success);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-left: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .step {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .step-number {
+      background: var(--primary);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .code-container {
+      position: relative;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    
+    .code-header {
+      background: var(--darker);
+      color: white;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .code-content {
+      background: #1a1f2d;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    .code-content pre {
+      margin: 0;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+    
+    .code-content .comment {
+      color: #64748b;
+    }
+    
+    .code-content .property {
+      color: #f8fafc;
+    }
+    
+    .code-content .value {
+      color: #38bdf8;
+    }
+    
+    .code-content .selector {
+      color: #f472b6;
+    }
+    
+    .code-content .variable {
+      color: #a78bfa;
+    }
+    
+    .code-content .string {
+      color: #10b981;
+    }
+    
+    .code-content .keyword {
+      color: #ff7edb;
+    }
+    
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary);
+    }
+    
+    .note {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--success);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .note i {
+      color: var(--success);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .warning {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid var(--danger);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .warning i {
+      color: var(--danger);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border-top: 3px solid var(--primary);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .feature-card h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-card ul {
+      padding-left: 1.5rem;
+    }
+    
+    .feature-card li {
+      margin-bottom: 0.75rem;
+      color: var(--light-gray);
+    }
+    
+    @media (max-width: 768px) {
+      .step {
+        flex-direction: column;
+      }
+      
+      .step-number {
+        align-self: flex-start;
+      }
+      
+      .docs-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-container">
+    <div class="method-section">
+      <h2><i class="fas fa-file-import"></i> @import Method <span class="recommended-badge"><i class="fas fa-star"></i> RECOMMENDED</span></h2>
+      <p>Import FSCSS files within other FSCSS files to create a modular architecture for your stylesheets.</p>
+      
+      <div class="note">
+        <i class="fas fa-lightbulb"></i>
+        <div>
+          <strong>Best Practice:</strong> Use @import to organize your styles into logical components (variables, mixins, components) for better maintainability.
+        </div>
+      </div>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3><i class="fas fa-file-code"></i> Create Your FSCSS Modules</h3>
+            <p>Organize your styles into separate files for better structure.</p>
+            
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h4><i class="fas fa-palette"></i> _variables.fscss</h4>
+                <div class="code-container">
+                  <div class="code-content">
+                    <pre><span class="comment">/* Color Variables */</span>
+$primary: #4361ee;
+$secondary: #3a0ca3;
+$accent: #f72585;
+$light: #f8f9fa;
+$dark: #1e293b;
+
+<span class="comment">/* Spacing Variables */</span>
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 2rem;</pre>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="feature-card">
+                <h4><i class="fas fa-cube"></i> _mixins.fscss</h4>
+                <div class="code-container">
+                  <div class="code-content">
+                    <pre><span class="comment">/* Flex Center Mixin */</span>
+str(flexCenter, "
+  display: flex;
+  justify-content: center;
+  align-items: center;
+")
+
+<span class="comment">/* Card Mixin */</span>
+str(cardStyle, "
+  padding: $spacing-md!;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: white;
+")</pre>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="feature-card">
+                <h4><i class="fas fa-buttons"></i> _buttons.fscss</h4>
+                <div class="code-container">
+                  <div class="code-content">
+                    <pre><span class="comment">/* Base Button Style */</span>
+.button {
+  padding: $spacing-sm! $spacing-md!;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+<span class="comment">/* Primary Button */</span>
+.btn-primary {
+  background: $primary!;
+  color: white;
+  
+  &:hover {
+    background: darken($primary!, 10%);
+  }
+}</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3><i class="fas fa-file-import"></i> Import Modules in Main File</h3>
+            <p>Use the <code>@import(exec(...))</code> syntax to include your modules.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>main.fscss</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content">
+                <pre><span class="comment">/* Import Core Modules */</span>
+<span class="keyword">@import</span>(exec(_variables.fscss))
+<span class="keyword">@import</span>(exec(_mixins.fscss))
+<span class="keyword">@import</span>(exec(_buttons.fscss))
+
+<span class="comment">/* Your Custom Styles */</span>
+body {
+  background: $light!;
+  color: $dark!;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.card {
+  cardStyle
+  margin-bottom: $spacing-md!;
+  
+  .card-title {
+    font-size: 1.5rem;
+    color: $primary!;
+    margin-bottom: $spacing-sm!;
+  }
+}
+
+<span class="comment">/* Additional custom styles... */</span></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3><i class="fas fa-file-medical"></i> Link Main File in HTML</h3>
+            <p>Include your main FSCSS file in your HTML as you normally would.</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>index.html</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content">
+                <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;FSCSS Modular Example&lt;/title&gt;
+  
+  <span class="comment">&lt;!-- Link your main FSCSS file --&gt;</span>
+  &lt;link type="text/fscss" href="main.fscss" rel="stylesheet"&gt;
+  
+  <span class="comment">&lt;!-- Include FSCSS compiler --&gt;</span>
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" async&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="card"&gt;
+    &lt;h2 class="card-title"&gt;Card Title&lt;/h2&gt;
+    &lt;p&gt;This is a card with imported styles.&lt;/p&gt;
+    &lt;button class="button btn-primary"&gt;Click Me&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-cogs"></i> Advanced @import Features</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-layer-group"></i> Nested Imports</h4>
+          <p>Import files within imported files for deep modularity.</p>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="comment">/* _components.fscss */</span>
+<span class="keyword">@import</span>(exec(_buttons.fscss))
+<span class="keyword">@import</span>(exec(_cards.fscss))
+<span class="keyword">@import</span>(exec(_navigation.fscss))</pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-bolt"></i> Conditional Imports</h4>
+          <p>Use media queries with imports for responsive loading.</p>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="comment">/* Conditionally load mobile styles */</span>
+@media (max-width: 768px) {
+  <span class="keyword">@import</span>(exec(mobile.fscss))
+}
+
+<span class="comment">/* Conditionally load dark theme */</span>
+@media (prefers-color-scheme: dark) {
+  <span class="keyword">@import</span>(exec(dark-theme.fscss))
+}</pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-code-branch"></i> Dynamic Imports</h4>
+          <p>Combine with JavaScript for advanced loading scenarios.</p>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="comment">/* main.fscss */</span>
+<span class="keyword">@import</span>(exec(core-styles.fscss))
+
+<span class="comment">/* Load theme based on user preference */</span>
+if (userPrefersDark) {
+  <span class="keyword">@import</span>(exec(dark-theme.fscss))
+} else {
+  <span class="keyword">@import</span>(exec(light-theme.fscss))
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="note">
+        <i class="fas fa-exclamation-circle"></i>
+        <div>
+          <strong>Important:</strong> Avoid circular dependencies where file A imports file B, which imports file A.
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-star"></i> Benefits of @import Method</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-sitemap"></i> Modular Architecture</h4>
+          <ul>
+            <li>Split styles into logical components</li>
+            <li>Reuse code across projects</li>
+            <li>Easier to maintain and update</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-tachometer-alt"></i> Performance</h4>
+          <ul>
+            <li>Load only what you need</li>
+            <li>Conditional loading based on context</li>
+            <li>Reduces duplicate code</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-users-cog"></i> Team Collaboration</h4>
+          <ul>
+            <li>Multiple developers can work simultaneously</li>
+            <li>Clear separation of concerns</li>
+            <li>Easier to understand code structure</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <strong>Performance Note:</strong> While @import provides excellent organization, be mindful that each imported file requires an additional HTTP request. For production, consider combining files during your build process.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const container = this.closest('.code-container');
+        const codeContent = container.querySelector('.code-content');
+        const text = codeContent.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
