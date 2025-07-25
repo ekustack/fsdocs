@@ -486,6 +486,7 @@
       <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
       <li><a href="#arr"> Array method</a></li>
       <li><a href="random">🎲 Random function</li>
+      <li><a href="num">➕ number calculation</a></li>
     </ul>
     
     <h3><i class="fas fa-book"></i> Resources</h3>
@@ -1479,6 +1480,54 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
   </ul>
  
 </section>
+    <section id="num" class="section">
+  <h2><i class="fas fa-calculator"></i> <code>@num()</code> – Number Calculations</h2>
+  <p>
+    The <code>@num()</code> method in FSCSS allows inline numeric calculations directly in your stylesheets.
+    You can use it to perform arithmetic operations like <code>num(40 * 2)</code> → <code>80</code>, and append units like <code>num(4 * 6)px</code> → <code>24px</code>.
+  </p>
+
+  <h3>🛠️ Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>1. Calculating max-height</h5>
+      <div class="code-container">
+        <pre><code>selector {
+  max-height: num(40 * 4); /* = 160 */
+}</code></pre>
+      </div>
+    </div>
+
+    <div>
+      <h5>2. Mix with @random for dynamic values</h5>
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>textarea {
+  max-height: num(@random([40, 10, 5, 0]) + 50);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    <a href="#random"><strong>See the <code>@random</code> method →</strong></a>
+  </p>
+
+  <div class="summary">
+    <h4>📌 Summary</h4>
+    <ul>
+      <li><strong>Lightweight Calculation:</strong> Compute values inline using <code>+ - * /</code> operations</li>
+      <li><strong>Supports Units:</strong> Works with <code>px</code>, <code>%</code>, and other units</li>
+      <li><strong>Dynamic Pairing:</strong> Combine with <br><code>@random✅</code>, <br><code>@arr✅</code>,
+ <br><code>@fun values ✅</code>, <br> (variables ❌)</li>
+      <li><strong>Cleaner Code:</strong> No JavaScript needed for math</li>
+    </ul>
+  </div>
+</section>
+    
     <section id="intro-fscss" class="section">
   <h2>Introducing FSCSS: Figured Shorthand Cascading Style Sheet</h2>
   <p>We hope you have an excellent experience exploring its features and capabilities.</p>  <p>The FSCSS journey began in <strong>2022</strong>, conceived by <strong>David Hux</strong> as a robust testing framework. Early development by <strong>Figsh</strong> focused on core concepts like <code>%2</code> to <code>%6</code>, <code>%i</code>, and basic variable handling using <code>$...</code>.</p>  <p>Building on this foundation, FSCSS quickly evolved. As outlined in the official documentation, the framework now includes:</p>
