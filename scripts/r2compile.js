@@ -307,6 +307,24 @@
       const result = parseBlock(css, 0);
       return result.output;
     }
+function procNum(css){
+const regex = /num\((.*?)\)/g;
+function evaluateExpression(expression) {
+  try {
+    return eval(expression);
+  } catch (e) {
+    console.error('Invalid expression:', expression);
+    return expression;
+  }
+}
+
+const processedCSS = css.replace(regex, (match, expression) => {
+  
+  return evaluateExpression(expression);
+});
+
+return (processedCSS);
+  }
 const orderedxFscssRandom = {};
 
 function procRan(input) {
@@ -680,7 +698,9 @@ async function processStyles() {
     css = procArr(css);
     css = transformCssValues(css);
     css = applyFscssTransformations(css);
-    css = replaceRe(css);// Apply all other transformations
+    css = replaceRe(css);
+    css = procNum(css);
+    // Apply all other transformations
         
         
         // Flatten nested CSS with error logging
