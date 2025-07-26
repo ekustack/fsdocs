@@ -318,7 +318,7 @@ function procEv(css) {
       current++;
     }
     if (count !== 0) {
-      console.warn(`fscss[@event] Warning: Unbalanced curly braces starting at index ${start}.`);
+      addLogEntry(`fscss[@event] Warning: Unbalanced curly braces starting at index ${start}.`);
       return null;
     }
     return {
@@ -339,7 +339,7 @@ function procEv(css) {
 
       const innerBlock = extractBlock(block, blockStart);
       if (!innerBlock) {
-        console.warn(`fscss[@event] Warning: Could not extract inner block for condition '${condition}' starting at index ${blockStart}.`);
+        addLogEntry(`fscss[@event] Warning: Could not extract inner block for condition '${condition}' starting at index ${blockStart}.`);
         continue;
       }
 
@@ -391,7 +391,7 @@ function procEv(css) {
     argValue = argValue.trim();
     const func = functionMap[funcName];
     if (!func) {
-      console.warn(`fscss[@event] Warning: Event function '${funcName}' not found.`);
+      addLogEntry(`fscss[@event] Warning: Event function '${funcName}' not found.`);
       return match; // Return original match if function not found
     }
 
@@ -419,14 +419,14 @@ function procEv(css) {
         if (assignMatch) {
           result = assignMatch[1].trim();
         } else {
-          console.warn(`fscss[@event] Warning: No assignment found in block for condition '${block.condition}' in function '${funcName}'.`);
+          addLogEntry(`fscss[@event] Warning: No assignment found in block for condition '${block.condition}' in function '${funcName}'.`);
         }
         break; // A condition matched, so we stop
       }
     }
 
     if (!matched) {
-      console.warn(`fscss[@event] Warning: No condition matched for event call '${funcName}(${argValue})'.`);
+      addLogEntry(`fscss[@event] Warning: No condition matched for event call '${funcName}(${argValue})'.`);
     }
 
     return result || match; // Return the result or the original match if no result was found
@@ -440,7 +440,7 @@ function evaluateExpression(expression) {
   try {
     return eval(expression);
   } catch (e) {
-    console.error('Invalid expression:', expression);
+    addLogEntry('Invalid expression:', expression);
     return expression;
   }
 }
