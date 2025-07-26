@@ -350,7 +350,7 @@
           </div>
         </div>
         <textarea class="editor-box" id="fscssBox" placeholder="Enter your FSCSS code here...">
-          $primary-color: midnightblue;
+          $primary-color: @random([midnightblue, #0310031, #002255]);
           $main-background: #000044;
           str(main style, "
           background: $main-background!;
@@ -366,7 +366,7 @@
          main style;
          %2(width, height[:50px;])
          border-color: #300030 copy(3, var-color);
-         border-width: 2px;
+         border-width: num(10 / 5)px;
          color: $primary-color!;
         } 
         div.grid{
