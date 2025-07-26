@@ -307,6 +307,133 @@
       const result = parseBlock(css, 0);
       return result.output;
     }
+function procEv(css) {
+  function extractBlock(str, start) {
+    if (str[start] !== '{') return null;
+    let count = 1;
+    let current = start + 1;
+    while (current < str.length && count > 0) {
+      if (str[current] === '{') count++;
+      else if (str[current] === '}') count--;
+      current++;
+    }
+    if (count !== 0) {
+      console.warn(`fscss[@event] Warning: Unbalanced curly braces starting at index ${start}.`);
+      return null;
+    }
+    return {
+      content: str.substring(start + 1, current - 1),
+      endIndex: current
+    };
+  }
+
+  function parseConditionBlocks(block) {
+    const regex = /(if|el-if|el)\s*(.*?){/g;
+    const blocks = [];
+    let match;
+
+    while ((match = regex.exec(block)) !== null) {
+      const type = match[1];
+      const condition = match[2].trim();
+      const blockStart = match.index + match[0].length - 1;
+
+      const innerBlock = extractBlock(block, blockStart);
+      if (!innerBlock) {
+        console.warn(`fscss[@event] Warning: Could not extract inner block for condition '${condition}' starting at index ${blockStart}.`);
+        continue;
+      }
+
+      blocks.push({
+        type,
+        condition,
+        block: innerBlock.content
+      });
+
+      regex.lastIndex = blockStart + innerBlock.content.length + 2;
+    }
+
+    return blocks;
+  }
+
+  const functionMap = {};
+  const funcDefRegex = /@event\s+([\w-]+)\(([^)]+)\)\s*:?{/g;
+  let funcMatch;
+  let modifiedCSS = css;
+  let offset = 0; // To adjust for string manipulations
+
+  // First pass: extract function definitions and remove them from the CSS
+  while ((funcMatch = funcDefRegex.exec(css)) !== null) {
+    const [fullMatch, funcName, args] = funcMatch;
+    const arg = args.trim();
+    const startIdx = funcMatch.index + fullMatch.length - 1;
+
+    const blockData = extractBlock(css, startIdx);
+    if (!blockData) {
+      console.warn(`fscss[@event] Warning: Could not extract block for event definition '${funcName}' starting at index ${startIdx}.`);
+      continue;
+    }
+
+    const conditionBlocks = parseConditionBlocks(blockData.content);
+    functionMap[funcName] = { arg, conditionBlocks };
+
+    // Remove the processed @event definition from the CSS
+    const replacementStart = funcMatch.index + offset;
+    const replacementEnd = blockData.endIndex + offset;
+    modifiedCSS = modifiedCSS.substring(0, replacementStart) +
+                   modifiedCSS.substring(replacementEnd);
+
+    // Adjust the offset for subsequent regex matches in the original string
+    offset -= (blockData.endIndex - funcMatch.index);
+  }
+
+  // Second pass: replace @event calls with their evaluated values
+  modifiedCSS = modifiedCSS.replace(/@event\.([\w-]+)\(([^)]*)\)/g, (match, funcName, argValue) => {
+    argValue = argValue.trim();
+    const func = functionMap[funcName];
+    if (!func) {
+      console.warn(`fscss[@event] Warning: Event function '${funcName}' not found.`);
+      return match; // Return original match if function not found
+    }
+
+    let result = '';
+    let matched = false;
+
+    for (const block of func.conditionBlocks) {
+      if (matched) break; // If a condition has already matched, stop
+
+      const parts = block.condition.split(':').map(s => s.trim());
+      const condVar = parts[0];
+      const condVal = parts.length > 1 ? parts[1] : '';
+
+      if (block.type === 'if' || block.type === 'el-if') {
+        if (condVar === func.arg && condVal === argValue) {
+          matched = true;
+        }
+      } else if (block.type === 'el') {
+        matched = true;
+      }
+
+      if (matched) {
+        // Look for `e: value;` or any variable name followed by colon and value
+        const assignMatch = block.block.match(/(?:[a-zA-Z_]\w*)\s*:\s*([^;]+);/);
+        if (assignMatch) {
+          result = assignMatch[1].trim();
+        } else {
+          console.warn(`fscss[@event] Warning: No assignment found in block for condition '${block.condition}' in function '${funcName}'.`);
+        }
+        break; // A condition matched, so we stop
+      }
+    }
+
+    if (!matched) {
+      console.warn(`fscss[@event] Warning: No condition matched for event call '${funcName}(${argValue})'.`);
+    }
+
+    return result || match; // Return the result or the original match if no result was found
+  });
+
+  return modifiedCSS;
+}
 function procNum(css){
 const regex = /num\((.*?)\)/g;
 function evaluateExpression(expression) {
@@ -696,6 +823,7 @@ async function processStyles() {
     css = procFun(css);
     css = procRan(css);
     css = procArr(css);
+    css = procEv(css);
     css = transformCssValues(css);
     css = applyFscssTransformations(css);
     css = replaceRe(css);
