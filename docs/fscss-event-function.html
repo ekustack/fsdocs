@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS @events function and logic descriptions </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3f37c9;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .docs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .method-section {
+      background: var(--dark);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .method-section h2 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .method-section h2 i {
+      background: var(--light-gray);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+    
+    .method-section h3 {
+      color: var(--accent);
+      font-size: 1.4rem;
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .method-section h3 i {
+      color: var(--accent);
+    }
+    
+    .method-section p {
+      margin-bottom: 1.2rem;
+      color: var(--light-gray);
+      line-height: 1.8;
+    }
+    
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .step {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .step-number {
+      background: var(--primary);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .code-container {
+      position: relative;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    
+    .code-header {
+      background: var(--darker);
+      color: white;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .code-content {
+      background: #1a1f2d;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    .code-content pre {
+      margin: 0;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+    
+    .code-content .comment {
+      color: #64748b;
+    }
+    
+    .code-content .property {
+      color: #f8fafc;
+    }
+    
+    .code-content .value {
+      color: #38bdf8;
+    }
+    
+    .code-content .selector {
+      color: #f472b6;
+    }
+    
+    .code-content .variable {
+      color: #a78bfa;
+    }
+    
+    .code-content .string {
+      color: #10b981;
+    }
+    
+    .code-content .keyword {
+      color: #ff7edb;
+    }
+    
+    .code-content .function {
+      color: #ffaa33;
+    }
+    
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary);
+    }
+    
+    .note {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--success);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .note i {
+      color: var(--success);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .warning {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid var(--danger);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .warning i {
+      color: var(--danger);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border-top: 3px solid var(--primary);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .feature-card h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-card ul {
+      padding-left: 1.5rem;
+    }
+    
+    .feature-card li {
+      margin-bottom: 0.75rem;
+      color: var(--light-gray);
+    }
+    
+    @media (max-width: 768px) {
+      .step {
+        flex-direction: column;
+      }
+      
+      .step-number {
+        align-self: flex-start;
+      }
+      
+      .docs-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-container">
+    <div class="method-section">
+      <h2><i class="fas fa-bolt"></i> FSCSS Events</h2>
+      <p>Powerful event-driven functions for conditional styling and dynamic value generation.</p>
+      
+      <div class="note">
+        <i class="fas fa-lightbulb"></i>
+        <div>
+          <strong>Events revolutionize CSS:</strong> Create complex conditional logic, generate dynamic values, and build responsive styles with functions that work at runtime.
+        </div>
+      </div>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3><i class="fas fa-code"></i> Event Function Syntax</h3>
+            <p>Create reusable event functions with conditional logic:</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>style.fscss</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content">
+                <pre><span class="comment">/* Create event function */</span>
+<span class="keyword">@event</span> <span class="function">event-name</span>(param) {
+  <span class="keyword">if</span> param: white {
+    <span class="keyword">return</span>: black;
+  } 
+  <span class="keyword">el-if</span> param: black {
+    <span class="keyword">return</span>: white;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: blue;
+  }
+}
+
+<span class="selector">body</span> {
+  <span class="comment">/* returns white */</span>
+  <span class="property">background</span>: <span class="function">@event.event-name</span>(black);
+}
+
+<span class="selector">button</span> {
+  <span class="comment">/* returns black */</span>
+  <span class="property">color</span>: <span class="function">@event.event-name</span>(white);
+  <span class="comment">/* returns blue */</span>
+  <span class="property">background</span>: <span class="function">@event.event-name</span>();
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3><i class="fas fa-random"></i> Combining with @random</h3>
+            <p>Generate dynamic values with @random and process with events:</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>style.fscss</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content">
+                <pre><span class="comment">/* Generate random values */</span>
+<span class="function">str</span>(val1, <span class="string">"@random([lightgreen, skyblue, white])"</span>)
+<span class="function">str</span>(val2, <span class="string">"@random([darkgreen, midnightblue, red])"</span>)
+
+<span class="comment">/* Create event to process values */</span>
+<span class="keyword">@event</span> <span class="function">myfunc</span>(e) {
+  <span class="keyword">if</span> e: val1 {
+    <span class="keyword">return</span>: val2;
+  } 
+  <span class="keyword">el-if</span> e: val2 {
+    <span class="keyword">return</span>: val1;
+  } 
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: white;
+  } 
+}
+
+<span class="comment">/* Apply dynamic styling */</span>
+<span class="selector">.box</span> {
+  <span class="property">background</span>: <span class="function">@event.myfunc</span>(val1);
+  <span class="property">border-color</span>: <span class="function">@event.myfunc</span>(val2);
+  <span class="property">color</span>: <span class="function">@event.myfunc</span>(yellow);
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3><i class="fas fa-calculator"></i> Numerical Calculations</h3>
+            <p>Perform math operations with the num() function and events:</p>
+            
+            <div class="code-container">
+              <div class="code-header">
+                <span>style.fscss</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="code-content">
+                <pre><span class="comment">/* Event with numerical logic */</span>
+<span class="keyword">@event</span> <span class="function">cal</span>(num) {
+  <span class="keyword">if</span> num: <span class="function">num</span>(40+20) {
+    <span class="keyword">return</span>: <span class="function">num</span>(40+20 / 2)<span class="value">px</span>;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: <span class="function">num</span>(60-40)<span class="value">px</span>;
+  }
+} 
+
+<span class="comment">/* Calculate and store result */</span>
+<span class="function">str</span>(calRes, <span class="string">"num(20+20)"</span>) 
+
+<span class="selector">button</span> {
+  <span class="comment">/* Returns 30px (60 / 2) */</span>
+  <span class="property">padding</span>: <span class="function">@event.cal</span>(60);
+  
+  <span class="comment">/* Returns 20px (60-40) */</span>
+  <span class="property">margin</span>: <span class="function">@event.cal</span>(calRes);
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-cogs"></i> Core Event Features</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-sitemap"></i> Conditional Logic</h4>
+          <ul>
+            <li><code>if</code> - Primary condition check</li>
+            <li><code>el-if</code> - Secondary condition checks</li>
+            <li><code>el</code> - Default fallback case</li>
+            <li>Supports complex nested conditions</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-random"></i> Dynamic Value Generation</h4>
+          <ul>
+            <li><code>@random([values])</code> - Random selection</li>
+            <li><code>num(expression)</code> - Mathematical operations</li>
+            <li>Combine with <code>str()</code> for stored values</li>
+            <li>Works with all CSS units (px, em, rem, %)</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-code-branch"></i> Function Composition</h4>
+          <ul>
+            <li>Events can call other events</li>
+            <li>Combine with variables for powerful logic</li>
+            <li>Accept parameters for flexible styling</li>
+            <li>Return values to CSS properties</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-lightbulb"></i> Practical Examples</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-adjust"></i> Dark/Light Mode Toggle</h4>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="keyword">@event</span> <span class="function">theme</span>(mode) {
+  <span class="keyword">if</span> mode: dark {
+    <span class="keyword">return</span>: #1a1a1a;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: #f8f8f8;
+  }
+}
+
+<span class="selector">body</span> {
+  <span class="property">background</span>: <span class="function">@event.theme</span>(dark);
+  <span class="property">color</span>: <span class="function">@event.theme</span>(light);
+}</pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-ruler-combined"></i> Responsive Spacing</h4>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="keyword">@event</span> <span class="function">spacing</span>(size) {
+  <span class="keyword">if</span> size: small {
+    <span class="keyword">return</span>: <span class="function">num</span>(8 * 1.25)<span class="value">px</span>;
+  }
+  <span class="keyword">el-if</span> size: medium {
+    <span class="keyword">return</span>: <span class="function">num</span>(16 * 1.25)<span class="value">px</span>;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: <span class="function">num</span>(24 * 1.25)<span class="value">px</span>;
+  }
+}
+
+<span class="selector">.container</span> {
+  <span class="property">padding</span>: <span class="function">@event.spacing</span>(medium);
+}</pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-palette"></i> Random Color Scheme</h4>
+          <div class="code-container">
+            <div class="code-content">
+              <pre><span class="function">str</span>(primary, <span class="string">"@random([#4361ee, #f72585, #7209b7])"</span>)
+<span class="function">str</span>(secondary, <span class="string">"@random([#4cc9f0, #4895ef, #560bad])"</span>)
+
+<span class="keyword">@event</span> <span class="function">color</span>(type) {
+  <span class="keyword">if</span> type: primary {
+    <span class="keyword">return</span>: primary;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: secondary;
+  }
+}
+
+<span class="selector">.card</span> {
+  <span class="property">background</span>: <span class="function">@event.color</span>(primary);
+  <span class="property">border-color</span>: <span class="function">@event.color</span>(secondary);
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="method-section">
+      <h2><i class="fas fa-exclamation-circle"></i> Important Notes</h2>
+      
+      <div class="warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <strong>Use Block Comments Only:</strong> In FSCSS, always use block comments (/* */) instead of inline comments (//) to avoid parsing errors with event functions.
+        </div>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-random"></i> @random Function</h4>
+          <p>Generates a random value from the provided array on each page load:</p>
+          <pre><span class="function">@random</span>([value1, value2, value3])</pre>
+          <ul>
+            <li>Works with any CSS values (colors, sizes, etc)</li>
+            <li>Perfect for generating dynamic themes</li>
+            <li>Combine with str() to store results</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-calculator"></i> num() Function</h4>
+          <p>Performs mathematical operations:</p>
+          <pre><span class="function">num</span>(expression)</pre>
+          <ul>
+            <li>Supports +, -, *, / operations</li>
+            <li>Can be combined with other values</li>
+            <li>Use str() to store calculations</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h4><i class="fas fa-bolt"></i> @event Function</h4>
+          <p>Creates reusable conditional logic blocks:</p>
+          <pre><span class="keyword">@event</span> name(param) {
+  <span class="comment">/* conditional logic */</span>
+}</pre>
+          <ul>
+            <li>Returns values to CSS properties</li>
+            <li>Accepts parameters for dynamic results</li>
+            <li>Can be nested and composed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const container = this.closest('.code-container');
+        const codeContent = container.querySelector('.code-content');
+        const text = codeContent.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
