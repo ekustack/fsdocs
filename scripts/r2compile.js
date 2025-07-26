@@ -819,6 +819,7 @@ async function processStyles() {
       const fscssBox = document.getElementById("fscssBox");
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
+    css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
         css = await procImp(css); // Await procImp
     css = procFun(css);
     css = procRan(css);
