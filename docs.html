@@ -478,7 +478,7 @@
       <li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
       <li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
       <li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
-      <li><a href="#ext"><i class="fas fa-i-cursor"> string extractor </i></a></li>
+      <li><a href="#ext"><i class="fas fa-i-cursor"></i> string extractor </a></li>
       <li><a href="#drops"><i class="fas fa-puzzle-piece"></i> Drops</a></li>
       <li><a href="#share"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
       <li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
@@ -1243,7 +1243,11 @@ The output automatically generates the @keyframes rule with an animation name de
   <div class="doc-subsection" id="array-syntax">
     <h3 class="subsection-title">🔧 Syntax Overview</h3>
     <div class="code-container">
-      <pre><code>@arr(name[ item1, item2, item3, ... ]);</code></pre>
+      <pre><code>@arr(name[ item1, item2, item3, ... ])</code></pre>
+    </div>
+    <h3>Or </h3>
+    <div class="code-container">
+      <pre><code>@arr name[ item1, item2, item3, ... ]</code></pre>
     </div>
     <ul class="usage-list">
       <li><strong><code>name</code>:</strong> The identifier used to reference the array.</li>
@@ -1492,7 +1496,54 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
     <li><strong>Be Precise:</strong> Miscounts in length may lead to unexpected results.</li>
   </ul>
 </section>
+<section id="num" class="section">
+  <h2><i class="fas fa-calculator"></i> <code>@num()</code> – Number Calculations</h2>
+  <p>
+    The <code>@num()</code> method in FSCSS allows inline numeric calculations directly in your stylesheets.
+    You can use it to perform arithmetic operations like <code>num(40 * 2)</code> → <code>80</code>, and append units like <code>num(4 * 6)px</code> → <code>24px</code>.
+  </p>
 
+  <h3>🛠️ Use Cases</h3>
+  <div class="example-grid">
+    <div>
+      <h5>1. Calculating max-height</h5>
+      <div class="code-container">
+        <pre><code>selector {
+  max-height: num(40 * 4); /* = 160 */
+}</code></pre>
+      </div>
+    </div>
+
+    <div>
+      <h5>2. Mix with @random for dynamic values</h5>
+      <div class="code-container">
+        <div class="code-header">
+          <span>fscss</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>textarea {
+  max-height: num(@random([40, 10, 5, 0]) + 50);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    <a href="#random"><strong>See the <code>@random</code> method →</strong></a>
+  </p>
+
+  <div class="summary">
+    <h4>📌 Summary</h4>
+    <ul>
+      <li><strong>Lightweight Calculation:</strong> Compute values inline using <code>+ - * /</code> operations</li>
+      <li><strong>Supports Units:</strong> Works with <code>px</code>, <code>%</code>, and other units</li>
+      <li><strong>Dynamic Pairing:</strong> Combine with <br><code>@random✅ <sup>100%</sup></code>, <br><code>@arr✅ <sup>100%</sup></code>,
+ <br><code>@fun values ✅ <sup>100%</sup></code>, <br> variables ✅ <sup>90%</sup><br>@event ✅ <sup>75%</sup></li>
+      <li><strong>Cleaner Code:</strong> No JavaScript needed for math</li>
+    </ul>
+  </div>
+</section>
+    
 <section id="fscss-dev" class="section">
   <h2>Detailed Exploration of FSCSS Style Sheet</h2>
 
@@ -1541,53 +1592,7 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
   </ul>
  
 </section>
-    <section id="num" class="section">
-  <h2><i class="fas fa-calculator"></i> <code>@num()</code> – Number Calculations</h2>
-  <p>
-    The <code>@num()</code> method in FSCSS allows inline numeric calculations directly in your stylesheets.
-    You can use it to perform arithmetic operations like <code>num(40 * 2)</code> → <code>80</code>, and append units like <code>num(4 * 6)px</code> → <code>24px</code>.
-  </p>
-
-  <h3>🛠️ Use Cases</h3>
-  <div class="example-grid">
-    <div>
-      <h5>1. Calculating max-height</h5>
-      <div class="code-container">
-        <pre><code>selector {
-  max-height: num(40 * 4); /* = 160 */
-}</code></pre>
-      </div>
-    </div>
-
-    <div>
-      <h5>2. Mix with @random for dynamic values</h5>
-      <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>textarea {
-  max-height: num(@random([40, 10, 5, 0]) + 50);
-}</code></pre>
-      </div>
-    </div>
-  </div>
-
-  <p>
-    <a href="#random"><strong>See the <code>@random</code> method →</strong></a>
-  </p>
-
-  <div class="summary">
-    <h4>📌 Summary</h4>
-    <ul>
-      <li><strong>Lightweight Calculation:</strong> Compute values inline using <code>+ - * /</code> operations</li>
-      <li><strong>Supports Units:</strong> Works with <code>px</code>, <code>%</code>, and other units</li>
-      <li><strong>Dynamic Pairing:</strong> Combine with <br><code>@random✅</code>, <br><code>@arr✅</code>,
- <br><code>@fun values ✅</code>, <br> (variables ❌)</li>
-      <li><strong>Cleaner Code:</strong> No JavaScript needed for math</li>
-    </ul>
-  </div>
-</section>
+    
     
     <section id="intro-fscss" class="section">
   <h2>Introducing FSCSS: Figured Shorthand Cascading Style Sheet</h2>
