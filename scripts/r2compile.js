@@ -372,7 +372,7 @@ function procExt(css) {
   });
 
   // Step 3: Replace @ext.varName references
-  tempCSS = tempCSS.replace(/@ext\.(\w+)/g, function(match, varName) {
+  tempCSS = tempCSS.replace(/@ext\.(\w+)\!?/g, function(match, varName) {
     if (extractedVariables[varName] === undefined) {
       addLogEntry(`fscss[@ext]Warning: Reference to undefined variable '@ext.${varName}'. It will not be replaced.`);
       return match;
@@ -434,7 +434,7 @@ function processSCSS(scssCode) {
     }
 
     // Regex to match variable usage (e.g., $primary-color or $primary-color!)
-    const varUsageRegex = /\$([a-zA-Z0-9_-]+)(!)?/g;
+    const varUsageRegex = /\$\/?([a-zA-Z0-9_-]+)(!)?/g;
 
     // Replace variable references in the current line
     line = line.replace(varUsageRegex, (match, varName) => {
@@ -688,7 +688,7 @@ addLogEntry(epmsg);
     return props;
   }
 
-  const funRegex = /@fun\(([\w\-\_\—0-9]+)\)\s*\{([\s\S]*?)\}\s*/g;
+  const funRegex = /@fun\(\s?([\w\-\_\—0-9]+)\)\s*\{([\s\S]*?)\}\s*/g;
   let funMatch;
   while ((funMatch = funRegex.exec(code)) !== null) {
     const varName = funMatch[1];
@@ -705,7 +705,7 @@ addLogEntry(evmsg);
   }
 
   let processedCode = code;
-  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)\.value/g, (match, varName, prop) => {
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)\.value\!?/g, (match, varName, prop) => {
     if (variables[varName] && variables[varName].props[prop]) {
       return variables[varName].props[prop];
     } else {
@@ -715,7 +715,7 @@ addLogEntry(evnmsg);
     }
     return match;
   });
-  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)/g, (match, varName, prop) => {
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)\.([\w\-\_\—0-9]+)\!?/g, (match, varName, prop) => {
     if (variables[varName] && variables[varName].props[prop]) {
       return `${prop}: ${variables[varName].props[prop]};`;
     } else {
@@ -725,7 +725,7 @@ addLogEntry(epnmsg);
     }
     return match;
   });
-  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)(?=[\s;}])/g, (match, varName) => {
+  processedCode = processedCode.replace(/@fun\.([\w\-\_\—0-9]+)(?=[\s;}])\!?/g, (match, varName) => {
     if (variables[varName]) {
       return variables[varName].raw;
     } else {
@@ -743,7 +743,7 @@ return processedCode;
 const arraysExfscss = {}; 
 function procArr(input) {
     for (const key in arraysExfscss) delete arraysExfscss[key];
-    const arrayRegex = /@arr\(([\w\-\_\—0-9]+)\[([^\]]+)\]\)/g;
+    const arrayRegex = /@arr\(?\s*([\w\-\_\—0-9]+)\[([^\]]+)\]\s?\)?/g;
     let match;
     while ((match = arrayRegex.exec(input)) !== null) {
         const arrayName = match[1];
@@ -783,7 +783,7 @@ addLogEntry(eomsg);
             return arraysExfscss[arrayName]?.[idx] || fullMatch;
         });
     return output
-        .replace(/@arr\(([\w\-\_\—0-9]+)\[([^\]]+)\]\)/g, '')
+        .replace(/@arr\(?\s*([\w\-\_\—0-9]+)\[([^\]]+)\]\s?\)?/g, '')
         .replace(/\n{3,}/g, '\n\n')
         .trim();
 }
@@ -987,6 +987,7 @@ async function processStyles() {
         let css = fscssBox.value;
     css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
         css = await procImp(css); // Await procImp
+    css = procExt(css);
     css = procVar(css);
     css = procFun(css);
     css = procRan(css);
@@ -995,7 +996,9 @@ async function processStyles() {
     css = transformCssValues(css);
     css = applyFscssTransformations(css);
     css = replaceRe(css);
+    css = procVar(css);
     css = procNum(css);
+    css = procEv(css);
     css=procExt(css);
     
         
