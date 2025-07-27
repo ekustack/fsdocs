@@ -986,7 +986,9 @@ async function processStyles() {
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
     css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
-        css = await procImp(css); // Await procImp
+        css = await procImp(css);
+    
+    css = replaceRe(css);
     css = procExt(css);
     css = procVar(css);
     css = procFun(css);
@@ -994,12 +996,11 @@ async function processStyles() {
     css = procArr(css);
     css = procEv(css);
     css = transformCssValues(css);
-    css = applyFscssTransformations(css);
     css = replaceRe(css);
-    css = procVar(css);
     css = procNum(css);
-    css = procEv(css);
     css=procExt(css);
+    css = applyFscssTransformations(css);
+
     
         
         
