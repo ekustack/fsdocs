@@ -1,31 +1,254 @@
-    // Store for log messages
-    const logEntries = [];
-    
-    // DOM elements
+    // DOM Elements
+    const fscssBox = document.getElementById('fscssBox');
+    const cssBox = document.getElementById('cssBox');
+    const runBtn = document.getElementById('run');
+    const copyBtn = document.getElementById('copy-btn');
+    const downloadBtn = document.getElementById('download');
+    const downloadFscssBtn = document.getElementById('download-fscss');
+    const clearLogBtn = document.getElementById('clear-log-btn');
+    const uploadBtn = document.getElementById('upload-btn');
+    const uploadInput = document.getElementById('upload');
+    const fileNameInput = document.getElementById('fileName');
     const logContainer = document.getElementById('log-container');
     const errorCount = document.getElementById('error-count');
+    const themeToggle = document.getElementById('theme-toggle');
+    const formatBtn = document.getElementById('format-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const autocompleteContainer = document.getElementById('autocomplete');
+    const fontSizeSelect = document.getElementById('font-size');
+    const tabSizeSelect = document.getElementById('tab-size');
+    const autoCompleteSelect = document.getElementById('auto-complete');
+    const errorReportingSelect = document.getElementById('error-reporting');
     
-    // Function to add log entry
-    function addLogEntry(message) {
-      const entry = document.createElement('div');
-      entry.className = 'log-entry';
-      entry.textContent = message;
-      logContainer.prepend(entry);
+    // FSCSS Keywords for autocomplete
+    const fscssKeywords = [
+      'str(', 're(', 'store(', 'rpt(', 'copy(', 'mx(', 'mxs(', 
+      '%1', '%2', '%3', '%4', '%5', '%6', '%i',
+      '$(@keyframes', '$(',
+      '-*-', '$var:', '$var!',
+      '@event', '@random', 'num(', 'if', 'el-if', 'el', 'return'
+    ];
+    
+    // Theme management
+    let isDarkMode = localStorage.getItem('darkMode') === 'true';
+    
+    function applyTheme() {
+      if (isDarkMode) {
+        document.body.classList.add('dark-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+      }
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      localStorage.setItem('darkMode', isDarkMode);
+      applyTheme();
+    });
+    
+    // Apply saved theme
+    applyTheme();
+    
+    // Settings
+    fontSizeSelect.value = localStorage.getItem('fontSize') || '14';
+    tabSizeSelect.value = localStorage.getItem('tabSize') || '2';
+    autoCompleteSelect.value = localStorage.getItem('autoComplete') || 'on';
+    errorReportingSelect.value = localStorage.getItem('errorReporting') || 'verbose';
+    
+    fontSizeSelect.addEventListener('change', () => {
+      fscssBox.style.fontSize = `${fontSizeSelect.value}px`;
+      cssBox.style.fontSize = `${fontSizeSelect.value}px`;
+      localStorage.setItem('fontSize', fontSizeSelect.value);
+    });
+    
+    tabSizeSelect.addEventListener('change', () => {
+      fscssBox.style.tabSize = tabSizeSelect.value;
+      localStorage.setItem('tabSize', tabSizeSelect.value);
+    });
+    
+    autoCompleteSelect.addEventListener('change', () => {
+      localStorage.setItem('autoComplete', autoCompleteSelect.value);
+    });
+    
+    errorReportingSelect.addEventListener('change', () => {
+      localStorage.setItem('errorReporting', errorReportingSelect.value);
+    });
+    
+    // Apply initial settings
+    fscssBox.style.fontSize = `${fontSizeSelect.value}px`;
+    cssBox.style.fontSize = `${fontSizeSelect.value}px`;
+    fscssBox.style.tabSize = tabSizeSelect.value;
+    
+    // Log management
+    function addLogEntry(message, type = 'error') {
+      const logEntry = document.createElement('div');
+      logEntry.className = `log-entry ${type}`;
+      logEntry.textContent = message;
+      logContainer.appendChild(logEntry);
+      
+      // Scroll to bottom
+      logContainer.scrollTop = logContainer.scrollHeight;
       
       // Update error count
-      logEntries.push(message);
-      errorCount.textContent = logEntries.length;
+      if (type === 'error') {
+        const count = parseInt(errorCount.textContent);
+        errorCount.textContent = count + 1;
+      }
     }
     
-    // Clear log function
     function clearLog() {
-      logContainer.innerHTML = '<div class="log-entry">Log cleared. No errors to display.</div>';
-      logEntries.length = 0;
+      logContainer.innerHTML = '';
       errorCount.textContent = '0';
+      addLogEntry('Log cleared.', 'success');
     }
     
-    // Syntax highlighting function
-    function highlightCSS(css) {
+    // Autocomplete functionality
+    let currentAutocompleteItems = [];
+    let selectedAutocompleteIndex = -1;
+    
+    function showAutocomplete(str, cursorPos) {
+      if (autoCompleteSelect.value === 'off') return;
+      
+      const filtered = fscssKeywords.filter(keyword => 
+        keyword.toLowerCase().includes(str.toLowerCase())
+      );
+      
+      if (filtered.length === 0) {
+        autocompleteContainer.style.display = 'none';
+        return;
+      }
+      
+      currentAutocompleteItems = filtered;
+      selectedAutocompleteIndex = 0;
+      
+      // Position autocomplete under cursor
+      const textareaRect = fscssBox.getBoundingClientRect();
+      const lineHeight = parseInt(getComputedStyle(fscssBox).lineHeight);
+      const lines = fscssBox.value.substr(0, cursorPos).split('\n');
+      const currentLine = lines[lines.length - 1];
+      const currentLineIndex = lines.length - 1;
+      
+      autocompleteContainer.innerHTML = '';
+      filtered.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'autocomplete-item';
+        if (index === 0) div.classList.add('active');
+        div.textContent = item;
+        div.addEventListener('click', () => {
+          selectAutocompleteItem(index);
+        });
+        autocompleteContainer.appendChild(div);
+      });
+      
+      autocompleteContainer.style.display = 'block';
+      autocompleteContainer.style.top = `${textareaRect.top + (currentLineIndex + 1) * lineHeight + 5}px`;
+      autocompleteContainer.style.left = `${textareaRect.left + currentLine.length * 8}px`;
+    }
+    
+    function selectAutocompleteItem(index) {
+      if (index < 0 || index >= currentAutocompleteItems.length) return;
+      
+      // Get current cursor position
+      const start = fscssBox.selectionStart;
+      const end = fscssBox.selectionEnd;
+      const value = fscssBox.value;
+      
+      // Find the start of the current word
+      let wordStart = start;
+      while (wordStart > 0 && !/\s/.test(value[wordStart - 1])) {
+        wordStart--;
+      }
+      
+      // Replace the current word with the autocomplete item
+      fscssBox.value = value.substring(0, wordStart) + 
+                      currentAutocompleteItems[index] + 
+                      value.substring(end);
+      
+      // Set cursor position after the inserted text
+      fscssBox.selectionStart = fscssBox.selectionEnd = wordStart + currentAutocompleteItems[index].length;
+      
+      // Hide autocomplete
+      autocompleteContainer.style.display = 'none';
+      fscssBox.focus();
+    }
+    
+    fscssBox.addEventListener('input', (e) => {
+      autocompleteContainer.style.display = 'none';
+    });
+    
+    fscssBox.addEventListener('keydown', (e) => {
+      if (autocompleteContainer.style.display === 'block') {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          selectedAutocompleteIndex = Math.min(selectedAutocompleteIndex + 1, currentAutocompleteItems.length - 1);
+          updateAutocompleteSelection();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          selectedAutocompleteIndex = Math.max(selectedAutocompleteIndex - 1, 0);
+          updateAutocompleteSelection();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          selectAutocompleteItem(selectedAutocompleteIndex);
+        } else if (e.key === 'Escape') {
+          autocompleteContainer.style.display = 'none';
+        }
+      } else if (e.key === '.' || e.key === '$' || e.key === '@' || e.key === '%') {
+        const cursorPos = fscssBox.selectionStart;
+        const value = fscssBox.value;
+        
+        // Get current word
+        let wordStart = cursorPos - 1;
+        while (wordStart > 0 && !/\s/.test(value[wordStart - 1])) {
+          wordStart--;
+        }
+        
+        const currentWord = value.substring(wordStart, cursorPos);
+        showAutocomplete(currentWord, cursorPos);
+      }
+    });
+    
+    function updateAutocompleteSelection() {
+      const items = autocompleteContainer.querySelectorAll('.autocomplete-item');
+      items.forEach((item, index) => {
+        if (index === selectedAutocompleteIndex) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+    
+    // Format code
+    formatBtn.addEventListener('click', () => {
+      const formatted = fscssBox.value
+        .replace(/\{/g, ' {\n')
+        .replace(/\}/g, '\n}\n')
+        .replace(/;/g, ';\n')
+        .replace(/\n\s*\n/g, '\n');
+      
+      fscssBox.value = formatted;
+      addLogEntry('Code formatted successfully.', 'success');
+    });
+    
+    // Save session
+    saveBtn.addEventListener('click', () => {
+      localStorage.setItem('fscssCode', fscssBox.value);
+      addLogEntry('Session saved successfully.', 'success');
+    });
+    
+    // Load saved session
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedCode = localStorage.getItem('fscssCode');
+      if (savedCode) {
+        fscssBox.value = savedCode;
+        addLogEntry('Previous session restored.', 'success');
+      }
+    });
+    
+    // Compile function (simplified for demo)
+function highlightCSS(css) {
       // Simple highlighting rules
       const rules = [
         // Comments
@@ -1020,68 +1243,80 @@ async function processStyles() {
     }
 
     // Event listeners
-    document.getElementById("run").addEventListener("click", e => {
+    runBtn.addEventListener("click", e => {
       (async () => { // Use an IIFE to await the top-level call
   try {
     await processStyles();
-      // This can run after styles are processed
+addLogEntry('Compilation successful!', 'success');
   } catch (error) {
     addLogEntry('Error processing styles or draw elements:', error);
   }
 })();
     });
-
-    document.getElementById("upload").addEventListener("change", function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const fvalue = e.target.result;
-          document.getElementById("fscssBox").value = fvalue;
-          addLogEntry(`File loaded: ${file.name}`);
-        };
-        reader.readAsText(file);
-      }
-    });
-
-    document.getElementById('download').addEventListener('click', function () {
-        const textContent = document.getElementById("cssBox").textContent;
-        const blob = new Blob([textContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        const fileName = document.getElementById("fileName").value || "download";
-        a.download = `${fileName}.css`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        addLogEntry(`Downloaded: ${fileName}.css`);
-    });
     
-    document.getElementById('clear-log-btn').addEventListener('click', clearLog);
     
-    document.getElementById('copy-btn').addEventListener('click', function() {
-      const cssBox = document.getElementById("cssBox");
-      const text = cssBox.textContent;
-      navigator.clipboard.writeText(text)
+    
+    // Copy CSS
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(cssBox.textContent)
         .then(() => {
-          addLogEntry('CSS copied to clipboard!');
+          addLogEntry('CSS copied to clipboard!', 'success');
         })
         .catch(err => {
-          addLogEntry('Failed to copy CSS: ' + err);
+          addLogEntry('Failed to copy CSS: ' + err, 'error');
         });
     });
     
-    document.getElementById('upload-btn').addEventListener('click', function() {
-      document.getElementById('upload').click();
+    // Download CSS
+    downloadBtn.addEventListener('click', () => {
+      const fileName = fileNameInput.value || 'stylesheet';
+      const blob = new Blob([cssBox.textContent], { type: 'text/css' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}.css`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      addLogEntry(`CSS downloaded as ${fileName}.css`, 'success');
     });
     
-    // Initialize with sample CSS
-    window.onload = function() {
-      // Auto-run with the sample CSS
-      setTimeout(() => {
-        document.getElementById("run").click();
-      }, 500);
-    };
+    // Download FSCSS
+    downloadFscssBtn.addEventListener('click', () => {
+      const fileName = fileNameInput.value || 'fscss-code';
+      const blob = new Blob([fscssBox.value], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}.fscss`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      addLogEntry(`FSCSS downloaded as ${fileName}.fscss`, 'success');
+    });
+    
+    // Upload FSCSS
+    uploadBtn.addEventListener('click', () => {
+      uploadInput.click();
+    });
+    
+    uploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        fscssBox.value = event.target.result;
+        addLogEntry(`File "${file.name}" loaded successfully.`, 'success');
+      };
+      reader.readAsText(file);
+    });
+    
+    // Clear log
+    clearLogBtn.addEventListener('click', clearLog);
