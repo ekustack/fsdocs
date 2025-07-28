@@ -258,7 +258,7 @@ function highlightCSS(css) {
         // Properties
         { regex: /([a-zA-Z-]+)(?=\s*:)/g, klass: 'property' },
         // Values
-        { regex: /:\s*([^;]+);/g, klass: 'value', replace: ': $1;' },
+        { regex: /:\s*([^;]+);/g, klass: 'value', replace: ':$1;' },
         // Braces
         { regex: /([{}])/g, klass: 'brace' },
         // At-rules
