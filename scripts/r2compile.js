@@ -738,14 +738,14 @@ function procEv(css) {
     const blockStart = funcMatch.index + funcMatch[0].length - 1;
 
     if (blockStart >= css.length) {
-      console.warn(`fscss[parsing] Warning: Unexpected end of CSS after @event ${funcName} definition.`);
+      addLogEntry(`fscss[parsing] Warning: Unexpected end of CSS after @event ${funcName} definition.`);
       continue;
     }
 
     const fullBlock = extractBlock(css, blockStart);
 
     if (fullBlock.length === 0 || fullBlock[fullBlock.length - 1] !== '}') {
-      console.warn(`fscss[parsing] Warning: Malformed block for @event '${funcName}'. Missing closing '}'.`);
+      addLogEntry(`fscss[parsing] Warning: Malformed block for @event '${funcName}'. Missing closing '}'.`);
       // Attempt to recover by assuming the block ends here, or skip this function
       continue;
     }
@@ -756,7 +756,7 @@ function procEv(css) {
     const args = argsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== ''); // Filter out empty strings from args
 
     if (functionMap[funcName]) {
-        console.warn(`fscss[definition] Warning: Duplicate @event definition for '${funcName}'. The last one will be used.`);
+        addLogEntry(`fscss[definition] Warning: Duplicate @event definition for '${funcName}'. The last one will be used.`);
     }
     functionMap[funcName] = { args, conditionBlocks };
 
@@ -774,7 +774,7 @@ function procEv(css) {
   modifiedCSS = modifiedCSS.replace(/@event\.([\w-]+)\(([^)]*)\)/g, (match, funcName, argValuesStr) => {
     const func = functionMap[funcName];
     if (!func) {
-      console.warn(`fscss[call] Warning: @event function '${funcName}' not found during call.`);
+      addLogEntry(`fscss[call] Warning: @event function '${funcName}' not found during call.`);
       return match;
     }
 
@@ -782,7 +782,7 @@ function procEv(css) {
     const argValues = argValuesStr.split(',').map(v => v.trim()).filter(v => v !== ''); // Filter out empty strings from arg values
 
     if (argValues.length !== func.args.length) {
-      console.warn(`fscss[call] Warning: Argument count mismatch for @event '${funcName}'. Expected ${func.args.length}, got ${argValues.length}.`);
+      addLogEntry(`fscss[call] Warning: Argument count mismatch for @event '${funcName}'. Expected ${func.args.length}, got ${argValues.length}.`);
       // Continue processing, but the logic might not work as expected
     }
 
@@ -790,7 +790,7 @@ function procEv(css) {
       if (argValues[i] !== undefined) { // Assign only if an argument value exists
         context[argName] = argValues[i];
       } else {
-        console.warn(`fscss[call] Warning: Missing value for argument '${argName}' in @event '${funcName}' call.`);
+        addLogEntry(`fscss[call] Warning: Missing value for argument '${argName}' in @event '${funcName}' call.`);
       }
     });
 
@@ -822,19 +822,19 @@ function procEv(css) {
         const conditions = block.condition.split(',').map(c => c.trim()).filter(c => c !== ''); // Filter out empty conditions
         
         if (conditions.length === 0) {
-            console.warn(`fscss[logic] Warning: Empty condition in '${block.type}' block for @event '${funcName}'. This block will always be evaluated if reached.`);
+            addLogEntry(`fscss[logic] Warning: Empty condition in '${block.type}' block for @event '${funcName}'. This block will always be evaluated if reached.`);
             // An empty condition means it's effectively true if it's an 'if' or 'el-if'
             matched = true;
         } else {
             matched = conditions.every(cond => {
                 const parts = cond.split(':').map(s => s.trim());
                 if (parts.length !== 2) {
-                    console.warn(`fscss[logic] Warning: Malformed condition '${cond}' in @event '${funcName}'. Expected 'variable:value'.`);
+                    addLogEntry(`fscss[logic] Warning: Malformed condition '${cond}' in @event '${funcName}'. Expected 'variable:value'.`);
                     return false; // Treat malformed condition as false
                 }
                 const [varName, expected] = parts;
                 if (!(varName in context)) {
-                    console.warn(`fscss[logic] Warning: Condition variable '${varName}' not provided in @event '${funcName}' context. Treating as false.`);
+                    addLogEntry(`fscss[logic] Warning: Condition variable '${varName}' not provided in @event '${funcName}' context. Treating as false.`);
                     return false;
                 }
                 return context[varName] === expected;
@@ -847,7 +847,7 @@ function procEv(css) {
         if (assignMatch) {
           result = assignMatch[2].trim();
         } else {
-          console.warn(`fscss[logic] Warning: No valid CSS property assignment found in matched block for @event '${funcName}'. Block content: '${block.block}'.`);
+          addLogEntry(`fscss[logic] Warning: No valid CSS property assignment found in matched block for @event '${funcName}'. Block content: '${block.block}'.`);
         }
         // If an 'if' or 'el-if' block matched, we should stop checking further 'el-if' or 'el' blocks.
         // If an 'el' block matched, we also stop.
@@ -858,7 +858,7 @@ function procEv(css) {
     if (!result && func.conditionBlocks.length > 0 && !matched) {
         console.warn(`fscss[call] Warning: No condition matched for @event '${funcName}' with provided arguments. Returning original call string.`);
     } else if (!result && func.conditionBlocks.length === 0) {
-        console.warn(`fscss[definition] Warning: @event '${funcName}' has no condition blocks defined. Returning original call string.`);
+        addLogEntry(`fscss[definition] Warning: @event '${funcName}' has no condition blocks defined. Returning original call string.`);
     }
 
     return result || match;
@@ -1014,51 +1014,64 @@ addLogEntry(efmsg);
 return processedCode;
 }
 const arraysExfscss = {}; 
-function procArr(input) {
-    for (const key in arraysExfscss) delete arraysExfscss[key];
-    const arrayRegex = /@arr\(?\s*([\w\-\_\—0-9]+)\[([^\]]+)\]\s?\)?/g;
-    let match;
-    while ((match = arrayRegex.exec(input)) !== null) {
-        const arrayName = match[1];
-        const arrayValues = match[2].split(',').map(item => item.trim());
-        arraysExfscss[arrayName] = arrayValues;
-    }
-    let output = input.replace(/([^{}]*?)\{([^}]*?@arr\.([\w\-\_\—0-9]+)\[][^}]*?)\}/g,
-        (fullMatch, selector, content, arrayName) => {
-            if (!arraysExfscss[arrayName]) {
-                const eamsg=(`fscss[@arr] Warning: Array '${arrayName}' not found for loop processing.`);
-                console.warn(eamsg);
-addLogEntry(eamsg);
-                return fullMatch;
-            }
 
-            return arraysExfscss[arrayName].map((value, index) => {
-                const replacedSelector = selector.replace(`@arr.${arrayName}[]`, index + 1);
-                const replacedContent = content.replace(
-                    new RegExp(`@arr\\.${arrayName}\\[\\]`, 'g'),
-                    value
-                );
-                return `${replacedSelector} {${replacedContent}}`;
-            }).join('\n');
-        });
-    output = output.replace(/@arr\.([\w\-\_\—0-9]+)\[(\d+)\]/g,
-        (fullMatch, arrayName, index) => {
-            const idx = parseInt(index) - 1;
-            if (!arraysExfscss[arrayName]) {
-                const evnmsg=(`fscss[@arr] Warning: Array '${arrayName}' not found for specific accessor.`);
-                console.warn(evnmsg);
-addLogEntry(evnmsg);
-            } else if (arraysExfscss[arrayName]?.[idx] === undefined) {
-                const eomsg=(`fscss[@arr] Warning: Index ${index} out of bounds for array '${arrayName}'.`);
-                console.warn(eomsg);
-addLogEntry(eomsg);
-            }
-            return arraysExfscss[arrayName]?.[idx] || fullMatch;
-        });
-    return output
-        .replace(/@arr\(?\s*([\w\-\_\—0-9]+)\[([^\]]+)\]\s?\)?/g, '')
-        .replace(/\n{3,}/g, '\n\n')
-        .trim();
+function procArr(input) {
+  // 1. Parse array declarations
+  const arrayDeclarationRegex = /@arr\(?\s*([\w\-_—0-9]+)\)?\[([^\]]+)\]\)?/g;
+  let match;
+  while ((match = arrayDeclarationRegex.exec(input)) !== null) {
+    const arrayName = match[1];
+    const arrayValues = match[2].split(',').map(item => item.trim());
+    arraysExfscss[arrayName] = arrayValues;
+  }
+  
+  let output = input;
+  
+  // 2. Process loops using @arr.name[]
+  output = output.replace(/([^\{\}]+)\{\s*([^}]*@arr\.([\w\-_—0-9]+)\[\][^}]*)\s*\}/g,
+    (fullMatch, selector, content, arrayName) => {
+      const arr = arraysExfscss[arrayName];
+      if (!arr) {
+        addLogEntry(`fscss[@arr] Warning: Array '${arrayName}' not found for loop processing.`);
+        return fullMatch;
+      }
+      
+      return arr.map((value, index) => {
+        const sel = selector.replace(new RegExp(`@arr\\.${arrayName}\\[\\]`, 'g'), index + 1);
+        const body = content.replace(new RegExp(`@arr\\.${arrayName}\\[\\]`, 'g'), value);
+        return `${sel.trim()} {\n  ${body.trim()}\n}`;
+      }).join('\n');
+    });
+  
+  // 3. Specific array access: @arr.name[index]
+  output = output.replace(/@arr\.([\w\-_—0-9]+)\[(\d+)\]/g,
+    (fullMatch, arrayName, index) => {
+      const idx = parseInt(index) - 1;
+      const arr = arraysExfscss[arrayName];
+      if (!arr) {
+        addLogEntry(`fscss[@arr] Warning: Array '${arrayName}' not found.`);
+        return fullMatch;
+      }
+      return arr[idx] !== undefined ? arr[idx] : fullMatch;
+    });
+  
+  // 4. Direct array access: @arr.name or @arr.name(separator)
+  output = output.replace(/@arr\.([\w\-_—0-9]+)(?:\(([^)]*)\))?/g,
+    (fullMatch, arrayName, separator) => {
+      const arr = arraysExfscss[arrayName];
+      if (!arr) {
+        addLogEntry(`fscss[@arr] Warning: Array '${arrayName}' not found for direct access.`);
+        return fullMatch;
+      }
+      const sep = (separator !== undefined && separator !== "") ? separator : ' ';
+      return arr.join(sep);
+    });
+  
+  // 5. Clean up array declarations
+  return output
+    .replace(arrayDeclarationRegex, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
     function procP(text) {
