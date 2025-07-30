@@ -485,10 +485,10 @@
       <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
       <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
       <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
-      <li><a href="#arr"> Array method</a></li>
+      <li><a href="#array"><i class="fas fa-layer-group"></i> Array method</a></li>
       <li><a href="#random">🎲 Random function</a></li>
       <li><a href="#num">➕ number calculation</a></li>
-      <li><a href="/docs/import-fscss.html"> @import method</a></li>
+      <li><a href="/docs/import-fscss.html">🔗 @import method</a></li>
       <li><a href="/docs/fscss-event-function.html"> @event function</a></li>
     </ul>
     
@@ -1233,9 +1233,103 @@ The output automatically generates the @keyframes rule with an animation name de
   </div>
 </section>
     <a href="https://www.profitableratecpm.com/ctfihpju5t?key=050c14db97a69b406f3592f7284346ad" target="_blank"><div id="href44crc"><p><strong>AD</strong></p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHz9-mMPc6iUgp6rwNgwaikriLDyKQR89SGDgZIYPU4eWCW17rj5wJ7pad&s=10" onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYbsqIgHJyvvtSVQ1c_RDGPzo5j0LMz0vRtw&s';" id="onlImg199900789ffdd3" /></div></a>
+
+<section id="array" class="section">
+  <h2><i class="fas fa-layer-group"></i> <code>@arr</code> – Array Declarations & Methods</h2>
+  <p>
+    FSCSS allows you to declare and use arrays with <code>@arr</code>, making it easy to apply repeated or sequential values across your styles. Arrays can store colors, spacings, fonts, or any set of reusable values.
+  </p>
+
+  <h3>🔧 Syntax</h3>
+  <div class="code-container">
+    <pre><code>@arr arrayName [value1, value2, value3]</code></pre>
+  </div>
+  <p>
+    - <strong>arrayName</strong>: Identifier for the array.<br>
+    - <strong>[]</strong>: Iterates array values, often used in <code>:nth-child()</code>.<br>
+    - <strong>()</strong>: Expands all values in the array, optionally with a custom prefix/suffix.
+  </p>
+
+  <h3>📦 Examples</h3>
+  <ul class="example-grid">
+    <li>
+      <h5>🎨 Define reusable values</h5>
+      <div class="code-container">
+        <pre><code>@arr colors [red, green, blue]
+@arr margins [10px, 20px, 30px]
+@arr fonts [Arial, 'Helvetica Neue', sans-serif]</code></pre>
+      </div>
+      <p>
+        Simple declarations of color, spacing, and font-family arrays.
+      </p>
+    </li>
+
+    <li>
+      <h5>🔁 Apply colors sequentially to elements</h5>
+      <div class="code-container">
+        <pre><code>&lt;ul&gt;
+  &lt;li&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+<style>
+ul :nth-child(@arr.colors[])::after {
+  content: "color: @arr.colors[];";
+}
+</style></code></pre>
+      </div>
+      <p>
+        Iterates the <code>colors</code> array for each list item. Outputs: <code>color: red;</code>, <code>color: green;</code>, etc.
+      </p>
+    </li>
+
+    <li>
+      <h5>🖋️ Combine all fonts into a single string</h5>
+      <div class="code-container">
+        <pre><code>&lt;p&gt;&lt;/p&gt;
+
+<style>
+p::after {
+  content: "__font-family: @arr.fonts(); __font-family: );";
+}
+</style></code></pre>
+      </div>
+      <p>
+        Expands all <code>fonts</code> values into a single string. Great for fallbacks or display references.
+      </p>
+    </li>
+
+    <li>
+      <h5>📏 Use margins dynamically</h5>
+      <div class="code-container">
+        <pre><code>&lt;div&gt;&lt;code&gt;&lt;/code&gt;&lt;/div&gt;
+
+<style>
+div code::after {
+  content: "margin: @arr.margins(margin: );";
+}
+</style></code></pre>
+      </div>
+      <p>
+        Concatenates all <code>margins</code> with a custom prefix. Output: <code>margin: 10px; margin: 20px; margin: 30px;</code>
+      </p>
+    </li>
+  </ul>
+
+  <div class="summary">
+    <h4>✨ Summary</h4>
+    <ul>
+      <li><strong>Declare Once:</strong> Store reusable lists with <code>@arr</code>.</li>
+      <li><strong>Iterate Cleanly:</strong> Use <code>[]</code> to loop through values for selectors like <code>:nth-child()</code>.</li>
+      <li><strong>Expand Flexibly:</strong> Use <code>()</code> to merge all values in one go—great for content, font stacks, or responsive units.</li>
+      <li><strong>Powerful CSS Automation:</strong> Simplifies repetition and styling patterns in just a few lines.</li>
+    </ul>
+  </div>
+</section>
     
     <section id="arr" class="section">
-  <h2 class="section-title">Array <code>@arr()</code> Method</h2>
+  <h2 class="section-title">Array <code>@arr()</code> Method Syntax</h2>
   <p class="section-intro">
     The <code>@arr()</code> directive is a powerful array-based syntax for reusable value lists such as delays, colors, or dimensions. It's ideal for staggered animations, theming, and scalable utilities.
   </p>
