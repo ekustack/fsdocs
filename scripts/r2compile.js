@@ -1117,7 +1117,43 @@ function procArr(input) {
       return str.replace(/^['"]|['"]$/g, '').repeat(Math.max(0, parseInt(count)));
     }
 
-    // Processes recursive CSS patterns (re() function)
+function procExC(css) {
+  const regex = /exec\((_log|_error|_warn|_info),\s*(?:"([^"]*)"|'([^']*)'|([^)]*))\)/g;
+  let jsCode = '';
+  let match;
+  
+  
+  const cleanedCSS = css.replace(regex, (full, method, dQ, sQ, raw) => {
+    const arg = dQ || sQ || raw;
+    
+    if (!['_log', '_error', '_warn', '_info'].includes(method)) {
+      addLogEntry(`fscss[exec(console)]: Unsupported method: ${method}`);
+      return ''; // strip it from CSS
+    }
+    
+    if (!arg) {
+      addLogEntry(`fscss[exec(console)]: Empty argument for method: ${method}`);
+      return ''; // strip it from CSS
+    }
+    
+    jsCode += `addLogEntry("${arg.replace(/"/g, '\\"')}");\n`;
+    return ''; 
+  });
+  
+  // Run console code safely
+  if (jsCode) {
+    try {
+      new Function(jsCode)();
+    } catch (e) {
+      addLogEntry("fscss[exec(console)]: Error executing transformed code:", e);
+    }
+  }
+  
+  // Return CSS without exec(...)
+  return cleanedCSS;
+}
+
+    
     function replaceRe(css) {
       // Enhanced regex to capture re() declarations with flexibility
      const reRegex = /(?:store|str|re)\(\s*([^:,]+)\s*[,:]\s*(?:"([^"]*)"|'([^']*)')\s*\)/gi;
@@ -1272,29 +1308,26 @@ async function processStyles() {
       const cssBox = document.getElementById("cssBox");
         let css = fscssBox.value;
     css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
-    css = initlibraries(css);
-        css = await procImp(css);
+    if(!css.includes("exec.obj.block(all)")){
+    if(!css.includes("exec.obj.block(init lab)"))css = initlibraries(css);
+    if(!css.includes("exec.obj.block(f import)"))css = await procImp(css); 
+    if(!css.includes("exec.obj.block(store:before)")||!css.includes("exec.obj.block(store)"))css = replaceRe(css);
+    if(!css.includes("exec.obj.block(ext:before)")||!css.includes("exec.obj.block(ext)"))css = procExt(css);
+    if(!css.includes("exec.obj.block(f var)"))css = procVar(css);
     
-    css = replaceRe(css);
-    css = procExt(css);
-    css = procVar(css);
-    css = procFun(css);
-    css = procArr(css);
-    css = procRan(css);
-    css = procEv(css);
-    css = transformCssValues(css);
-    css = replaceRe(css);
-    css = procNum(css);
-    css=procExt(css);
-    css = applyFscssTransformations(css);
-
+    if(!css.includes("exec.obj.block(fun)"))css = procFun(css);
     
-        
-        
-        // Flatten nested CSS with error logging
-        
-        
-        // Apply syntax highlighting
+    if(!css.includes("exec.obj.block(arr)"))css = procArr(css);
+    if(!css.includes("exec.obj.block(event)"))css = procEv(css);
+    if(!css.includes("exec.obj.block(random)"))css = procRan(css);
+    if(!css.includes("exec.obj.block(copy)"))css = transformCssValues(css);
+    if(!css.includes("exec.obj.block(store:after)")||!css.includes("exec.obj.block(store)"))css = replaceRe(css);
+    if(!css.includes("exec.obj.block(num)"))css = procNum(css);
+    if(!css.includes("exec.obj.block(ext:after)")||!css.includes("exec.obj.block(ext)"))css = procExt(css);
+     if(!css.includes("exec.obj.block(t group)"))css = applyFscssTransformations(css);
+    if(!css.includes("exec.obj.block(debug)"))css = procExC(css);
+    } 
+    css=css.replace(/exec\.obj\.block\([^\)\n]*\)\;?/g, "");
         const highlighted = highlightCSS(css);
         cssBox.innerHTML = highlighted;
     }
@@ -1313,7 +1346,7 @@ addLogEntry('Compilation successful!', 'success');
     
     
     
-    // Copy CSS
+    
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(cssBox.textContent)
         .then(() => {
