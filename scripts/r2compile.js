@@ -1143,7 +1143,7 @@ function procExC(css) {
       return ''; // strip it from CSS
     }
     
-    jsCode += `addLogEntry("${arg.replace(/"/g, '\\"')}", "${method.slide(1).replace(/warn/g, 'warning').replace(/log|info/g, 'success').replace(/error/g, 'error')}");\n`;
+    jsCode += `addLogEntry("${arg.replace(/"/g, '\\"')}", "${method.slice(1).replace(/warn/g, 'warning').replace(/(?:log|info)/g, 'success').replace(/error/g, 'error')}");\n`;
     return ''; 
   });
   
