@@ -83,11 +83,15 @@
 
     .controls {
       display: flex;
-      justify-content: center;
+      justify-content: ;
       gap: 10px;
       padding: 10px;
       background: #fff;
       border-top: 1px solid var(--light-gray);
+      max-width: 99vw;
+      overlay-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
     }
     .btn {
       background: var(--primary);
@@ -160,6 +164,28 @@
   display: block;
   margin-bottom: 3px;
 }
+.controls label.btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.controls input[type="file"] {
+  display: none;
+}
+.method-select {
+  padding: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--light-gray);
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.method-select:hover {
+  border-color: var(--primary);
+}
+
   </style>
 </head>
 <body>
@@ -191,11 +217,43 @@
 
   <!-- Controls -->
   <div class="controls">
-    <button class="btn btn-success" id="run"><i class="fas fa-play"></i> Compile</button>
-    <button class="btn btn-secondary" id="format-btn"><i class="fas fa-indent"></i> Format</button>
-    <button class="btn" id="save-btn"><i class="fas fa-save"></i> Save</button>
-    <button class="btn btn-danger" id="clear-log-btn"><i class="fas fa-trash"></i> Clear Log</button>
-  </div>
+  <button class="btn btn-success" id="run"><i class="fas fa-play"></i> Compile</button>
+  <select id="fscss-methods" class="method-select">
+  <option value="">Insert Method...</option>
+  <option value="@import(exec())">import(exec())</option>
+  <option value="@event sample(e){
+  if e>=8{ 
+   return: num(8*2);
+   }
+  }">@event</option>
+  <option value="copy(selector, times)">copy()</option>
+  <option value="exec(_log, 'Hello, World!')">exec()</option>
+  <option value="rpt(value, count)">rpt()</option>
+  <option value="num(5*2)">num()</option>
+  <option value="str(Greetings, 'Hello World!')">str()</option>
+  <option value="$varname: value;">$var: val;</option>
+  <option value="ext(1,5, name)">ext()</option>
+  <option value="@fun(name){
+  key: value;
+  key2: value;
+ }">@fun()</option>
+ <option value="@arr name[a, b, c]">array</option>
+ <option value="@arr name[1,2,3]
+ @arr.name[]{
+ exec(_log, "@arr.name[]")
+ }">array loop</option>
+ <option value="%2(prop1,prop2[: value;])">%n()</option>
+</select>
+
+  <button class="btn btn-secondary" id="format-btn"><i class="fas fa-indent"></i> Format</button>
+  <button class="btn" id="save-btn"><i class="fas fa-save"></i> Save</button>
+  <button class="btn btn-danger" id="clear-log-btn"><i class="fas fa-trash"></i> Clear Log</button>
+  <button class="btn" id="download-css"><i class="fas fa-download"></i> Download CSS</button>
+  <label class="btn">
+    <i class="fas fa-upload"></i> Upload FSCSS
+    <input type="file" id="upload-fscss" accept=".fscss,.txt" hidden>
+  </label>
+</div>
 
   <!-- Status Bar -->
   <!-- Status Bar -->
@@ -220,25 +278,8 @@
 $primary-color: #3366ff;
 exec(_log, $primary-color!)
 body { 
-color: $primary-color! ;
-}
-@event test(param){
-if param>=8{
-return: num(8 * 8)px exec(_log, ">=8, returning num(8 * 8)px");
-}
-el-if param<8{
-return: 8px exec(_warn, "< 8 returning 8px")
-}
-el{
-return: 0 exec(_error, "No condition matched. Invalid number")
-}
-    } 
-  .box{
-  width: @event.test(8);
-  border-width: @event.test(7);
-  margin: @event.test(e);
-  }
-  `,
+color: $primary-color!;
+}`,
         language: "scss",
         theme: "vs-dark",
         fontSize: 14,
@@ -310,6 +351,46 @@ document.getElementById("status-toggle").addEventListener("click", () => {
   document.getElementById("status-toggle").textContent =
     log.classList.contains("expanded") ? "▲ Hide Logs" : "▼ Show logs";
 });
+// Download CSS
+document.getElementById("download-css").addEventListener("click", () => {
+  const css = cssEditor.getValue();
+  const blob = new Blob([css], { type: "text/css" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "output.css";
+  a.click();
+  URL.revokeObjectURL(url);
+  addLogEntry("CSS downloaded successfully", "success");
+});
+
+// Upload FSCSS
+document.getElementById("upload-fscss").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  fscssEditor.setValue(text);
+  addLogEntry(`Loaded FSCSS: ${file.name}`, "info");
+});
+// Insert FSCSS snippet when selected
+document.getElementById("fscss-methods").addEventListener("change", (e) => {
+  const value = e.target.value;
+  if (!value) return;
+
+  const position = fscssEditor.getPosition();
+  const range = new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column);
+
+  fscssEditor.executeEdits("", [
+    { range, text: value, forceMoveMarkers: true }
+  ]);
+
+  fscssEditor.focus();
+  addLogEntry(`Inserted method: ${value.split("(")[0]}`, "info");
+
+  // Reset dropdown
+  e.target.value = "";
+});
   </script>
 </body>
 </html>
+
