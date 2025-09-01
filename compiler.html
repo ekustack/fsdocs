@@ -219,7 +219,26 @@
         value: `/* Write FSCSS here... */
 $primary-color: #3366ff;
 exec(_log, $primary-color!)
-body { color: $primary-color! ; }`,
+body { 
+color: $primary-color! ;
+}
+@event test(param){
+if param>=8{
+return: num(8 * 8)px exec(_log, ">=8, returning num(8 * 8)px");
+}
+el-if param<8{
+return: 8px exec(_warn, "< 8 returning 8px")
+}
+el{
+return: 0 exec(_error, "No condition matched. Invalid number")
+}
+    } 
+  .box{
+  width: @event.test(8);
+  border-width: @event.test(7);
+  margin: @event.test(e);
+  }
+  `,
         language: "scss",
         theme: "vs-dark",
         fontSize: 14,
