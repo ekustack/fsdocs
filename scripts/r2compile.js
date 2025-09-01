@@ -12,8 +12,6 @@ export async function addLogEntry(message, type = 'error') {
   line.textContent = message;
   container.appendChild(line);
   container.appendChild(document.createElement("br"));
-
-  // Auto-scroll to bottom
   container.parentElement.scrollTop = container.parentElement.scrollHeight;
 }
 export function fscssEXT(cssTxt){
