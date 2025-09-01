@@ -90,6 +90,7 @@
       background: #fff;
       border-top: 1px solid var(--light-gray);
       max-width: 97vw;
+      width: 95vw;
       overlay-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;
@@ -235,103 +236,109 @@
     <!-- FSCSS Editor -->
     <div class="editor-container edit">
       <div class="panel-header">
-        <div class="method-dropdown">
-  <button class="btn method-toggle"><i class="fas fa-code"></i> Insert Method</button>
+<div class="method-dropdown">
+  <button class="btn method-toggle"><i class="fas fa-code"></i> Add Method</button>
   <div class="method-menu" id="method-menu">
-    <div class="method-item" data-value="@import(exec())">
+    <div class="method-item" data-value="@import(exec(style.fscss))">
       <b>@import</b>
-      <p>Import and execute external FSCSS.</p>
+      <p>Imports and runs external FSCSS code.</p>
     </div>
-    <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){
+    <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){ 
     from{
-    
-     }
+     } 
      to{
-     
-    } 
+     }
     }">
       <b>$(@keyframes,...)</b>
-      <p>Define an keyframes for multiple properties</p>
+      <p>Creates keyframes for multiple properties.</p>
     </div>
     <div class="method-item" data-value="-*-prop: value;">
       <b>-*</b>
-      <p>Vendor prefixing.</p>
+      <p>Adds vendor prefixes for properties.</p>
     </div>
     <div class="method-item" data-value="color: @random([red, blue, yellow]);">
       <b>@random()</b>
-      <p>Random select value on runtime</p>
+      <p>Picks a random value at runtime.</p>
     </div>
-    
-    <div class="method-item" data-value="@event sample(e){
+    <div class="method-item" data-value="@event sample(e){ 
     if e>=8{
-    return: num(8*2);
+    return: num(8*2); 
      }
     }">
       <b>@event</b>
-      <p>Define an event handler with conditions.</p>
+      <p>Handles events with custom conditions.</p>
     </div>
-    
     <div class="method-item" data-value="copy(index, varname)">
       <b>copy()</b>
-      <p>Copy part of a property value.</p>
+      <p>Copies part of a property value.</p>
     </div>
-    
     <div class="method-item" data-value="exec(_log, 'Hello, World!')">
       <b>exec()</b>
-      <p>Execute debug.</p>
+      <p>Runs debug commands.</p>
     </div>
-    
     <div class="method-item" data-value="rpt(value, count)">
       <b>rpt()</b>
-      <p>Repeat a value n times.</p>
+      <p>Repeats a value multiple times.</p>
     </div>
-    
     <div class="method-item" data-value="num(5*2)">
       <b>num()</b>
-      <p>Evaluate numeric expressions.</p>
+      <p>Evaluates numeric expressions.</p>
     </div>
-    
     <div class="method-item" data-value="str(Greetings, 'Hello World!')">
       <b>str()</b>
-      <p>Work with string variables or labels.</p>
+      <p>Manages string variables or labels.</p>
     </div>
-    
     <div class="method-item" data-value="$varname: value;">
       <b>$var</b>
-      <p>Define a variable.</p>
+      <p>Defines a variable.</p>
     </div>
-    
     <div class="method-item" data-value="ext(1,5, name)">
       <b>ext()</b>
-      <p>Extract property values from indexA to indexB </p>
+      <p>Extracts property values from index A to B.</p>
     </div>
-    
-    <div class="method-item" data-value="@fun(name){
-    key: value;
-    key2: value;
-    }">
+    <div class="method-item" data-value="@fun(name){ key: value; key2: value; }">
       <b>@fun()</b>
-      <p>Reusable function-like block.</p>
+      <p>Creates reusable function-like blocks.</p>
     </div>
-    
     <div class="method-item" data-value="@arr name[a, b, c]">
       <b>@arr</b>
-      <p>Define an array.</p>
+      <p>Defines an array.</p>
     </div>
-    
     <div class="method-item" data-value="@arr name[1,2,3]
-    @arr.name[]{
-    exec(_log, '@arr.name[]')
+     @arr.name[]{ 
+    exec(_log, '@arr.name[]') 
     }">
       <b>@arr loop</b>
-      <p>Loop through array items.</p>
+      <p>Loops through array items.</p>
     </div>
-    
     <div class="method-item" data-value="%2(prop1,prop2[: value;])">
       <b>%n()</b>
-      <p>Shortcut for repeated properties.</p>
+      <p>Simplifies repeated properties.</p>
     </div>
-    
+    <div class="method-item" data-value="@arr.name">
+      <b>@arr.name</b>
+      <p>Gets an array.</p>
+    </div>
+    <div class="method-item" data-value="@arr.name(,)">
+      <b>@arr.name(divider)</b>
+      <p>Joins array items with a divider.</p>
+    </div>
+    <div class="method-item" data-value="@fun.name">
+      <b>@fun.name</b>
+      <p>Gets a function block.</p>
+    </div>
+    <div class="method-item" data-value="@fun.name.prop">
+      <b>@fun.name.prop</b>
+      <p>Gets a function’s property.</p>
+    </div>
+    <div class="method-item" data-value="@fun.name.prop.value">
+      <b>@fun.name.prop.value</b>
+      <p>Gets a function’s property value.</p>
+    </div>
+    <div class="method-item" data-value="">
+      <b>More Info</b>
+      <p><a href="//fscss.onrender.com/docs">Check the docs</a></p>
+    </div>
   </div>
 </div>
 
