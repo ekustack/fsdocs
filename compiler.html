@@ -33,6 +33,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      
     }
 
     header {
@@ -88,7 +89,7 @@
       padding: 10px;
       background: #fff;
       border-top: 1px solid var(--light-gray);
-      max-width: 99vw;
+      max-width: 97vw;
       overlay-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;
@@ -173,19 +174,55 @@
 .controls input[type="file"] {
   display: none;
 }
-.method-select {
-  padding: 8px;
-  border-radius: var(--radius);
-  border: 1px solid var(--light-gray);
-  background: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.method-select:hover {
-  border-color: var(--primary);
+.method-dropdown {
+  position: relative;
+  max-width: 99vw;
 }
 
+.method-toggle {
+  background: var(--secondary);
+}
+
+.method-menu {
+  position: absolute;
+  top: 110%;
+  left: 1vw;
+  background: var(--darker);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 280px;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.method-menu.active {
+  display: block;
+}
+
+.method-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 900;
+}
+
+.method-item b {
+  color: var(--primary);
+  display: block;
+}
+
+.method-item p {
+  margin: 3px 0 0;
+  font-size: 0.8rem;
+  color: var(--light-gray);
+}
+
+.method-item:hover {
+  background: var(--dark);
+}
   </style>
 </head>
 <body>
@@ -198,6 +235,106 @@
     <!-- FSCSS Editor -->
     <div class="editor-container edit">
       <div class="panel-header">
+        <div class="method-dropdown">
+  <button class="btn method-toggle"><i class="fas fa-code"></i> Insert Method</button>
+  <div class="method-menu" id="method-menu">
+    <div class="method-item" data-value="@import(exec())">
+      <b>@import</b>
+      <p>Import and execute external FSCSS.</p>
+    </div>
+    <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){
+    from{
+    
+     }
+     to{
+     
+    } 
+    }">
+      <b>$(@keyframes,...)</b>
+      <p>Define an keyframes for multiple properties</p>
+    </div>
+    <div class="method-item" data-value="-*-prop: value;">
+      <b>-*</b>
+      <p>Vendor prefixing.</p>
+    </div>
+    <div class="method-item" data-value="color: @random([red, blue, yellow]);">
+      <b>@random()</b>
+      <p>Random select value on runtime</p>
+    </div>
+    
+    <div class="method-item" data-value="@event sample(e){
+    if e>=8{
+    return: num(8*2);
+     }
+    }">
+      <b>@event</b>
+      <p>Define an event handler with conditions.</p>
+    </div>
+    
+    <div class="method-item" data-value="copy(index, varname)">
+      <b>copy()</b>
+      <p>Copy part of a property value.</p>
+    </div>
+    
+    <div class="method-item" data-value="exec(_log, 'Hello, World!')">
+      <b>exec()</b>
+      <p>Execute debug.</p>
+    </div>
+    
+    <div class="method-item" data-value="rpt(value, count)">
+      <b>rpt()</b>
+      <p>Repeat a value n times.</p>
+    </div>
+    
+    <div class="method-item" data-value="num(5*2)">
+      <b>num()</b>
+      <p>Evaluate numeric expressions.</p>
+    </div>
+    
+    <div class="method-item" data-value="str(Greetings, 'Hello World!')">
+      <b>str()</b>
+      <p>Work with string variables or labels.</p>
+    </div>
+    
+    <div class="method-item" data-value="$varname: value;">
+      <b>$var</b>
+      <p>Define a variable.</p>
+    </div>
+    
+    <div class="method-item" data-value="ext(1,5, name)">
+      <b>ext()</b>
+      <p>Extract property values from indexA to indexB </p>
+    </div>
+    
+    <div class="method-item" data-value="@fun(name){
+    key: value;
+    key2: value;
+    }">
+      <b>@fun()</b>
+      <p>Reusable function-like block.</p>
+    </div>
+    
+    <div class="method-item" data-value="@arr name[a, b, c]">
+      <b>@arr</b>
+      <p>Define an array.</p>
+    </div>
+    
+    <div class="method-item" data-value="@arr name[1,2,3]
+    @arr.name[]{
+    exec(_log, '@arr.name[]')
+    }">
+      <b>@arr loop</b>
+      <p>Loop through array items.</p>
+    </div>
+    
+    <div class="method-item" data-value="%2(prop1,prop2[: value;])">
+      <b>%n()</b>
+      <p>Shortcut for repeated properties.</p>
+    </div>
+    
+  </div>
+</div>
+
         <span>FSCSS Input</span>
       </div>
       <div id="fscssBox" class="editor-box"></div>
@@ -218,32 +355,6 @@
   <!-- Controls -->
   <div class="controls">
   <button class="btn btn-success" id="run"><i class="fas fa-play"></i> Compile</button>
-  <select id="fscss-methods" class="method-select">
-  <option value="">Insert Method...</option>
-  <option value="@import(exec())">import(exec())</option>
-  <option value="@event sample(e){
-  if e>=8{ 
-   return: num(8*2);
-   }
-  }">@event</option>
-  <option value="copy(selector, times)">copy()</option>
-  <option value="exec(_log, 'Hello, World!')">exec()</option>
-  <option value="rpt(value, count)">rpt()</option>
-  <option value="num(5*2)">num()</option>
-  <option value="str(Greetings, 'Hello World!')">str()</option>
-  <option value="$varname: value;">$var: val;</option>
-  <option value="ext(1,5, name)">ext()</option>
-  <option value="@fun(name){
-  key: value;
-  key2: value;
- }">@fun()</option>
- <option value="@arr name[a, b, c]">array</option>
- <option value="@arr name[1,2,3]
- @arr.name[]{
- exec(_log, "@arr.name[]")
- }">array loop</option>
- <option value="%2(prop1,prop2[: value;])">%n()</option>
-</select>
 
   <button class="btn btn-secondary" id="format-btn"><i class="fas fa-indent"></i> Format</button>
   <button class="btn" id="save-btn"><i class="fas fa-save"></i> Save</button>
@@ -370,27 +481,51 @@ document.getElementById("upload-fscss").addEventListener("change", async (e) => 
   if (!file) return;
   const text = await file.text();
   fscssEditor.setValue(text);
-  addLogEntry(`Loaded FSCSS: ${file.name}`, "info");
+  document.getElementById("status-message").textContent = "";
+      const input = fscssEditor.getValue();
+      const output = await fscssEXT(input);
+      cssEditor.setValue(output);
+        addLogEntry(`Loaded FSCSS: ${file.name}`, "info");
+        addLogEntry("Compiled successfully", 'success');
+
 });
-// Insert FSCSS snippet when selected
-document.getElementById("fscss-methods").addEventListener("change", (e) => {
-  const value = e.target.value;
-  if (!value) return;
+const methodToggle = document.querySelector(".method-toggle");
+const methodMenu = document.getElementById("method-menu");
 
-  const position = fscssEditor.getPosition();
-  const range = new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column);
+methodToggle.addEventListener("click", () => {
+  methodMenu.classList.toggle("active");
+});
 
-  fscssEditor.executeEdits("", [
-    { range, text: value, forceMoveMarkers: true }
-  ]);
+// Insert snippet on click
+document.querySelectorAll(".method-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const value = item.dataset.value;
 
-  fscssEditor.focus();
-  addLogEntry(`Inserted method: ${value.split("(")[0]}`, "info");
+    const position = fscssEditor.getPosition();
+    const range = new monaco.Range(
+      position.lineNumber,
+      position.column,
+      position.lineNumber,
+      position.column
+    );
 
-  // Reset dropdown
-  e.target.value = "";
+    fscssEditor.executeEdits("", [
+      { range, text: value, forceMoveMarkers: true }
+    ]);
+    fscssEditor.focus();
+    addLogEntry(`Inserted method: ${item.querySelector("b").textContent}`, "info");
+
+    // Close menu after selection
+    methodMenu.classList.remove("active");
+  });
+});
+
+// Close if clicked outside
+window.addEventListener("click", (e) => {
+  if (!methodMenu.contains(e.target) && !methodToggle.contains(e.target)) {
+    methodMenu.classList.remove("active");
+  }
 });
   </script>
 </body>
 </html>
-
