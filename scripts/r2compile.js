@@ -1061,7 +1061,6 @@ async function processStyles() {
     
    async function runEXT(FSCSSTxt){
 let css = FSCSSTxt;
-css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
 if (!css.includes("exec.obj.block(all)")) {
   if (!css.includes("exec.obj.block(init lab)")) css = initlibraries(css);
   if (!css.includes("exec.obj.block(f import)")) css = await procImp(css);
