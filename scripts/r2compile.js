@@ -1,284 +1,22 @@
-    
-    const fscssBox = document.getElementById('fscssBox');
-    const cssBox = document.getElementById('cssBox');
-    const runBtn = document.getElementById('run');
-    const copyBtn = document.getElementById('copy-btn');
-    const downloadBtn = document.getElementById('download');
-    const downloadFscssBtn = document.getElementById('download-fscss');
-    const clearLogBtn = document.getElementById('clear-log-btn');
-    const uploadBtn = document.getElementById('upload-btn');
-    const uploadInput = document.getElementById('upload');
-    const fileNameInput = document.getElementById('fileName');
-    const logContainer = document.getElementById('log-container');
-    const errorCount = document.getElementById('error-count');
-    const themeToggle = document.getElementById('theme-toggle');
-    const formatBtn = document.getElementById('format-btn');
-    const saveBtn = document.getElementById('save-btn');
-    const autocompleteContainer = document.getElementById('autocomplete');
-    const fontSizeSelect = document.getElementById('font-size');
-    const tabSizeSelect = document.getElementById('tab-size');
-    const autoCompleteSelect = document.getElementById('auto-complete');
-    const errorReportingSelect = document.getElementById('error-reporting');
-    
-    // FSCSS Keywords for autocomplete
-    const fscssKeywords = [
-      'str(', 're(', 'store(', 'rpt(', 'copy(', 'mx(', 'mxs(', 
-      '%1', '%2', '%3', '%4', '%5', '%6', '%i',
-      '$(@keyframes', '$(',
-      '-*-', '$var:', '$var!',
-      '@event', '@random', 'num(', 'if', 'el-if', 'el', 'return'
-    ];
-    
-    // Theme management
-    let isDarkMode = localStorage.getItem('darkMode') === 'true';
-    
-    function applyTheme() {
-      if (isDarkMode) {
-        document.body.classList.add('dark-theme');
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-      }
-    }
-    
-    themeToggle.addEventListener('click', () => {
-      isDarkMode = !isDarkMode;
-      localStorage.setItem('darkMode', isDarkMode);
-      applyTheme();
-    });
-    
-    // Apply saved theme
-    applyTheme();
-    
-    // Settings
-    fontSizeSelect.value = localStorage.getItem('fontSize') || '14';
-    tabSizeSelect.value = localStorage.getItem('tabSize') || '2';
-    autoCompleteSelect.value = localStorage.getItem('autoComplete') || 'on';
-    errorReportingSelect.value = localStorage.getItem('errorReporting') || 'verbose';
-    
-    fontSizeSelect.addEventListener('change', () => {
-      fscssBox.style.fontSize = `${fontSizeSelect.value}px`;
-      cssBox.style.fontSize = `${fontSizeSelect.value}px`;
-      localStorage.setItem('fontSize', fontSizeSelect.value);
-    });
-    
-    tabSizeSelect.addEventListener('change', () => {
-      fscssBox.style.tabSize = tabSizeSelect.value;
-      localStorage.setItem('tabSize', tabSizeSelect.value);
-    });
-    
-    autoCompleteSelect.addEventListener('change', () => {
-      localStorage.setItem('autoComplete', autoCompleteSelect.value);
-    });
-    
-    errorReportingSelect.addEventListener('change', () => {
-      localStorage.setItem('errorReporting', errorReportingSelect.value);
-    });
-    
-    // Apply initial settings
-    fscssBox.style.fontSize = `${fontSizeSelect.value}px`;
-    cssBox.style.fontSize = `${fontSizeSelect.value}px`;
-    fscssBox.style.tabSize = tabSizeSelect.value;
-    
-    // Log management
-    function addLogEntry(message, type = 'error') {
-      const logEntry = document.createElement('div');
-      logEntry.className = `log-entry ${type}`;
-      logEntry.textContent = message;
-      logContainer.appendChild(logEntry);
-      
-      // Scroll to bottom
-      logContainer.scrollTop = logContainer.scrollHeight;
-      
-      // Update error count
-      if (type === 'error') {
-        const count = parseInt(errorCount.textContent);
-        errorCount.textContent = count + 1;
-      }
-    }
-    
-    function clearLog() {
-      logContainer.innerHTML = '';
-      errorCount.textContent = '0';
-      addLogEntry('Log cleared.', 'success');
-    }
-    
-    // Autocomplete functionality
-    let currentAutocompleteItems = [];
-    let selectedAutocompleteIndex = -1;
-    
-    function showAutocomplete(str, cursorPos) {
-      if (autoCompleteSelect.value === 'off') return;
-      
-      const filtered = fscssKeywords.filter(keyword => 
-        keyword.toLowerCase().includes(str.toLowerCase())
-      );
-      
-      if (filtered.length === 0) {
-        autocompleteContainer.style.display = 'none';
-        return;
-      }
-      
-      currentAutocompleteItems = filtered;
-      selectedAutocompleteIndex = 0;
-      
-      // Position autocomplete under cursor
-      const textareaRect = fscssBox.getBoundingClientRect();
-      const lineHeight = parseInt(getComputedStyle(fscssBox).lineHeight);
-      const lines = fscssBox.value.substr(0, cursorPos).split('\n');
-      const currentLine = lines[lines.length - 1];
-      const currentLineIndex = lines.length - 1;
-      
-      autocompleteContainer.innerHTML = '';
-      filtered.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'autocomplete-item';
-        if (index === 0) div.classList.add('active');
-        div.textContent = item;
-        div.addEventListener('click', () => {
-          selectAutocompleteItem(index);
-        });
-        autocompleteContainer.appendChild(div);
-      });
-      
-      autocompleteContainer.style.display = 'block';
-      autocompleteContainer.style.top = `${textareaRect.top + (currentLineIndex + 1) * lineHeight + 5}px`;
-      autocompleteContainer.style.left = `${textareaRect.left + currentLine.length * 8}px`;
-    }
-    
-    function selectAutocompleteItem(index) {
-      if (index < 0 || index >= currentAutocompleteItems.length) return;
-      
-      // Get current cursor position
-      const start = fscssBox.selectionStart;
-      const end = fscssBox.selectionEnd;
-      const value = fscssBox.value;
-      
-      // Find the start of the current word
-      let wordStart = start;
-      while (wordStart > 0 && !/\s/.test(value[wordStart - 1])) {
-        wordStart--;
-      }
-      
-      // Replace the current word with the autocomplete item
-      fscssBox.value = value.substring(0, wordStart) + 
-                      currentAutocompleteItems[index] + 
-                      value.substring(end);
-      
-      // Set cursor position after the inserted text
-      fscssBox.selectionStart = fscssBox.selectionEnd = wordStart + currentAutocompleteItems[index].length;
-      
-      // Hide autocomplete
-      autocompleteContainer.style.display = 'none';
-      fscssBox.focus();
-    }
-    
-    fscssBox.addEventListener('input', (e) => {
-      autocompleteContainer.style.display = 'none';
-    });
-    
-    fscssBox.addEventListener('keydown', (e) => {
-      if (autocompleteContainer.style.display === 'block') {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          selectedAutocompleteIndex = Math.min(selectedAutocompleteIndex + 1, currentAutocompleteItems.length - 1);
-          updateAutocompleteSelection();
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          selectedAutocompleteIndex = Math.max(selectedAutocompleteIndex - 1, 0);
-          updateAutocompleteSelection();
-        } else if (e.key === 'Enter') {
-          e.preventDefault();
-          selectAutocompleteItem(selectedAutocompleteIndex);
-        } else if (e.key === 'Escape') {
-          autocompleteContainer.style.display = 'none';
-        }
-      } else if (e.key === '.' || e.key === '$' || e.key === '@' || e.key === '%') {
-        const cursorPos = fscssBox.selectionStart;
-        const value = fscssBox.value;
-        
-        // Get current word
-        let wordStart = cursorPos - 1;
-        while (wordStart > 0 && !/\s/.test(value[wordStart - 1])) {
-          wordStart--;
-        }
-        
-        const currentWord = value.substring(wordStart, cursorPos);
-        showAutocomplete(currentWord, cursorPos);
-      }
-    });
-    
-    function updateAutocompleteSelection() {
-      const items = autocompleteContainer.querySelectorAll('.autocomplete-item');
-      items.forEach((item, index) => {
-        if (index === selectedAutocompleteIndex) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      });
-    }
-    
-    // Format code
-    formatBtn.addEventListener('click', () => {
-      const formatted = fscssBox.value
-        .replace(/\{/g, ' {\n')
-        .replace(/\}/g, '\n}\n')
-        .replace(/;/g, ';\n')
-        .replace(/\n\s*\n/g, '\n');
-      
-      fscssBox.value = formatted;
-      addLogEntry('Code formatted successfully.', 'success');
-    });
-    
-    // Save session
-    saveBtn.addEventListener('click', () => {
-      localStorage.setItem('fscssCode', fscssBox.value);
-      addLogEntry('Session saved successfully.', 'success');
-    });
-    
-    // Load saved session
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedCode = localStorage.getItem('fscssCode');
-      if (savedCode) {
-        fscssBox.value = savedCode;
-        addLogEntry('Previous session restored.', 'success');
-      }
-    });
-    
-    // Compile function (simplified for demo)
-function highlightCSS(css) {
-      // Simple highlighting rules
-      const rules = [
-        // Comments
-        { regex: /(\/\*[\s\S]*?\*\/)/g, klass: 'comment' },
-        // Selectors
-        { regex: /([^{}]+)(?=\{)/g, klass: 'selector' },
-        // Properties
-        { regex: /([a-zA-Z-]+)(?=\s*:)/g, klass: 'property' },
-        // Values
-        { regex: /:(\s*[^;]+);/g, klass: 'value', replace: ':$1;' },
-        // Braces
-        { regex: /([{}])/g, klass: 'brace' },
-        // At-rules
-        { regex: /(@[\w-]+\b)/g, klass: 'at-rule' }
-      ];
-      
-      let highlighted = css;
-      
-      // Apply each highlighting rule
-      rules.forEach(rule => {
-        highlighted = highlighted.replace(rule.regex, (match, p1) => {
-          const content = rule.replace ? rule.replace.replace('$1', p1) : p1;
-          return `<span class="${rule.klass}">${content}</span>`;
-        });
-      });
-      
-      return highlighted;
-    }
-    
-    // Enhanced flattenNestedCSS function with error logging
+export async function addLogEntry(message, type = 'error') {
+  const container = document.getElementById("status-message");
+  if (!container) return;
+
+  let color = "#f03";
+  if (type === "success") color = "#0f0";
+  if (type === "warning") color = "#f93";
+  if (type === "info") color = "#0ff";
+
+  const line = document.createElement("span");
+  line.style.color = color;
+  line.textContent = message;
+  container.appendChild(line);
+  container.appendChild(document.createElement("br"));
+
+  // Auto-scroll to bottom
+  container.parentElement.scrollTop = container.parentElement.scrollHeight;
+}
+export function fscssEXT(cssTxt){
     function flattenNestedCSS(css, options = {}) {
       const {
         preserveComments = false,
@@ -606,96 +344,78 @@ function procExt(css) {
   return tempCSS;
 }
 
-function procVar(vcss){
-function processSCSS(scssCode) {
-  const globalVars = {};
-  let currentScopeVars = globalVars; // Initially global scope
-  const processedLines = [];
-  const lines = scssCode.split('\n');
+function procVar(vcss) {
+  function processSCSS(scssCode) {
+    const globalVars = {};
+    const processedLines = [];
+    const lines = scssCode.split('\n');
 
-  // To manage nested scopes (simplified: just track if we're inside a block)
-  let inBlock = false;
-  const blockVars = {}; // Variables declared within the current block
+    let inBlock = false;
+    const blockVars = {};
 
-  // Step 1: Process lines to extract variables and build up processed CSS
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i].trim();
 
-    // Check for block entry
-    if (line.includes('{')) {
-      inBlock = true;
-      // When entering a block, any variables declared within it will go into blockVars
-      // The blockVars will be cleared when the block is exited
-      processedLines.push(line); // Add the curly brace to processed lines
-      continue; // Move to next line
+      if (line.includes('{')) {
+        inBlock = true;
+        processedLines.push(line);
+        continue;
+      }
+
+      if (line.includes('}')) {
+        inBlock = false;
+        for (const varName in blockVars) {
+          delete blockVars[varName];
+        }
+        processedLines.push(line);
+        continue;
+      }
+
+      const varDeclarationRegex = /^\s*\$([a-zA-Z0-9_-]+)\s*:\s*([^;]+);/;
+      const varMatch = line.match(varDeclarationRegex);
+
+      if (varMatch) {
+        const [, varName, varValue] = varMatch;
+        if (inBlock) {
+          blockVars[varName] = varValue.trim();
+          // Do not include block-scoped declarations in the final CSS
+        } else {
+          globalVars[varName] = varValue.trim();
+          // Include global variable declarations in the final CSS
+          processedLines.push(line);
+        }
+        continue;
+      }
+
+      const varUsageRegex = /\$\/?([a-zA-Z0-9_-]+)(!)?/g;
+
+      line = line.replace(varUsageRegex, (match, varName) => {
+        if (blockVars[varName] !== undefined) {
+          return blockVars[varName];
+        } else if (globalVars[varName] !== undefined) {
+          return globalVars[varName];
+        }
+        return match;
+      });
+
+      processedLines.push(line);
     }
 
-    // Check for block exit
-    if (line.includes('}')) {
-      inBlock = false;
-      // Clear block-level variables when exiting a block
-      for (const varName in blockVars) {
-        delete blockVars[varName]; // Remove block-scoped variables
-      }
-      processedLines.push(line); // Add the curly brace to processed lines
-      continue; // Move to next line
+    function getVariable(varName) {
+      return globalVars[varName] || null;
     }
+    const finalCss = processedLines.join('\n');
 
-    // Regex to match variable declarations (e.g., $primary-color: midnightblue;)
-    const varDeclarationRegex = /^\s*\$([a-zA-Z0-9_-]+)\s*:\s*([^;]+);/;
-    const varMatch = line.match(varDeclarationRegex);
-
-    if (varMatch) {
-      const [, varName, varValue] = varMatch;
-      if (inBlock) {
-        blockVars[varName] = varValue.trim();
-      } else {
-        globalVars[varName] = varValue.trim();
-      }
-      // This line is a declaration, so don't include it in the final CSS output
-      continue; // Move to next line
-    }
-
-    // Regex to match variable usage (e.g., $primary-color or $primary-color!)
-    const varUsageRegex = /\$\/?([a-zA-Z0-9_-]+)(!)?/g;
-
-    // Replace variable references in the current line
-    line = line.replace(varUsageRegex, (match, varName) => {
-      // Prioritize block-scoped variables, then global variables
-      if (blockVars[varName] !== undefined) {
-        return blockVars[varName];
-      } else if (globalVars[varName] !== undefined) {
-        return globalVars[varName];
-      }
-      return match; // If variable not found, return original match (e.g., for non-existent variables)
-    });
-
-    processedLines.push(line);
+    return {
+      css: finalCss,
+      getVariable
+    };
   }
 
-  // Step 2: Function to access variable values (for external access)
-  function getVariable(varName) {
-    // This function will only return global variables for external access,
-    // as local variables are transient during processing.
-    // If you need to expose local variables, you'd need a more complex
-    // data structure to store them along with their scope.
-    return globalVars[varName] || null;
-  }
-
-  // Join the processed lines back into a single CSS string
-  const finalCss = processedLines.join('\n');
-
-  return {
-    css: finalCss,
-    getVariable
-  };
+  const result = processSCSS(vcss);
+  return result.css;
 }
 
-
-const result = processSCSS(vcss);
-// Output the processed CSS
- return result.css
-} 
 
       function extractBlock(css, startIndex) {
   let depth = 0;
@@ -1128,7 +848,7 @@ function procExC(css) {
   const regex = /exec\((_log|_error|_warn|_info),\s*(?:"([^"]*)"|'([^']*)'|([^)]*))\)/g;
   let jsCode = '';
   let match;
-  
+  let logType = '';
   
   const cleanedCSS = css.replace(regex, (full, method, dQ, sQ, raw) => {
     const arg = dQ || sQ || raw;
@@ -1143,14 +863,15 @@ function procExC(css) {
       return ''; // strip it from CSS
     }
     
-    jsCode += `addLogEntry("${arg.replace(/"/g, '\\"')}", "${method.slice(1).replace(/warn/g, 'warning').replace(/(?:log|info)/g, 'success').replace(/error/g, 'error')}");\n`;
+    jsCode += `${arg.replace(/"/g, '\\"')}`;
+    logType = `${method.slice(1).replace(/warn/g, 'warning').replace(/(?:log|info)/g, 'success').replace(/error/g, 'error')}`;
     return ''; 
   });
   
   // Run console code safely
-  if (jsCode) {
+  if (jsCode&&logType){
     try {
-      new Function(jsCode)();
+      addLogEntry(jsCode, logType);
     } catch (e) {
       addLogEntry("fscss[exec(console)]: Error executing transformed code:", e);
     }
@@ -1338,80 +1059,33 @@ async function processStyles() {
     }
 
     // Event listeners
-    runBtn.addEventListener("click", e => {
-      (async () => { // Use an IIFE to await the top-level call
-  try {
-    await processStyles();
-addLogEntry('Compilation successful!', 'success');
-  } catch (error) {
-    addLogEntry('Error processing styles or draw elements:', error);
-  }
-})();
-    });
     
     
-    
-    
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(cssBox.textContent)
-        .then(() => {
-          addLogEntry('CSS copied to clipboard!', 'success');
-        })
-        .catch(err => {
-          addLogEntry('Failed to copy CSS: ' + err, 'error');
-        });
-    });
-    
-    // Download CSS
-    downloadBtn.addEventListener('click', () => {
-      const fileName = fileNameInput.value || 'stylesheet';
-      const blob = new Blob([cssBox.textContent], { type: 'text/css' });
-      const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${fileName}.css`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      addLogEntry(`CSS downloaded as ${fileName}.css`, 'success');
-    });
-    
-    // Download FSCSS
-    downloadFscssBtn.addEventListener('click', () => {
-      const fileName = fileNameInput.value || 'fscss-code';
-      const blob = new Blob([fscssBox.value], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${fileName}.fscss`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      addLogEntry(`FSCSS downloaded as ${fileName}.fscss`, 'success');
-    });
-    
-    // Upload FSCSS
-    uploadBtn.addEventListener('click', () => {
-      uploadInput.click();
-    });
-    
-    uploadInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        fscssBox.value = event.target.result;
-        addLogEntry(`File "${file.name}" loaded successfully.`, 'success');
-      };
-      reader.readAsText(file);
-    });
-    
-    // Clear log
-    clearLogBtn.addEventListener('click', clearLog);
+   async function runEXT(FSCSSTxt){
+let css = FSCSSTxt;
+css = css.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
+if (!css.includes("exec.obj.block(all)")) {
+  if (!css.includes("exec.obj.block(init lab)")) css = initlibraries(css);
+  if (!css.includes("exec.obj.block(f import)")) css = await procImp(css);
+  if (!css.includes("exec.obj.block(store:before)") || !css.includes("exec.obj.block(store)")) css = replaceRe(css);
+  if (!css.includes("exec.obj.block(ext:before)") || !css.includes("exec.obj.block(ext)")) css = procExt(css);
+  if (!css.includes("exec.obj.block(f var)")) css = procVar(css);
+  
+  if (!css.includes("exec.obj.block(fun)")) css = procFun(css);
+  
+  if (!css.includes("exec.obj.block(arr)")) css = procArr(css);
+  if (!css.includes("exec.obj.block(event)")) css = procEv(css);
+  if (!css.includes("exec.obj.block(random)")) css = procRan(css);
+  if (!css.includes("exec.obj.block(copy)")) css = transformCssValues(css);
+  if (!css.includes("exec.obj.block(store:after)") || !css.includes("exec.obj.block(store)")) css = replaceRe(css);
+  if (!css.includes("exec.obj.block(num)")) css = procNum(css);
+  if (!css.includes("exec.obj.block(ext:after)") || !css.includes("exec.obj.block(ext)")) css = procExt(css);
+  if (!css.includes("exec.obj.block(t group)")) css = applyFscssTransformations(css);
+  if (!css.includes("exec.obj.block(debug)")) css = procExC(css);
+}
+css = css.replace(/exec\.obj\.block\([^\)\n]*\)\;?/g, "");
+return css;
+    }
+    cssTxt = runEXT(cssTxt);
+    return(cssTxt);
+   } 
