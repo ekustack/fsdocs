@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS to CSS (FEXT v3)</title>
+  <title>FSCSS to CSS (Dev Tool)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -253,7 +253,7 @@
 </head>
 <body>
   <header>
-    <h1>FSCSS to CSS <sup><small>(FEXT v3)</small></sup></h1>
+    <h1>FSCSS to CSS FEXT</h1>
     <p class="subtitle"> Text edit & logs</p>
   </header>
 
@@ -323,9 +323,8 @@
     </div>
     <div class="method-item" data-value="@ext.name">
       <b>@ext.name</b>
-      <p>Get extracted part.</p>
-        </div>
-    
+      <p>Get extracted value.</p>
+    </div>
     <div class="method-item" data-value="@fun(name){ key: value; key2: value; }">
       <b>@fun()</b>
       <p>Creates reusable function-like blocks.</p>
@@ -563,6 +562,34 @@ window.addEventListener("click", (e) => {
     methodMenu.classList.remove("active");
   }
 });
+async function runFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    let value = params.get("code");
+    
+    if (!value) {
+      const hash = window.location.hash;
+      if (hash.startsWith("#run")) {
+        const queryString = hash.split("?")[1];
+        if (queryString) {
+          const hashParams = new URLSearchParams(queryString);
+          value = hashParams.get("code");
+        }
+      }
+    }
+    
+    if (value) {
+      const text = decodeURIComponent(value).trim();
+      fscssEditor.setValue(text);
+document.getElementById("status-message").textContent = "";
+const input = fscssEditor.getValue();
+const outputf = await fscssEXT(input);
+cssEditor.setValue(outputf);
+addLogEntry(`Loaded FSCSS from URL Param`, "info");
+addLogEntry("Compiled successfully", 'success');
+
+    }
+  }
+  runFromURL();
   </script>
 </body>
-</html>
+  </html>
