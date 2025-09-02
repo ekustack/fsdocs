@@ -121,6 +121,13 @@
       display: flex;
       justify-content: space-between;
       font-family: 'Fira Code', monospace;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 1px;
+      padding-bottom: 3em;
+      z-index: 96;
+      padding-left: 0.7em;
     }
   @media (max-width: 700px) {
   .panel {
@@ -133,15 +140,26 @@
     flex: none;
     height: 40vh; 
   }
+ 
  .controls{
    position: absolute;
    top: 7vh;
    max-width: 99vw;
  }
+
 .btn{
   padding: 7px 10px;
 }
+} 
+@media (min-width: 700px){
+   .controls{
+   position: absolute;
+   top: 2vh;
+   max-width: 99vw;
+ }
+ 
 }
+
 .status-log {
   background: var(--darker);
   color: var(--light);
@@ -151,26 +169,33 @@
   max-height: 0;
   overflow-y: auto;
   transition: max-height 0.3s ease;
+  
+  
 }
 
 .status-log.expanded {
-  max-height: 150px; /* you can adjust */
+  max-height: 25vh; 
+  height: 23vh;
   border-top: 1px solid var(--border);
   bottom: 0;
   padding: 1em;
   left: 0;
   right: 0;
+  position: absolute;
+  z-index: 95;
 }
 
 .status-log span {
   display: block;
   margin-bottom: 3px;
+  margin-left: 2em;
 }
 .controls label.btn {
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
+  
 }
 .controls input[type="file"] {
   display: none;
