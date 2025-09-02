@@ -590,6 +590,8 @@ addLogEntry("Compiled successfully", 'success');
     }
   }
   setTimeout(()=>{ runFromURL();},1000);
+    window.addEventListener("hashchange", runFromURL());
+
   </script>
 </body>
   </html>
