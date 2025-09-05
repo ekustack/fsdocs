@@ -380,6 +380,19 @@
   .try-btn:hover {
     background: #2563eb;
   }
+    
+  .hidden { display: none; }
+  .toggle-btn {
+    margin-left: 0.5rem;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .toggle-btn:hover { background: #e2e8f0; }
+
     /* Responsive */
     @media (max-width: 900px) {
       .sidebar {
@@ -708,6 +721,7 @@ str(cardHover, "
   </div>
 </section>
     
+
     <!-- Repeat Section -->
 <section id="repeat" class="section">
   <h2><i class="fas fa-redo"></i> Repeat Function <code>rpt()</code></h2>
@@ -717,64 +731,34 @@ str(cardHover, "
     Great for content, backgrounds, and decorative effects.
   </p>
 
-  <div class="feature-card">
-    <h4><i class="fas fa-check-circle"></i> Common Uses</h4>
-    <ul>
-      <li>Loading indicators with dots or symbols</li>
-      <li>Star ratings</li>
-      <li>Text-based dividers</li>
-      <li>Background pattern generation</li>
-    </ul>
-  </div>
-
-  <div class="example-grid">
-    <div>
-      <h5>Loading Indicator</h5>
-      <div class="code-container">
-        <pre><code>.loading::after {
-  content: "rpt(5, '• ')";
-}</code></pre>
-      </div>
-    </div>
-
-    <div>
-      <h5>Visual Rating</h5>
-      <div class="code-container">
-        <pre><code>.rating-4::before {
-  content: "rpt(4, '★')";
-  color: gold;
-}</code></pre>
-      </div>
-    </div>
-  </div>
-
   <h3>Practical Example</h3>
   <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
     </div>
-<pre><code>// Decorative separator
+<pre class="fscss"><code>// Decorative separator
 .separator::after {
   content: "rpt(10, '— ')";
   display: block;
   text-align: center;
   color: #94a3b8;
   margin: 1rem 0;
-}
+}</code></pre>
 
-// Generate grid pattern
-.grid-bg {
-  background-image: 
-    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-  background-size: rpt(8, '20px ') 100%, 100% rpt(8, '20px ');
+<pre class="compiled hidden"><code>.separator::after {
+  content: "— — — — — — — — — — —";
+  display: block;
+  text-align: center;
+  color: #94a3b8;
+  margin: 1rem 0;
 }</code></pre>
   </div>
 
   <div class="try-btn-container">
     <a class="try-btn" 
-       href="/compiler#run?code=%2F%2F%20Decorative%20separator%0A.separator%3A%3Aafter%20%7B%0A%20%20content%3A%20%22rpt(10%2C%20'%E2%80%94%20')%22%3B%0A%20%20display%3A%20block%3B%0A%20%20text-align%3A%20center%3B%0A%20%20color%3A%20%2394a3b8%3B%0A%20%20margin%3A%201rem%200%3B%0A%7D%0A%0A%2F%2F%20Grid%20pattern%0A.grid-bg%20%7B%0A%20%20background-image%3A%20%0A%20%20%20%20linear-gradient(90deg%2C%20rgba(0%2C0%2C0%2C0.1)%201px%2C%20transparent%201px)%2C%0A%20%20%20%20linear-gradient(180deg%2C%20rgba(0%2C0%2C0%2C0.1)%201px%2C%20transparent%201px)%3B%0A%20%20background-size%3A%20rpt(8%2C%20'20px%20')%20100%25%2C%20100%25%20rpt(8%2C%20'20px%20')%3B%0A%7D" 
+       href="/compiler#run?code=%2F%2F%20Decorative%20separator%0A.separator%3A%3Aafter%20%7B%0A%20%20content%3A%20%22rpt(10%2C%20'%E2%80%94%20')%22%3B%0A%20%20display%3A%20block%3B%0A%20%20text-align%3A%20center%3B%0A%20%20color%3A%20%2394a3b8%3B%0A%20%20margin%3A%201rem%200%3B%0A%7D" 
        target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
@@ -787,39 +771,31 @@ str(cardHover, "
     Perfect for working with design tokens, colors, or long values you only want to write once.
   </p>
 
-  <div class="feature-card">
-    <h4><i class="fas fa-check-circle"></i> How It Works</h4>
-    <p><code>copy(length, variable)</code> → extracts characters from the last defined value and saves them into a named variable.</p>
-  </div>
-
   <h3>Practical Example</h3>
   <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
     </div>
-<pre><code>body {
-  /* define primary color from long hex */
+<pre class="fscss"><code>body {
   background: #4ff000 copy(4, primary-color);
   color: $primary-color!;
-}
+}</code></pre>
 
-/* reuse primary-color */
-a {
-  color: $primary-color!;
-}
+<pre class="compiled hidden"><code>
 
-/* extract 'midnightblue' */
-span::before {
-  content: "blue or midnightblue copy(-13, my-darkblue)";
-  border: 2px solid $my-darkblue!;
+body {
+  background: #4ff000;
+  color: var(--primary-color);
 }
+:root{--primary-color: #4ff000;}
 </code></pre>
   </div>
 
   <div class="try-btn-container">
     <a class="try-btn" 
-       href="/compiler#run?code=body%20%7B%0A%20%20background%3A%20%234ff000%20copy(4%2C%20primary-color)%3B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D%0A%0Aspan%3A%3Abefore%20%7B%0A%20%20content%3A%20%22blue%20or%20midnightblue%20copy(-13%2C%20my-darkblue)%22%3B%0A%20%20border%3A%202px%20solid%20%24my-darkblue!%3B%0A%7D" 
+       href="/compiler#run?code=body%20%7B%0A%20%20background%3A%20%234ff000%20copy(4%2C%20primary-color)%3B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D" 
        target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
@@ -832,48 +808,33 @@ span::before {
     Think of it as substring extraction, but directly inside your CSS.
   </p>
 
-  <h3>🔧 Syntax</h3>
+  <h3>Example</h3>
   <div class="code-container">
-    <pre><code>@ext(startIndex, length: variableName)</code></pre>
-  </div>
-  <p>
-    - <strong>startIndex</strong>: Where to start (negative values count from the end).<br>
-    - <strong>length</strong>: Number of characters to extract.<br>
-    - <strong>variableName</strong>: The variable alias to save the result.
-  </p>
-
-  <div class="example-grid">
-    <div>
-      <h5>Extract “red” from text</h5>
-      <div class="code-container">
-        <pre><code>body {
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
+    </div>
+<pre class="fscss"><code>body {
   property: "the red color @ext(4,3: myRed)";
   color: @ext.myRed;
 }</code></pre>
-      </div>
-    </div>
 
-    <div>
-      <h5>Extract from the end</h5>
-      <div class="code-container">
-        <pre><code>h1 {
-  content: "Welcome to FSCSS @ext(-5,5: brand)";
-  font-family: @ext.brand;
+<pre class="compiled hidden"><code>
+
+body {
+  property: "the red color";
+  color: red;
 }</code></pre>
-      </div>
-    </div>
   </div>
 
   <div class="try-btn-container">
     <a class="try-btn" 
-       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20content%3A%20%22Welcome%20to%20FSCSS%20%40ext(-5%2C5%3A%20brand)%22%3B%0A%20%20font-family%3A%20%40ext.brand%3B%0A%7D" 
+       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D" 
        target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
 
-
-        
-        
     
     <!-- mx -->
     <section id="drops" class="section">
@@ -1809,6 +1770,19 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
         }
       });
     });
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const container = btn.closest('.code-container');
+      const fscss = container.querySelector('.fscss');
+      const css = container.querySelector('.compiled');
+
+      fscss.classList.toggle('hidden');
+      css.classList.toggle('hidden');
+
+      btn.textContent = fscss.classList.contains('hidden') ? "Hide CSS" : "See CSS";
+    });
+  });
+                            
   </script>
   <script src="https://cdn.jsdelivr.net/gh/ekustack/ekustack.github.io@marster/scripts/ekuads.block.min.js"></script>
 
