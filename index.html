@@ -6,7 +6,7 @@
   <title>FSCSS - Figured Shorthand CSS</title>
   <meta name="description" content="FSCSS — A lightweight, powerful CSS preprocessor to simplify your styling workflow">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
   <meta property="og:image" content="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -354,6 +354,76 @@
       gap: 10px;
     }
     
+    /* Live Examples Section */
+    .examples-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .example-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--accent);
+      max-width: 90vw;
+    }
+    
+    .example-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .example-header h3 {
+      margin: 0;
+      color: var(--accent);
+    }
+    
+    .example-description {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    
+    .example-output {
+      background: #f8fafc;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .example-output .card {
+      width: 16em;
+      height: 10.24em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+    
+    .example-output .card:hover {
+      transform: scale(1.05);
+    }
+    
+    .example-output .star {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #ff6b6b, #c0392b);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+    
     /* Footer */
     footer {
       background: var(--dark);
@@ -399,17 +469,25 @@
         flex-direction: column;
         text-align: center;
       }
-      
+        
       nav {
         justify-content: center;
       }
-      
+      nav a{
+        padding: 0.3rem 0.2rem;
+      }
       .hero h1 {
         font-size: 2.2rem;
       }
-      
+        
       .hero p {
         font-size: 1.1rem;
+      }
+      
+      .example-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
       }
     }
   </style>
@@ -424,9 +502,9 @@
         </div>
         <h1>FSCSS</h1>
       </div>
-      
       <nav>
         <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#examples"><i class="fas fa-code"></i> Examples</a>
         <a href="#features"><i class="fas fa-star"></i> Features</a>
         <a href="#install"><i class="fas fa-download"></i> Install</a>
         <a href="#usage"><i class="fas fa-cog"></i> Usage</a>
@@ -434,7 +512,7 @@
       </nav>
     </div>
   </header>
-  
+
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-content">
@@ -442,13 +520,99 @@
       <p>A lightweight, powerful CSS preprocessor with intuitive shorthand syntax to make your stylesheets cleaner, faster, and more maintainable.</p>
       <div>
         <a href="#install" class="btn"><i class="fas fa-download"></i> Get Started</a>
-        <a href="#features" class="btn btn-outline"><i class="fas fa-code"></i> Explore Features</a>
+        <a href="#examples" class="btn btn-outline"><i class="fas fa-code"></i> See Examples</a>
       </div>
     </div>
   </section>
-  
+
   <!-- Main Content -->
   <main class="main-content">
+    <!-- Examples Section -->
+    <section id="examples" class="section">
+      <h2><i class="fas fa-code"></i> Live Examples</h2>
+      <p>See FSCSS in action with these interactive examples that showcase its powerful shorthand syntax:</p>
+      
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-header">
+            <h3>Event Functions & Conditional Logic</h3>
+            <span class="version-badge">v1.1.6</span>
+          </div>
+          <p class="example-description">
+            FSCSS allows you to create functions with conditional logic that can be called directly in your styles.
+            This example shows a responsive scaling function that adjusts sizes based on input values.
+          </p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>@event scaleSize(e) {
+  if e >= 8 { 
+    return: num(8*2)em
+    exec(_log, ">=8: Scaling to 16em for optimal readability");
+    /* Caps at 16em for larger inputs */
+  }
+  el-if e < 8 { 
+    return: num(8/5*8)em
+    exec(_log, "<8: Scaling to ~10.24em for compact views");
+    /* Scales down to ~10.24em for smaller inputs */
+  }
+  el { 
+    return: num(8)em
+    exec(_warn, "No match: Using default 8em – check your input value");
+    /* Default fallback */
+  }
+}
+
+.card {
+  width: @event.scaleSize(8);   /* Outputs 16em */
+  height: @event.scaleSize(7);  /* Outputs ~10.24em */
+  transition: all 0.3s ease;    /* Smooth it out */
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="card">
+              <p>This card uses:</p>
+              <p><strong>width: 16em</strong></p>
+              <p><strong>height: 10.24em</strong></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <h3>Imports & Shorthand Properties</h3>
+            <span class="version-badge">v1.1.6</span>
+          </div>
+          <p class="example-description">
+            FSCSS supports imports for shared code and provides powerful shorthand properties.
+            This example demonstrates theme imports and the %2 shorthand for setting width and height.
+          </p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>@import(exec(_init themes))
+
+div {
+  %2(width, height[: 200px;])  /* Sets both width and height to 200px */
+  background: red;
+  clip-path: @event.shape(star);
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="star"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section id="features" class="section">
       <h2><i class="fas fa-star"></i> Why FSCSS?</h2>
@@ -464,7 +628,7 @@
             <li>Simplified maintenance</li>
           </ul>
         </div>
-        
+          
         <div class="card">
           <h3><i class="fas fa-sync-alt"></i> Reusable Patterns</h3>
           <p>Create reusable style patterns with variables, mixins, and style stores.</p>
@@ -474,7 +638,7 @@
             <li>Easy global updates</li>
           </ul>
         </div>
-        
+          
         <div class="card">
           <h3><i class="fas fa-rocket"></i> Powerful Features</h3>
           <p>Advanced capabilities like value repetition, extraction, and automatic prefixing.</p>
@@ -483,7 +647,6 @@
             <li>copy() for value extraction</li>
             <li>Automatic vendor prefixing</li>
           </ul>
-          <img src="docs/syntax.jpg" width="95%" height="auto" onerror="this.style.display='none'">
         </div>
       </div>
     </section>
@@ -493,7 +656,7 @@
       <h2><i class="fas fa-download"></i> Install FSCSS</h2>
       <h3>Latest Version <span class="version-badge">v1.1.6</span></h3>
       <p>Choose your preferred installation method:</p>
-      
+       
       <div class="install-options">
         <div class="option-card">
           <h4><i class="fab fa-npm"></i> Install via NPM</h4>
@@ -506,7 +669,7 @@
             <pre><code>npm install fscss@1.1.6</code></pre>
           </div>
         </div>
-        
+          
         <div class="option-card">
           <h4><i class="fas fa-cloud-download-alt"></i> CDN Link</h4>
           <p>For quick integration in HTML files</p>
@@ -515,11 +678,11 @@
               <span>HTML</span>
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
-            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js"&gt;&lt;/script&gt;</code></pre>
+            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" async&gt;&lt;/script&gt;</code></pre>
           </div>
         </div>
       </div>
-      
+        
       <a href="https://www.npmjs.com/package/fscss" class="btn" target="_blank">
         <i class="fab fa-npm"></i> View on npm
       </a>
@@ -529,10 +692,10 @@
     <section id="usage" class="section">
       <h2><i class="fas fa-cog"></i> Usage Guide</h2>
       <p>Learn how to integrate FSCSS into your projects:</p>
-      <h5><a href="/docs/import-fscss">read &gt;how to import FSCSS within style</a></h5>
+      
       <h3><i class="fas fa-link"></i> Option 1: Using HTML &lt;link&gt; and CDN</h3>
       <p>Include your FSCSS file and load the compiler via CDN:</p>
-      
+        
       <div class="code-container">
         <div class="code-header">
           <span>HTML</span>
@@ -541,10 +704,10 @@
         <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.js" async&gt;&lt;/script&gt;</code></pre>
       </div>
-      
+
       <h3><i class="fas fa-code"></i> Option 2: Using exec() in JavaScript <span class="version-badge">beta</span></h3>
       <p>Import the exec method from FSCSS CDN and initialize it programmatically:</p>
-      
+        
       <div class="code-container">
         <div class="code-header">
           <span>JavaScript</span>
@@ -561,54 +724,15 @@ async function applyStyle() {
 
 applyStyle();</code></pre>
       </div>
-      <p>
-        <br>
-        <h4>✨ Developer Experience: Callbacks, Error Handling, and Maintainability</h4>
-
-<ul><li><b>Built-in Callbacks:</b> FSCSS provides onSuccess and onError hooks for better control over style execution results. Use them to log, debug, or respond to runtime style application.</li>
-
-<li><b>Error Reporting:</b> Errors are caught and reported through a clean callback interface, making debugging straightforward and user notifications possible.</li>
-
-<li><b>Maintainable Structure:</b> The exec() method uses named parameters, improving readability and maintainability—especially useful for scaling or integrating multiple stylesheets.</li></ul>
-      <h4>🧪 Example: Dynamically Load a Remote FSCSS File with Debugging</h4>
-      </p>
-      <div class="code-container">
-        <div class="code-header">
-          <span>JavaScript</span>
-          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-        </div>
-        <pre><code>
-  import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/xfscss.min.js";
-
-  const DEBUG = true;
-
-  function applyFSCSS({ type, content }) {
-    exec({
-      type,
-      content,
-      onSuccess: (styleElement) => {
-        if (DEBUG) console.log("✅ FSCSS applied:", styleElement);
-      },
-      onError: (error) => {
-        console.error("❌ Failed to apply FSCSS:", error);
-        alert("⚠️ Could not load styles. Please try again later.");
-      }
-    });
-  }
-
-  applyFSCSS({
-    type: "URL",
-    content: "styles/style.fscss"
-  });</code></pre>
-      </div>
+      
       <a href="compiler.html" class="btn"><i class="fas fa-play-circle"></i> Try It Live on the FSCSS Compiler</a>
     </section>
-    
+
     <!-- Docs Section -->
     <section id="docs" class="section">
       <h2><a href="docs.html#"><i class="fas fa-book"></i> Documentation</a></h2>
       <p>Explore the full power of FSCSS with our comprehensive documentation:</p>
-      
+        
       <div class="card">
         <h3><i class="fas fa-file-alt"></i> Complete Feature Reference</h3>
         <p>Detailed explanations of all FSCSS features with practical examples:</p>
@@ -619,12 +743,12 @@ applyStyle();</code></pre>
           <li>Keyframe shorthand</li>
           <li>Vendor prefixing</li>
         </ul>
-        
+          
         <a href="docs.html" class="btn"><i class="fas fa-book-open"></i> Read Documentation</a>
       </div>
     </section>
   </main>
-  
+
   <!-- Footer -->
   <footer>
     <div class="footer-content">
@@ -642,49 +766,49 @@ applyStyle();</code></pre>
         <a href="docs.html"><i class="fas fa-book"></i> Documentation</a>
         <a href="https://github.com/fscss-ttr/FSCSS/issues/new"><i class="fas fa-bug"></i> Report Issue</a>
       </div>
-      
+        
       <div class="copyright">
         <p>Made with 💡 for Web designers</p>
         <p>© 2025 FSCSS. MIT License</p>
       </div>
     </div>
   </footer>
-  
+
   <script>
     // Copy button functionality
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', function() {
         const pre = this.parentElement.parentElement.nextElementSibling;
         const text = pre.textContent;
-        
+            
         navigator.clipboard.writeText(text).then(() => {
           const originalText = this.innerHTML;
           this.innerHTML = '<i class="fas fa-check"></i> Copied';
-          
+              
           setTimeout(() => {
             this.innerHTML = originalText;
           }, 2000);
         });
       });
     });
-    
+      
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
+            
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
-        
+            
         const targetElement = document.querySelector(targetId);
-        
+            
         if (targetElement) {
           window.scrollTo({
             top: targetElement.offsetTop - 80,
             behavior: 'smooth'
           });
-          
-          // Update active link
+              
+        
           document.querySelectorAll('nav a.active').forEach(link => {
             link.classList.remove('active');
           });
@@ -692,12 +816,12 @@ applyStyle();</code></pre>
         }
       });
     });
+      
     
-    // Update active link on scroll
     window.addEventListener('scroll', function() {
       const sections = document.querySelectorAll('.section');
       const navLinks = document.querySelectorAll('nav a');
-      
+          
       let currentSection = '';
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
@@ -705,7 +829,7 @@ applyStyle();</code></pre>
           currentSection = section.getAttribute('id');
         }
       });
-      
+          
       navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${currentSection}`) {
