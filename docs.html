@@ -709,38 +709,52 @@ str(cardHover, "
 </section>
     
     <!-- Repeat Section -->
-    <section id="repeat" class="section">
-      <h2><i class="fas fa-redo"></i> Repeat Function (rpt())</h2>
-      <p>Generate repeated patterns, content, or values with the <code>rpt()</code> function. Ideal for visual indicators, loading states, and generated content.</p>
-      
-      <h3>Use Cases</h3>
-      <div class="example-grid">
-        <div>
-          <h5>Loading Indicators</h5>
-          <div class="code-container">
-            <pre><code>.loading::after {
+<section id="repeat" class="section">
+  <h2><i class="fas fa-redo"></i> Repeat Function <code>rpt()</code></h2>
+  <p>
+    Need to generate repeating characters, units, or patterns without writing them manually? 
+    The <code>rpt()</code> function repeats any value a specified number of times. 
+    Great for content, backgrounds, and decorative effects.
+  </p>
+
+  <div class="feature-card">
+    <h4><i class="fas fa-check-circle"></i> Common Uses</h4>
+    <ul>
+      <li>Loading indicators with dots or symbols</li>
+      <li>Star ratings</li>
+      <li>Text-based dividers</li>
+      <li>Background pattern generation</li>
+    </ul>
+  </div>
+
+  <div class="example-grid">
+    <div>
+      <h5>Loading Indicator</h5>
+      <div class="code-container">
+        <pre><code>.loading::after {
   content: "rpt(5, '• ')";
 }</code></pre>
-          </div>
-        </div>
-        
-        <div>
-          <h5>Visual Ratings</h5>
-          <div class="code-container">
-            <pre><code>.rating-4::before {
+      </div>
+    </div>
+
+    <div>
+      <h5>Visual Rating</h5>
+      <div class="code-container">
+        <pre><code>.rating-4::before {
   content: "rpt(4, '★')";
   color: gold;
 }</code></pre>
-          </div>
-        </div>
       </div>
-      
-      <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>// Create a decorative separator
+    </div>
+  </div>
+
+  <h3>Practical Example</h3>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>// Decorative separator
 .separator::after {
   content: "rpt(10, '— ')";
   display: block;
@@ -749,61 +763,73 @@ str(cardHover, "
   margin: 1rem 0;
 }
 
-// Generate background pattern
+// Generate grid pattern
 .grid-bg {
   background-image: 
-    linear-gradient(90deg, 
-      rgba(0,0,0,0.1) 1px, 
-      transparent 1px),
-    linear-gradient(180deg, 
-      rgba(0,0,0,0.1) 1px, 
-      transparent 1px);
-  background-size: 
-    rpt(8, '20px ') 100%, 
-    100% rpt(8, '20px ');
+    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: rpt(8, '20px ') 100%, 100% rpt(8, '20px ');
 }</code></pre>
-      </div>
-    </section>
-    
-    <!-- Copy Section -->
-    <section id="copy" class="section">
-      <a href="#fscss-copy-function"><h2><i class="fas fa-copy"></i> Copy Function (copy())</h2></a>
-      <p>Extract and reuse parts of values with the <code>copy()</code> function. Perfect for working with design tokens and value lists.</p>
-      
-      <div class="feature-card">
-        <h4><i class="fas fa-check-circle"></i> How It Works</h4>
-        <p><code>copy(length, variable)</code> extracts the value at the specified length to a variable</p>
-      </div>
-      
-      <h3>Practical Example</h3>
-      <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>
-body{
-  /* primary-color = #4ff */
-  background:#4ff000 copy(4, primary-color);
+  </div>
+
+  <div class="try-btn-container">
+    <a class="try-btn" 
+       href="/compiler#run?code=%2F%2F%20Decorative%20separator%0A.separator%3A%3Aafter%20%7B%0A%20%20content%3A%20%22rpt(10%2C%20'%E2%80%94%20')%22%3B%0A%20%20display%3A%20block%3B%0A%20%20text-align%3A%20center%3B%0A%20%20color%3A%20%2394a3b8%3B%0A%20%20margin%3A%201rem%200%3B%0A%7D%0A%0A%2F%2F%20Grid%20pattern%0A.grid-bg%20%7B%0A%20%20background-image%3A%20%0A%20%20%20%20linear-gradient(90deg%2C%20rgba(0%2C0%2C0%2C0.1)%201px%2C%20transparent%201px)%2C%0A%20%20%20%20linear-gradient(180deg%2C%20rgba(0%2C0%2C0%2C0.1)%201px%2C%20transparent%201px)%3B%0A%20%20background-size%3A%20rpt(8%2C%20'20px%20')%20100%25%2C%20100%25%20rpt(8%2C%20'20px%20')%3B%0A%7D" 
+       target="_blank">🚀 Try it yourself</a>
+  </div>
+</section>
+
+<!-- Copy Section -->
+<section id="copy" class="section">
+  <h2><i class="fas fa-copy"></i> Copy Function <code>copy()</code></h2>
+  <p>
+    The <code>copy()</code> function extracts part of a value or string and stores it as a variable. 
+    Perfect for working with design tokens, colors, or long values you only want to write once.
+  </p>
+
+  <div class="feature-card">
+    <h4><i class="fas fa-check-circle"></i> How It Works</h4>
+    <p><code>copy(length, variable)</code> → extracts characters from the last defined value and saves them into a named variable.</p>
+  </div>
+
+  <h3>Practical Example</h3>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>body {
+  /* define primary color from long hex */
+  background: #4ff000 copy(4, primary-color);
   color: $primary-color!;
 }
-          /* use it in any sheets */
-          a{
-            color: $primary-color!;
-          }
-span:before{
-          /* copy 'midnightblue' and store it as 'my-darkblue' */
-          content: "blue or midnightblue copy(-13, my-darkblue)";
-          border: 2px solid $my-darkblue!;
-         } 
+
+/* reuse primary-color */
+a {
+  color: $primary-color!;
+}
+
+/* extract 'midnightblue' */
+span::before {
+  content: "blue or midnightblue copy(-13, my-darkblue)";
+  border: 2px solid $my-darkblue!;
+}
 </code></pre>
-      </div>
-      <a href="#fscss-copy-function">Understand more about the copy function</a>
-    </section>
+  </div>
+
+  <div class="try-btn-container">
+    <a class="try-btn" 
+       href="/compiler#run?code=body%20%7B%0A%20%20background%3A%20%234ff000%20copy(4%2C%20primary-color)%3B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D%0A%0Aspan%3A%3Abefore%20%7B%0A%20%20content%3A%20%22blue%20or%20midnightblue%20copy(-13%2C%20my-darkblue)%22%3B%0A%20%20border%3A%202px%20solid%20%24my-darkblue!%3B%0A%7D" 
+       target="_blank">🚀 Try it yourself</a>
+  </div>
+</section>
+
+<!-- Ext Section -->
 <section id="ext" class="section">
   <h2><i class="fas fa-i-cursor"></i> <code>@ext()</code> – Value & String Extractor</h2>
   <p>
-    The <code>@ext()</code> method in FSCSS (Figured Shorthand CSS) is a **value and string slicing utility**. It extracts a substring from a given property string or value using index-based parameters, stores it as a named variable, and allows it to be reused across your styles.
+    <code>@ext()</code> lets you slice strings or values by index and store them as variables. 
+    Think of it as substring extraction, but directly inside your CSS.
   </p>
 
   <h3>🔧 Syntax</h3>
@@ -811,52 +837,43 @@ span:before{
     <pre><code>@ext(startIndex, length: variableName)</code></pre>
   </div>
   <p>
-    - <strong>startIndex</strong>: The position to start extraction. Use negative values to count from the end.<br>
-    - <strong>length</strong>: How many characters to extract.<br>
-    - <strong>variableName</strong>: The alias name to store the result.
+    - <strong>startIndex</strong>: Where to start (negative values count from the end).<br>
+    - <strong>length</strong>: Number of characters to extract.<br>
+    - <strong>variableName</strong>: The variable alias to save the result.
   </p>
 
-  <h3>📦 Example</h3>
   <div class="example-grid">
     <div>
-      <h5>Extract “red” from a property string</h5>
+      <h5>Extract “red” from text</h5>
       <div class="code-container">
         <pre><code>body {
   property: "the red color @ext(4,3: myRed)";
   color: @ext.myRed;
 }</code></pre>
       </div>
-      <p>
-        - Starts at index 4 (<code>"the <mark>red</mark>"</code>) and extracts 3 characters.<br>
-        - Stores as <code>@ext.myRed</code> which is reused for the <code>color</code> property.
-      </p>
     </div>
 
     <div>
-      <h5>Extracting from the end of the string</h5>
+      <h5>Extract from the end</h5>
       <div class="code-container">
         <pre><code>h1 {
   content: "Welcome to FSCSS @ext(-5,5: brand)";
   font-family: @ext.brand;
 }</code></pre>
       </div>
-      <p>
-        - Starts 5 characters from the end and extracts 5.<br>
-        - Useful for capturing trailing identifiers or dynamic fragments.
-      </p>
     </div>
   </div>
 
-  <div class="summary">
-    <h4>✨ Summary</h4>
-    <ul>
-      <li><strong>Dynamic Extraction:</strong> Pull values or keywords directly from inline strings.</li>
-      <li><strong>Position-Based Logic:</strong> Use positive or negative indexing for full control over slicing.</li>
-      <li><strong>Reusable Variables:</strong> Store extracted values under named variables (e.g. <code>@ext.myRed</code>) to reference multiple times.</li>
-      <li><strong>Lightweight & Inline:</strong> Eliminates redundancy and simplifies styling patterns involving repeated content.</li>
-    </ul>
+  <div class="try-btn-container">
+    <a class="try-btn" 
+       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20content%3A%20%22Welcome%20to%20FSCSS%20%40ext(-5%2C5%3A%20brand)%22%3B%0A%20%20font-family%3A%20%40ext.brand%3B%0A%7D" 
+       target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
+
+
+        
+        
     
     <!-- mx -->
     <section id="drops" class="section">
