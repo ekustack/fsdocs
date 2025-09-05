@@ -929,11 +929,15 @@ body {
 </section>
     <a href="https://www.profitableratecpm.com/ctfihpju5t?key=050c14db97a69b406f3592f7284346ad" target="_blank"><div id="href44crc"><p><strong>AD</strong></p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHz9-mMPc6iUgp6rwNgwaikriLDyKQR89SGDgZIYPU4eWCW17rj5wJ7pad&s=10" onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYbsqIgHJyvvtSVQ1c_RDGPzo5j0LMz0vRtw&s';" id="onlImg199900789ffdd3" /></div></a>
     
-    <!-- share -->
-    <section id="share" class="section">
-  <h<section id="share" class="section">
+
+<!-- share -->
+<section id="share" class="section">
   <h2><i class="fas fa-layer-group"></i> Shared Properties (%1 - %6, %i)</h2>
-  <p>Shared values are assigned to indexes like <code>%2</code>, <code>%3</code>, and so on. They can be injected directly into selectors using shorthand to reduce repetition when multiple properties share the same value.</p>
+  <p>
+    Shared values let you assign a single value to multiple properties at once.
+    Use <code>%2</code>, <code>%3</code>, up to <code>%6</code> for 2–6 properties, or <code>%i</code> for custom counts.  
+    This helps you reduce repetition and keep your stylesheets concise.
+  </p>
 
   <h3>Use Cases</h3>
   <div class="example-grid">
@@ -973,11 +977,12 @@ body {
     </div>
   </div>
 
-  <!-- FSCSS Output -->
+  <!-- FSCSS Example -->
   <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <a class="try-btn" href="/compiler#run?code=%0Adiv%20%7B%0A%20%20%252(width%2C%20height%5B%3A%2050px%3B%5D)%0A%7D%0A%0A.box%20%7B%0A%20%20%253(border-radius%2C%20outline-width%2C%20min-width%5B%3A%205px%3B%5D)%0A%7D%0A%0Ah1%20%7B%0A%20%20%254(margin%2C%20padding%2C%20gap%2C%20inset%5B%3A%2010px%3B%5D)%0A%7D%0A%0Abutton%20%7B%0A%20%20%255(border-width%2C%20font-size%2C%20line-height%2C%20letter-spacing%2C%20word-spacing%5B%3A%202px%3B%5D)%0A%7D%0A%0A.grid%20%7B%0A%20%20%256(row-gap%2C%20column-gap%2C%20padding%2C%20margin%2C%20top%2C%20left%5B%3A%201rem%3B%5D)%0A%7D" target="_blank">Try it yourself</a>
     </div>
 <pre><code>div {
   %2(width, height[: 50px;])
@@ -1042,8 +1047,81 @@ button {
 }</code></pre>
   </div>
 
-  <p>Hope you understand or learn from the <code>%2()</code> example: <code>%2</code> applies the same value to 2 properties, <code>%3</code> does the same for 3, and so on up to <code>%6</code>. It's a great way to reduce repetition in FSCSS.</p>
+  <!-- Live Preview -->
+  <div class="preview-grid">
+    <div class="demo-box">div (%2)</div>
+    <div class="demo-box box">.box (%3)</div>
+    <h1 class="demo-h1">h1 (%4)</h1>
+    <button class="demo-btn">button (%5)</button>
+    <div class="demo-grid">
+      <div>1</div><div>2</div><div>3</div><div>4</div>
+    </div>
+  </div>
 </section>
+
+<!-- Demo Styles -->
+<style>
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.demo-box {
+  width: 50px;
+  height: 50px;
+  background: #60a5fa;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-size:.75rem;
+  border-radius:4px;
+}
+.box {
+  border-radius: 5px;
+  outline: 2px solid #3b82f6;
+  min-width: 5px;
+}
+.demo-h1 {
+  margin: 10px;
+  padding: 10px;
+  gap: 10px;
+  inset: 10px;
+  background:#fbbf24;
+  color:#000;
+  font-size:1rem;
+}
+.demo-btn {
+  border-width: 2px;
+  font-size: 2px;
+  line-height: 2px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  background:#34d399;
+  color:#fff;
+  padding:.5rem 1rem;
+}
+.demo-grid {
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  row-gap:1rem;
+  column-gap:1rem;
+  padding:1rem;
+  margin:1rem;
+  top:1rem;
+  left:1rem;
+  background:#f87171;
+  color:#fff;
+}
+.demo-grid div {
+  background:#fff;
+  color:#000;
+  padding:.5rem;
+  border-radius:4px;
+  text-align:center;
+}
+</style>
     <!-- attr-->
     
     <section id="attr" class="section">
