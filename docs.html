@@ -1267,12 +1267,17 @@ button {
 }
 </style>
     <!-- vendors -->
-    
-    <section id="vendors" class="section">
-  <h2><i class="fas fa-toolbox"></i> Vendor Prefixing (-*-)</h2>
-  <p>Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.</p>
 
-  <h3>Use Cases</h3>
+    <!-- vendors -->
+<section id="vendors" class="section">
+  <h2><i class="fas fa-toolbox"></i> Vendor Prefixing (-*-)</h2>
+  <p>
+    Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across
+    <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.  
+    This ensures cross-browser compatibility without writing each prefix manually.
+  </p>
+
+  <h3>Use Case</h3>
   <div class="example-grid">
     <div>
       <h5>Cross-Browser Transforms</h5>
@@ -1284,128 +1289,135 @@ button {
     </div>
   </div>
 
-        <div class="code-container">
+  <!-- FSCSS Input -->
+  <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <a class="try-btn" href="/compiler#run?code=.box%20%7B%0A%20%20-*-%20transform%3A%20rotate(45deg)%3B%0A%7D" target="_blank">Try it yourself</a>
     </div>
-    <pre><code>.box {
+<pre><code>.box {
   -*-transform: rotate(45deg);
 }</code></pre>
   </div>
-      
+
+  <!-- CSS Output -->
   <div class="code-container">
     <div class="code-header">
       <span>css</span>
       <button class="copy-btn">Copy</button>
     </div>
-    <pre><code>.box {
+<pre><code>.box {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
+  transform: rotate(45deg);
 }</code></pre>
   </div>
+
+  <!-- Live Preview -->
+  <div class="preview-grid4">
+    <div class="demo-box4 box">Rotated</div>
+  </div>
 </section>
-    <section id="fun" class="section">
-  <h2 class="section-title">Function based (@fun)</h2>
-  <p class="section-intro">
-    This guide demonstrates how to use <code>@fun</code> blocks in FSCSS to modularize and reuse style values in your stylesheets. It introduces a cleaner, more maintainable approach to logic-based grouping and referencing in design.
+
+<!-- fun -->
+<section id="fun" class="section">
+  <h2><i class="fas fa-cogs"></i> Function Based (@fun)</h2>
+  <p>
+    FSCSS allows defining reusable groups of values with <code>@fun(name){...}</code>.  
+    These can store sizes, colors, or property sets and can be referenced anywhere using dot-notation.
   </p>
 
-  <div class="doc-subsection" id="functional-blocks">
-    <h3 class="subsection-title">🔧 Functional Blocks in FSCSS</h3>
-    <p>
-      FSCSS enables you to define grouped variables using <code>@fun(variable-name){...}</code>. These can represent sizes, colors, property sets, and more. Reference them anywhere using dot-notation (i.e, @fun.varname.itproperty.value ).
-    </p>
-  </div>
-
-  <div class="doc-subsection" id="define-sizes">
-    <h3 class="subsection-title">📐 Define Sizes – <code>@fun(e)</code></h3>
-    <div class="code-container">
-      <pre><code>@fun(e){
+  <h3>Use Case</h3>
+  <div class="example-grid">
+    <div>
+      <h5>Reusable Palette & Sizes</h5>
+      <div class="code-container">
+        <pre><code>@fun(e){
   a: 100px;
   b: 200px;
-  c: 300px;
-}</code></pre>
-    </div>
-    <p>Efficiently store reusable measurements like widths, spacing, etc.</p>
-    <ul class="ref-list">
-      <li><code>@fun.e.a.value</code> → 100px</li>
-      <li><code>@fun.e.c.value</code> → 300px</li>
-    </ul>
-  </div>
-
-  <div class="doc-subsection" id="define-colors">
-    <h3 class="subsection-title">🎨 Define Color Palette – <code>@fun(col)</code></h3>
-    <div class="code-container">
-      <pre><code>@fun(col){
+}
+@fun(col){
   1: #550066;
   2: #005523;
-}</code></pre>
-    </div>
-    <p>Centralize theming and maintain consistent color usage across your UI.</p>
-    <ul class="ref-list">
-      <li><code>@fun.col.1.value</code> → Dark purple</li>
-      <li><code>@fun.col.2.value</code> → Forest green</li>
-    </ul>
-  </div>
-
-  <div class="doc-subsection" id="define-properties">
-    <h3 class="subsection-title">🧱 Define CSS Property Groups – <code>@fun(pr)</code></h3>
-    <div class="code-container">
-      <pre><code>@fun(pr){
-  border: 2px groove red;
-  border-radius: 40px 60px 0 6px;
-}</code></pre>
-    </div>
-    <p>Bundle multiple related CSS properties under a single reusable group.</p>
-    <ul class="ref-list">
-      <li><code>@fun.pr.border.value</code> → 2px groove red</li>
-      <li><code>@fun.pr.border-radius.value</code> → 40px 60px 0 6px</li>
-    </ul>
-  </div>
-
-  <div class="doc-subsection" id="apply-functional-values">
-    <h3 class="subsection-title">💡 Apply Styles with Functional Values</h3>
-    <p>Use functional values in actual styles:</p>
-    <div class="code-container">
-      <pre><code>body {
-  background: @fun.col.1.value;
-}</code></pre>
-    </div>
-    <p>This example sets the background color using a centralized functional value.</p>
-  </div>
-
-  <div class="doc-subsection" id="styled-div">
-    <h3 class="subsection-title">🧩 <code>&lt;div&gt;</code> Styling</h3>
-    <div class="code-container">
-      <pre><code>div {
+}
+.box {
+  width: @fun.e.a.value;
+  height: @fun.e.b.value;
   background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
-  @fun.pr;
-  outline: @fun.pr.border.value;
-  %2(width, height[:@fun.e.a.value;]);
 }</code></pre>
+      </div>
     </div>
-    <p><strong>Breakdown:</strong></p>
-    <ul class="usage-list">
-      <li>✅ <code>background</code>: Gradient using two predefined colors.</li>
-      <li>✅ <code>@fun.pr</code>: Injects grouped border styles.</li>
-      <li>✅ <code>outline</code>: Applies same border style to outline.</li>
-      <li>✅ <code>%2(...)</code>: FSCSS shorthand for multiple property assignment.</li>
-    </ul>
   </div>
 
-  <div class="doc-subsection" id="developer-benefits">
-    <h3 class="subsection-title">🚀 Developer Benefits</h3>
-    <ul class="benefits-list">
-      <li><strong>Modular:</strong> Style tokens are centrally defined and managed.</li>
-      <li><strong>Readable:</strong> Logic is separated from raw values.</li>
-      <li><strong>Reusable:</strong> A single source can be injected into many components.</li>
-      <li><strong>Maintainable:</strong> Ideal for design systems and long-term projects.</li>
-    </ul>
+  <!-- FSCSS Input -->
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+      <a class="try-btn" href="/compiler#run?code=%40fun(e)%7B%0A%20%20a%3A%20100px%3B%0A%20%20b%3A%20200px%3B%0A%7D%0A%40fun(col)%7B%0A%20%201%3A%20%23550066%3B%0A%20%202%3A%20%23005523%3B%0A%7D%0A.box%20%7B%0A%20%20width%3A%20%40fun.e.a.value%3B%0A%20%20height%3A%20%40fun.e.b.value%3B%0A%20%20background%3A%20linear-gradient(%40fun.col.1.value%2C%20%40fun.col.2.value)%3B%0A%7D" target="_blank">Try it yourself</a>
+    </div>
+<pre><code>@fun(e){
+  a: 100px;
+  b: 200px;
+}
+@fun(col){
+  1: #550066;
+  2: #005523;
+}
+.box {
+  width: @fun.e.a.value;
+  height: @fun.e.b.value;
+  background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
+}</code></pre>
+  </div>
+
+  <!-- CSS Output -->
+  <div class="code-container">
+    <div class="code-header">
+      <span>css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>.box {
+  width: 100px;
+  height: 200px;
+  background: linear-gradient(#550066, #005523);
+}</code></pre>
+  </div>
+
+  <!-- Live Preview -->
+  <div class="preview-grid3">
+    <div class="demo-box3 box">Box</div>
   </div>
 </section>
+
+<!-- Demo Styles -->
+<style>
+.preview-grid3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+.demo-box3 {
+  width: 120px;
+  height: 60px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+}
+.demo-box3.box {
+  width: 100px;
+  height: 200px;
+  background: linear-gradient(#550066, #005523);
+}
+</style>
     <a href="https://www.profitableratecpm.com/ctfihpju5t?key=050c14db97a69b406f3592f7284346ad" target="_blank"><div id="href44crc"><p><strong>AD</strong></p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHz9-mMPc6iUgp6rwNgwaikriLDyKQR89SGDgZIYPU4eWCW17rj5wJ7pad&s=10" onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYbsqIgHJyvvtSVQ1c_RDGPzo5j0LMz0vRtw&s';" id="onlImg199900789ffdd3" /></div></a>
 
 
