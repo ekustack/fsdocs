@@ -537,65 +537,101 @@
     </section>
     
     <!-- Variables Section -->
-    <section id="variables" class="section">
-      <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
-      <p>FSCSS variables provide a powerful way to store and reuse values throughout your stylesheets. Define once, use everywhere.</p>
-      
-      <div class="feature-card">
-        <h4><i class="fas fa-check-circle"></i> Key Features</h4>
-        <p>- Define variables with <code>$name: value;</code></p>
-        <p>- Reference variables with <code>$name!</code></p>
-        <p>- Variables compile to CSS custom properties</p>
-        <p>- Scoped to <code>:root</code> by default</p>
-      </div>
-      
-      <h3>Basic Usage</h3>
-      <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>// Define color variables
+    
+<section id="variables" class="section">
+  <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
+  <p>
+    FSCSS variables give you flexible ways to store and reuse values across your stylesheets. 
+    They can be inline, scoped to elements, global, or even store entire blocks of styles. 
+    Define once, reuse anywhere.
+  </p>
+
+  <div class="feature-card">
+    <h4><i class="fas fa-check-circle"></i> Key Features</h4>
+    <ul>
+      <li>Inline variables: <code>$name: value;</code> → used with <code>$name!</code></li>
+      <li>Global variables: <code>$global: value;</code> → available everywhere</li>
+      <li>Local (scoped) variables: defined inside a selector, used only in that block</li>
+      <li>Block variables: <code>str(name, "block of styles")</code> → store whole chunks of CSS</li>
+      <li>All variables compile down to native CSS <code>--custom-properties</code></li>
+    </ul>
+  </div>
+
+  <h3>Inline & Global Variables</h3>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>// Inline variables
 $primary: #3b82f6;
 $secondary: #8b5cf6;
-$text: #1e293b;
 
-// Use variables
+// Global variable
+$global-font: 'Inter', sans-serif;
+
 .button {
   background: $primary!;
-  color: white;
   border: 2px solid $secondary!;
+  font-family: $global-font!;
 }
+</code></pre>
+  </div>
 
-.heading {
-  color: $text!;
-  font-size: 2rem;
-}</code></pre>
-      </div>
-      
-      <div class="code-container">
-        <div class="code-header">
-          <span>compiled css</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>:root {
+  <div class="code-container">
+    <div class="code-header">
+      <span>compiled css</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>:root {
   --primary: #3b82f6;
   --secondary: #8b5cf6;
-  --text: #1e293b;
+  --global-font: 'Inter', sans-serif;
 }
 
 .button {
   background: var(--primary);
-  color: white;
   border: 2px solid var(--secondary);
+  font-family: var(--global-font);
 }
+</code></pre>
+  </div>
 
-.heading {
-  color: var(--text);
-  font-size: 2rem;
-}</code></pre>
-      </div>
-    </section>
+  <h3>Local Variables (Scoped)</h3>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>.card {
+  $local-bg: #f1f5f9;
+  background: $local-bg!;
+  padding: 1rem;
+}
+</code></pre>
+  </div>
+
+  <h3>Block Value Variables</h3>
+  <p>
+    Block variables let you store reusable style snippets as text, then inject them wherever needed.
+  </p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>str(shadowBlock, "
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 0.75rem;
+");
+
+.card {
+  background: white;
+  $shadowBlock!
+}
+</code></pre>
+  </div>
+</section>
     
     <!-- Replace Section -->
     <section id="replace" class="section">
