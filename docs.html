@@ -859,10 +859,13 @@ body {
 </section>
 
     
-    <!-- mx -->
-    <section id="drops" class="section">
-  <h2><i class="fas fa-code-branch"></i> mx() / mxs() Mixins</h2>
-  <p>Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value. <code>mxs</code> uses a shared value string, while <code>mx</code> requires appending colons manually.</p>
+<!-- mx -->
+<section id="drops" class="section">
+  <h2><i class="fas fa-code-branch"></i> mx() / mxs() </h2>
+  <p>
+    Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value.  
+    <code>mxs()</code> takes a shared value string, while <code>mx()</code> requires appending colons manually.
+  </p>
 
   <h3>Use Cases</h3>
   <div class="example-grid">
@@ -885,25 +888,22 @@ body {
     </div>
   </div>
 
-      <div class="code-container">
+  <h3>Practical Example</h3>
+  <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
     </div>
-    <pre><code>.card {
-  mxs(width, height, max-height, max-width, min-width, min-height, ' 200px')
+
+<pre class="fscss"><code>.card {
+  mxs(width, height, max-height, max-width, min-width, min-height, '200px')
 }
 .box {
   mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
 }</code></pre>
-  </div>
-      
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-    <pre><code>.card {
+
+<pre class="compiled hidden"><code>.card {
   width: 200px;
   height: 200px;
   max-height: 200px;
@@ -919,6 +919,12 @@ body {
   min-width: 200px;
   min-height: 200px;
 }</code></pre>
+  </div>
+
+  <div class="try-btn-container">
+    <a class="try-btn"
+       href="/compiler#run?code=.card%20%7B%0A%20%20mxs(width%2C%20height%2C%20max-height%2C%20max-width%2C%20min-width%2C%20min-height%2C%20'200px')%0A%7D%0A.box%20%7B%0A%20%20mx(width%2C%20height%2C%20max-height%2C%20max-width%2C%20min-width%2C%20min-height%2C%20'%3A%20200px%3B')%0A%7D"
+       target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
     <a href="https://www.profitableratecpm.com/ctfihpju5t?key=050c14db97a69b406f3592f7284346ad" target="_blank"><div id="href44crc"><p><strong>AD</strong></p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHz9-mMPc6iUgp6rwNgwaikriLDyKQR89SGDgZIYPU4eWCW17rj5wJ7pad&s=10" onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYbsqIgHJyvvtSVQ1c_RDGPzo5j0LMz0vRtw&s';" id="onlImg199900789ffdd3" /></div></a>
