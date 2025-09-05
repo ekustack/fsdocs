@@ -563,11 +563,9 @@
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
     </div>
-<pre><code>// Inline variables
+<pre><code>// Inline & global variables
 $primary: #3b82f6;
 $secondary: #8b5cf6;
-
-// Global variable
 $global-font: 'Inter', sans-serif;
 
 .button {
@@ -583,16 +581,11 @@ $global-font: 'Inter', sans-serif;
       <span>compiled css</span>
       <button class="copy-btn">Copy</button>
     </div>
-<pre><code>:root {
-  --primary: #3b82f6;
-  --secondary: #8b5cf6;
-  --global-font: 'Inter', sans-serif;
-}
-
+<pre><code>
 .button {
-  background: var(--primary);
-  border: 2px solid var(--secondary);
-  font-family: var(--global-font);
+  background: #3b82f6;
+  border: 2px solid #8b5cf6;
+  font-family: 'Inter', sans-serif;
 }
 </code></pre>
   </div>
