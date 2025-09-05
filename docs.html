@@ -1122,13 +1122,17 @@ button {
   text-align:center;
 }
 </style>
-    <!-- attr-->
-    
-    <section id="attr" class="section">
-  <h2><i class="fas fa-crosshairs"></i> Attribute Selector Shortcut</h2>
-  <p>Shorthand for attribute selectors. Converts <code>$(type: submit)</code> into <code>[type='submit']</code>.</p>
 
-  <h3>Use Cases</h3>
+      <!-- attr -->
+<section id="attr" class="section">
+  <h2><i class="fas fa-crosshairs"></i> Attribute Selector Shortcut</h2>
+  <p>
+    FSCSS makes attribute selectors faster to write.  
+    For example, <code>$(type:submit)</code> compiles to <code>[type='submit']</code>.  
+    This is handy for forms, input types, roles, and any attribute-based selection.
+  </p>
+
+  <h3>Use Case</h3>
   <div class="example-grid">
     <div>
       <h5>Target Form Buttons</h5>
@@ -1141,102 +1145,127 @@ button {
     </div>
   </div>
 
-      <div class="code-container">
+  <!-- FSCSS Input -->
+  <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <a class="try-btn" href="/compiler#run?code=%24(type%3Asubmit)%20%7B%0A%20%20background%3A%20green%3B%0A%20%20color%3A%20white%3B%0A%7D" target="_blank">Try it yourself</a>
     </div>
-    <pre><code>$(type:submit){
+<pre><code>$(type:submit) {
   background: green;
   color: white;
 }</code></pre>
   </div>
-      
+
+  <!-- CSS Output -->
   <div class="code-container">
     <div class="code-header">
       <span>css</span>
       <button class="copy-btn">Copy</button>
     </div>
-    <pre><code>[type='submit'] {
+<pre><code>[type='submit'] {
   background: green;
   color: white;
 }</code></pre>
   </div>
-</section>
-    <!-- keyframes -->
-    
-    
-    <section id="keyframes" class="section">
-  <h2><i class="fas fa-film"></i> Keyframes Compact</h2>
-  <p>Write animations compactly using <code>$(@keyframes name, selectors, &[&lt;timing&gt;])</code>. FSCSS will expand this into both animation rules and the actual keyframe block.</p>
 
-  <h3>Use Cases</h3>
+  <!-- Live Preview -->
+  <div class="preview-grid">
+    <input type="submit" value="Submit Button">
+  </div>
+</section>
+
+<!-- keyframes -->
+<section id="keyframes" class="section">
+  <h2><i class="fas fa-film"></i> Keyframes Compact</h2>
+  <p>
+    FSCSS lets you define and apply animations in one block with 
+    <code>$(@keyframes name, selectors, &[duration timing options])</code>.  
+    It generates both the <code>@keyframes</code> and applies the animation to your elements automatically.
+  </p>
+
+  <h3>Use Case</h3>
   <div class="example-grid">
     <div>
       <h5>Slide Animation</h5>
       <div class="code-container">
         <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
   from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }</code></pre>
       </div>
     </div>
   </div>
 
-      <div class="code-container">
+  <!-- FSCSS Input -->
+  <div class="code-container">
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <a class="try-btn" href="/compiler#run?code=%24(%40keyframes%20slideIn%2C%20.box%2C%20.card%2C%20%26%5B3s%20linear%20infinite%5D)%20%7B%0A%20%20from%20%7B%20transform%3A%20translateX(-100%25)%3B%20%7D%0A%20%20to%20%7B%20transform%3A%20translateX(0)%3B%20%7D%0A%7D" target="_blank">Try it yourself</a>
     </div>
-    <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+<pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
   from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }</code></pre>
   </div>
-      
+
+  <!-- CSS Output -->
   <div class="code-container">
     <div class="code-header">
       <span>css</span>
       <button class="copy-btn">Copy</button>
     </div>
-    <pre><code>.box, .card {
+<pre><code>.box, .card {
   animation: slideIn 3s linear infinite;
 }
 @keyframes slideIn {
   from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }</code></pre>
   </div>
-      <p>
-<b>Fast Application of Animation to Multiple Selectors</b><br>
-This "fscss" snippet demonstrates a concise way to define and apply a CSS animation to multiple HTML elements (<code>div, h1, h2, p</code>) simultaneously. It encapsulates the @keyframes definition and its application within a single, streamlined block.
-The output automatically generates the @keyframes rule with an animation name derived from the first selector (in this case, div), and then applies this animation to all specified elements with the designated duration and timing function.
-      </p><b>fscss Input:</b>
-      
-           <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>$(@keyframes div, h1, h2, p &[5s ease-in]){
-          0%{ color: #001133;} 
-          50%{ color: #001044;} 
-          100%{ color: #000122;}
-          }</code></pre>
-      </div>
-      <b>CSS output:</b>
-      <div class="code-container">
-<div class="code-header">
-<span>css</span>
-<button class="copy-btn">Copy</button>
-</div>
-  <pre><code>div, h1, h2, p {animation:div 5s ease-in;}@keyframes div{
-0%{ color: #001133;}
-50%{ color: #001044;}
-100%{ color: #000122;}
-}</code></pre>
-      </div>
-    </section>
+
+  <!-- Live Preview -->
+  <div class="preview-grid">
+    <div class="demo-box box">.box</div>
+    <div class="demo-box card">.card</div>
+  </div>
+</section>
+
+<!-- Demo Styles -->
+<style>
+.preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+.preview-grid input[type="submit"] {
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+.demo-box {
+  width: 80px;
+  height: 40px;
+  background: #3b82f6;
+  color: white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius: 4px;
+}
+.box, .card {
+  animation: slideIn 3s linear infinite;
+}
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+</style>
     <!-- vendors -->
     
     <section id="vendors" class="section">
