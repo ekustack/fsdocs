@@ -643,7 +643,7 @@ $global-font: 'Inter', sans-serif;
     
     <!-- Replace Section -->
 <section id="replace" class="section">
-  <h2><i class="fas fa-retweet"></i> Style Replacement <code>(str, re, store)</code></h2>
+  <h2><i class="fas fa-retweet"></i> Style Replacement</h2>
   <p>
     Sometimes you want to reuse a whole set of styles, not just single values. 
     FSCSS gives you <code>str()</code>, <code>re()</code>, and <code>store()</code> 
@@ -781,7 +781,7 @@ str(cardHover, "
 
 <!-- Copy Section -->
 <section id="copy" class="section">
-  <h2><i class="fas fa-copy"></i> Copy Function</h2>
+  <h2><i class="fas fa-copy"></i> Copy Function <code>copy()</code></h2>
   <p>
     The <code>copy()</code> function extracts part of a value or string and stores it as a variable. 
     Perfect for working with design tokens, colors, or long values you only want to write once.
@@ -857,7 +857,7 @@ span::before {
       <h5>Extract from the end</h5>
       <div class="code-container">
         <pre><code>h1 {
-  content: "Welcome to FSCSS @ext(-24,5: brand)";
+  content: "Welcome to FSCSS @ext(-5,5: brand)";
   font-family: @ext.brand;
 }</code></pre>
       </div>
@@ -866,7 +866,7 @@ span::before {
 
   <div class="try-btn-container">
     <a class="try-btn" 
-       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20content%3A%20%22Welcome%20to%20FSCSS%20%40ext(-24%2C5%3A%20brand)%22%3B%0A%20%20font-family%3A%20%40ext.brand%3B%0A%7D" 
+       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20content%3A%20%22Welcome%20to%20FSCSS%20%40ext(-5%2C5%3A%20brand)%22%3B%0A%20%20font-family%3A%20%40ext.brand%3B%0A%7D" 
        target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
@@ -1814,3 +1814,4 @@ span:before { /* copy 'midnightblue' and store it as 'my-darkblue' */ content: "
 
 </body>
 </html>
+
