@@ -301,75 +301,151 @@
         padding: 1rem;
       }
     }
+    .copy-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}body {
+  font-size: clamp(14px, 1.1vw, 16px);
+}
+.method-section h2 {
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+}
+.code-content pre::-webkit-scrollbar {
+  height: 6px;
+}
+.code-content pre::-webkit-scrollbar-thumb {
+  background: var(--gray);
+  border-radius: var(--radius);
+}
+.alert {
+  padding: 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 12px;
+}
+.note { @extend .alert; background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); }
+
+.warning { @extend .alert; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); }.feature-card {
+  transition: var(--transition), transform 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
   </style>
 </head>
 <body>
   <div class="docs-container">
+
+    <!-- Intro Section -->
     <div class="method-section">
-      <h2><i class="fas fa-file-import"></i> @import Method <span class="recommended-badge"><i class="fas fa-star"></i> RECOMMENDED</span></h2>
-      <p>Import FSCSS files within other FSCSS files to create a modular architecture for your stylesheets.</p>
-      
+      <h2 id="import-method">
+        <i class="fas fa-file-import"></i> @import Method
+        <span class="recommended-badge">
+          <i class="fas fa-star"></i> RECOMMENDED
+        </span>
+      </h2>
+
+      <p>
+        The <code><span class="keyword">@import</span></code> method in FSCSS allows you to
+        bring one <code>.fscss</code> file into another. This gives your project a
+        <strong>modular structure</strong>, where each file focuses on a single task
+        (like variables, mixins, or components).  
+      </p>
+
+      <p>
+        Think of <code><span class="keyword">@import</span></code> as “connecting puzzle
+        pieces”: you make small, clean pieces of code and then combine them into a full stylesheet.
+        This makes your styles easier to <strong>read, maintain, and reuse</strong>.
+      </p>
+
       <div class="note">
         <i class="fas fa-lightbulb"></i>
         <div>
-          <strong>Best Practice:</strong> Use @import to organize your styles into logical components (variables, mixins, components) for better maintainability.
+          <strong>Best Practice:</strong> Use
+          <code><span class="keyword">@import</span></code> to organize your styles into
+          <em>logical groups</em> (variables, mixins, buttons, layouts). This way you
+          avoid one giant stylesheet that’s hard to manage.
         </div>
       </div>
-      
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3><i class="fas fa-file-code"></i> Create Your FSCSS Modules</h3>
-            <p>Organize your styles into separate files for better structure.</p>
-            
-            <div class="feature-grid">
-              <div class="feature-card">
-                <h4><i class="fas fa-palette"></i> _variables.fscss</h4>
-                <div class="code-container">
-                  <div class="code-content">
-                    <pre><span class="comment">/* Color Variables */</span>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="method-section">
+      <h2><i class="fas fa-code"></i> Step 1 — Create Your Modules</h2>
+      <p>
+        Start by creating small, focused FSCSS files. For example:
+        <ul>
+          <li><code>_variables.fscss</code> → all colors, spacing, and sizes</li>
+          <li><code>_mixins.fscss</code> → reusable functions like <em>flex-center</em></li>
+          <li><code>_buttons.fscss</code> → consistent button styles</li>
+        </ul>
+      </p>
+
+      <div class="feature-grid">
+        <!-- Variables -->
+        <div class="feature-card">
+          <h4><i class="fas fa-palette"></i> _variables.fscss</h4>
+          <div class="code-container">
+            <div class="code-header">
+              <span>_variables.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* Color Variables */</span>
 $primary: #4361ee;
-$secondary: #3a0ca3;
+$secondary: #7209b7;
 $accent: #f72585;
-$light: #f8f9fa;
 $dark: #1e293b;
+$light: #f8fafc;
 
 <span class="comment">/* Spacing Variables */</span>
 $spacing-sm: 0.5rem;
 $spacing-md: 1rem;
-$spacing-lg: 2rem;</pre>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="feature-card">
-                <h4><i class="fas fa-cube"></i> _mixins.fscss</h4>
-                <div class="code-container">
-                  <div class="code-content">
-                    <pre><span class="comment">/* Flex Center Mixin */</span>
+$spacing-lg: 2rem;
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mixins -->
+        <div class="feature-card">
+          <h4><i class="fas fa-cube"></i> _mixins.fscss</h4>
+          <div class="code-container">
+            <div class="code-header">
+              <span>_mixins.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* Flex Center Mixin */</span>
 str(flexCenter, "
   display: flex;
   justify-content: center;
   align-items: center;
 ")
 
-<span class="comment">/* Card Mixin */</span>
+<span class="comment">/* Card Style Mixin */</span>
 str(cardStyle, "
   padding: $spacing-md!;
   border-radius: 8px;
+  background: $light!;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  background: white;
-")</pre>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="feature-card">
-                <h4><i class="fas fa-buttons"></i> _buttons.fscss</h4>
-                <div class="code-container">
-                  <div class="code-content">
-                    <pre><span class="comment">/* Base Button Style */</span>
+")
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="feature-card">
+          <h4><i class="fas fa-hand-pointer"></i> _buttons.fscss</h4>
+          <div class="code-container">
+            <div class="code-header">
+              <span>_buttons.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* Base Button */</span>
 .button {
   padding: $spacing-sm! $spacing-md!;
   border-radius: 4px;
@@ -381,36 +457,39 @@ str(cardStyle, "
 .btn-primary {
   background: $primary!;
   color: white;
-  
+
   &:hover {
     background: darken($primary!, 10%);
   }
-}</pre>
-                  </div>
-                </div>
-              </div>
+}
+</pre>
             </div>
           </div>
         </div>
-        
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3><i class="fas fa-file-import"></i> Import Modules in Main File</h3>
-            <p>Use the <code>@import(exec(...))</code> syntax to include your modules.</p>
-            
-            <div class="code-container">
-              <div class="code-header">
-                <span>main.fscss</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-              </div>
-              <div class="code-content">
-                <pre><span class="comment">/* Import Core Modules */</span>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="method-section">
+      <h2><i class="fas fa-file-import"></i> Step 2 — Import Modules in Main File</h2>
+      <p>
+        Now, create a <code>main.fscss</code> file where you will gather everything.
+        Use <code><span class="keyword">@import</span>(exec(...))</code> to bring in your
+        module files.
+      </p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span>main.fscss</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* Import Core Modules */</span>
 <span class="keyword">@import</span>(exec(_variables.fscss))
 <span class="keyword">@import</span>(exec(_mixins.fscss))
 <span class="keyword">@import</span>(exec(_buttons.fscss))
 
-<span class="comment">/* Your Custom Styles */</span>
+<span class="comment">/* Custom Styles */</span>
 body {
   background: $light!;
   color: $dark!;
@@ -420,42 +499,42 @@ body {
 .card {
   cardStyle
   margin-bottom: $spacing-md!;
-  
+
   .card-title {
     font-size: 1.5rem;
     color: $primary!;
     margin-bottom: $spacing-sm!;
   }
 }
-
-<span class="comment">/* Additional custom styles... */</span></pre>
-              </div>
-            </div>
-          </div>
+</pre>
         </div>
-        
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3><i class="fas fa-file-medical"></i> Link Main File in HTML</h3>
-            <p>Include your main FSCSS file in your HTML as you normally would.</p>
-            
-            <div class="code-container">
-              <div class="code-header">
-                <span>index.html</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-              </div>
-              <div class="code-content">
-                <pre>&lt;!DOCTYPE html&gt;
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="method-section">
+      <h2><i class="fas fa-link"></i> Step 3 — Link Main File in HTML</h2>
+      <p>
+        Finally, link <code>main.fscss</code> inside your HTML page. The FSCSS compiler
+        will automatically turn it into valid CSS in the browser.
+      </p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span>index.html</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <div class="code-content" data-lang="html">
+<pre>&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
   &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
   &lt;title&gt;FSCSS Modular Example&lt;/title&gt;
-  
+
   <span class="comment">&lt;!-- Link your main FSCSS file --&gt;</span>
   &lt;link type="text/fscss" href="main.fscss"&gt;
-  
+
   <span class="comment">&lt;!-- Include FSCSS compiler --&gt;</span>
   &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" async&gt;&lt;/script&gt;
 &lt;/head&gt;
@@ -466,132 +545,139 @@ body {
     &lt;button class="button btn-primary"&gt;Click Me&lt;/button&gt;
   &lt;/div&gt;
 &lt;/body&gt;
-&lt;/html&gt;</pre>
-              </div>
-            </div>
-          </div>
+&lt;/html&gt;
+</pre>
         </div>
       </div>
     </div>
-    
+
+    <!-- Advanced Features -->
     <div class="method-section">
-      <h2><i class="fas fa-cogs"></i> Advanced @import Features</h2>
-      
+      <h2><i class="fas fa-cogs"></i> Advanced @import Usage</h2>
+
       <div class="feature-grid">
         <div class="feature-card">
           <h4><i class="fas fa-layer-group"></i> Nested Imports</h4>
-          <p>Import files within imported files for deep modularity.</p>
+          <p>
+            You can import files inside other files for deep modularity.  
+            Example: a <code>components.fscss</code> file that imports buttons, cards, and navigation.
+          </p>
           <div class="code-container">
-            <div class="code-content">
-              <pre><span class="comment">/* _components.fscss */</span>
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* components.fscss */</span>
 <span class="keyword">@import</span>(exec(_buttons.fscss))
 <span class="keyword">@import</span>(exec(_cards.fscss))
-<span class="keyword">@import</span>(exec(_navigation.fscss))</pre>
+<span class="keyword">@import</span>(exec(_navigation.fscss))
+</pre>
             </div>
           </div>
         </div>
-        
+
         <div class="feature-card">
           <h4><i class="fas fa-bolt"></i> Conditional Imports</h4>
-          <p>Use media queries with imports for responsive loading.</p>
+          <p>
+            Load certain files only when conditions match — like small screens or dark mode.
+          </p>
           <div class="code-container">
-            <div class="code-content">
-              <pre><span class="comment">/* Conditionally load mobile styles */</span>
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* Load extra styles for mobile */</span>
 @media (max-width: 768px) {
   <span class="keyword">@import</span>(exec(mobile.fscss))
 }
 
-<span class="comment">/* Conditionally load dark theme */</span>
+<span class="comment">/* Load dark theme automatically */</span>
 @media (prefers-color-scheme: dark) {
   <span class="keyword">@import</span>(exec(dark-theme.fscss))
-}</pre>
+}
+</pre>
             </div>
           </div>
         </div>
-        
+
         <div class="feature-card">
           <h4><i class="fas fa-code-branch"></i> Dynamic Imports</h4>
-          <p>Combine with JavaScript for advanced loading scenarios.</p>
+          <p>
+            Combine <code><span class="keyword">@import</span></code> with events to load
+            initial builds or apply external themes dynamically.
+          </p>
           <div class="code-container">
-            <div class="code-content">
-              <pre><span class="comment">/* main.fscss */</span>
-<span class="keyword">@import</span>(exec(core-styles.fscss))
+            <div class="code-content" data-lang="fscss">
+<pre><span class="comment">/* style.fscss */</span>
+<span class="keyword">@import</span>(exec(_init themes))
 
-<span class="comment">/* Load theme based on user preference */</span>
-if (userPrefersDark) {
-  <span class="keyword">@import</span>(exec(dark-theme.fscss))
-} else {
-  <span class="keyword">@import</span>(exec(light-theme.fscss))
-}</pre>
+div.star {
+   background: @event.theme(forest);
+   $box-size: 200px;
+   %2(width, height[: $box-size!;])
+   tr Shape: @event.shape(star);
+}
+</pre>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="note">
-        <i class="fas fa-exclamation-circle"></i>
-        <div>
-          <strong>Important:</strong> Avoid circular dependencies where file A imports file B, which imports file A.
-        </div>
-      </div>
-    </div>
-    
-    <div class="method-section">
-      <h2><i class="fas fa-star"></i> Benefits of @import Method</h2>
-      
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h4><i class="fas fa-sitemap"></i> Modular Architecture</h4>
-          <ul>
-            <li>Split styles into logical components</li>
-            <li>Reuse code across projects</li>
-            <li>Easier to maintain and update</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-tachometer-alt"></i> Performance</h4>
-          <ul>
-            <li>Load only what you need</li>
-            <li>Conditional loading based on context</li>
-            <li>Reduces duplicate code</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-users-cog"></i> Team Collaboration</h4>
-          <ul>
-            <li>Multiple developers can work simultaneously</li>
-            <li>Clear separation of concerns</li>
-            <li>Easier to understand code structure</li>
-          </ul>
-        </div>
-      </div>
-      
+
       <div class="warning">
         <i class="fas fa-exclamation-triangle"></i>
         <div>
-          <strong>Performance Note:</strong> While @import provides excellent organization, be mindful that each imported file requires an additional HTTP request. For production, consider combining files during your build process.
+          <strong>Warning:</strong> Avoid circular imports
+          (when file A imports file B, and file B imports file A). This can cause
+          infinite loops and break your build.
         </div>
       </div>
     </div>
+
+    <!-- Benefits -->
+    <div class="method-section">
+      <h2><i class="fas fa-star"></i> Benefits of Using @import</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4><i class="fas fa-sitemap"></i> Organized</h4>
+          <ul>
+            <li>Split styles into logical files</li>
+            <li>Reduce clutter in your main stylesheet</li>
+            <li>Find and update code faster</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4><i class="fas fa-tachometer-alt"></i> Flexible</h4>
+          <ul>
+            <li>Load only what you need</li>
+            <li>Use conditional imports for themes and devices</li>
+            <li>Reuse modules across projects</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4><i class="fas fa-users-cog"></i> Team Friendly</h4>
+          <ul>
+            <li>Multiple devs can work at once</li>
+            <li>Clear separation of concerns</li>
+            <li>Consistency across the project</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="warning">
+        <i class="fas fa-exclamation-circle"></i>
+        <div>
+          <strong>Performance Note:</strong> In development, multiple files are fine.
+          For production, consider bundling them into one file to reduce HTTP requests.
+        </div>
+      </div>
+    </div>
+
   </div>
-  
+
+  <!-- Copy Button Script -->
   <script>
-    // Copy button functionality
-    document.querySelectorAll('.copy-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const container = this.closest('.code-container');
-        const codeContent = container.querySelector('.code-content');
-        const text = codeContent.textContent;
-        
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.closest('.code-container')
+                       .querySelector('.code-content').textContent;
         navigator.clipboard.writeText(text).then(() => {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i> Copied';
-          
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
+          const original = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          setTimeout(() => btn.innerHTML = original, 2000);
         });
       });
     });
