@@ -563,9 +563,7 @@
         </div>
       </div>
     </section>
-    
-    <!-- Variables Section -->
-    
+<!-- Variables Section -->
 <section id="variables" class="section">
   <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
   <p>
@@ -590,8 +588,10 @@
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
     </div>
-<pre><code>// Inline & global variables
+
+<pre class="fscss"><code>// Inline & global variables
 $primary: #3b82f6;
 $secondary: #8b5cf6;
 $global-font: 'Inter', sans-serif;
@@ -600,22 +600,19 @@ $global-font: 'Inter', sans-serif;
   background: $primary!;
   border: 2px solid $secondary!;
   font-family: $global-font!;
-}
-</code></pre>
-  </div>
+}</code></pre>
 
-  <div class="code-container">
-    <div class="code-header">
-      <span>compiled css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>
-.button {
+<pre class="compiled hidden"><code>.button {
   background: #3b82f6;
   border: 2px solid #8b5cf6;
   font-family: 'Inter', sans-serif;
-}
-</code></pre>
+}</code></pre>
+  </div>
+
+  <div class="try-btn-container">
+    <a class="try-btn"
+       href="/compiler#run?code=%24primary%3A%20%233b82f6%3B%0A%24secondary%3A%20%238b5cf6%3B%0A%24global-font%3A%20'Inter'%2C%20sans-serif%3B%0A%0A.button%20%7B%0A%20%20background%3A%20%24primary!%3B%0A%20%20border%3A%202px%20solid%20%24secondary!%3B%0A%20%20font-family%3A%20%24global-font!%3B%0A%7D"
+       target="_blank">🚀 Try it yourself</a>
   </div>
 
   <h3>Local Variables (Scoped)</h3>
@@ -628,8 +625,7 @@ $global-font: 'Inter', sans-serif;
   $local-bg: #f1f5f9;
   background: $local-bg!;
   padding: 1rem;
-}
-</code></pre>
+}</code></pre>
   </div>
 
   <h3>Block Value Variables</h3>
@@ -640,8 +636,10 @@ $global-font: 'Inter', sans-serif;
     <div class="code-header">
       <span>fscss</span>
       <button class="copy-btn">Copy</button>
+      <button class="toggle-btn">See CSS</button>
     </div>
-<pre><code>str(shadowBlock, "
+
+<pre class="fscss"><code>str(shadowBlock, "
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   border-radius: 0.75rem;
 ");
@@ -649,8 +647,19 @@ $global-font: 'Inter', sans-serif;
 .card {
   background: white;
   shadowBlock
-}
-</code></pre>
+}</code></pre>
+
+<pre class="compiled hidden"><code>.card {
+  background: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 0.75rem;
+}</code></pre>
+  </div>
+
+  <div class="try-btn-container">
+    <a class="try-btn"
+       href="/compiler#run?code=str(shadowBlock%2C%20%22%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20border-radius%3A%200.75rem%3B%0A%22)%3B%0A%0A.card%20%7B%0A%20%20background%3A%20white%3B%0A%20%20shadowBlock%0A%7D"
+       target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
 <!-- Replace Section -->
