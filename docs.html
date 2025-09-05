@@ -364,7 +364,22 @@
       margin-top: 2rem;
       border-top: 1px solid var(--light-gray);
     }
-    
+      .try-btn-container {
+    margin-top: 1rem;
+  }
+  .try-btn {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    background: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+  .try-btn:hover {
+    background: #2563eb;
+  }
     /* Responsive */
     @media (max-width: 900px) {
       .sidebar {
@@ -627,25 +642,32 @@ $global-font: 'Inter', sans-serif;
 </section>
     
     <!-- Replace Section -->
-    <section id="replace" class="section">
-      <h2><i class="fas fa-retweet"></i> Style Replacement (str(), re(), store())</h2>
-      <p>Store reusable style patterns and inject them wherever needed. Perfect for maintaining consistent styles across components.</p>
-      
-      <div class="feature-card">
-        <h4><i class="fas fa-check-circle"></i> When to Use</h4>
-        <p>- Creating reusable style patterns</p>
-        <p>- Maintaining consistent component styles</p>
-        <p>- Reducing repetition in your stylesheets</p>
-        <p>- Applying complex styles with a simple reference</p>
-      </div>
-      
-      <h3>Practical Example</h3>
-      <div class="code-container">
-        <div class="code-header">
-          <span>fscss</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>// Store a card style pattern
+<section id="replace" class="section">
+  <h2><i class="fas fa-retweet"></i> Style Replacement <code>(str, re, store)</code></h2>
+  <p>
+    Sometimes you want to reuse a whole set of styles, not just single values. 
+    FSCSS gives you <code>str()</code>, <code>re()</code>, and <code>store()</code> 
+    to save style snippets and re-inject them wherever you like. 
+    This keeps your CSS clean, consistent, and DRY.
+  </p>
+  
+  <div class="feature-card">
+    <h4><i class="fas fa-check-circle"></i> When to Use</h4>
+    <ul>
+      <li>Creating reusable style patterns</li>
+      <li>Maintaining consistent component styles</li>
+      <li>Reducing repetition across your stylesheets</li>
+      <li>Applying complex styles with a simple reference</li>
+    </ul>
+  </div>
+  
+  <h3>Practical Example</h3>
+  <div class="code-container">
+    <div class="code-header">
+      <span>fscss</span>
+      <button class="copy-btn">Copy</button>
+    </div>
+<pre><code>// Store a card style pattern
 str(cardStyle, "
   padding: 1.5rem;
   border-radius: 8px;
@@ -674,8 +696,17 @@ str(cardHover, "
   cardStyle
   background: #f0f9ff;
 }</code></pre>
-      </div>
-    </section>
+  </div>
+
+  <!-- Try it yourself button -->
+  <div class="try-btn-container">
+    <a class="try-btn" 
+       href="/compiler#run?code=%2F%2F%20Store%20a%20card%20style%20pattern%0Astr(cardStyle%2C%20%22%0A%20%20padding%3A%201.5rem%3B%0A%20%20border-radius%3A%208px%3B%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20background%3A%20white%3B%0A%20%20transition%3A%20transform%200.3s%20ease%3B%0A%22)%0A%0A%2F%2F%20Store%20a%20hover%20effect%0Astr(cardHover%2C%20%22%0A%20%20transform%3A%20translateY(-5px)%3B%0A%20%20box-shadow%3A%200%2010px%2015px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%22)%0A%0A%2F%2F%20Apply%20stored%20styles%0A.product-card%20%7B%0A%20%20cardStyle%0A%20%20max-width%3A%20300px%3B%0A%20%20%0A%20%20%26%3Ahover%20%7B%0A%20%20%20%20cardHover%0A%20%20%7D%0A%7D%0A%0A.user-profile%20%7B%0A%20%20cardStyle%0A%20%20background%3A%20%23f0f9ff%3B%0A%7D" 
+       target="_blank">
+      🚀 Try it yourself
+    </a>
+  </div>
+</section>
     
     <!-- Repeat Section -->
     <section id="repeat" class="section">
