@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -295,188 +296,41 @@
 </head>
 <body>
   <div class="docs-container">
+    <!-- Intro -->
     <div class="method-section">
-      <h2><i class="fas fa-bolt"></i> FSCSS Events</h2>
-      <p>Powerful event-driven functions for conditional styling and dynamic value generation.</p>
-      
+      <h2><i class="fas fa-bolt"></i> <code class="keyword">@event</code> Tutorial</h2>
+      <p>
+        The <code class="keyword">@event</code> function in FSCSS lets you add <strong>logic</strong>
+        and <strong>dynamic behavior</strong> into your stylesheets. Instead of repeating values,
+        you can create reusable functions that return different results based on conditions.
+      </p>
       <div class="note">
         <i class="fas fa-lightbulb"></i>
         <div>
-          <strong>Events revolutionize CSS:</strong> Create complex conditional logic, generate dynamic values, and build responsive styles with functions that work at runtime.
-        </div>
-      </div>
-      
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3><i class="fas fa-code"></i> Event Function Syntax</h3>
-            <p>Create reusable event functions with conditional logic:</p>
-            
-            <div class="code-container">
-              <div class="code-header">
-                <span>style.fscss</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-              </div>
-              <div class="code-content">
-                <pre><span class="comment">/* Create event function */</span>
-<span class="keyword">@event</span> <span class="function">event-name</span>(param) {
-  <span class="keyword">if</span> param: white {
-    <span class="keyword">return</span>: black;
-  } 
-  <span class="keyword">el-if</span> param: black {
-    <span class="keyword">return</span>: white;
-  }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: blue;
-  }
-}
-
-<span class="selector">body</span> {
-  <span class="comment">/* returns white */</span>
-  <span class="property">background</span>: <span class="function">@event.event-name</span>(black);
-}
-
-<span class="selector">button</span> {
-  <span class="comment">/* returns black */</span>
-  <span class="property">color</span>: <span class="function">@event.event-name</span>(white);
-  <span class="comment">/* returns blue */</span>
-  <span class="property">background</span>: <span class="function">@event.event-name</span>();
-}</pre>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3><i class="fas fa-random"></i> Combining with @random</h3>
-            <p>Generate dynamic values with @random and process with events:</p>
-            
-            <div class="code-container">
-              <div class="code-header">
-                <span>style.fscss</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-              </div>
-              <div class="code-content">
-                <pre><span class="comment">/* Generate random values */</span>
-<span class="function">str</span>(val1, <span class="string">"@random([lightgreen, skyblue, white])"</span>)
-<span class="function">str</span>(val2, <span class="string">"@random([darkgreen, midnightblue, red])"</span>)
-
-<span class="comment">/* Create event to process values */</span>
-<span class="keyword">@event</span> <span class="function">myfunc</span>(e) {
-  <span class="keyword">if</span> e: val1 {
-    <span class="keyword">return</span>: val2;
-  } 
-  <span class="keyword">el-if</span> e: val2 {
-    <span class="keyword">return</span>: val1;
-  } 
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: white;
-  } 
-}
-
-<span class="comment">/* Apply dynamic styling */</span>
-<span class="selector">.box</span> {
-  <span class="property">background</span>: <span class="function">@event.myfunc</span>(val1);
-  <span class="property">border-color</span>: <span class="function">@event.myfunc</span>(val2);
-  <span class="property">color</span>: <span class="function">@event.myfunc</span>(yellow);
-}</pre>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3><i class="fas fa-calculator"></i> Numerical Calculations</h3>
-            <p>Perform math operations with the num() function and events:</p>
-            
-            <div class="code-container">
-              <div class="code-header">
-                <span>style.fscss</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-              </div>
-              <div class="code-content">
-                <pre><span class="comment">/* Event with numerical logic */</span>
-<span class="keyword">@event</span> <span class="function">cal</span>(num) {
-  <span class="keyword">if</span> num: <span class="function">num</span>(40+20) {
-    <span class="keyword">return</span>: <span class="function">num</span>(40+20 / 2)<span class="value">px</span>;
-  }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: <span class="function">num</span>(60-40)<span class="value">px</span>;
-  }
-} 
-
-<span class="comment">/* Calculate and store result */</span>
-<span class="function">str</span>(calRes, <span class="string">"num(20+20)"</span>) 
-
-<span class="selector">button</span> {
-  <span class="comment">/* Returns 30px (60 / 2) */</span>
-  <span class="property">padding</span>: <span class="function">@event.cal</span>(60);
-  
-  <span class="comment">/* Returns 20px (60-40) */</span>
-  <span class="property">margin</span>: <span class="function">@event.cal</span>(calRes);
-}</pre>
-              </div>
-            </div>
-          </div>
+          <strong>Think of it like this:</strong> Normal CSS is static. With
+          <code class="keyword">@event</code>, your CSS can <em>decide</em> what value to use
+          at runtime — just like functions in programming.
         </div>
       </div>
     </div>
     
+    <!-- Syntax -->
     <div class="method-section">
-      <h2><i class="fas fa-cogs"></i> Core Event Features</h2>
-      
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h4><i class="fas fa-sitemap"></i> Conditional Logic</h4>
-          <ul>
-            <li><code>if</code> - Primary condition check</li>
-            <li><code>el-if</code> - Secondary condition checks</li>
-            <li><code>el</code> - Default fallback case</li>
-            <li>Supports complex nested conditions</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-random"></i> Dynamic Value Generation</h4>
-          <ul>
-            <li><code>@random([values])</code> - Random selection</li>
-            <li><code>num(expression)</code> - Mathematical operations</li>
-            <li>Combine with <code>str()</code> for stored values</li>
-            <li>Works with all CSS units (px, em, rem, %)</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-code-branch"></i> Function Composition</h4>
-          <ul>
-            <li>Events can call other events</li>
-            <li>Combine with variables for powerful logic</li>
-            <li>Accept parameters for flexible styling</li>
-            <li>Return values to CSS properties</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    
-    <div class="method-section">
-      <h2><i class="fas fa-lightbulb"></i> Practical Examples</h2>
-      
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h4><i class="fas fa-adjust"></i> Dark/Light Mode Toggle</h4>
-          <div class="code-container">
-            <div class="code-content">
-              <pre><span class="keyword">@event</span> <span class="function">theme</span>(mode) {
+      <h2><i class="fas fa-code"></i> Basic Syntax</h2>
+      <p>
+        To create an event, use the <code class="keyword">@event</code> keyword, give it a
+        name, and optionally pass parameters. Inside, write conditions that return values.
+      </p>
+      <div class="code-container">
+        <div class="code-header"><span>example.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="comment">/* Basic event */</span>
+<span class="keyword">@event</span> theme(mode) {
   <span class="keyword">if</span> mode: dark {
-    <span class="keyword">return</span>: #1a1a1a;
+    <span class="keyword">return</span>: #111111;
   }
   <span class="keyword">el</span> {
-    <span class="keyword">return</span>: #f8f8f8;
+    <span class="keyword">return</span>: #ffffff;
   }
 }
 
@@ -484,126 +338,181 @@
   <span class="property">background</span>: <span class="function">@event.theme</span>(dark);
   <span class="property">color</span>: <span class="function">@event.theme</span>(light);
 }</pre>
-            </div>
-          </div>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-ruler-combined"></i> Responsive Spacing</h4>
-          <div class="code-container">
-            <div class="code-content">
-              <pre><span class="keyword">@event</span> <span class="function">spacing</span>(size) {
-  <span class="keyword">if</span> size: small {
-    <span class="keyword">return</span>: <span class="function">num</span>(8 * 1.25)<span class="value">px</span>;
-  }
-  <span class="keyword">el-if</span> size: medium {
-    <span class="keyword">return</span>: <span class="function">num</span>(16 * 1.25)<span class="value">px</span>;
-  }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: <span class="function">num</span>(24 * 1.25)<span class="value">px</span>;
-  }
-}
-
-<span class="selector">.container</span> {
-  <span class="property">padding</span>: <span class="function">@event.spacing</span>(medium);
-}</pre>
-            </div>
-          </div>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-palette"></i> Random Color Scheme</h4>
-          <div class="code-container">
-            <div class="code-content">
-              <pre><span class="function">str</span>(primary, <span class="string">"@random([#4361ee, #f72585, #7209b7])"</span>)
-<span class="function">str</span>(secondary, <span class="string">"@random([#4cc9f0, #4895ef, #560bad])"</span>)
-
-<span class="keyword">@event</span> <span class="function">color</span>(type) {
-  <span class="keyword">if</span> type: primary {
-    <span class="keyword">return</span>: primary;
-  }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: secondary;
-  }
-}
-
-<span class="selector">.card</span> {
-  <span class="property">background</span>: <span class="function">@event.color</span>(primary);
-  <span class="property">border-color</span>: <span class="function">@event.color</span>(secondary);
-}</pre>
-            </div>
-          </div>
         </div>
       </div>
     </div>
     
+    <!-- Conditional Logic -->
     <div class="method-section">
-      <h2><i class="fas fa-exclamation-circle"></i> Important Notes</h2>
+      <h2><i class="fas fa-sitemap"></i> Conditional Logic</h2>
+      <p>
+        Inside events, you can use <code>if</code>, <code>el-if</code>, and <code>el</code> blocks:
+      </p>
+      <ul>
+        <li><code>if</code> → Primary check</li>
+        <li><code>el-if</code> → Additional checks</li>
+        <li><code>el</code> → Fallback if no condition matched</li>
+      </ul>
       
-      <div class="warning">
-        <i class="fas fa-exclamation-triangle"></i>
-        <div>
-          <strong>Use Block Comments Only:</strong> In FSCSS, always use block comments (/* */) instead of inline comments (//) to avoid parsing errors with event functions.
-        </div>
-      </div>
-      
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h4><i class="fas fa-random"></i> @random Function</h4>
-          <p>Generates a random value from the provided array on each page load:</p>
-          <pre><span class="function">@random</span>([value1, value2, value3])</pre>
-          <ul>
-            <li>Works with any CSS values (colors, sizes, etc)</li>
-            <li>Perfect for generating dynamic themes</li>
-            <li>Combine with str() to store results</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-calculator"></i> num() Function</h4>
-          <p>Performs mathematical operations:</p>
-          <pre><span class="function">num</span>(expression)</pre>
-          <ul>
-            <li>Supports +, -, *, / operations</li>
-            <li>Can be combined with other values</li>
-            <li>Use str() to store calculations</li>
-          </ul>
-        </div>
-        
-        <div class="feature-card">
-          <h4><i class="fas fa-bolt"></i> @event Function</h4>
-          <p>Creates reusable conditional logic blocks:</p>
-          <pre><span class="keyword">@event</span> name(param) {
-  <span class="comment">/* conditional logic */</span>
+      <div class="code-container">
+        <div class="code-header"><span>logic.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="keyword">@event</span> size(type) {
+  <span class="keyword">if</span> type: small {
+    <span class="keyword">return</span>: 12px;
+  }
+  <span class="keyword">el-if</span> type: medium {
+    <span class="keyword">return</span>: 16px;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: 20px;
+  }
+}
+
+<span class="selector">p</span> {
+  <span class="property">font-size</span>: <span class="function">@event.size</span>(small);
 }</pre>
-          <ul>
-            <li>Returns values to CSS properties</li>
-            <li>Accepts parameters for dynamic results</li>
-            <li>Can be nested and composed</li>
-          </ul>
         </div>
       </div>
     </div>
+    
+    <!-- Comparison Operators -->
+    <div class="method-section">
+      <h2><i class="fas fa-balance-scale"></i> Comparison Operators</h2>
+      <p>
+        FSCSS events support operators for number comparisons:
+      </p>
+      <ul>
+        <li><code>==</code> → Equal</li>
+        <li><code>&gt;</code> → Greater than</li>
+        <li><code>&lt;</code> → Less than</li>
+        <li><code>&gt;=</code> → Greater than or equal</li>
+        <li><code>&lt;=</code> → Less than or equal</li>
+      </ul>
+      
+      <div class="code-container">
+        <div class="code-header"><span>compare.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="keyword">@event</span> rating(score) {
+  <span class="keyword">if</span> score &gt;= 90 {
+    <span class="keyword">return</span>: green;
+  }
+  <span class="keyword">el-if</span> score &gt;= 50 {
+    <span class="keyword">return</span>: orange;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: red;
+  }
+}
+
+<span class="selector">.user-score</span> {
+  <span class="property">color</span>: <span class="function">@event.rating</span>(72);
+}</pre>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Math & Random -->
+    <div class="method-section">
+      <h2><i class="fas fa-calculator"></i> Math and Random</h2>
+      <p>
+        Events can also use <code>num()</code> for calculations and <code>@random()</code> for randomness.
+      </p>
+      
+      <div class="code-container">
+        <div class="code-header"><span>math-random.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="comment">/* Random colors */</span>
+<span class="function">str</span>(primary, <span class="string">"@random([#ff0000, #00ff00, #0000ff])"</span>)
+
+<span class="comment">/* Spacing calculator */</span>
+<span class="keyword">@event</span> spacing(level) {
+  <span class="keyword">if</span> level == 1 {
+    <span class="keyword">return</span>: <span class="function">num</span>(4*2)<span class="value">px</span>;
+  }
+  <span class="keyword">el-if</span> level == 2 {
+    <span class="keyword">return</span>: <span class="function">num</span>(8*2)<span class="value">px</span>;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: <span class="function">num</span>(16*2)<span class="value">px</span>;
+  }
+}
+
+<span class="selector">.card</span> {
+  <span class="property">background</span>: primary;
+  <span class="property">padding</span>: <span class="function">@event.spacing</span>(2);
+}</pre>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Valuable Events -->
+    <div class="method-section">
+      <h2><i class="fas fa-gem"></i> Creating Valuable Events</h2>
+      <p>
+        Valuable events are reusable helpers that save time. For example, instead
+        of repeating breakpoints everywhere, create a <code>@event</code> once.
+      </p>
+      
+      <div class="code-container">
+        <div class="code-header"><span>breakpoints.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="keyword">@event</span> device(width) {
+  <span class="keyword">if</span> width &lt;= 480 {
+    <span class="keyword">return</span>: mobile;
+  }
+  <span class="keyword">el-if</span> width &lt;= 1024 {
+    <span class="keyword">return</span>: tablet;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: desktop;
+  }
+}
+
+<span class="selector">.container</span> {
+  <span class="property">flex-direction</span>: <span class="function">@event.device</span>(768);
+}</pre>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Advanced Composition -->
+    <div class="method-section">
+      <h2><i class="fas fa-code-branch"></i> Advanced Composition</h2>
+      <p>
+        Events can call other events or combine with variables for even more flexibility.
+      </p>
+      <div class="code-container">
+        <div class="code-header"><span>advanced.fscss</span></div>
+        <div class="code-content">
+          <pre><span class="keyword">$second-test</span>: #302030;
+<span class="keyword">@event</span> themedBackground(mode) {
+  <span class="keyword">if</span> mode: dark {
+    <span class="keyword">return</span>: <span class="function">$second-test</span>!;
+  }
+  <span class="keyword">el</span> {
+    <span class="keyword">return</span>: ;
+  }
+}
+
+<span class="selector">body</span> {
+  <span class="property">background</span>: <span class="function">@event.themedBackground</span>(dark);
+}</pre>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Best Practices -->
+    <div class="method-section">
+      <h2><i class="fas fa-check-circle"></i> Best Practices</h2>
+      <ul>
+        <li>✅ Use <strong>clear names</strong> (<code>spacing</code>, <code>theme</code>, <code>device</code>)</li>
+        <li>✅ Keep events <strong>small and focused</strong> (one responsibility)</li>
+        <li>✅ Store reusable values with <code>str()</code> when possible</li>
+        <li>⚠️ Avoid deeply nested conditions — split into smaller events</li>
+        <li>⚠️ Always use block comments (<code>/* */</code>), not <code>//</code></li>
+      </ul>
+    </div>
   </div>
-  
-  <script>
-    // Copy button functionality
-    document.querySelectorAll('.copy-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const container = this.closest('.code-container');
-        const codeContent = container.querySelector('.code-content');
-        const text = codeContent.textContent;
-        
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i> Copied';
-          
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
-        });
-      });
-    });
-  </script>
 </body>
 </html>
