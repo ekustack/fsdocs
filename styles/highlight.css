@@ -1,0 +1,20 @@
+/* Gore-inspired dark highlight theme (improved) */
+.fscss-code {
+  background: #111;
+  color: #eee;
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+  line-height: 1.4;
+  white-space: pre; /* preserve spaces/newlines inside spans */
+  display: block;
+  font-size: 13px;
+}
+.fscss-keyword { color: #ff4d4d; font-weight: 700; }
+.fscss-method  { color: #66ff99; }
+.fscss-var     { color: #ffcc00; }
+.fscss-prop { color: #66aaff; font-weight: 600; }
+.fscss-number  { color: #66ccff; }
+.fscss-string  { color: #ff99ff; }
+.fscss-comment { color: #888; font-style: italic; }
