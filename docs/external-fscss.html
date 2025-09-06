@@ -11,285 +11,246 @@
   <script src="/scripts/highlight.js"></script>
 
   <style>
-      $primary: #4361ee;
-      $primary-dark: #3f37c9;
-      $secondary: #7209b7;
-      $accent: #f72585;
-      $dark: #1e293b;
-      $darker: #0f172a;
-      $light: #f8fafc;
-      $gray: #64748b;
-      $light-gray: #e2e8f0;
-      $border: #334155;
-      $success: #10b981;
-      $warning: #f59e0b;
-      $danger: #ef4444;
-      $shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      $shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      $radius: 8px;
-      $transition: all 0.3s ease;
-    
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      line-height: 1.6;
-      background: $darker;
-      color: $light;
-      min-height: 100vh;
-    }
-    
-    .docs-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    
-    .docs-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding: 2rem;
-    }
-    
-    .docs-header h1 {
-      font-size: 2rem;
-      color:  @random([#f72585, #f70474, #d42783]);
-      margin-bottom: 1rem;
-    }
-    
-    .docs-header p {
-      font-size: 1.2rem;
-      color: $light-gray;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .method-section {
-      background: $dark;
-      border-radius: $radius;
-      padding: 2rem;
-      margin-bottom: 3rem;
-      box-shadow: $shadow-md;
-    }
-    
-    .method-section h2 {
-      color: $primary;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid $border;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .method-section h2 i {
-      background: $light-gray;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $primary;
-    }
-    
-    .method-section h3 {
-      color: $light;
-      font-size: 1.4rem;
-      margin: 1.5rem 0 1rem;
-    }
-    
-    .method-section p {
-      margin-bottom: 1.2rem;
-      color: $light-gray;
-      line-height: 1.8;
-    }
-    
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-    
-    .step {
-      display: flex;
-      gap: 1.5rem;
-    }
-    
-    .step-number {
-      background: $primary;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    
-    .step-content {
-      flex: 1;
-    }
-    
-    .code-container {
-      position: relative;
-      margin: 1.5rem 0;
-      border-radius: $radius;
-      overflow: hidden;
-    }
-    
-    .code-header {
-      background: $darker;
-      color: white;
-      padding: 0.75rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-    }
-    
-    .code-tabs {
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    .code-tab {
-      padding: 0.5rem 1rem;
-      border-radius: $radius;
-      background: rgba(255, 255, 255, 0.1);
-      cursor: pointer;
-      transition: $transition;
-    }
-    
-    .code-tab.active {
-      background: $primary;
-    }
-    
-    .code-content {
-      background: #1a1f2d;
-      color: #e2e8f0;
-      padding: 1.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      display: none;
-    }
-    
-    .code-content.active {
-      display: block;
-    }
-    
-    .code-content pre {
-      margin: 0;
-      white-space: pre-wrap;
-      overflow-x: auto;
-      tab-size: 2;
-    }
-    
-    .code-content .comment {
-      color: #64748b;
-    }
-    
-    .code-content .property {
-      color: #f8fafc;
-    }
-    
-    .code-content .value {
-      color: #38bdf8;
-    }
-    
-    .code-content .selector {
-      color: #f472b6;
-    }
-    
-    .code-content .variable {
-      color: #a78bfa;
-    }
-    
-    .code-content .string {
-      color: #10b981;
-    }
-    
-    .copy-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      color: $light;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: $radius;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: $transition;
-    }
-    
-    .copy-btn:hover {
-      background: $primary;
-    }
-    
-    .note {
-      background: rgba(16, 185, 129, 0.1);
-      border-left: 4px solid $success!;
-      padding: 1rem;
-      border-radius: 0 $radius! $radius! 0;
-      margin: 1.5rem 0;
-    }
-    
-    .warning {
-      background: rgba(239, 68, 68, 0.1);
-      border-left: 4px solid $danger;
-      padding: 1rem;
-      border-radius: 0 $radius $radius 0;
-      margin: 1.5rem 0;
-    }
-    
-    .comparison {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-    
-    .comparison-item {
-      background: $dark;
-      border-radius: $radius!;
-      padding: 1.5rem;
-      box-shadow: $shadow;
-    }
-    
-    .comparison-item h4 {
-      color: $primary;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    @media (max-width: 768px) {
-      .comparison {
-        grid-template-columns: 1fr;
-      }
       
-      .step {
-        flex-direction: column;
-      }
-      
-      .step-number {
-        align-self: flex-start;
-      }
-    }
+:root{--primary: #4361ee;}
+:root{--primary-dark: #3f37c9;}
+:root{--secondary: #7209b7;}
+:root{--accent: #f72585;}
+:root{--dark: #1e293b;}
+:root{--darker: #0f172a;}
+:root{--light: #f8fafc;}
+:root{--gray: #64748b;}
+:root{--light-gray: #e2e8f0;}
+:root{--border: #334155;}
+:root{--success: #10b981;}
+:root{--warning: #f59e0b;}
+:root{--danger: #ef4444;}
+:root{--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);}
+:root{--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);}
+:root{--radius: 8px;}
+:root{--transition: all 0.3s ease;}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Segoe UI', system-ui, sans-serif;
+line-height: 1.6;
+background: #0f172a;
+color: #f8fafc;
+min-height: 100vh;
+}
+.docs-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 2rem;
+}
+.docs-header {
+text-align: center;
+margin-bottom: 3rem;
+padding: 2rem;
+}
+.docs-header h1 {
+font-size: 2rem;
+color:  #d42783;
+margin-bottom: 1rem;
+}
+.docs-header p {
+font-size: 1.2rem;
+color: #e2e8f0;
+max-width: 800px;
+margin: 0 auto;
+}
+.method-section {
+background: #1e293b;
+border-radius: 8px;
+padding: 2rem;
+margin-bottom: 3rem;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.method-section h2 {
+color: #4361ee;
+font-size: 1.8rem;
+margin-bottom: 1.5rem;
+padding-bottom: 1rem;
+border-bottom: 2px solid #334155;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.method-section h2 i {
+background: #e2e8f0;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #4361ee;
+}
+.method-section h3 {
+color: #f8fafc;
+font-size: 1.4rem;
+margin: 1.5rem 0 1rem;
+}
+.method-section p {
+margin-bottom: 1.2rem;
+color: #e2e8f0;
+line-height: 1.8;
+}
+.steps {
+display: flex;
+flex-direction: column;
+gap: 2rem;
+margin: 2rem 0;
+}
+.step {
+display: flex;
+gap: 1.5rem;
+}
+.step-number {
+background: #4361ee;
+color: white;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: bold;
+flex-shrink: 0;
+}
+.step-content {
+flex: 1;
+}
+.code-container {
+position: relative;
+margin: 1.5rem 0;
+border-radius: 8px;
+overflow: hidden;
+}
+.code-header {
+background: #0f172a;
+color: white;
+padding: 0.75rem 1rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: 600;
+}
+.code-tabs {
+display: flex;
+gap: 0.5rem;
+}
+.code-tab {
+padding: 0.5rem 1rem;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.1);
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.code-tab.active {
+background: #4361ee;
+}
+.code-content {
+background: #1a1f2d;
+color: #e2e8f0;
+padding: 1.5rem;
+font-family: 'Fira Code', monospace;
+font-size: 0.95rem;
+line-height: 1.5;
+display: none;
+}
+.code-content.active {
+display: block;
+}
+.code-content pre {
+margin: 0;
+white-space: pre-wrap;
+overflow-x: auto;
+tab-size: 2;
+}
+.code-content .comment {
+color: #64748b;
+}
+.code-content .property {
+color: #f8fafc;
+}
+.code-content .value {
+color: #38bdf8;
+}
+.code-content .selector {
+color: #f472b6;
+}
+.code-content .variable {
+color: #a78bfa;
+}
+.code-content .string {
+color: #10b981;
+}
+.copy-btn {
+position: absolute;
+top: 10px;
+right: 10px;
+background: rgba(255, 255, 255, 0.1);
+color: #f8fafc;
+border: none;
+padding: 0.4rem 0.8rem;
+border-radius: 8px;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 5px;
+transition: all 0.3s ease;
+}
+.copy-btn:hover {
+background: #4361ee;
+}
+.note {
+background: rgba(16, 185, 129, 0.1);
+border-left: 4px solid #10b981;
+padding: 1rem;
+border-radius: 0 8px 8px 0;
+margin: 1.5rem 0;
+}
+.warning {
+background: rgba(239, 68, 68, 0.1);
+border-left: 4px solid #ef4444;
+padding: 1rem;
+border-radius: 0 8px 8px 0;
+margin: 1.5rem 0;
+}
+.comparison {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+margin: 2rem 0;
+}
+.comparison-item {
+background: #1e293b;
+border-radius: 8px;
+padding: 1.5rem;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.comparison-item h4 {
+color: #4361ee;
+margin-bottom: 1rem;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+@media (max-width: 768px) {
+.comparison {
+grid-template-columns: 1fr;
+}
+.step {
+flex-direction: column;
+}
+.step-number {
+align-self: flex-start;
+}
+}
   </style>
 </head>
 <body>
