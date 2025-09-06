@@ -45,9 +45,8 @@ function fscssCodeHl(){
   cls = 'fscss-var'; // or maybe new class like fscss-prop
 }
       else if (/^[a-zA-Z_]\w*$/.test(token)) {
-        // this alternative is only matched when the token was an identifier followed by '(' (regex lookahead)
         cls = 'fscss-method';
-      } else if (/^%[0-9]+$/.test(token) || /^\$[a-zA-Z_][\w\-]*$/.test(token) || /^[\w\-][a-zA-Z_\-\*]\*:$/.test(token)){
+      } else if (/^%[0-9]+$/.test(token) || /^\$[a-zA-Z_][\w\-]*$/.test(token)){
         cls = 'fscss-var';
       } else if (/^\d+(\.\d+)?$/.test(token)) {
         cls = 'fscss-number';
