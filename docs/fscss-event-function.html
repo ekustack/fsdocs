@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FSCSS @events function and logic descriptions </title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles/highlight.css">
+  <script src="/scripts/highlight.js"></script>
   <style>
     :root {
       --primary: #4361ee;
@@ -324,7 +326,7 @@
       <div class="code-container">
         <div class="code-header"><span>example.fscss</span></div>
         <div class="code-content">
-          <pre><span class="comment">/* Basic event */</span>
+          <pre data-lang="fscss"><span class="comment">/* Basic event */</span>
 <span class="keyword">@event</span> theme(mode) {
   <span class="keyword">if</span> mode: dark {
     <span class="keyword">return</span>: #111111;
@@ -357,7 +359,7 @@
       <div class="code-container">
         <div class="code-header"><span>logic.fscss</span></div>
         <div class="code-content">
-          <pre><span class="keyword">@event</span> size(type) {
+          <pre data-lang="fscss"><span class="keyword">@event</span> size(type) {
   <span class="keyword">if</span> type: small {
     <span class="keyword">return</span>: 12px;
   }
@@ -393,7 +395,7 @@
       <div class="code-container">
         <div class="code-header"><span>compare.fscss</span></div>
         <div class="code-content">
-          <pre><span class="keyword">@event</span> rating(score) {
+          <pre data-lang="fscss"><span class="keyword">@event</span> rating(score) {
   <span class="keyword">if</span> score &gt;= 90 {
     <span class="keyword">return</span>: green;
   }
@@ -422,7 +424,7 @@
       <div class="code-container">
         <div class="code-header"><span>math-random.fscss</span></div>
         <div class="code-content">
-          <pre><span class="comment">/* Random colors */</span>
+          <pre data-lang="fscss"><span class="comment">/* Random colors */</span>
 <span class="function">str</span>(primary, <span class="string">"@random([#ff0000, #00ff00, #0000ff])"</span>)
 
 <span class="comment">/* Spacing calculator */</span>
@@ -480,12 +482,12 @@
     <div class="method-section">
       <h2><i class="fas fa-code-branch"></i> Advanced Composition</h2>
       <p>
-        Events can call other events or combine with variables for even more flexibility.
+        Events can combine with variables for even more flexibility.
       </p>
       <div class="code-container">
         <div class="code-header"><span>advanced.fscss</span></div>
         <div class="code-content">
-          <pre><span class="keyword">$second-test</span>: #302030;
+          <pre data-lang="fscss"><span class="keyword">$second-test</span>: #302030;
 <span class="keyword">@event</span> themedBackground(mode) {
   <span class="keyword">if</span> mode: dark {
     <span class="keyword">return</span>: <span class="function">$second-test</span>!;
