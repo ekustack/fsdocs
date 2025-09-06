@@ -395,7 +395,7 @@
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* Color Variables */</span>
+<pre><span class="comment" lang="fscss">/* Color Variables */</span>
 $primary: #4361ee;
 $secondary: #7209b7;
 $accent: #f72585;
@@ -420,7 +420,7 @@ $spacing-lg: 2rem;
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* Flex Center Mixin */</span>
+<pre data-lang="fscss"><span class="comment">/* Flex Center Mixin */</span>
 str(flexCenter, "
   display: flex;
   justify-content: center;
@@ -448,7 +448,7 @@ str(cardStyle, "
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* Base Button */</span>
+<pre data-lang="fscss"><span class="comment">/* Base Button */</span>
 .button {
   padding: $spacing-sm! $spacing-md!;
   border-radius: 4px;
@@ -487,7 +487,7 @@ str(cardStyle, "
           <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
         <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* Import Core Modules */</span>
+<pre data-lang="fscss"><span class="comment">/* Import Core Modules */</span>
 <span class="keyword">@import</span>(exec(_variables.fscss))
 <span class="keyword">@import</span>(exec(_mixins.fscss))
 <span class="keyword">@import</span>(exec(_buttons.fscss))
@@ -583,7 +583,7 @@ body {
           </p>
           <div class="code-container">
             <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* Load extra styles for mobile */</span>
+<pre data-lang="fscss"><span class="comment">/* Load extra styles for mobile */</span>
 @media (max-width: 768px) {
   <span class="keyword">@import</span>(exec(mobile.fscss))
 }
@@ -605,7 +605,7 @@ body {
           </p>
           <div class="code-container">
             <div class="code-content" data-lang="fscss">
-<pre><span class="comment">/* style.fscss */</span>
+<pre data-lang="fscss"><span class="comment">/* style.fscss */</span>
 <span class="keyword">@import</span>(exec(_init themes))
 
 div.star {
