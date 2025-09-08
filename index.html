@@ -524,6 +524,7 @@
       <div>
         <a href="#install" class="btn"><i class="fas fa-download"></i> Get Started</a>
         <a href="#examples" class="btn btn-outline"><i class="fas fa-code"></i> See Examples</a>
+        <a class="loader-card" contenteditable="true"><h4 class="loader-text">-webkit-text-stroke</h4></a>
       </div>
     </div>
   </section>
@@ -841,5 +842,73 @@ applyStyle();</code></pre>
       });
     });
   </script>
+    <style>
+.loader-card {
+  border-radius: 10px;
+  box-shadow: 0 0 4px #003;
+  border: 2px solid #ffd;
+  width: 222px;
+  background: rgb(10,10,10,0.5);
+  display: inline-block;
+  padding: 1.1em 0;
+}
+.loader-text {
+  color: #ddccdd;
+  font-family: monospace;
+  overflow: hidden;
+  margin: 0 10px;
+  height: 1.7em;
+  white-space: nowrap;
+  border-right: 4px solid #ffd;
+}
+.typing {
+  animation: type 3s steps(30) 1, cursor 0.7s step-end infinite;
+}
+
+@keyframes type {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes cursor {
+  50% { border-color: transparent; }
+}
+</style>
+
+<script>
+const loaderText = document.querySelector(".loader-text");
+const codes = [
+  "-*-text-stroke: 2px blue;", 
+  "%2(width,height[: $box;])", 
+  "$primary-color:lightblue;", 
+  "@import(exec(_init isjs))", 
+  "@event.name(num(60 * 60))", 
+  "@random(#00f, #00a, #009)", 
+  "rpt(100, 'Hello, World!')", 
+  "exec(_log,'Hello World!')", 
+  "re(Greet, 'Hello World!')",
+  "color: @fun.color.1.value",
+  "/*exec.obj.block(debug)*/", 
+  "Faster development cycles", 
+  "Done with all inOne place", 
+  "It Simplified maintenance", 
+  "Value Easy global updates", 
+  "DRY(Dn't Repeat Yourself)", 
+  "Consistent design system ", 
+  "Automatic vendor prefixes", 
+  "npm install fscss@1.1.6"
+];
+
+function changeText() {
+  const ranText = codes[Math.floor(Math.random() * codes.length)];
+  loaderText.textContent = ranText;
+
+  
+  loaderText.classList.remove("typing");
+  void loaderText.offsetWidth; 
+  loaderText.classList.add("typing");
+) 
+changeText();
+setInterval(changeText, 5000);
+</script>
 </body>
 </html>
