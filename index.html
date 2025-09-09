@@ -356,7 +356,46 @@
       align-items: center;
       gap: 10px;
     }
-    
+    #fscssUFB input, #fscssUFB textarea{
+      width: min(90%, 800px);
+      margin: 5px;
+      border: 1px solid #0999f0;
+      border-radius: 5px;
+      background: #fff;
+      color: #059;
+      font-family: monospace;
+      padding: 5px 0;
+      box-shadow: 0 0 2px #aaa;
+      transition: all 0.5s ease-in-out;
+    }
+    #fscssUFB textarea{
+      max-width: 90%;
+      max-height: 10em;
+      height: 5.3em;
+    }
+        #fscssUFB input:focus, #fscssUFB textarea:focus{
+          outline: 2px groove #00afff;
+          transform: skewY(-1.3deg) translate(5px);
+         
+          box-shadow: 0 0 4px #0ff, 0 0 6px #0f9;
+        }
+        
+    #fscssUFB button{
+      background: #0999f0;
+      color: #ddd;
+      padding: 0.5em 0;
+      width: 90%;
+      margin: 5px;
+      border-radius: 5px;
+      border: 0;
+      font-weight: 700;
+      box-shadow: 0 0 3px #0f9;
+      transition: all 0.5s ease-in-out;
+    }
+    #fscssUFB button:hover{
+      transform: translate(5px);
+      box-shadow: 0 0 4px #0ff, 0 0 6px #0f9;
+    }
     /* Live Examples Section */
     .examples-grid {
       display: grid;
@@ -478,6 +517,7 @@
       }
       nav a{
         padding: 0.3rem 0.2rem;
+        font-size: 10pt;
       }
       .hero h1 {
         font-size: 2.2rem;
@@ -512,6 +552,7 @@
         <a href="#install"><i class="fas fa-download"></i> Install</a>
         <a href="#usage"><i class="fas fa-cog"></i> Usage</a>
         <a href="#docs"><i class="fas fa-book"></i> Docs</a>
+        <a href="#contact"><i class="fas fa-phone"></i> Contact</a>
       </nav>
     </div>
   </header>
@@ -734,7 +775,7 @@ applyStyle();</code></pre>
 
     <!-- Docs Section -->
     <section id="docs" class="section">
-      <h2><a href="docs.html#"><i class="fas fa-book"></i> Documentation</a></h2>
+      <h2><a href="docs.html#"></a></h2>
       <p>Explore the full power of FSCSS with our comprehensive documentation:</p>
         
       <div class="card">
@@ -750,6 +791,19 @@ applyStyle();</code></pre>
           
         <a href="docs.html" class="btn"><i class="fas fa-book-open"></i> Read Documentation</a>
       </div>
+    </section>
+    <section id="contact" class="section">
+    <div class="card">
+    <h2>Suggest improvement</h2>
+    <p>We really want your thoughts; your feedback means a lot to us! </p>
+    <form id="fscssUFB">
+    <input name="FSCSS" value="User_feedback" hidden>
+    <input id="uEmail" name="uEmail" type="email" placeholder="Your email address" required>
+    <textarea name="uFeedBack" id="uText" placeholder="Your message" required></textarea>
+    <button type="submit" >Send</button>
+    <p id="msg"></p>
+    </form>
+    </div>
     </section>
   </main>
 
@@ -772,7 +826,7 @@ applyStyle();</code></pre>
       </div>
         
       <div class="copyright">
-        <p>Made with 💡 for Web designers</p>
+        <p>Made with 💡 for Web developers</p>
         <p>© 2025 FSCSS. MIT License</p>
       </div>
     </div>
@@ -901,6 +955,22 @@ function changeText() {
   }
 changeText();
 setInterval(changeText, 5000);
+
+document.getElementById("fscssUFB").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const f = e.target;
+    const data = new FormData(f);try{
+    const r=await fetch("https://formspree.io/f/xnndzvnl",{method:"POST",body:data,headers:{ "Accept": "application/json" }});
+    if(r.ok){
+    document.getElementById("msg").innerText="Thank you for your feedback!";
+    f.reset();
+    }else{document.getElementById("msg").innerText="❌ Error sending messages.";
+    }
+    }catch(err){document.getElementById("msg").innerText="⚠️ Network error.";
+     }
+    
+   });
+    
 </script>
 </body>
 </html>
