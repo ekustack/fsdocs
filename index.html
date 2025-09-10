@@ -655,6 +655,52 @@ div {
             <div class="star"></div>
           </div>
         </div>
+        <div class="example-card">
+  <div class="example-header">
+    <h3>Array loops</h3>
+    <span class="version-badge">v1.1.6</span>
+  </div>
+  <p class="example-description">
+    Arrays in FSCSS let you loop through values like <code>colors</code> or <code>heights</code> without repeating code.  
+    In this example we build three arrays and use <code>nth-child()</code> to style each section differently in one go.
+  </p>
+
+  <div class="code-container">
+    <div class="code-header">
+      <span>FSCSS</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>/* arrays for height and background */
+@arr heights[60px, 50px, 30px, 20px, 10px]
+@arr colors[#00FF00, #FFFF00, #FFFFFF, #00FFF9, #D5D5D5]
+
+/* helper array for indexes */
+@arr index[1, 2, 3, 4, 5]
+
+/* loop through indexes */
+.section div:nth-child(@arr.index[]) {
+  /* capture current index */
+  $index: @arr.index[];
+
+  /* debug log */
+  exec(_log, $index!)
+
+  /* apply styles based on index */
+  background: @arr.colors[$index!];
+  height: @arr.heights[$index!];
+}
+    </code></pre>
+  </div>
+
+  <div class="example-output section">
+    <!-- Mocked output -->
+    <div style="background:#00FF00; height:60px;"></div>
+    <div style="background:#FFFF00; height:50px;"></div>
+    <div style="background:#FFFFFF; height:30px; border:1px solid #ccc;"></div>
+    <div style="background:#00FFF9; height:20px;"></div>
+    <div style="background:#D5D5D5; height:10px;"></div>
+  </div>
+</div>
       </div>
     </section>
 
