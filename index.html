@@ -567,6 +567,7 @@
         <a href="#examples" class="btn btn-outline"><i class="fas fa-code"></i> See Examples</a>
         <a class="loader-card" contenteditable="true"><h4 class="loader-text">-webkit-text-stroke</h4></a>
       </div>
+      
     </div>
   </section>
 
@@ -601,7 +602,7 @@
   }
   el-if e < 8 { 
     return: num(8/5*8)em
-    exec(_log, "<8: Scaling to ~10.24em for compact views");
+    exec(_log, "< 8: Scaling to ~10.24em for compact views");
     /* Scales down to ~10.24em for smaller inputs */
   }
   el { 
@@ -682,7 +683,7 @@ div {
   /* capture current index */
   $index: @arr.index[];
 
-  /* debug log */
+  /* log the indexes on the console */
   exec(_log, $index!)
 
   /* apply styles based on index */
@@ -795,7 +796,30 @@ div {
         <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.js" async&gt;&lt;/script&gt;</code></pre>
       </div>
+      <h3>Test this:</h3>
+      <div class="code-container">
+        <div class="code-header">
+          <span>HTML</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6" async&gt;&lt;/script&gt;
 
+&lt;div class="divs"&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+ @arr bg[red, blue, green, brown]
+.divs div:nth-child(@arr.bg[]){
+ background: @arr.bg[];
+ %2(width, height[: 100px;])
+ margin: 10px;
+}
+&lt;/style&gt;
+</code></pre>
+      </div>
       <h3><i class="fas fa-code"></i> Option 2: Using exec() in JavaScript <span class="version-badge">beta</span></h3>
       <p>Import the exec method from FSCSS CDN and initialize it programmatically:</p>
         
@@ -856,6 +880,7 @@ applyStyle();</code></pre>
   <!-- Footer -->
   <footer>
     <div class="footer-content">
+      
       <div class="logo">
         <div class="logo-icon">
           <i class="fas fa-code"></i>
@@ -864,6 +889,19 @@ applyStyle();</code></pre>
       </div>
       <p>Simplify your CSS workflow with powerful shorthand syntax</p>
       
+      <div class="browsers" style="border: 1px solid #246;border-width: 1px 0 2px 0;">
+        <h3>Browser support:</h3>
+  <p><i class="fab fa-chrome"></i> chrome – 100%</p>
+  <p><i class="fab fa-firefox-browser"></i>Firefox – 100%</p>
+  <p><i class="fab fa-edge"></i>Edge – 100%</p>
+  <p><i class="fab fa-safari"></i>Safari – 100%</p>
+  <p><i class="fab fa-opera"></i>Opera – 100%</p>
+  <p><i class="fab fa-safari"></i>iOS Safari – 100%</p>
+  <p><i class="fab fa-chrome"></i>Android WebView / Chrome for Android – 100%</p>
+  <p><i class="fas fa-earth"></i>Samsung Internet – 100%</p>
+<p><i class="fas fa-earth"></i>Global support: ~ 99.99%</p>
+
+</div>
       <div class="footer-links">
         <a href="https://github.com/fscss-ttr/FSCSS/blob/main/README.md"><i class="fab fa-github"></i> GitHub</a>
         <a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> npm</a>
