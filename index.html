@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -840,7 +841,46 @@ async function applyStyle() {
 applyStyle();</code></pre>
       </div>
       
-      <a href="compiler.html" class="btn"><i class="fas fa-play-circle"></i> Try It Live on the FSCSS Compiler</a>
+      <a href="compiler.html" class="btn"><i class="fas fa-play-circle"></i>Run</a>
+      
+  <h2><i class="fas fa-cog"></i> Usage Guidelines</h2>
+  <p class="intro">
+    To ensure the best performance and maintainability when working with FSCSS, please review and follow the notes below.
+  </p>
+
+  <h3><i class="fas fa-project-diagram"></i> Large Projects</h3>
+  <p>
+    <strong>Using FSCSS directly with the compiler via CDN:</strong>  
+    This method is convenient for small demos, prototypes, or dynamic content. However, for large-scale or production projects, it is <em>not recommended</em>.  
+    Instead, compile your FSCSS into valid CSS before deployment. You can upload your FSCSS files to the <a href="compiler.html">FSCSS Compiler</a> and download the optimized CSS for integration into your project. This ensures faster load times, reduced runtime overhead, and better browser performance.
+  </p>
+
+  <h3><i class="fas fa-code"></i> FSCSS Syntax</h3>
+  <p>
+    FSCSS introduces shorthand features to simplify CSS, but there are important rules to follow:
+  </p>
+  <ul>
+    <li>
+      <strong>Avoid inline comments (<code>//</code>):</strong> FSCSS does not support inline-style comments. Use proper block comments (<code>/* ... */</code>) instead.
+    </li>
+    <li>
+      <strong>Do not mix FSCSS with invalid syntax:</strong> Always validate your code through the compiler. Any incorrect syntax may result in warnings or failed compilation.
+    </li>
+    <li>
+      <strong>Check the console for warnings:</strong> If you are testing FSCSS via the CDN, monitor your browser’s developer console for error or warning messages. They will guide you to fix potential issues.
+    </li>
+  </ul>
+
+  <h3><i class="fas fa-lightbulb"></i> Best Practices</h3>
+  <ul>
+    <li>Keep your FSCSS files modular and organized for better readability.</li>
+    <li>Compile and minify your final CSS before deploying to production.</li>
+    <li>Use FSCSS primarily for rapid prototyping or when shorthand syntax significantly improves workflow.</li>
+  </ul>
+
+  <a href="compiler.html" class="btn">
+    <i class="fas fa-play-circle"></i> Upload FSCSS & Compile
+  </a>
     </section>
 
     <!-- Docs Section -->
