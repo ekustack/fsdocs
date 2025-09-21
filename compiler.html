@@ -4,8 +4,225 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FSCSS to CSS (Dev Tool)</title>
+  <meta name="description" content="Upload FSCSS & Download CSS">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+.page-loader {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    background: #0d1117;
+    color: #00e6a8;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+}
 
+/* Terminal container */
+.page-loader-terminal {
+    width: 500px;
+    max-width: 90%;
+    border: 1px solid #2ea043;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(46, 160, 67, 0.2);
+}
+
+/* Terminal header */
+.page-loader-header {
+    background: #161b22;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #2ea043;
+}
+
+.page-loader-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+}
+
+.page-loader-control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.page-loader-control.close { background: #ff5f56; }
+.page-loader-control.minimize { background: #ffbd2e; }
+.page-loader-control.expand { background: #27c93f; }
+
+.page-loader-title {
+    font-size: 14px;
+    color: #8b949e;
+}
+
+/* Terminal body */
+.page-loader-body {
+    background: #0d1117;
+    padding: 20px;
+    height: auto;
+    overflow: hidden;
+}
+
+.page-loader-command {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.page-loader-prompt {
+    color: #58a6ff;
+    margin-right: 10px;
+}
+
+.page-loader-input {
+    color: #00e6a8;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #00e6a8;
+    animation: typing 1.5s steps(20, end), blink-caret 0.75s step-end infinite;
+}
+
+.page-loader-output {
+    margin-top: 10px;
+    color: #c9d1d9;
+    line-height: 1.5;
+}
+
+/* Progress bar */
+.page-loader-progress-container {
+    margin-top: 20px;
+    background: #161b22;
+    height: 20px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.page-loader-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #238636, #00e6a8);
+    transition: width 0.5s ease;
+}
+
+/* Status text */
+.page-loader-status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+}
+
+.page-loader-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #00e6a8;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 1.5s infinite;
+}
+
+/* Animations */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #00e6a8; }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Hide loader after completion */
+.page-loader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+</style>
+
+<body>
+<!-- Terminal Loader -->
+<section class="page-loader">
+  <div class="page-loader-terminal">
+    <div class="page-loader-header">
+      <div class="page-loader-controls">
+        <div class="page-loader-control close"></div>
+        <div class="page-loader-control minimize"></div>
+        <div class="page-loader-control expand"></div>
+      </div>
+      <div class="page-loader-title">bash — Loading FSCSS</div>
+    </div>
+    
+    <div class="page-loader-body">
+      <div class="page-loader-command">
+        <span class="page-loader-prompt">visitor@fscss:~$</span>
+        <span class="page-loader-input">load project</span>
+      </div>
+      
+      <div class="page-loader-output">
+        &gt; Initializing FSCSS environment...<br>
+        &gt; Loading components library...<br>
+        &gt; Preparing documentation...
+      </div>
+      
+      <div class="page-loader-progress-container">
+        <div class="page-loader-progress-bar" id="page-loader-progress-bar"></div>
+      </div>
+      
+      <div class="page-loader-status">
+        <div class="page-loader-status-dot"></div>
+        <span id="page-loader-status-text">Processing — 0%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const progressBar = document.getElementById('page-loader-progress-bar');
+  const statusText = document.getElementById('page-loader-status-text');
+  const loader = document.querySelector('.page-loader');
+  const outputDiv = document.querySelector('.page-loader-output');
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 5;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      
+      // Update final status
+      statusText.innerHTML = 'Ready — 100%';
+      
+      // Add success message
+      outputDiv.innerHTML += '<br>&gt; Load complete. Welcome to FSCSS!';
+      
+      // Fade out after a delay
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+      }, 1500);
+    }
+    
+    // Update progress bar and text
+    progressBar.style.width = `${progress}%`;
+    statusText.innerHTML = `Processing — ${Math.round(progress)}%`;
+  }, 100);
+});
+  </script>
   <style>
     :root {
       --primary: #4361ee;
