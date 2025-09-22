@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -825,179 +824,105 @@ div {
     </section>
     
     <!-- Install Section -->
-    <section id="install" class="section">
-      <h2><i class="fas fa-download"></i> Install FSCSS</h2>
-      <h3>Latest Version <span class="version-badge">v1.1.6</span></h3>
-      <p>Choose your preferred installation method:</p>
-       
-      <div class="install-options">
-        <div class="option-card">
-          <h4><i class="fab fa-npm"></i> Install via NPM</h4>
-          <p>For Node.js projects and build pipelines</p>
-          <div class="code-container">
-            <div class="code-header">
-              <span>bash</span>
-              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-            <pre><code>npm install fscss@1.1.6</code></pre>
-          </div>
+   <section id="install" class="section">
+  <h2><i class="fas fa-download"></i> Install FSCSS</h2>
+  <h3>Latest Version <span class="version-badge">v1.1.7</span></h3>
+  <p>Choose your preferred installation method:</p>
+  
+  <div class="install-options">
+    <div class="option-card">
+      <h4><i class="fab fa-npm"></i> Install via NPM</h4>
+      <p>For Node.js projects, build pipelines, or CLI usage</p>
+      <div class="code-container">
+        <div class="code-header">
+          <span>bash</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
-          
-        <div class="option-card">
-          <h4><i class="fas fa-cloud-download-alt"></i> CDN Link</h4>
-          <p>For quick integration in HTML files</p>
-          <div class="code-container">
-            <div class="code-header">
-              <span>HTML</span>
-              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" async&gt;&lt;/script&gt;</code></pre>
-          </div>
-        </div>
+        <pre><code>npm install fscss@1.1.7</code></pre>
       </div>
-        
-      <a href="https://www.npmjs.com/package/fscss" class="btn" target="_blank">
-        <i class="fab fa-npm"></i> View on npm
-      </a>
-    </section>
+      <p><strong>Global CLI usage:</strong></p>
+      <div class="code-container">
+        <div class="code-header">
+          <span>bash</span>
+          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <pre><code>npm install -g fscss
+fscss input.fscss output.css</code></pre>
+      </div>
+    </div>
     
-    <!-- Usage Section -->
-    <section id="usage" class="section">
-      <h2><i class="fas fa-cog"></i> Usage Guide</h2>
-      <p>Learn how to integrate FSCSS into your projects:</p>
-      
-      <h3><i class="fas fa-link"></i> Option 1: Using HTML &lt;link&gt; and CDN</h3>
-      <p>Include your FSCSS file and load the compiler via CDN:</p>
-        
+    <div class="option-card">
+      <h4><i class="fas fa-cloud-download-alt"></i> CDN Link</h4>
+      <p>For quick integration in HTML files (runtime mode)</p>
       <div class="code-container">
         <div class="code-header">
           <span>HTML</span>
           <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
-        <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.js" async&gt;&lt;/script&gt;</code></pre>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.min.js" async&gt;&lt;/script&gt;</code></pre>
       </div>
-      <h3>Test this:</h3>
-      <div class="code-container">
-        <div class="code-header">
-          <span>HTML</span>
-          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-        </div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6" async&gt;&lt;/script&gt;
-
-&lt;div class="divs"&gt;
- &lt;div&gt;&lt;/div&gt;
- &lt;div&gt;&lt;/div&gt;
- &lt;div&gt;&lt;/div&gt;
- &lt;div&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;style&gt;
- @arr bg[red, blue, green, brown]
-.divs div:nth-child(@arr.bg[]){
- background: @arr.bg[];
- %2(width, height[: 100px;])
- margin: 10px;
-}
-&lt;/style&gt;
-</code></pre>
-      </div>
-      <h3><i class="fas fa-code"></i> Option 2: Using exec() in JavaScript <span class="version-badge">beta</span></h3>
-      <p>Import the exec method from FSCSS CDN and initialize it programmatically:</p>
-        
-      <div class="code-container">
-        <div class="code-header">
-          <span>JavaScript</span>
-          <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-        </div>
-        <pre><code>import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/xfscss.min.js";
-
-async function applyStyle() {
-  new exec({
-    type: "URL",
-    content: "style.fscss"
-  });
-}
-
-applyStyle();</code></pre>
-      </div>
-      
-      <a href="compiler.html" class="btn"><i class="fas fa-play-circle"></i>Run</a>
-      
-  <h2><i class="fas fa-cog"></i> Usage Guidelines</h2>
-  <p class="intro">
-    To ensure the best performance and maintainability when working with FSCSS, please review and follow the notes below.
-  </p>
-
-<h3><i class="fas fa-project-diagram"></i> Large Projects</h3>
-<p>
-  <strong>Using FSCSS directly with the compiler via CDN:</strong><br>
-  This approach is convenient for small demos, prototypes, or dynamic content. If you rely on CDN usage for dynamic styling or filtering, consider loading the compiler with
-  <code>defer</code> to reduce blocking.
-</p>
-
-<p>
-  For large-scale or production projects, it is <em>not recommended</em>. Instead, compile your FSCSS into valid CSS before deployment. You can upload your FSCSS files to the
-  <a href="/compiler.html">FSCSS Compiler</a> and download the optimized CSS for integration into your project. This ensures faster load times, reduced runtime overhead, and better browser performance.
-</p>
-
-<h4><i class="fas fa-random"></i> When You Need the FSCSS Runtime (CDN)</h4>
-<p>
-  The FSCSS runtime is required whenever you use methods that generate <em>non-deterministic or loop-based styles</em>. For example:
-</p>
-
-<pre><code class="language-fscss">
-/* Example: Randomized display */
-.post {
-  display: @random([block, none]);
-}
-</code></pre>
-
-<p>
-  If you compile this with the FSCSS compiler, the <code>@random()</code> method is resolved at compile time, meaning it will always return either <code>block</code> or <code>none</code> (fixed).
-  Using the runtime ensures a fresh randomization every time the page loads, without writing custom JavaScript.
-</p>
-
-<pre><code class="language-fscss">
-/* Example: Using arrays and loops with randomization */
-@arr numb[1,2,3,4,5]
-
-.post:nth-child(@arr.numb[]) {
-  $just-for-loop: @arr.numb[];
-  display: @random([none, block]);
-}
-</code></pre>
-
-<p>
-  In this case, the FSCSS runtime allows you to hide or show posts randomly, ensuring content feels dynamic without adding JavaScript.
-  <strong>Use runtime only when you need this behavior.</strong> For everything else, compile to static CSS.
-</p>
-  <h3><i class="fas fa-code"></i> FSCSS Syntax</h3>
-  <p>
-    FSCSS introduces shorthand features to simplify CSS, but there are important rules to follow:
-  </p>
-  <ul>
-    <li>
-      <strong>Avoid inline comments (<code>//</code>):</strong> FSCSS does not support inline-style comments. Use proper block comments (<code>/* ... */</code>) instead.
-    </li>
-    <li>
-      <strong>Do not mix FSCSS with invalid syntax:</strong> Always validate your code through the compiler. Any incorrect syntax may result in warnings or failed compilation.
-    </li>
-    <li>
-      <strong>Check the console for warnings:</strong> If you are testing FSCSS via the CDN, monitor your browser’s developer console for error or warning messages. They will guide you to fix potential issues.
-    </li>
-  </ul>
-
-  <h3><i class="fas fa-lightbulb"></i> Best Practices</h3>
-  <ul>
-    <li>Keep your FSCSS files modular and organized for better readability.</li>
-    <li>Compile and minify your final CSS before deploying to production.</li>
-    <li>Use FSCSS primarily for rapid prototyping or when shorthand syntax significantly improves workflow.</li>
-  </ul>
-
-  <a href="compiler.html" class="btn">
-    <i class="fas fa-play-circle"></i> Upload FSCSS & Compile
+    </div>
+  </div>
+  
+  <a href="https://www.npmjs.com/package/fscss" class="btn" target="_blank">
+    <i class="fab fa-npm"></i> View on npm
   </a>
-    </section>
+</section>
+
+<!-- Usage Section -->
+<section id="usage" class="section">
+  <h2><i class="fas fa-cog"></i> Usage Guide</h2>
+  <p>Learn how to integrate FSCSS into your projects:</p>
+  
+  <h3><i class="fas fa-terminal"></i> Option 1: Backend / CLI</h3>
+  <p>Compile FSCSS into plain CSS directly on your backend or in build scripts:</p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>bash</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>fscss style.fscss style.css</code></pre>
+  </div>
+  <p><strong>Node.js API example:</strong></p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>JavaScript</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>import { processFscss } from "fscss";
+import { readFileSync, writeFileSync } from "fs";
+
+const input = readFileSync("style.fscss", "utf-8");
+const output = await processFscss(input);
+writeFileSync("style.css", output);</code></pre>
+  </div>
+  
+  <h3><i class="fas fa-link"></i> Option 2: Using HTML &lt;link&gt; and CDN</h3>
+  <p>Include your FSCSS file and load the runtime compiler via CDN:</p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>HTML</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.js" async&gt;&lt;/script&gt;</code></pre>
+  </div>
+  
+  <h3><i class="fas fa-code"></i> Option 3: Using exec() in JavaScript</h3>
+  <p>Import the exec method programmatically from FSCSS CDN:</p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>JavaScript</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/xfscss.min.js";
+
+new exec({
+  type: "URL",
+  content: "style.fscss"
+});</code></pre>
+  </div>
+</section>
 
     <!-- Docs Section -->
     <section id="docs" class="section">
@@ -1214,6 +1139,8 @@ document.getElementById("fscssUFB").addEventListener("submit",async function(e){
 </script>
 </body>
 </html>
+
+
 
 
 
