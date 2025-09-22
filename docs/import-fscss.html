@@ -516,10 +516,10 @@ body {
 
     <!-- Step 3 -->
     <div class="method-section">
-      <h2><i class="fas fa-link"></i> Step 3 — Link Main File in HTML</h2>
+      <h2><i class="fas fa-link"></i> Step 3 — Link Main File in HTML (testing)</h2>
       <p>
         Finally, link <code>main.fscss</code> inside your HTML page. The FSCSS compiler
-        will automatically turn it into valid CSS in the browser.
+        will automatically turn it into valid CSS in the browser. <em>Not recommended in production, (compile it to standard css)</em>
       </p>
 
       <div class="code-container">
@@ -539,7 +539,7 @@ body {
   &lt;link type="text/fscss" href="main.fscss"&gt;
 
   <span class="comment">&lt;!-- Include FSCSS compiler --&gt;</span>
-  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" async&gt;&lt;/script&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.6/e/exec.min.js" defer&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class="card"&gt;
