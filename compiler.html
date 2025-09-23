@@ -42,7 +42,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: ;
     }
 
     /* Header */
@@ -236,7 +236,7 @@
 
     .editor-box {
       flex: 1;
-      height: 100%;
+      height: 80vh;
     }
 
     .divider {
@@ -258,7 +258,10 @@
       background: var(--darker);
       border-top: 1px solid var(--border);
       flex-wrap: wrap;
-    }
+      position: ;
+padding-left: 4px;   
+padding-bottom: 3em;
+}
 
     .btn {
       background: var(--primary);
@@ -314,7 +317,7 @@
       justify-content: space-between;
       align-items: center;
       font-family: 'Fira Code', monospace;
-      z-index: 1001;
+      z-index: 1003;
     }
 
     .status-item {
@@ -325,17 +328,8 @@
 
     /* Status Log */
     .status-log {
-      background: var(--darker);
-      color: var(--light);
-      font-size: 0.85rem;
-      font-family: 'Fira Code', monospace;
-      max-height: 0;
-      overflow-y: auto;
-      transition: max-height 0.3s ease;
-      border-top: 1px solid var(--border);
-      position: fixed;
-      bottom: 3em;
-      z-index: 999;
+      position: relative;
+      display: block;
     }
 
     .status-log.expanded {
@@ -343,7 +337,7 @@
     }
 
     .status-log-content {
-      padding: 10px;
+      padding: 5px;
     }
 
     .log-entry {
@@ -430,7 +424,7 @@
       .sidebar {
         position: absolute;
         z-index: 100;
-        height: 100%;
+        height: 100vh;
       }
 
       .sidebar:not(.collapsed) {
@@ -509,13 +503,7 @@
     }
     .status-log {
   background: var(--darker);
-  color: var(--light);
-  font-size: 0.85rem;
-  font-family: 'Fira Code', monospace;
-  padding: 8px 10px;
-  max-height: 0;
-  overflow-y: auto;
-  transition: max-height 0.3s ease;
+  
   
   
 }
@@ -528,8 +516,8 @@
   padding: 1em;
   left: 0;
   right: 0;
-  position: fixed;
-  z-index: 1000;
+  position: relative;
+  z-index: 1002;
   overflow: auto;
 }
 
@@ -546,7 +534,14 @@
   gap: 6px;
   
 }
-
+.sidelog{
+  display: flex;
+  justify-content: left;
+  border: 1px solid #36f;
+  flex-direction: column;
+  overflow: scroll;
+  max-height: 120px;
+}
   </style>
 </head>
 <body>
@@ -634,6 +629,34 @@
           <div class="sidebar-item">
             <i class="fas fa-anchor"></i>
             <span>Buttons</span>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidelog">
+              <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code"></i>
+      <span id="cursor-pos">Ln 1, Col 1</span>
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      <span id="status-time">Ready</span>
+    </div>
+    <div class="status-item" id="status-toggle">
+      <i class="fas fa-chevron-up"></i>
+      <span>Problems</span>
+    </div>
+  </div>
+  
+  <!-- Status Log -->
+  <div class="status-bar" id="status-bar">
+    <span id="status-toggle" style="cursor:pointer;">▼ Logs</span>
+    <span id="cursor-pos">Ln 1, Col 1</span>
+  </div>
+  <div id="status-log" class="status-log collapsed">
+    <div id="status-message">Ready</div>
+  </div>
+  </div>
           </div>
         </div>
       </div>
@@ -750,30 +773,7 @@
     </label>
   </div>
 
-  <!-- Status Bar -->
-  <div class="status-bar">
-    <div class="status-item">
-      <i class="fas fa-code"></i>
-      <span id="cursor-pos">Ln 1, Col 1</span>
-    </div>
-    <div class="status-item">
-      <i class="fas fa-clock"></i>
-      <span id="status-time">Ready</span>
-    </div>
-    <div class="status-item" id="status-toggle">
-      <i class="fas fa-chevron-up"></i>
-      <span>Problems</span>
-    </div>
-  </div>
 
-  <!-- Status Log -->
-<div class="status-bar" id="status-bar">
-  <span id="status-toggle" style="cursor:pointer;">▼ Logs</span>
-  <span id="cursor-pos">Ln 1, Col 1</span>
-</div>
-<div id="status-log" class="status-log collapsed">
-  <div id="status-message">Ready</div>
-</div>
   <!-- Monaco Editor -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
   <script type="module" defer>
@@ -1110,4 +1110,4 @@ addLogEntry('FSCSS to CSS tool ready', 'success');
     
   </script>
 </body>
-  </html>
+</html>
