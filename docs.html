@@ -2069,7 +2069,64 @@ span:before {
   });
                             
   </script>
-  <script src="https://cdn.jsdelivr.net/gh/ekustack/ekustack.github.io@marster/scripts/ekuads.block.min.js"></script>
-
+      <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  <style>
+   .scroll-btn{
+     background: #09f;
+     border-radius: 50%;
+     border: 1px solid rgb(255,255,255, 0.5);
+     opacity: 0.8;
+     padding: 10px;
+     width: 50px;
+     height: 50px;
+     position: fixed !important;
+     z-index: 1900;
+     right: 10px;
+     bottom: 8em;
+     animation: animate 1s ease infinite alternate, slideSUp 0.5s ease 1 forwards;
+     color: #ddd;
+     font-weight: bolder;
+     display: none;
+   }
+  .scroll-btn.show{
+    display: inline-block;
+  }
+   @keyframes animate{
+     from{
+       transform: translateY(3px);
+     }
+     to{
+       transform: translateY(0);
+     }
+   }
+   @keyframes slideSUp{
+     from{
+       bottom: -0.5em;
+     }
+     to{
+       bottom: 8em;
+     }
+   }
+  </style>
+  <script>
+  const scrollBack=document.querySelector(".scroll-btn");
+  
+  window.addEventListener("scroll", function(){
+    if(window.pageYOffset>=300){
+      scrollBack.classList.add("show");
+    }
+    else{
+      scrollBack.classList.remove("show");
+    }
+  })
+    scrollBack.addEventListener("click", (e)=>{
+      
+        window.scrollTo({
+          top:0,
+          behavior: 'smooth' 
+        }) 
+      
+    })
+  </script>
 </body>
 </html>
