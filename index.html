@@ -906,17 +906,17 @@ writeFileSync("style.css", output);</code></pre>
   </div>
 
   <p><strong>💡 React.js (Build-Time Compilation):</strong></p>
-  <div class="code-container">
+<ol><li> Compile FSCSS before bundling
+fscss src/styles/style.fscss src/styles/style.css</li>
+
+<li> 2️⃣ Import generated CSS in React</li></ol>
+    <div class="code-container">
     <div class="code-header">
       <span>React Example</span>
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
-    <pre><code># 1️⃣ Compile FSCSS before bundling
-fscss src/styles/style.fscss src/styles/style.css
-
-# 2️⃣ Import generated CSS in React
+    <pre><code>
 import './styles/style.css';
-
 export default function App() {
   return (
     &lt;div className="box-container"&gt;
@@ -992,7 +992,7 @@ export default function App() {
 
   return (
     &lt;&gt;
-      &lt;link rel="stylesheet" type="text/fscss" href="/style.fscss" /&gt;
+      &lt;link type="text/fscss" href="/style.fscss" /&gt;
       &lt;div className="boxes"&gt;
         &lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;
       &lt;/div&gt;
