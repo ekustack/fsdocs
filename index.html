@@ -907,6 +907,15 @@ writeFileSync("style.css", output);</code></pre>
     <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.js" async&gt;&lt;/script&gt;</code></pre>
   </div>
+  <p>More faster:</p>
+  <div class="code-container">
+    <div class="code-header">
+      <span>HTML</span>
+      <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.js" async&gt;&lt;/script&gt;
+    &lt;style&gt @import(exec(your_style.fscss))&lt;/style&gt;</code></pre>
+  </div>
   
   <h3><i class="fas fa-code"></i> Option 3: Using exec() in JavaScript</h3>
   <p>Import the exec method programmatically from FSCSS CDN:</p>
