@@ -859,7 +859,7 @@ fscss input.fscss output.css</code></pre>
           <span>HTML</span>
           <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -940,7 +940,7 @@ export default function App() {
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
     <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
   </div>
 
   <p><strong>⚡ Quick Inline Example:</strong></p>
@@ -949,7 +949,7 @@ export default function App() {
       <span>HTML</span>
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
-    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.min.js" defer&gt;&lt;/script&gt;
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js" defer&gt;&lt;/script&gt;
 &lt;style&gt;
   @import(exec(style.fscss));
 &lt;/style&gt;</code></pre>
@@ -985,7 +985,7 @@ new exec({
 export default function App() {
   useEffect(() =&gt; {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/exec.min.js";
+    script.src = "https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js";
     script.defer = true;
     document.body.appendChild(script);
   }, []);
@@ -1076,7 +1076,7 @@ export default function App() {
   </footer>
 
   <script>
-    // Copy button functionality
+    
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', function() {
         const pre = this.parentElement.parentElement.nextElementSibling;
@@ -1093,7 +1093,7 @@ export default function App() {
       });
     });
       
-    // Smooth scrolling for anchor links
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
