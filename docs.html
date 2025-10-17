@@ -580,24 +580,27 @@ window.addEventListener("load", () => {
     </ul>
     
     <h3><i class="fas fa-star"></i> Core Features</h3>
-    <ul>
-      <li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
-      <li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
-      <li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
-      <li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
-      <li><a href="#ext"><i class="fas fa-i-cursor"></i> string extractor </a></li>
-      <li><a href="#drops"><i class="fas fa-puzzle-piece"></i> Drops</a></li>
-      <li><a href="#share"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
-      <li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
-      <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
-      <li><a href="#vendors"><i class="fas fa-prefix"></i> Vendor Prefixing</a></li>
-      <li><a href="#fun"><i class="fas fa-retweet"></i> Function based</a></li>
-      <li><a href="#arr"><i class="fas fa-layer-group"></i> Array method</a></li>
-      <li><a href="#random">🎲 Random function</a></li>
-      <li><a href="#num">➕ number calculation</a></li>
-      <li><a href="/docs/import-fscss.html">🔗 @import method</a></li>
-      <li><a href="/docs/fscss-event-function.html"> @event function</a></li>
-    </ul>
+    
+<ul>
+<li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+<li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
+<li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
+<li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
+<li><a href="#ext"><i class="fas fa-code"></i> string extractor </a></li>
+<li><a href="#drops"><i class="fas fa-puzzle-piece"></i> Drops</a></li>
+<li><a href="#share"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
+<li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
+<li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
+<li><a href="#vendors"><i class="fas fa-tags"></i> Vendor Prefixing</a></li>
+<li><a href="#fun"><i class="fas fa-function"></i> Function based</a></li>
+<li><a href="#arr"><i class="fas fa-layer-group"></i> Array method</a></li>
+<li><a href="#random"><i class="fas fa-dice"></i> Random function</a></li>
+<li><a href="#num"><i class="fas fa-calculator"></i> number calculation</a></li>
+<li><a href="/docs/import-fscss.html"><i class="fas fa-link"></i> @import method</a></li>
+<li><a href="/docs/fscss-event-function.html"><i class="fas fa-bolt"></i> @event function</a></li>
+<li><a href="#count"><i class="fas fa-sort-numeric-up"></i> count function</a></li>
+<li><a href="#length"><i class="fas fa-ruler"></i> length function</a></li>
+</ul>
     
     <h3><i class="fas fa-book"></i> Resources</h3>
     <ul>
@@ -1849,6 +1852,131 @@ span:before {
     </ul>
   </div>
 </section>
+
+<section id="count" class="section">
+  <h2 class="section-title">🔢<code>count()</code> Method</h2>
+  <p class="section-intro">
+    The <code>count()</code> method generates sequential numeric values automatically. It’s perfect for creating ordered patterns, spacing variations, array auto indexing, or iterative property values in FSCSS without writing loops.
+  </p>
+  
+  <div class="doc-subsection" id="count-syntax">
+    <h3 class="subsection-title">🔧 Syntax Overview</h3>
+    <div class="code-container">
+      <pre><code>count(limit)
+ count(limit, step)</code></pre>
+    </div>
+    <p>
+      Generates a comma-separated sequence of numbers starting from <code>1</code> (or a custom step value if provided).
+    </p>
+  </div>
+  
+  <div class="doc-subsection" id="count-example">
+    <h3 class="subsection-title">✨ Example: Counting in Style</h3>
+    <div class="code-container">
+      <pre><code>
+/* Example 1 */
+exec(_log, "count(5)")
+/* Output: 1, 2, 3, 4, 5 */
+
+/* Example 2 */
+exec(_log, "count(10, 2)") 
+/* Output: 2, 4, 6, 8, 10 */
+@arr num[count(5)]
+ div:nth-child(@arr.num[]){
+ animation-delay: @arr.num[];
+  background: @random([red, blue, green]);
+}</code></pre>
+    </div>
+    <p>Automatically generates sequences you can use for spacing, sizes, and progressive effects.</p>
+  </div>
+  
+  <div class="doc-subsection" id="count-use-cases">
+    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
+    <ul class="benefits-list">
+      <li>Incremental element sizes or margins</li>
+      <li>Dynamic step-based animations</li>
+      <li>Patterned gradients or transformations</li>
+    </ul>
+  </div>
+  
+  <div class="doc-subsection" id="count-benefits">
+    <h3 class="subsection-title">🚀 Benefits</h3>
+    <ul class="usage-list">
+      <li><strong>Automatic Sequences:</strong> No manual typing</li>
+      <li><strong>Flexible:</strong> Custom step support</li>
+      <li><strong>Loop Ready:</strong> Works perfectly with <code>other fscss functions</code></li>
+      <li><strong>Readable:</strong> Simple, short, and intuitive</li>
+    </ul>
+  </div>
+  
+  <div class="doc-subsection" id="count-summary">
+    <h3 class="subsection-title">🔚 Summary</h3>
+    <p>
+      The FSCSS <code>count()</code> method brings elegant number generation to your stylesheet — ideal for consistent iteration and modular design without code repetition.
+    </p>
+  </div>
+</section>
+
+
+<section id="length" class="section">
+  <h2 class="section-title">📏<code>length()</code> Method</h2>
+  <p class="section-intro">
+    The <code>length()</code> method returns the number of characters in a string. It’s a handy utility for calculations, string-based logic, or even conditional style adjustments in FSCSS.
+  </p>
+  
+  <div class="doc-subsection" id="length-syntax">
+    <h3 class="subsection-title">🔧 Syntax Overview</h3>
+    <div class="code-container">
+      <pre><code>length("Your Text Here")</code></pre>
+    </div>
+    <p>
+      Evaluates the given string and returns its total character count (including spaces and punctuation).
+    </p>
+  </div>
+  
+  <div class="doc-subsection" id="length-example">
+    <h3 class="subsection-title">✨ Example: Dynamic Width by Text Length</h3>
+    <div class="code-container">
+      <pre><code>
+.text-box {
+  width: num(length("Hello World") * 10)px;
+  background: lightblue;
+  padding: 10px;
+}
+
+/* length("Hello World") → 11
+   Resulting width → 110px */
+</code></pre>
+    </div>
+    <p>Measure string lengths directly inside your FSCSS logic to create adaptive element sizes or styles.</p>
+  </div>
+  
+  <div class="doc-subsection" id="length-use-cases">
+    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
+    <ul class="benefits-list">
+      <li>Auto-sizing text containers</li>
+      <li>Responsive typography systems</li>
+      <li>Character-based animations</li>
+    </ul>
+  </div>
+  
+  <div class="doc-subsection" id="length-benefits">
+    <h3 class="subsection-title">🚀 Benefits</h3>
+    <ul class="usage-list">
+      <li><strong>Precise:</strong> Counts every character</li>
+      <li><strong>Functional:</strong> Integrates into expressions</li>
+      <li><strong>Useful:</strong> Great for logic and sizing</li>
+      <li><strong>Lightweight:</strong> No external JS needed</li>
+    </ul>
+  </div>
+  
+  <div class="doc-subsection" id="length-summary">
+    <h3 class="subsection-title">🔚 Summary</h3>
+    <p>
+      FSCSS <code>length()</code> makes it easy to bring text-awareness into your design logic — perfect for responsive or text-reactive layouts without scripts.
+    </p>
+  </div>
+</section>
     
 <!-- Detailed Exploration Section -->
 <section id="fscss-dev" class="section">
@@ -1991,7 +2119,7 @@ span:before {
     <!-- Footer -->
     <div class="footer">
       <p>Made with ❤️ for Dev</p>
-      <p>FSCSS v1.1.7 | © 2025 | MIT License</p>
+      <p>FSCSS v1.1.10 | © 2025 | MIT License</p>
     </div>
   </main>
   
