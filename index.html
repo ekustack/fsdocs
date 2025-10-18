@@ -756,7 +756,7 @@ div {
 @arr colors[#00FF00, #FFFF00, #FFFFFF, #00FFF9, #D5D5D5]
 
 /* helper array for indexes */
-@arr index[1, 2, 3, 4, 5]
+@arr index[count(5,1)]
 
 /* loop through indexes */
 .section div:nth-child(@arr.index[]) {
@@ -1175,7 +1175,7 @@ export default function App() {
 const loaderText = document.querySelector(".loader-text");
 const codes = [
   "-*-text-stroke: 2px blue;", 
-  "%2(width,height[: $box;])", 
+  "%2(width,height[: 90px;])", 
   "$primary-color:lightblue;", 
   "@import(exec(_init isjs))", 
   "@event.name(num(60 * 60))", 
@@ -1184,7 +1184,8 @@ const codes = [
   "exec(_log,'Hello World!')", 
   "re(Greet, 'Hello World!')",
   "color: @fun.color.1.value",
-  "/*exec.obj.block(debug)*/", 
+  "/*exec.obj.block(debug)*/",
+  "num(length('text') * 10)%", 
 ];
 
 function changeText() {
