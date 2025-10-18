@@ -826,7 +826,7 @@ div {
     <!-- Install Section -->
    <section id="install" class="section">
   <h2><i class="fas fa-download"></i> Install FSCSS</h2>
-  <h3>Latest Version <span class="version-badge">v1.1.10</span></h3>
+  <h3>Latest Version <span class="version-badge">1.1.11 up</span></h3>
   <p>Choose your preferred installation method:</p>
   
   <div class="install-options">
@@ -838,7 +838,7 @@ div {
           <span>bash</span>
           <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
-        <pre><code>npm install fscss@1.1.10</code></pre>
+        <pre><code>npm install fscss@latest</code></pre>
       </div>
       <p><strong>Global CLI usage:</strong></p>
       <div class="code-container">
@@ -859,7 +859,7 @@ fscss input.fscss output.css</code></pre>
           <span>HTML</span>
           <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
         </div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.10/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.11/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -940,7 +940,7 @@ export default function App() {
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
     <pre><code>&lt;link type="text/fscss" href="style.fscss"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.11/exec.min.js" defer&gt;&lt;/script&gt;</code></pre>
   </div>
 
   <p><strong>⚡ Quick Inline Example:</strong></p>
@@ -949,7 +949,7 @@ export default function App() {
       <span>HTML</span>
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
-    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js" defer&gt;&lt;/script&gt;
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.11/exec.min.js" defer&gt;&lt;/script&gt;
 &lt;style&gt;
   @import(exec(style.fscss));
 &lt;/style&gt;</code></pre>
@@ -966,7 +966,7 @@ export default function App() {
       <span>JavaScript</span>
       <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
     </div>
-    <pre><code>import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.7/e/xfscss.min.js";
+    <pre><code>import { exec } from "https://cdn.jsdelivr.net/npm/fscss@1.1.11/e/xfscss.min.js";
 
 new exec({
   type: "URL",
@@ -985,7 +985,7 @@ new exec({
 export default function App() {
   useEffect(() =&gt; {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/fscss@1.1.7/exec.min.js";
+    script.src = "https://cdn.jsdelivr.net/npm/fscss@1.1.11/exec.min.js";
     script.defer = true;
     document.body.appendChild(script);
   }, []);
