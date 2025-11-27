@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS Arrays - Complete Guide</title>
+  <meta name="description" content="Master FSCSS Arrays - Learn how to use @arr for reusable value collections and dynamic styling">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #60a5fa;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --dark: #0f172a;
+      --darker: #020617;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --light-gray: #cbd5e1;
+      --border: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+      --glow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      background: var(--darker);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--light);
+    }
+
+    .logo-icon {
+      background: var(--primary);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: var(--glow);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--light-gray);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-light);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .bar {
+      width: 25px;
+      height: 3px;
+      background: var(--light);
+      margin: 3px 0;
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="rgba(59,130,246,0.05)" d="M0,0 L100,100 M100,0 L0,100"></path></svg>');
+      background-size: 100px 100px;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--primary-light), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .glow-card {
+      box-shadow: var(--glow);
+      border-color: var(--primary);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Code Blocks */
+    .code-container {
+      position: relative;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .code-header {
+      background: #1a1f2e;
+      color: var(--light-gray);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--light-gray);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+    }
+
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: var(--primary-light);
+    }
+
+    /* Example Output */
+    .example-output {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-light);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Example Grid */
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .example-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .example-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .example-card-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .example-card-body {
+      padding: 1.25rem;
+    }
+
+    /* Demo Elements */
+    .demo-box {
+      width: 100px;
+      height: 100px;
+      background: var(--primary);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      margin: 0 auto;
+      transition: var(--transition);
+    }
+
+    .demo-flex {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Array Type Badges */
+    .array-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .array-badge-secondary {
+      background: var(--secondary);
+    }
+
+    .array-badge-accent {
+      background: var(--accent);
+    }
+
+    /* Feature Highlights */
+    .feature-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .feature-highlight {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .feature-highlight:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      box-shadow: var(--glow);
+    }
+
+    /* Array Type Grid */
+    .array-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .array-type-card {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+    }
+
+    .array-type-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-table th {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Toggle Button for Code Examples */
+    .toggle-btn {
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--light-gray);
+      transition: var(--transition);
+    }
+    
+    .toggle-btn:hover { 
+      background: rgba(255, 255, 255, 0.2); 
+    }
+    
+    .hidden { 
+      display: none; 
+    }
+
+    /* Array Demo Styles */
+    .array-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .array-demo-item {
+      padding: 1rem;
+      border-radius: var(--radius);
+      text-align: center;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .array-demo-item:hover {
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: var(--dark);
+        flex-direction: column;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: var(--shadow-lg);
+        padding: 2rem 0;
+        z-index: 99;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-toggle.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      .example-grid,
+      .array-type-grid,
+      .feature-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-table {
+        font-size: 0.9rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    /* Scroll to top button */
+    .scroll-btn {
+      background: var(--primary);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      opacity: 0.8;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      z-index: 1900;
+      right: 20px;
+      bottom: 8em;
+      animation: animate 1s ease infinite alternate, slideSUp 0.5s ease 1 forwards;
+      color: #ddd;
+      font-weight: bolder;
+      display: none;
+      cursor: pointer;
+    }
+
+    .scroll-btn.show {
+      display: inline-block;
+    }
+
+    @keyframes animate {
+      from {
+        transform: translateY(3px);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideSUp {
+      from {
+        bottom: -0.5em;
+      }
+      to {
+        bottom: 8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="variables.html" class="nav-link">Variables</a>
+        <a href="arrays.html" class="nav-link active">Arrays</a>
+        <a href="shared.html" class="nav-link">Shared Properties</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS Arrays</h1>
+      <p class="lead">Master the power of reusable value collections with FSCSS Arrays</p>
+      <p>Create dynamic, maintainable styles with organized collections of colors, sizes, and more</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Introduction to FSCSS Arrays</h2>
+        </div>
+        <div class="card-body">
+          <p>FSCSS Arrays let you store organized collections of values that can be reused throughout your stylesheets. Perfect for color palettes, spacing systems, animation timing, and any situation where you need consistent, reusable values.</p>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-layer-group"></i>
+              </div>
+              <h4>Organized Collections</h4>
+              <p>Store related values together in logical groups</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-sync-alt"></i>
+              </div>
+              <h4>Dynamic Access</h4>
+              <p>Access values by index for flexible styling</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-magic"></i>
+              </div>
+              <h4>Combination Power</h4>
+              <p>Combine with @random, @fun, and other FSCSS features</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <h4>Clean Syntax</h4>
+              <p>Intuitive array declaration and access patterns</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Arrays -->
+    <section class="section">
+      <h2>Basic Array Declaration</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Creating and Using Arrays</h3>
+          <span class="array-badge">@arr</span>
+        </div>
+        <div class="card-body">
+          <p>The simplest form of FSCSS arrays. Define collections of values and access them by index throughout your stylesheet.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Define arrays */
+@arr(colors[#3b82f6, #8b5cf6, #06b6d4, #10b981]);
+@arr(spacing[0.5rem, 1rem, 1.5rem, 2rem, 3rem]);
+@arr(font-sizes[12px, 14px, 16px, 18px, 24px, 32px]);
+
+/* Use array values */
+.primary-button {
+  background: @arr.colors[1];
+  color: white;
+  padding: @arr.spacing[2] @arr.spacing[3];
+  font-size: @arr.font-sizes[3];
+  border-radius: 4px;
+}
+
+.secondary-button {
+  background: @arr.colors[2];
+  color: white;
+  padding: @arr.spacing[1] @arr.spacing[2];
+  font-size: @arr.font-sizes[2];
+}</code></pre>
+
+            <pre class="compiled hidden"><code>.primary-button {
+  background: #3b82f6;
+  color: white;
+  padding: 1.5rem 2rem;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.secondary-button {
+  background: #8b5cf6;
+  color: white;
+  padding: 1rem 1.5rem;
+  font-size: 16px;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <button style="background: #3b82f6; color: white; padding: 1.5rem 2rem; font-size: 18px; border-radius: 4px; border: none; cursor: pointer;">
+                Primary Button
+              </button>
+              <button style="background: #8b5cf6; color: white; padding: 1rem 1.5rem; font-size: 16px; border-radius: 4px; border: none; cursor: pointer;">
+                Secondary Button
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Arrays -->
+    <section class="section">
+      <h2>Dynamic Array Usage</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Auto-Indexing and Looping</h3>
+          <span class="array-badge array-badge-secondary">Dynamic Arrays</span>
+        </div>
+        <div class="card-body">
+          <p>Arrays can automatically iterate through their values when used with empty brackets, making them perfect for generating multiple similar styles with variations.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Define arrays for staggered animations */
+@arr(delays[0.1s, 0.3s, 0.5s, 0.7s, 0.9s]);
+@arr(colors[#ef4444, #f59e0b, #10b981, #3b82f6, #8b5cf6]);
+/* helper for indexes */
+@arr(indexes[count(5, 1)])
+/* Auto-index through array values */
+
+.loading-dot:nth-child(@arr.indexes[]) {
+/* capture current index using FSCSS scope variable*/
+  $index: @arr.indexes[];
+  animation: bounce 1.5s infinite @arr.delays[$index!];
+  background: @arr.colors[$index!];
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}</code></pre>
+
+            <pre class="compiled hidden"><code>.loading-dot:nth-child(1) {
+  animation: bounce 1.5s infinite 0.1s;
+  background: #ef4444;
+}
+
+.loading-dot:nth-child(2) {
+  animation: bounce 1.5s infinite 0.3s;
+  background: #f59e0b;
+}
+
+.loading-dot:nth-child(3) {
+  animation: bounce 1.5s infinite 0.5s;
+  background: #10b981;
+}
+
+.loading-dot:nth-child(4) {
+  animation: bounce 1.5s infinite 0.7s;
+  background: #3b82f6;
+}
+
+.loading-dot:nth-child(5) {
+  animation: bounce 1.5s infinite 0.9s;
+  background: #8b5cf6;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div class="array-demo-grid">
+                <div class="array-demo-item" style="background: #ef4444; animation: bounce 1.5s infinite 0.1s;"></div>
+                <div class="array-demo-item" style="background: #f59e0b; animation: bounce 1.5s infinite 0.3s;"></div>
+                <div class="array-demo-item" style="background: #10b981; animation: bounce 1.5s infinite 0.5s;"></div>
+                <div class="array-demo-item" style="background: #3b82f6; animation: bounce 1.5s infinite 0.7s;"></div>
+                <div class="array-demo-item" style="background: #8b5cf6; animation: bounce 1.5s infinite 0.9s;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arrays with @random -->
+    <section class="section">
+      <h2>Arrays with @random</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Random Value Selection</h3>
+          <span class="array-badge array-badge-accent">@random + Arrays</span>
+        </div>
+        <div class="card-body">
+          <p>Combine arrays with the @random function to create dynamic, ever-changing styles that select random values from your predefined collections.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Define arrays of possible values */
+@arr(backgrounds[#3b82f6, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444]);
+@arr(rotations[0deg, 5deg, -5deg, 10deg, -10deg]);
+@arr(scales[1, 1.05, 1.1, 0.95, 0.9]);
+
+/* Apply random values from arrays */
+.dynamic-card {
+/* array join method */
+  background: @random([@arr.backgrounds(,)]);
+  transform: 
+    rotate(@random([@arr.rotations(,)])) 
+    scale(@random([@arr.scales(, )]));
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dynamic-card:hover {
+  transform: 
+    rotate(@random([@arr.rotations(,)])) 
+    scale(@random([@arr.scales(, )]));
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Note: @random generates different values on each compilation */
+.dynamic-card {
+  background: #8b5cf6; /* Random selection */
+  transform: rotate(5deg) scale(1.05); /* Random selection */
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dynamic-card:hover {
+  transform: rotate(-5deg) scale(1.1); /* Random selection */
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div class="demo-box" style="background: #8b5cf6; transform: rotate(5deg) scale(1.05); transition: all 0.3s ease; cursor: pointer;">
+                Dynamic Card
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arrays with @fun -->
+    <section class="section">
+      <h2>Arrays with @fun</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Function-Based Arrays</h3>
+          <span class="array-badge">@fun + Arrays</span>
+        </div>
+        <div class="card-body">
+          <p>Combine arrays with the @fun function to create reusable collections of related values that can be accessed through a clean, organized interface.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Define function-based arrays */
+@fun(theme){
+  primary: #3b82f6;
+  secondary: #8b5cf6;
+  accent: #06b6d4;
+  success: #10b981;
+  warning: #f59e0b;
+  danger: #ef4444;
+}
+
+@fun(spacing){
+  xs: 0.5rem;
+  sm: 1rem;
+  md: 1.5rem;
+  lg: 2rem;
+  xl: 3rem;
+}
+
+/* Use function-based arrays */
+.alert {
+  padding: @fun.spacing.md @fun.spacing.lg.value;
+  border-radius: 4px;
+  margin-bottom: @fun.spacing.sm.value;
+}
+
+.alert-success {
+  background: @fun.theme.success.value;
+  color: white;
+}
+
+.alert-warning {
+  background: @fun.theme.warning.value;
+  color: white;
+}
+
+.alert-danger {
+  background: @fun.theme.danger.value;
+  color: white;
+}</code></pre>
+
+            <pre class="compiled hidden"><code>.alert {
+  padding: 1.5rem 2rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background: #10b981;
+  color: white;
+}
+
+.alert-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.alert-danger {
+  background: #ef4444;
+  color: white;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex" style="flex-direction: column; gap: 1rem;">
+              <div style="background: #10b981; color: white; padding: 1.5rem 2rem; border-radius: 4px;">
+                Success Alert
+              </div>
+              <div style="background: #f59e0b; color: white; padding: 1.5rem 2rem; border-radius: 4px;">
+                Warning Alert
+              </div>
+              <div style="background: #ef4444; color: white; padding: 1.5rem 2rem; border-radius: 4px;">
+                Danger Alert
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Array Types Comparison -->
+    <section class="section">
+      <h2>Array Types Comparison</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Choosing the Right Array Type</h3>
+        </div>
+        <div class="card-body">
+          <p>Different array types serve different purposes. Choose the right one for your use case.</p>
+          
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Array Type</th>
+                <th>Syntax</th>
+                <th>Best For</th>
+                <th>Example Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Basic Arrays</strong></td>
+                <td><code>@arr(name[val1, val2])</code></td>
+                <td>Simple value collections</td>
+                <td>Color palettes, spacing scales</td>
+              </tr>
+              <tr>
+                <td><strong>Dynamic Arrays</strong></td>
+                <td><code>@arr.name[]</code> (auto-index)</td>
+                <td>Generating multiple similar styles</td>
+                <td>Staggered animations, grid systems</td>
+              </tr>
+              <tr>
+                <td><strong>@random Arrays</strong></td>
+                <td><code>@random([@arr.name(,)])</code></td>
+                <td>Dynamic, varied styling</td>
+                <td>Random backgrounds, interactive elements</td>
+              </tr>
+                            <tr>
+                <td><strong>Arrays join</strong></td>
+                <td><code>@arr.name(separator)</code></td>
+                <td>separate array with words or character</td>
+                <td>commonly used with random and similar functions</td>
+              </tr>
+              <tr>
+                <td><strong>@fun Arrays</strong></td>
+                <td><code>@fun(name){key: value}</code></td>
+                <td>Organized design systems</td>
+                <td>Theming, design tokens, component libraries</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real World Examples -->
+    <section class="section">
+      <h2>Real World Examples</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Practical Applications</h3>
+        </div>
+        <div class="card-body">
+          <p>Here are some practical examples of how arrays can be used in real projects:</p>
+          
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Design System</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@arr(colors[#1e40af, #1d4ed8, #3b82f6, #60a5fa]);
+@arr(spacing[0.25rem, 0.5rem, 1rem, 1.5rem, 2rem]);
+
+.btn {
+  padding: @arr.spacing[2] @arr.spacing[3];
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: @arr.colors[2];
+  color: white;
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Animation System</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@arr(delays[0s, 0.1s, 0.2s, 0.3s, 0.4s]);
+@arr(durations[0.3s, 0.5s, 0.7s, 1s]);
+
+.fade-in:nth-child(@arr.delays[]) {
+  animation: fadeIn @arr.durations[2] @arr.delays[];
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Grid System</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@arr(columns[1, 2, 3, 4, 6, 12]);
+@arr(gaps[0.5rem, 1rem, 1.5rem, 2rem]);
+
+.grid-@arr.columns[] {
+  display: grid;
+  grid-template-columns: repeat(@arr.columns[], 1fr);
+  gap: @arr.gaps[2];
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="section">
+      <h2>Best Practices</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Using Arrays Effectively</h3>
+        </div>
+        <div class="card-body">
+          <p>Follow these guidelines to make the most of FSCSS arrays in your projects.</p>
+          
+          <div class="array-type-grid">
+            <div class="array-type-card">
+              <div class="feature-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h4>Naming Conventions</h4>
+              <ul style="text-align: left; margin-top: 1rem;">
+                <li>Use plural names: <code>colors</code>, <code>spacings</code>, <code>sizes</code></li>
+                <li>Be descriptive: <code>primary-colors</code> vs <code>colors1</code></li>
+                <li>Group related arrays with prefixes</li>
+              </ul>
+            </div>
+            
+            <div class="array-type-card">
+              <div class="feature-icon">
+                <i class="fas fa-sitemap"></i>
+              </div>
+              <h4>Organization</h4>
+              <ul style="text-align: left; margin-top: 1rem;">
+                <li>Define arrays at the top of your file</li>
+                <li>Group related arrays together</li>
+                <li>Use comments to document array purposes</li>
+                <li>Consider using @fun for complex design systems</li>
+              </ul>
+            </div>
+            
+            <div class="array-type-card">
+              <div class="feature-icon">
+                <i class="fas fa-magic"></i>
+              </div>
+              <h4>Advanced Tips</h4>
+              <ul style="text-align: left; margin-top: 1rem;">
+                <li>Combine with @random for dynamic interfaces</li>
+                <li>Use auto-indexing for repetitive patterns</li>
+                <li>Create array-based design systems</li>
+                <li>Document your arrays for team collaboration</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Core Features</h4>
+        <ul class="footer-links">
+          <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="shared.html"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
+          <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
+          <li><a href="random.html"><i class="fas fa-dice"></i> Random</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="examples.html"><i class="fas fa-laptop-code"></i> Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> NPM Package</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  
+  <script>
+    // Mobile menu toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+      });
+    }
+    
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const pre = this.closest('.code-container').querySelector('pre');
+        const text = pre.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i>';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+    
+    // Toggle between FSCSS and CSS
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const container = btn.closest('.code-container');
+        const fscss = container.querySelector('.fscss');
+        const css = container.querySelector('.compiled');
+
+        fscss.classList.toggle('hidden');
+        css.classList.toggle('hidden');
+
+        btn.textContent = fscss.classList.contains('hidden') ? "Show FSCSS" : "See CSS";
+      });
+    });
+    
+    // Intersection Observer for animations
+    const fadeElements = document.querySelectorAll('.card, .example-card, .feature-highlight, .array-type-card');
+    
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+    
+    fadeElements.forEach(element => {
+      element.classList.add('fade-in');
+      fadeObserver.observe(element);
+    });
+    
+    // Scroll to top button
+    const scrollBack = document.querySelector(".scroll-btn");
+    
+    window.addEventListener("scroll", function() {
+      if (window.pageYOffset >= 300) {
+        scrollBack.classList.add("show");
+      } else {
+        scrollBack.classList.remove("show");
+      }
+    });
+    
+    scrollBack.addEventListener("click", (e) => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Update copyright year
+    document.querySelector("footer .footer-bottom p:first-child").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with 💡 for Web developers. MIT License.`;
+  </script>
+</body>
+</html>
