@@ -1,520 +1,1387 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS @events function and logic descriptions </title>
+  <title>FSCSS Events - Dynamic Logic in Stylesheets</title>
+  <meta name="description" content="Master FSCSS Events - Learn how to use @event for dynamic, logic-driven styles">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles/highlight.css">
-  <script src="/scripts/highlight.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
   <style>
     :root {
-      --primary: #4361ee;
-      --primary-dark: #3f37c9;
-      --secondary: #7209b7;
-      --accent: #f72585;
-      --dark: #1e293b;
-      --darker: #0f172a;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #60a5fa;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --dark: #0f172a;
+      --darker: #020617;
       --light: #f8fafc;
       --gray: #64748b;
-      --light-gray: #e2e8f0;
+      --light-gray: #cbd5e1;
       --border: #334155;
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       --radius: 8px;
       --transition: all 0.3s ease;
+      --glow: 0 0 15px rgba(59, 130, 246, 0.5);
     }
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.6;
       background: var(--darker);
       color: var(--light);
-      min-height: 100vh;
-      padding: 20px;
+      overflow-x: hidden;
     }
-    
-    .docs-container {
+
+    /* Navigation */
+    .navbar {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
-      background: rgba(30, 41, 59, 0.7);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .method-section {
-      background: var(--dark);
-      border-radius: var(--radius);
-      padding: 2rem;
-      margin-bottom: 3rem;
-      box-shadow: var(--shadow-md);
-    }
-    
-    .method-section h2 {
-      color: var(--primary);
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid var(--border);
+      padding: 0 1.5rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
     }
-    
-    .method-section h2 i {
-      background: var(--light-gray);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+
+    .nav-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: var(--primary);
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--light);
     }
-    
-    .method-section h3 {
-      color: var(--accent);
-      font-size: 1.4rem;
-      margin: 1.5rem 0 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .method-section h3 i {
-      color: var(--accent);
-    }
-    
-    .method-section p {
-      margin-bottom: 1.2rem;
-      color: var(--light-gray);
-      line-height: 1.8;
-    }
-    
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-    
-    .step {
-      display: flex;
-      gap: 1.5rem;
-    }
-    
-    .step-number {
+
+    .logo-icon {
       background: var(--primary);
-      color: white;
       width: 36px;
       height: 36px;
-      border-radius: 50%;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
+      font-size: 1rem;
+      box-shadow: var(--glow);
     }
-    
-    .step-content {
-      flex: 1;
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
     }
-    
+
+    .nav-link {
+      color: var(--light-gray);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-light);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .bar {
+      width: 25px;
+      height: 3px;
+      background: var(--light);
+      margin: 3px 0;
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="rgba(59,130,246,0.05)" d="M0,0 L100,100 M100,0 L0,100"></path></svg>');
+      background-size: 100px 100px;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--primary-light), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .glow-card {
+      box-shadow: var(--glow);
+      border-color: var(--primary);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Code Blocks */
     .code-container {
       position: relative;
       margin: 1.5rem 0;
       border-radius: var(--radius);
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    
+
     .code-header {
-      background: var(--darker);
-      color: white;
+      background: #1a1f2e;
+      color: var(--light-gray);
       padding: 0.75rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
-    }
-    
-    .code-content {
-      background: #1a1f2d;
-      color: #e2e8f0;
-      padding: 1.5rem;
+      font-size: 0.85rem;
       font-family: 'Fira Code', monospace;
-      font-size: 0.95rem;
-      line-height: 1.5;
     }
-    
-    .code-content pre {
-      margin: 0;
-      white-space: pre-wrap;
-      tab-size: 2;
-    }
-    
-    .code-content .comment {
-      color: #64748b;
-    }
-    
-    .code-content .property {
-      color: #f8fafc;
-    }
-    
-    .code-content .value {
-      color: #38bdf8;
-    }
-    
-    .code-content .selector {
-      color: #f472b6;
-    }
-    
-    .code-content .variable {
-      color: #a78bfa;
-    }
-    
-    .code-content .string {
-      color: #10b981;
-    }
-    
-    .code-content .keyword {
-      color: #ff7edb;
-    }
-    
-    .code-content .function {
-      color: #ffaa33;
-    }
-    
+
     .copy-btn {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--light);
+      background: none;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
+      color: var(--light-gray);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
       transition: var(--transition);
     }
-    
+
     .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+    }
+
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: var(--primary-light);
+    }
+
+    /* Event Badges */
+    .event-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
       background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
-    
-    .note {
-      background: rgba(16, 185, 129, 0.1);
-      border-left: 4px solid var(--success);
-      padding: 1rem;
-      border-radius: 0 var(--radius) var(--radius) 0;
-      margin: 1.5rem 0;
-      display: flex;
-      gap: 12px;
+
+    .event-badge-secondary {
+      background: var(--secondary);
     }
-    
-    .note i {
-      color: var(--success);
-      font-size: 1.2rem;
-      flex-shrink: 0;
+
+    .event-badge-accent {
+      background: var(--accent);
     }
-    
-    .warning {
-      background: rgba(239, 68, 68, 0.1);
-      border-left: 4px solid var(--danger);
-      padding: 1rem;
-      border-radius: 0 var(--radius) var(--radius) 0;
-      margin: 1.5rem 0;
-      display: flex;
-      gap: 12px;
-    }
-    
-    .warning i {
-      color: var(--danger);
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-    
-    .feature-card {
+
+    /* Example Output */
+    .example-output {
       background: rgba(30, 41, 59, 0.5);
       border-radius: var(--radius);
       padding: 1.5rem;
-      border-top: 3px solid var(--primary);
+      margin-top: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-light);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Example Grid */
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .example-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
       transition: var(--transition);
     }
-    
-    .feature-card:hover {
+
+    .example-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .example-card-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .example-card-body {
+      padding: 1.25rem;
+    }
+
+    /* Demo Elements */
+    .demo-box {
+      width: 100px;
+      height: 100px;
+      background: var(--primary);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      margin: 0 auto;
+      transition: var(--transition);
+    }
+
+    .demo-flex {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Feature Highlights */
+    .feature-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .feature-highlight {
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .feature-highlight:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow-md);
     }
-    
-    .feature-card h4 {
-      color: var(--primary);
-      margin-bottom: 1rem;
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      box-shadow: var(--glow);
     }
-    
-    .feature-card ul {
-      padding-left: 1.5rem;
-    }
-    
-    .feature-card li {
-      margin-bottom: 0.75rem;
+
+    /* Toggle Button for Code Examples */
+    .toggle-btn {
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
       color: var(--light-gray);
+      transition: var(--transition);
     }
     
+    .toggle-btn:hover { 
+      background: rgba(255, 255, 255, 0.2); 
+    }
+    
+    .hidden { 
+      display: none; 
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .step {
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: var(--dark);
         flex-direction: column;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: var(--shadow-lg);
+        padding: 2rem 0;
+        z-index: 99;
       }
-      
-      .step-number {
-        align-self: flex-start;
+
+      .nav-menu.active {
+        left: 0;
       }
-      
-      .docs-container {
-        padding: 1rem;
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-toggle.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      .example-grid,
+      .feature-highlights {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Scroll to top button */
+    .scroll-btn {
+      background: var(--primary);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      opacity: 0.8;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      z-index: 1900;
+      right: 20px;
+      bottom: 8em;
+      animation: animate 1s ease infinite alternate, slideSUp 0.5s ease 1 forwards;
+      color: #ddd;
+      font-weight: bolder;
+      display: none;
+      cursor: pointer;
+    }
+
+    .scroll-btn.show {
+      display: inline-block;
+    }
+
+    @keyframes animate {
+      from {
+        transform: translateY(3px);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideSUp {
+      from {
+        bottom: -0.5em;
+      }
+      to {
+        bottom: 8em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="docs-container">
-    <!-- Intro -->
-    <div class="method-section">
-      <h2><i class="fas fa-bolt"></i> <code class="keyword">@event</code> Tutorial</h2>
-      <p>
-        The <code class="keyword">@event</code> function in FSCSS lets you add <strong>logic</strong>
-        and <strong>dynamic behavior</strong> into your stylesheets. Instead of repeating values,
-        you can create reusable functions that return different results based on conditions.
-      </p>
-      <div class="note">
-        <i class="fas fa-lightbulb"></i>
-        <div>
-          <strong>Think of it like this:</strong> Normal CSS is static. With
-          <code class="keyword">@event</code>, your CSS can <em>decide</em> what value to use
-          at runtime — just like functions in programming.
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
         </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="events.html" class="nav-link active">Events</a>
+        <a href="random.html" class="nav-link">Random</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
       </div>
     </div>
-    
-    <!-- Syntax -->
-    <div class="method-section">
-      <h2><i class="fas fa-code"></i> Basic Syntax</h2>
-      <p>
-        To create an event, use the <code class="keyword">@event</code> keyword, give it a
-        name, and optionally pass parameters. Inside, write conditions that return values.
-      </p>
-      <div class="code-container">
-        <div class="code-header"><span>example.fscss</span></div>
-        <div class="code-content">
-          <pre data-lang="fscss"><span class="comment">/* Basic event */</span>
-<span class="keyword">@event</span> theme(mode) {
-  <span class="keyword">if</span> mode: dark {
-    <span class="keyword">return</span>: #111111;
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS Events</h1>
+      <p class="lead">Add dynamic logic and conditions to your stylesheets with FSCSS @event</p>
+      <p>Create reusable functions that return different values based on parameters and conditions</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Introduction to FSCSS Events</h2>
+        </div>
+        <div class="card-body">
+          <p>FSCSS <code>@event</code> brings <strong>logic</strong> and <strong>dynamic behavior</strong> into your stylesheets. Instead of repeating values, you can create reusable functions that return different results based on conditions.</p>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-sitemap"></i>
+              </div>
+              <h4>Conditional Logic</h4>
+              <p>Use if/el-if/el blocks for decision making</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-code-branch"></i>
+              </div>
+              <h4>Reusable Functions</h4>
+              <p>Create parameterized events for reuse</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-calculator"></i>
+              </div>
+              <h4>Dynamic Calculations</h4>
+              <p>Combine with num() for mathematical operations</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-balance-scale"></i>
+              </div>
+              <h4>Comparison Operators</h4>
+              <p>Use ==, >, <, >=, <= for value comparisons</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic @event Usage -->
+    <section class="section">
+      <h2>Basic @event Usage</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Simple Event Function</h3>
+          <span class="event-badge">@event</span>
+        </div>
+        <div class="card-body">
+          <p>The simplest form of <code>@event</code> creates a function that returns values based on parameters and conditions.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Basic event function */
+@event theme(mode) {
+  if mode: dark {
+    return: #111111;
   }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: #ffffff;
+  el {
+    return: #ffffff;
   }
 }
 
-<span class="selector">body</span> {
-  <span class="property">background</span>: <span class="function">@event.theme</span>(dark);
-  <span class="property">color</span>: <span class="function">@event.theme</span>(light);
-}</pre>
+/* Using the event in styles */
+body {
+  background: @event.theme(dark);
+  color: @event.theme(light);
+}
+
+.container {
+  background: @event.theme(light);
+  color: @event.theme(dark);
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Compiled CSS */
+body {
+  background: #111111;
+  color: #ffffff;
+}
+
+.container {
+  background: #ffffff;
+  color: #111111;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div style="background: #111111; color: #ffffff; padding: 2rem; border-radius: 8px; margin: 1rem;">
+                Dark Theme
+              </div>
+              <div style="background: #ffffff; color: #111111; padding: 2rem; border-radius: 8px; margin: 1rem;">
+                Light Theme
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
+    </section>
+
     <!-- Conditional Logic -->
-    <div class="method-section">
-      <h2><i class="fas fa-sitemap"></i> Conditional Logic</h2>
-      <p>
-        Inside events, you can use <code>if</code>, <code>el-if</code>, and <code>el</code> blocks:
-      </p>
-      <ul>
-        <li><code>if</code> → Primary check</li>
-        <li><code>el-if</code> → Additional checks</li>
-        <li><code>el</code> → Fallback if no condition matched</li>
-      </ul>
+    <section class="section">
+      <h2>Conditional Logic</h2>
       
-      <div class="code-container">
-        <div class="code-header"><span>logic.fscss</span></div>
-        <div class="code-content">
-          <pre data-lang="fscss"><span class="keyword">@event</span> size(type) {
-  <span class="keyword">if</span> type: small {
-    <span class="keyword">return</span>: 12px;
+      <div class="card">
+        <div class="card-header">
+          <h3>Using if, el-if, and el Blocks</h3>
+          <span class="event-badge event-badge-secondary">Conditional Logic</span>
+        </div>
+        <div class="card-body">
+          <p>Events support multiple conditional blocks: <code>if</code>, <code>el-if</code>, and <code>el</code> for comprehensive decision making.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Event with multiple conditions */
+@event size(type) {
+  if type: small {
+    return: 12px;
   }
-  <span class="keyword">el-if</span> type: medium {
-    <span class="keyword">return</span>: 16px;
+  el-if type: medium {
+    return: 16px;
   }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: 20px;
+  el-if type: large {
+    return: 20px;
+  }
+  el {
+    return: 24px;
   }
 }
 
-<span class="selector">p</span> {
-  <span class="property">font-size</span>: <span class="function">@event.size</span>(small);
-}</pre>
+/* Applying the event */
+p {
+  font-size: @event.size(small);
+}
+
+h1 {
+  font-size: @event.size(large);
+}
+
+h2 {
+  font-size: @event.size(medium);
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Compiled CSS */
+p {
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 16px;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <p style="font-size: 12px;">Small Text (12px)</p>
+              <h2 style="font-size: 16px;">Medium Heading (16px)</h2>
+              <h1 style="font-size: 20px;">Large Heading (20px)</h1>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
+    </section>
+
     <!-- Comparison Operators -->
-    <div class="method-section">
-      <h2><i class="fas fa-balance-scale"></i> Comparison Operators</h2>
-      <p>
-        FSCSS events support operators for number comparisons:
-      </p>
-      <ul>
-        <li><code>==</code> → Equal</li>
-        <li><code>&gt;</code> → Greater than</li>
-        <li><code>&lt;</code> → Less than</li>
-        <li><code>&gt;=</code> → Greater than or equal</li>
-        <li><code>&lt;=</code> → Less than or equal</li>
-      </ul>
+    <section class="section">
+      <h2>Comparison Operators</h2>
       
-      <div class="code-container">
-        <div class="code-header"><span>compare.fscss</span></div>
-        <div class="code-content">
-          <pre data-lang="fscss"><span class="keyword">@event</span> rating(score) {
-  <span class="keyword">if</span> score &gt;= 90 {
-    <span class="keyword">return</span>: green;
+      <div class="card">
+        <div class="card-header">
+          <h3>Using Mathematical Comparisons</h3>
+          <span class="event-badge event-badge-accent">Comparison Operators</span>
+        </div>
+        <div class="card-body">
+          <p>Events support comparison operators for numeric values: <code>==</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Event with comparison operators */
+@event rating(score) {
+  if score >= 90 {
+    return: #10b981; /* Success green */
   }
-  <span class="keyword">el-if</span> score &gt;= 50 {
-    <span class="keyword">return</span>: orange;
+  el-if score >= 70 {
+    return: #f59e0b; /* Warning yellow */
   }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: red;
+  el-if score >= 50 {
+    return: #f97316; /* Orange */
+  }
+  el {
+    return: #ef4444; /* Danger red */
   }
 }
 
-<span class="selector">.user-score</span> {
-  <span class="property">color</span>: <span class="function">@event.rating</span>(72);
-}</pre>
+/* Applying the rating event */
+.user-score-95 {
+  color: @event.rating(95);
+}
+
+.user-score-75 {
+  color: @event.rating(75);
+}
+
+.user-score-60 {
+  color: @event.rating(60);
+}
+
+.user-score-30 {
+  color: @event.rating(30);
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Compiled CSS */
+.user-score-95 {
+  color: #10b981;
+}
+
+.user-score-75 {
+  color: #f59e0b;
+}
+
+.user-score-60 {
+  color: #f97316;
+}
+
+.user-score-30 {
+  color: #ef4444;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div style="color: #10b981; font-weight: 600;">Score: 95 (Excellent)</div>
+              <div style="color: #f59e0b; font-weight: 600;">Score: 75 (Good)</div>
+              <div style="color: #f97316; font-weight: 600;">Score: 60 (Average)</div>
+              <div style="color: #ef4444; font-weight: 600;">Score: 30 (Poor)</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Math & Random -->
-    <div class="method-section">
-      <h2><i class="fas fa-calculator"></i> Math and Random</h2>
-      <p>
-        Events can also use <code>num()</code> for calculations and <code>@random()</code> for randomness.
-      </p>
-      
-      <div class="code-container">
-        <div class="code-header"><span>math-random.fscss</span></div>
-        <div class="code-content">
-          <pre data-lang="fscss"><span class="comment">/* Random colors */</span>
-<span class="function">str</span>(primary, <span class="string">"@random([#ff0000, #00ff00, #0000ff])"</span>)
+    </section>
 
-<span class="comment">/* Spacing calculator */</span>
-<span class="keyword">@event</span> spacing(level) {
-  <span class="keyword">if</span> level == 1 {
-    <span class="keyword">return</span>: <span class="function">num</span>(4*2)<span class="value">px</span>;
+    <!-- Math and num() -->
+    <section class="section">
+      <h2>Math and num() Function</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Dynamic Calculations</h3>
+          <span class="event-badge">num() Function</span>
+        </div>
+        <div class="card-body">
+          <p>Combine events with the <code>num()</code> function for dynamic mathematical calculations.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Event with mathematical calculations */
+@event spacing(level) {
+  if level == 1 {
+    return: num(4*2)px;
   }
-  <span class="keyword">el-if</span> level == 2 {
-    <span class="keyword">return</span>: <span class="function">num</span>(8*2)<span class="value">px</span>;
+  el-if level == 2 {
+    return: num(8*2)px;
   }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: <span class="function">num</span>(16*2)<span class="value">px</span>;
+  el-if level == 3 {
+    return: num(16*2)px;
+  }
+  el {
+    return: num(32*2)px;
   }
 }
 
-<span class="selector">.card</span> {
-  <span class="property">background</span>: primary;
-  <span class="property">padding</span>: <span class="function">@event.spacing</span>(2);
-}</pre>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Valuable Events -->
-    <div class="method-section">
-      <h2><i class="fas fa-gem"></i> Creating Valuable Events</h2>
-      <p>
-        Valuable events are reusable helpers that save time. For example, instead
-        of repeating breakpoints everywhere, create a <code>@event</code> once.
-      </p>
-      
-      <div class="code-container">
-        <div class="code-header"><span>breakpoints.fscss</span></div>
-        <div class="code-content">
-          <pre><span class="keyword">@event</span> device(width) {
-  <span class="keyword">if</span> width &lt;= 480 {
-    <span class="keyword">return</span>: mobile;
-  }
-  <span class="keyword">el-if</span> width &lt;= 1024 {
-    <span class="keyword">return</span>: tablet;
-  }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: desktop;
-  }
+/* Applying the spacing event */
+.card-small {
+  padding: @event.spacing(1);
 }
 
-<span class="selector">.container</span> {
-  <span class="property">flex-direction</span>: <span class="function">@event.device</span>(768);
-}</pre>
+.card-medium {
+  padding: @event.spacing(2);
+}
+
+.card-large {
+  padding: @event.spacing(3);
+}
+
+.card-xlarge {
+  padding: @event.spacing(4);
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Compiled CSS */
+.card-small {
+  padding: 8px;
+}
+
+.card-medium {
+  padding: 16px;
+}
+
+.card-large {
+  padding: 32px;
+}
+
+.card-xlarge {
+  padding: 64px;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div style="padding: 8px; background: #3b82f6; color: white; border-radius: 8px;">
+                Small (8px padding)
+              </div>
+              <div style="padding: 16px; background: #8b5cf6; color: white; border-radius: 8px;">
+                Medium (16px padding)
+              </div>
+              <div style="padding: 32px; background: #06b6d4; color: white; border-radius: 8px;">
+                Large (32px padding)
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
+    </section>
+
     <!-- Advanced Composition -->
-    <div class="method-section">
-      <h2><i class="fas fa-code-branch"></i> Advanced Composition</h2>
-      <p>
-        Events can combine with variables for even more flexibility.
-      </p>
-      <div class="code-container">
-        <div class="code-header"><span>advanced.fscss</span></div>
-        <div class="code-content">
-          <pre data-lang="fscss"><span class="keyword">$second-test</span>: #302030;
-<span class="keyword">@event</span> themedBackground(mode) {
-  <span class="keyword">if</span> mode: dark {
-    <span class="keyword">return</span>: <span class="function">$second-test</span>!;
+    <section class="section">
+      <h2>Advanced Composition</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Events with Variables</h3>
+          <span class="event-badge event-badge-secondary">Advanced</span>
+        </div>
+        <div class="card-body">
+          <p>Events can work with variables for even more flexibility and reusability.</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>/* Define variables */
+$dark-bg: #111111;
+$light-bg: #ffffff;
+$dark-text: #333333;
+$light-text: #f8fafc;
+
+/* Event using variables */
+@event themedBackground(mode) {
+  if mode: dark {
+    return: $dark-bg!;
   }
-  <span class="keyword">el</span> {
-    <span class="keyword">return</span>: ;
+  el {
+    return: $light-bg!;
   }
 }
 
-<span class="selector">body</span> {
-  <span class="property">background</span>: <span class="function">@event.themedBackground</span>(dark);
-}</pre>
+@event themedText(mode) {
+  if mode: dark {
+    return: $light-text!;
+  }
+  el {
+    return: $dark-text!;
+  }
+}
+
+/* Applying the themed events */
+body {
+  background: @event.themedBackground(dark);
+  color: @event.themedText(dark);
+}
+
+.container {
+  background: @event.themedBackground(light);
+  color: @event.themedText(light);
+}</code></pre>
+
+            <pre class="compiled hidden"><code>/* Compiled CSS */
+body {
+  background: #111111;
+  color: #f8fafc;
+}
+
+.container {
+  background: #ffffff;
+  color: #333333;
+}</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex">
+              <div style="background: #111111; color: #f8fafc; padding: 2rem; border-radius: 8px; margin: 1rem;">
+                Dark Theme with Variables
+              </div>
+              <div style="background: #ffffff; color: #333333; padding: 2rem; border-radius: 8px; margin: 1rem;">
+                Light Theme with Variables
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Creative Examples -->
+    <section class="section">
+      <h2>Creative Examples</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Real-World Use Cases</h3>
+          <span class="event-badge">Practical Applications</span>
+        </div>
+        <div class="card-body">
+          <p>Explore practical ways to use <code>@event</code> in real-world projects.</p>
+          
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Responsive Breakpoints</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@event device(width) {
+  if width <= 480 {
+    return: mobile;
+  }
+  el-if width <= 1024 {
+    return: tablet;
+  }
+  el {
+    return: desktop;
+  }
+}
+
+.container {
+  flex-direction: @event.device(768);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Accessibility Levels</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@event accessibility(level) {
+  if level: high {
+    return: 1.5;
+  }
+  el-if level: medium {
+    return: 1.25;
+  }
+  el {
+    return: 1;
+  }
+}
+
+body {
+  line-height: @event.accessibility(high);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>Component States</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@event button(state) {
+  if state: primary {
+    return: #3b82f6;
+  }
+  el-if state: success {
+    return: #10b981;
+  }
+  el-if state: warning {
+    return: #f59e0b;
+  }
+  el-if state: danger {
+    return: #ef4444;
+  }
+  el {
+    return: #64748b;
+  }
+}
+
+.btn {
+  background: @event.button(primary);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="section">
+      <h2>Best Practices</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Using @event Effectively</h3>
+        </div>
+        <div class="card-body">
+          <p>Follow these guidelines to make the most of <code>@event</code> in your projects.</p>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h4>Clear Naming</h4>
+              <p>Use descriptive names like theme, spacing, device</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <h4>Single Responsibility</h4>
+              <p>Keep events focused on one specific task</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-share-alt"></i>
+              </div>
+              <h4>Reusability</h4>
+              <p>Design events to be reusable across your project</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h4>Documentation</h4>
+              <p>Always use block comments (/* */) for documentation</p>
+            </div>
+          </div>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Good Example - Clear and Focused</span>
+            </div>
+            <pre><code>/* Good - focused on one responsibility */
+@event spacing(level) {
+  if level: small { return: 8px; }
+  el-if level: medium { return: 16px; }
+  el { return: 24px; }
+}</code></pre>
+          </div>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>Avoid This - Too Complex</span>
+            </div>
+            <pre><code>/* Avoid - doing too many things */
+@event everything(type, size, color) {
+  /* Complex nested conditions... */
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Core Features</h4>
+        <ul class="footer-links">
+          <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
+          <li><a href="events.html"><i class="fas fa-code-branch"></i> Events</a></li>
+          <li><a href="random.html"><i class="fas fa-dice"></i> Random</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="examples.html"><i class="fas fa-laptop-code"></i> Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> NPM Package</a></li>
+        </ul>
       </div>
     </div>
     
-    <!-- Best Practices -->
-    <div class="method-section">
-      <h2><i class="fas fa-check-circle"></i> Best Practices</h2>
-      <ul>
-        <li>✅ Use <strong>clear names</strong> (<code>spacing</code>, <code>theme</code>, <code>device</code>)</li>
-        <li>✅ Keep events <strong>small and focused</strong> (one responsibility)</li>
-        <li>✅ Store reusable values with <code>str()</code> when possible</li>
-        <li>⚠️ Avoid deeply nested conditions — split into smaller events</li>
-        <li>⚠️ Always use block comments (<code>/* */</code>), not <code>//</code></li>
-      </ul>
+    <div class="footer-bottom">
+      <p>&copy; 2025 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
     </div>
-  </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  
+  <script>
+    // Mobile menu toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+      });
+    }
+    
+    // Copy button functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const pre = this.closest('.code-container').querySelector('pre:not(.hidden)');
+        const text = pre.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i>';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    });
+    
+    // Toggle between FSCSS and CSS
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const container = btn.closest('.code-container');
+        const fscss = container.querySelector('.fscss');
+        const css = container.querySelector('.compiled');
+
+        fscss.classList.toggle('hidden');
+        css.classList.toggle('hidden');
+
+        btn.textContent = fscss.classList.contains('hidden') ? "Show FSCSS" : "See CSS";
+      });
+    });
+    
+    // Intersection Observer for animations
+    const fadeElements = document.querySelectorAll('.card, .example-card, .feature-highlight');
+    
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+    
+    fadeElements.forEach(element => {
+      element.classList.add('fade-in');
+      fadeObserver.observe(element);
+    });
+    
+    // Scroll to top button
+    const scrollBack = document.querySelector(".scroll-btn");
+    
+    window.addEventListener("scroll", function() {
+      if (window.pageYOffset >= 300) {
+        scrollBack.classList.add("show");
+      } else {
+        scrollBack.classList.remove("show");
+      }
+    });
+    
+    scrollBack.addEventListener("click", (e) => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Update copyright year
+    document.querySelector("footer .footer-bottom p").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with ❤️ for Web developers. MIT License.`;
+  </script>
 </body>
 </html>
