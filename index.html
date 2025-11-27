@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS Home - Figured Shorthand CSS</title>
+  <meta name="description" content="Complete documentation for FSCSS - A lightweight, powerful CSS preprocessor">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-search">
+        <input type="text" placeholder="Search documentation..." class="search-input">
+        <i class="fas fa-search"></i>
+      </div>
+      
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Getting Started</h3>
+          <ul class="sidebar-links">
+            <li><a href="#introduction" class="sidebar-link">Introduction</a></li>
+            <li><a href="#installation" class="sidebar-link">Installation</a></li>
+            <li><a href="#quick-start" class="sidebar-link">Quick Start</a></li>
+          </ul>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Core Concepts</h3>
+          <ul class="sidebar-links">
+            <li><a href="/variables.html" class="sidebar-link">Variables & Stores</a></li>
+            <li><a href="/event.html" class="sidebar-link">Event Functions</a></li>
+            <li><a href="/arrays.html" class="sidebar-link">Arrays & Loops</a></li>
+            <li><a href="/shared.html" class="sidebar-link">Shorthand Properties</a></li>
+            <li><a href="/import.html" class="sidebar-link">Imports</a></li>
+          <li><a href="/external.html" class="sidebar-link">External</a></li>
+          <li><a href="/random.html" class="sidebar-link">random</a></li>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">API Reference</h3>
+          <ul class="sidebar-links">
+            <li><a href="#functions" class="sidebar-link">Functions</a></li>
+            <li><a href="#directives" class="sidebar-link">Directives</a></li>
+            <li><a href="#utilities" class="sidebar-link">Utilities</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Introduction Section -->
+      <section id="introduction" class="docs-section">
+        <div class="section-header">
+          <h1>FSCSS Documentation</h1>
+          <p class="lead">A comprehensive guide to the Figured Shorthand CSS preprocessor</p>
+        </div>
+        
+        <div class="card glow-card">
+          <div class="card-header">
+            <h2>What is FSCSS?</h2>
+          </div>
+          <div class="card-body">
+            <p>FSCSS (Figured Shorthand CSS) is a lightweight, powerful CSS preprocessor that simplifies your styling workflow with intuitive shorthand syntax. It allows you to write cleaner, more maintainable stylesheets with less code.</p>
+            
+            <div class="feature-grid">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <h4>Fast Development</h4>
+                <p>Write CSS 50% faster with intuitive shorthand syntax</p>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-code"></i>
+                </div>
+                <h4>Clean Code</h4>
+                <p>Reduce repetition with variables, mixins, and functions</p>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <h4>Powerful Features</h4>
+                <p>Advanced capabilities like conditional logic and loops</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Installation Section -->
+      <section id="installation" class="docs-section">
+        <h2>Installation</h2>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>NPM Installation</h3>
+          </div>
+          <div class="card-body">
+            <p>Install FSCSS via NPM for use in Node.js projects or build pipelines:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>npm install fscss@1.1.11</code></pre>
+            </div>
+            
+            <p>For global CLI usage:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>npm install -g fscss
+fscss input.fscss output.css</code></pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>CDN Usage</h3>
+          </div>
+          <div class="card-body">
+            <p>For quick integration in HTML files (runtime mode):</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.11/exec.min.js" async&gt;&lt;/script&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Start Section -->
+      <section id="quick-start" class="docs-section">
+        <h2>Quick Start</h2>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Your First FSCSS File</h3>
+          </div>
+          <div class="card-body">
+            <p>Create a file named <code>style.fscss</code> with the following content:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>/* Define variables */
+$primary-color: #2563eb;
+$border-radius: 8px;
+
+/* Create a button style */
+.btn {
+  background: $primary-color;
+  color: white;
+  padding: 12px 24px;
+  border-radius: $border-radius;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background:linear-gradient(to left, black, $primary-color);
+    transform: translateY(-2px);
+  }
+}</code></pre>
+            </div>
+            
+            <p>Compile it to CSS:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>fscss style.fscss style.css</code></pre>
+            </div>
+            
+            <p>The resulting CSS will be:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>.btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(to left, back, #2563eb);
+  transform: translateY(-2px);
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Variables Section -->
+      <section id="variables" class="docs-section">
+        <h2>Variables & Style Stores</h2>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Defining Variables</h3>
+          </div>
+          <div class="card-body">
+            <p>FSCSS allows you to define variables for reusable values:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>/* Basic variables */
+$primary-color: #2563eb;
+$font-size: 16px;
+$spacing: 1rem;
+
+/* Using variables */
+.header {
+  background: $primary-color;
+  font-size: $font-size;
+  padding: $spacing;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Style Stores</h3>
+          </div>
+          <div class="card-body">
+            <p>Style stores allow you to group related properties:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>/* Define a style store */
+@fun(card-style){
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+/* Apply the stored*/
+.card {
+  @fun.card-style
+  border: 1px solid #e2e8f0;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- More sections would follow for Events, Arrays, Shorthands, etc. -->
+      
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="cta-card">
+          <h2>Ready to try FSCSS?</h2>
+          <p>Start simplifying your CSS workflow today with our powerful preprocessor.</p>
+          <div class="cta-buttons">
+            <a href="https://www.npmjs.com/package/fscss" class="btn btn-primary">
+              <i class="fab fa-npm"></i> Install via NPM
+            </a>
+            <a href="examples.html" class="btn btn-outline">
+              <i class="fas fa-code"></i> View Examples
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
