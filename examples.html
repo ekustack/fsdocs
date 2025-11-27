@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS Examples - Interactive Demos</title>
+  
+  <meta name="description" content="Interactive examples and demos showcasing FSCSS features in action">
+  <link rel="stylesheet" href="/assets/styles/exm.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
+  <style>
+
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link active">Examples</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS Examples</h1>
+      <p class="lead">Explore interactive examples showcasing the power and simplicity of FSCSS</p>
+      <p>See how FSCSS can transform your CSS workflow with practical, real-world examples</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Interactive FSCSS Examples</h2>
+        </div>
+        <div class="card-body">
+          <p>These examples demonstrate how FSCSS simplifies complex CSS tasks with its intuitive shorthand syntax. Each example includes FSCSS code, compiled CSS, and a live demo.</p>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h4>Fast Development</h4>
+              <p>Write CSS faster with powerful shorthand syntax</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <h4>Clean Code</h4>
+              <p>Reduce repetition with variables and functions</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-magic"></i>
+              </div>
+              <h4>Powerful Features</h4>
+              <p>Advanced capabilities like loops and conditionals</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Variables Example -->
+    <section id="variables-example" class="section">
+      <h2>Variables & Style Stores</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Dynamic Theming with Variables</h3>
+          <span class="badge">Basic</span>
+        </div>
+        <div class="card-body">
+          <p>FSCSS variables make it easy to create dynamic, reusable styles. Change the values below to see the theme update in real-time.</p>
+          
+          <div class="interactive-controls">
+            <div class="control-group">
+              <label class="control-label">Primary Color</label>
+              <input type="color" id="primary-color" value="#3b82f6" class="control-input">
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Border Radius</label>
+              <input type="range" id="border-radius" min="0" max="20" value="8" class="control-input">
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Box Shadow</label>
+              <select id="box-shadow" class="control-input">
+                <option value="0 4px 6px rgba(0,0,0,0.1)">Small</option>
+                <option value="0 10px 15px rgba(0,0,0,0.1)">Medium</option>
+                <option value="0 20px 25px rgba(0,0,0,0.1)">Large</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre id="variables-fscss"><code>/* Dynamic theme variables */
+$primary: #3b82f6;
+$radius: 8px;
+$shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+/* Style store for card */
+str(card-style, "
+  background: white;
+  border-radius: $radius!;
+  box-shadow: $shadow!;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+")
+
+/* Apply styles */
+.themed-card {
+  card-style
+  border-left: 4px solid $primary!;
+}
+
+.themed-button {
+  background: $primary!;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: $radius!;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(black 10%, $primary! 90%);
+    transform: translateY(-2px);
+    box-shadow: $shadow!;
+  }
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre id="variables-css"><code>.themed-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border-left: 4px solid #3b82f6;
+}
+
+.themed-button {
+  background: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.themed-button:hover {
+  background: linear-gradient(black 10%, #3b82f6 90%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container">
+              <div class="themed-card" id="demo-card">
+                <h4>Themed Card</h4>
+                <p>This card uses dynamic variables for styling.</p>
+                <button class="themed-button" id="demo-button">Themed Button</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arrays & Loops Example -->
+    <section id="arrays-example" class="section">
+      <h2>Arrays & Loops</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Staggered Animations with Arrays</h3>
+          <span class="badge badge-secondary">Intermediate</span>
+        </div>
+        <div class="card-body">
+          <p>FSCSS arrays make it easy to create complex patterns and animations without repetitive code.</p>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>/* Define arrays for delays and colors*/
+@arr delays[0.1s, 0.3s, 0.5s, 0.7s, 0.9s]
+@arr colors[#3b82f6, #8b5cf6, #ec4899, #f59e0b, #10b981]
+@arr indexes[count(5, 1)]
+
+/* Create staggered animation */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Apply to elements */
+.box {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 0 10px;
+  animation: bounce 2s infinite;
+}
+
+/* Loop through items*/
+.box:nth-child(@arr.indexes[]) {
+/* Get current index */
+  $index: @arr.indexes[];
+  animation-delay: @arr.delays[$index!];
+  background: @arr.colors[$index!];
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.box {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 0 10px;
+  animation: bounce 2s infinite;
+}
+
+.box:nth-child(1) {
+  animation-delay: 0.1s;
+  background: #3b82f6;
+}
+
+.box:nth-child(2) {
+  animation-delay: 0.3s;
+  background: #8b5cf6;
+}
+
+.box:nth-child(3) {
+  animation-delay: 0.5s;
+  background: #ec4899;
+}
+
+.box:nth-child(4) {
+  animation-delay: 0.7s;
+  background: #f59e0b;
+}
+
+.box:nth-child(5) {
+  animation-delay: 0.9s;
+  background: #10b981;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Functions Example -->
+    <section id="functions-example" class="section">
+      <h2>Functions & Calculations</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Dynamic Layouts with Functions</h3>
+          <span class="badge badge-accent">Advanced</span>
+        </div>
+        <div class="card-body">
+          <p>FSCSS functions like <code>@num()</code> and <code>@random()</code> enable dynamic calculations and randomization directly in your stylesheets.</p>
+          
+          <div class="interactive-controls">
+            <div class="control-group">
+              <label class="control-label">Grid Columns</label>
+              <input type="range" id="grid-columns" min="2" max="6" value="4" class="control-input">
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Item Count</label>
+              <input type="range" id="item-count" min="3" max="12" value="6" class="control-input">
+            </div>
+            
+            <div class="control-group">
+              <button id="randomize-colors" class="demo-btn">Randomize Colors</button>
+            </div>
+          </div>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>// Dynamic grid with calculations
+$columns: 4;
+$item-count: 6;
+
+/* Calculate widths */
+$item-width: num(100 / $columns!);
+
+/* Grid container */
+.grid {
+  display: grid;
+  grid-template-columns: rpt($columns!, "1fr ");
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+/* Grid items */
+.grid-item {
+  background: @random([#3b82f6, #8b5cf6, #ec4899, #f59e0b, #10b981]);
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: white;
+  text-align: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: rpt(num($columns! / 2), "1fr ");
+  }
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.grid-item {
+  background: #3b82f6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: white;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="grid" id="dynamic-grid">
+              <div class="grid-item">Item 1</div>
+              <div class="grid-item">Item 2</div>
+              <div class="grid-item">Item 3</div>
+              <div class="grid-item">Item 4</div>
+              <div class="grid-item">Item 5</div>
+              <div class="grid-item">Item 6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shorthand Properties Example -->
+    <section id="shorthand-example" class="section">
+      <h2>Shorthand Properties</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Efficient Styling with Shorthands</h3>
+          <span class="badge">Basic</span>
+        </div>
+        <div class="card-body">
+          <p>FSCSS shorthand properties like <code>%2</code>, <code>%3</code>, etc., let you apply the same value to multiple properties at once.</p>
+          
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>%2 - Two Properties</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>FSCSS</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                  </div>
+                  <pre><code>.square {
+  %2(width, height[: 100px;])
+  background: #3b82f6;
+}</code></pre>
+                </div>
+                
+                <div class="example-output" style="min-height: 120px;">
+                  <div class="demo-box" style="width: 100px; height: 100px; background: #3b82f6;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>%3 - Three Properties</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>FSCSS</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                  </div>
+                  <pre><code>.circle {
+  %3(width, height, border-radius[: 80px;])
+  background: #8b5cf6;
+}</code></pre>
+                </div>
+                
+                <div class="example-output" style="min-height: 120px;">
+                  <div class="demo-box" style="width: 80px; height: 80px; border-radius: 80px; background: #8b5cf6;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>mx() - Multiple Properties</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>FSCSS</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                  </div>
+                  <pre><code>.spaced-element {
+  mx(padding, margin, gap, ": 1rem;")
+  background: #ec4899;
+}</code></pre>
+                </div>
+                
+                <div class="example-output" style="min-height: 120px;">
+                  <div class="demo-box" style="padding: 1rem; margin: 1rem; background: #ec4899;">Spaced</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>mxs() - Multiple Shared</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>FSCSS</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                  </div>
+                  <pre><code>.bordered-box {
+  mxs(border-width, outline-width" 4px")
+  border-style: solid;
+  border-color: #f59e0b;
+}</code></pre>
+                </div>
+                
+                <div class="example-output" style="min-height: 120px;">
+                  <div class="demo-box" style="border: 4px solid #f59e0b; outline: 4px solid rgba(245, 158, 11, 0.3);">Bordered</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="interactive-demo" class="section" hidden>
+      <h2>Interactive FSCSS Playground</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Live FSCSS Editor</h3>
+          <span class="badge badge-accent">Advanced</span>
+        </div>
+        <div class="card-body">
+          <p>Write FSCSS code and see the compiled CSS and visual output in real-time.</p>
+          
+          <div class="tabs">
+            <button class="tab active" data-tab="fscss-tab">FSCSS</button>
+            <button class="tab" data-tab="css-tab">Compiled CSS</button>
+            <button class="tab" data-tab="output-tab">Output</button>
+          </div>
+          
+          <div class="tab-content active" id="fscss-tab">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS Code</span>
+                <div>
+                  <button id="run-fscss" class="btn btn-primary">Run</button>
+                  <button id="reset-fscss" class="btn btn-outline">Reset</button>
+                </div>
+              </div>
+              <div class="editor-content">
+                <textarea id="fscss-editor" class="editor-textarea" rows="15">/* FSCSS Playground */
+/* Try writing FSCSS code here */
+
+$primary: #3b82f6;
+$secondary: #8b5cf6;
+
+.demo-box {
+  %2(width, height[: 150px;])
+  background: linear-gradient($primary!, $secondary!);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+}</textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-content" id="css-tab">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre id="compiled-css"><code>/* Compiled CSS will appear here */</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-content" id="output-tab">
+            <div class="example-output" style="min-height: 300px;">
+              <div id="playground-output">
+                <p>Output will appear here after running FSCSS code</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Ready to try FSCSS?</h2>
+        </div>
+        <div class="card-body">
+          <p>Start simplifying your CSS workflow today with FSCSS. Explore the documentation to learn more about all the features and capabilities.</p>
+          <div class="demo-flex">
+            <a href="docs.html" class="btn btn-primary">
+              <i class="fas fa-book"></i> View Documentation
+            </a>
+            <a href="https://www.npmjs.com/package/fscss" class="btn btn-outline">
+              <i class="fab fa-npm"></i> Install via NPM
+            </a>
+            <a href="https://github.com/fscss-ttr/FSCSS" class="btn btn-outline">
+              <i class="fab fa-github"></i> GitHub Repository
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="assets/scripts/exm.js"></script>
+</body>
+</html>
