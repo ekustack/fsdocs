@@ -2118,7 +2118,7 @@ exec(_log, "count(10, 2)")
     
     <!-- Footer -->
     <div class="footer">
-      <p>Made with ❤️ for Dev</p>
+      
       <p>FSCSS v1.1.11 | © 2025 | MIT License</p>
     </div>
   </main>
@@ -2195,7 +2195,8 @@ exec(_log, "count(10, 2)")
       btn.textContent = fscss.classList.contains('hidden') ? "Hide CSS" : "See CSS";
     });
   });
-                            
+              document.querySelector(".footer p:first-child").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with 💡 for Web developers. MIT License.`;
+              
   </script>
       <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
   <style>
