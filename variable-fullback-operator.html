@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSCSS v1.1.13+ – Variable fallback operator</title>
+  
+  <meta name="description" content="Documentation: new variable fallback operator in FSCSS — $/variable || fallback">
+  <link rel="stylesheet" href="/assets/styles/exm.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
+  <style>
+    /* small addition for fallback demo clarity */
+    .required-badge {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation (identical structure) -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link active">Examples</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero (subtle update) -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS v1.1.13+</h1>
+      <p class="lead">Variable fallback operator <code style="background:rgba(255,255,255,0.2); padding:0.2rem 0.5rem;">$/variable || fallback</code></p>
+      <p>Robust, self‑contained components with safe defaults — now natively in FSCSS.</p>
+    </div>
+  </section>
+
+  <!-- Main content: exactly the same sections, but content replaced with fallback documentation -->
+  <main class="main-content">
+    <!-- Introduction card with feature summary (keeps same card classes) -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Variable fallback operator</h2>
+        </div>
+        <div class="card-body">
+          <p>Starting from <strong>FSCSS v1.1.13</strong>, you can define a default value directly inside a variable declaration using:</p>
+          <pre style="background: var(--bg-secondary); padding:0.75rem; border-radius:6px;"><code>property: $/variable || fallback;</code></pre>
+          <p>FSCSS resolves the value in this order:</p>
+          <ul style="margin-left:1.5rem;">
+            <li>If the variable <strong>exists</strong> → use it</li>
+            <li>Otherwise → use the <strong>fallback</strong> value</li>
+          </ul>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-cubes"></i></div>
+              <h4>Reusable components</h4>
+              <p>Plugin‑ready: components work even when variables aren't defined</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+              <h4>Safer by default</h4>
+              <p>No more missing variable errors — graceful fallbacks</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-broom"></i></div>
+              <h4>Cleaner code</h4>
+              <p>Explicit defaults inside style stores, less conditional logic</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE 1: Basic fallback demo (same structure as variables example) -->
+    <section id="fallback-basic" class="section">
+      <h2>Basic fallback usage</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Style store with built‑in defaults</h3>
+          <span class="badge">v1.1.13</span>
+        </div>
+        <div class="card-body">
+          <p>Define a component (style store) that supplies fallback values. When variables are missing, the fallback is used automatically.</p>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>/* Component definition with fallbacks */
+str(Button#1, "
+  background: $/bg || #06f;
+  color: $/color || white;
+  border: $/border || 2px solid #06f;
+  padding: 0.75rem 1.5rem;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+")
+
+/* Usage – without setting any variables */
+.btn-default {
+  Button#1
+}
+
+/* Usage – with custom variables */
+.btn-custom {
+  $bg: linear-gradient(145deg, #8b5cf6, #3b82f6);
+  $color: #fff;
+  $border: 2px solid #3b82f6;
+  Button#1
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header"><span>Compiled CSS</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>.btn-default {
+  background: #06f;
+  color: white;
+  border: 2px solid #06f;
+  padding: 0.75rem 1.5rem;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-custom {
+  background: linear-gradient(145deg, #8b5cf6, #3b82f6);
+  color: #fff;
+  border: 2px solid #3b82f6;
+  padding: 0.75rem 1.5rem;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container" style="gap: 1rem; display: flex; flex-wrap: wrap;">
+              <button class="btn-default" style="background: #06f; color: white; border: 2px solid #06f; padding: 0.75rem 1.5rem; border-radius: 40px; font-weight:600;">default (fallback)</button>
+              <button class="btn-custom" style="background: linear-gradient(145deg, #8b5cf6, #3b82f6); color: white; border:2px solid #3b82f6; padding:0.75rem 1.5rem; border-radius:40px; font-weight:600;">custom variables</button>
+            </div>
+            <p style="margin-top:1rem; color: var(--text-secondary);"><i class="fas fa-check-circle" style="color:#10b981;"></i> Left button uses fallback (#06f), right button uses provided gradient.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE 2: Required variables (strict mode) -->
+    <section id="required-variables" class="section">
+      <h2>Required variables <span style="font-size:0.9rem; font-weight:normal; margin-left:0.5rem;">(strict mode with <code>$var!</code>)</span></h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Enforcing mandatory variables</h3>
+          <span class="badge required-badge">required</span>
+        </div>
+        <div class="card-body">
+          <p>If a variable is marked with <code>!</code> and not provided, FSCSS will warn. This is useful for critical properties that must be set by the user.</p>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>/* Strict card component */
+str(CardBase, "
+  background: $/surface || #f8fafc;
+  padding: 2rem;
+  border-radius: 24px;
+  /* required variable – must be set by user */
+  box-shadow: $/shadow!;
+  border: 1px solid $/borderColor || #e2e8f0;
+")
+
+/* correct usage: provides $shadow */
+.card-valid {
+  $shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  CardBase
+}
+
+/* would trigger warning (missing $shadow!) 
+   .card-invalid { CardBase } 
+*/</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header"><span>Compiled CSS</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>.card-valid {
+  background: #f8fafc;
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container">
+              <div class="card-valid" style="background:#f8fafc; padding:2rem; border-radius:24px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border:1px solid #e2e8f0; max-width:300px;">
+                <h4 style="margin:0 0 0.5rem">Required shadow</h4>
+                <p style="margin:0">$shadow! was provided, so it works.</p>
+              </div>
+            </div>
+            <p style="margin-top:1rem; font-size:0.9rem;"><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> If <code>$shadow!</code> were missing, FSCSS would show a warning (no fallback).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE 3: Why it matters – plugin scenario -->
+    <section id="plugin-friendly" class="section">
+      <h2>Plugin‑friendly components</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Ship components that always work</h3>
+          <span class="badge badge-secondary">design system</span>
+        </div>
+        <div class="card-body">
+          <p>Imagine distributing a <code>Avatar</code> component. With fallback operator, users can override only what they need.</p>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS (plugin code)</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>/* plugin/avatar.fscss – shipped with defaults */
+/* helper event for it to works with %n...*/
+@event token(size){
+  el{
+    return: $/size || 48px;
+  }
+}
+
+str(Avatar, "
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  %2(width, height[:@event.token(0);])
+  background: $/bg || #cbd5e1;
+  border-radius: $/rounded || 9999px;
+  color: $/color || #1e293b;
+  font-weight: 600;
+  border: $/border || 2px solid white;
+  box-shadow: $/shadow || 0 4px 6px -1px rgb(0 0 0 / 0.1);
+")
+
+/* user project – minimal setup */
+.user-avatar {
+  $size: 56px;
+  $bg: #3b82f6;
+  $color: white;
+  Avatar   /* rest fallback: rounded full, white border, default shadow */
+}
+
+/* another user – different style */
+.outline-avatar {
+  $size: 40px;
+  $bg: transparent;
+  $border: 2px solid #8b5cf6;
+  $color: #8b5cf6;
+  $rounded: 12px;  /* square with rounded corners */
+  Avatar
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header"><span>Compiled CSS</span><button class="copy-btn"><i class="fas fa-copy"></i> Copy</button></div>
+              <div class="editor-content">
+                <pre><code>.user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: #3b82f6;
+  border-radius: 9999px;
+  color: white;
+  font-weight: 600;
+  border: 2px solid white;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.outline-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border-radius: 12px;
+  color: #8b5cf6;
+  font-weight: 600;
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container" style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap;">
+              <div class="user-avatar" style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; background:#3b82f6; border-radius:9999px; color:white; font-weight:600; border:2px solid white; box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);">U</div>
+              <div class="outline-avatar" style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; background:transparent; border-radius:12px; color:#8b5cf6; font-weight:600; border:2px solid #8b5cf6; box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);">A</div>
+            </div>
+            <p style="margin-top:0.5rem;"><i class="fas fa-puzzle-piece"></i> Both avatars use the same <code>Avatar</code> store — only variables differ, fallbacks fill the rest.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fallback operator reference (compact card) -->
+    <section class="section">
+      <div class="card">
+        <div class="card-header">
+          <h3>📘 Syntax reference</h3>
+        </div>
+        <div class="card-body">
+          <table style="width:100%; border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--border-color);">
+              <th style="text-align:left; padding:0.5rem;">Form</th>
+              <th style="text-align:left; padding:0.5rem;">Description</th>
+              <th style="text-align:left; padding:0.5rem;">Example</th>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem;"><code>$/var || value</code></td>
+              <td>fallback if <code>$var</code> is not defined</td>
+              <td><code>background: $/bg || #06f;</code></td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem;"><code>$var!</code></td>
+              <td>required variable (warning if missing)</td>
+              <td><code>box-shadow: $shadow!;</code></td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem;"><code>$/var || fallback</code> + <code>!</code></td>
+              <td>not applicable (fallback is only for optional)</td>
+              <td>—</td>
+            </tr>
+          </table>
+          <p style="margin-top:1rem;"><i class="fas fa-info-circle"></i> The fallback can be any CSS value, including gradients, numbers with units, or even <code>@random()</code> functions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA (same as original) -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Upgrade to v1.1.13</h2>
+        </div>
+        <div class="card-body">
+          <p>Install the latest version and start writing safer, more maintainable components.</p>
+          <div class="demo-flex">
+            <a href="docs.html" class="btn btn-primary">
+              <i class="fas fa-book"></i> Full documentation
+            </a>
+            <a href="https://www.npmjs.com/package/fscss" class="btn btn-outline">
+              <i class="fab fa-npm"></i> npm i fscss@latest
+            </a>
+            <a href="https://github.com/fscss-ttr/FSCSS/releases/tag/v1.1.13" class="btn btn-outline">
+              <i class="fab fa-github"></i> Release notes
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (unchanged) -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="assets/scripts/main.js"></script>
+  <!-- very minimal inline script to keep copy buttons functional (same as original) -->
+  <script>
+    // dummy copy handler to mimic original behavior (since exm.js might handle it)
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const pre = e.target.closest('.editor-panel')?.querySelector('pre');
+        if (pre) {
+          const text = pre.innerText;
+          navigator.clipboard?.writeText(text).then(() => {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => btn.innerHTML = original, 1500);
+          }).catch(() => alert('Copy not supported'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
