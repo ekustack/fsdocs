@@ -3,18 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS Examples - Interactive Demos</title>
-  
-  <meta name="description" content="Interactive examples and demos showcasing FSCSS features in action">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/examples">
+
+  <!-- Primary Title -->
+  <title>FSCSS Examples – Interactive Demos & Live CSS Preprocessor Showcase</title>
+
+  <!-- Primary SEO Meta -->
+  <meta name="description" content="Explore interactive FSCSS examples and live demos showcasing powerful shorthand CSS features in action. See real-world layouts, utilities, themes, and advanced styling workflows built with FSCSS.">
+
+  <meta name="keywords" content="FSCSS examples, FSCSS demos, CSS preprocessor examples, shorthand CSS demo, FSCSS showcase, live CSS demo, frontend styling examples, Figured Shorthand CSS, modern CSS tools">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS Examples – Interactive Demos">
+  <meta property="og:description" content="See FSCSS in action with real interactive demos and practical styling examples built using shorthand CSS.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/examples">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Interactive Examples Preview">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS Interactive Examples & Live Demos">
+  <meta name="twitter:description" content="Explore live FSCSS demos showcasing modern shorthand CSS workflows and powerful styling utilities.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="/assets/styles/exm.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
-  
-  <style>
 
-  </style>
+  <!-- Structured Data: Collection Page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "FSCSS Examples",
+    "description": "Interactive examples and demos showcasing FSCSS features in real-world scenarios.",
+    "url": "https://fscss.devtem.org/examples",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "FSCSS",
+      "url": "https://fscss.devtem.org"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: Software -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FSCSS",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "description": "FSCSS is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
+    "url": "https://fscss.devtem.org",
+    "version": "1.1.13",
+    "author": {
+      "@type": "Organization",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org"
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Examples",
+        "item": "https://fscss.devtem.org/examples"
+      }
+    ]
+  }
+  </script>
+
 </head>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar">
@@ -541,7 +636,7 @@ $item-width: num(100 / $columns!);
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
                   <pre><code>.bordered-box {
-  mxs(border-width, outline-width, " 4px")
+  mxs(border-width, outline-width" 4px")
   border-style: solid;
   border-color: #f59e0b;
 }</code></pre>
