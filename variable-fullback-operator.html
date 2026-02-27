@@ -3,19 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS v1.1.13+ – Variable fallback operator</title>
   
-  <meta name="description" content="Documentation: new variable fallback operator in FSCSS — $/variable || fallback">
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://fscss.devtem.org/updates/variable-fallback-operator.html">
+  
+  <!-- Primary Title -->
+  <title>FSCSS v1.1.13+ – Variable Fallback Operator ($/variable || fallback) | New Feature Documentation</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="description" content="Learn about the new variable fallback operator in FSCSS v1.1.13+. Use $/variable || fallback syntax for resilient CSS variables with automatic fallback values. Complete guide with examples.">
+  <meta name="keywords" content="FSCSS v1.1.13, FSCSS update, CSS variable fallback, CSS custom properties, FSCSS operator, CSS preprocessor feature, variable fallback operator, FSCSS documentation">
+  
+  <!-- Robots & Favicon -->
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <meta name="theme-color" content="#1a73e8">
+  
+  <!-- Stylesheets & Fonts -->
   <link rel="stylesheet" href="/assets/styles/exm.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
   
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="FSCSS v1.1.13+ – New Variable Fallback Operator">
+  <meta property="og:description" content="Documentation: new variable fallback operator in FSCSS — $/variable || fallback. Write more resilient CSS with automatic fallback values.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.onrender.com/updates/variable-fallback-operator.html">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Logo - Variable Fallback Operator Feature">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS v1.1.13+ – Variable Fallback Operator">
+  <meta name="twitter:description" content="New in FSCSS: Use $/variable || fallback for resilient CSS variables with automatic fallbacks. Full documentation inside.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  
+  <!-- Article Specific Meta -->
+  <meta property="article:published_time" content="2026-02-27T00:00:00Z">
+  <meta property="article:modified_time" content="2026-02-28T00:00:00Z">
+  <meta property="article:section" content="Documentation">
+  <meta property="article:tag" content="FSCSS v1.1.13">
+  <meta property="article:tag" content="CSS Variables">
+  <meta property="article:tag" content="New Features">
+  
+  <!-- Schema.org Markup for Article/Feature Documentation -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS v1.1.13+ – Variable Fallback Operator",
+    "description": "Complete documentation for the new variable fallback operator in FSCSS. Learn how to use $/variable || fallback syntax for resilient CSS variables with automatic fallback values.",
+    "author": {
+      "@type": "Organization",
+      "name": "FSCSS Team",
+      "url": "https://fscss.devtem.org"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "datePublished": "2026-02-27",
+    "dateModified": "2026-02-28",
+    "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/updates/variable-fallback-operator.html"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "version": "1.1.13",
+      "programmingLanguage": "CSS",
+      "description": "CSS preprocessor with variable fallback operator feature"
+    },
+    "keywords": "FSCSS v1.1.13, variable fallback operator, CSS preprocessor, CSS variables"
+  }
+  </script>
+  
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Updates",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Variable Fallback Operator v1.1.13+",
+        "item": "https://fscss.devtem.org/updates/variable-fallback-operator.html"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Inline Styles -->
   <style>
-    /* small addition for fallback demo clarity */
     .required-badge {
       background: rgba(239, 68, 68, 0.1);
       color: #ef4444;
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -434,7 +546,7 @@ str(Avatar, "
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+      <p>&copy; 2025 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
   </footer>
 
