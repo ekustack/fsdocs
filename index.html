@@ -26,7 +26,8 @@
 <meta property="fb:app_id" content="YOUR_FACEBOOK_APP_ID"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:site" content="@yourtwitterhandle"> <meta name="twitter:creator" content="@yourtwitterhandle">
 <meta name="twitter:title" content="FSCSS - Figured Shorthand CSS">
 <meta name="twitter:description" content="A lightweight, powerful, and easy-to-use CSS preprocessor for fast front-end development.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"> 
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
 
 <script type="application/ld+json">
 {
@@ -53,70 +54,14 @@
 </script>
 
 </head>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
         <div class="logo-icon">
-          <i class="fas fa-fscss-alt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="24" height="24">
-  <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="50%" stop-color="#1da1f2" />
-      <stop offset="50%" stop-color="#a0d8f1" />
-    </linearGradient>
-  </defs>
-
-  <!-- Background -->
-  <rect width="400" height="400" fill="url(#bgGradient)" />
-
-  <!-- Main 'f' shape -->
-  <path d="
-    M 140,280 
-    C 140,310 150,340 180,340
-    C 210,340 230,315 230,280
-    L 230,170
-    L 280,170
-    L 280,145
-    L 230,145
-    L 230,115
-    C 230,90 245,80 265,82
-    L 265,55
-    C 220,50 200,70 200,115
-    L 200,145
-    L 170,145
-    L 170,170
-    L 200,170
-    L 200,280
-    C 200,295 195,310 180,310
-    C 165,310 160,295 160,280
-    C 160,230 140,230 140,280
-    Z
-  " 
-  fill="white" 
-  stroke="#555" 
-  stroke-width="2"/>
-
-  <!-- Decorative flower in the counter -->
-  <g transform="translate(150, 240)">
-    <!-- Outer petals -->
-    <g opacity="0.8">
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(45)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(90)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(135)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(180)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(225)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(270)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(315)"/>
-    </g>
-    <!-- Center -->
-    <circle cx="0" cy="0" r="8" fill="#ffd54f"/>
-    <circle cx="0" cy="0" r="4" fill="#ffb300"/>
-  </g>
-</svg>
-
-</i>
+          <i class="fas fa-code"></i>
         </div>
         <span>FSCSS</span>
       </div>
@@ -221,7 +166,52 @@
             </div>
           </div>
         </div>
+        
+        
+        <!-- Community Contribution Card -->
+<div class="card glow-card">
+  <div class="card-header">
+    <h2><i class="fas fa-handshake" style="margin-right: 10px;"></i> Join the Community</h2>
+  </div>
+  <div class="card-body">
+    <p>FSCSS thrives on community contributions. Whether you're reporting bugs, suggesting features, or contributing — your help is valued.</p>
+    
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h4>Join Discussions</h4>
+        <p>Share ideas, ask questions, and connect with other FSCSS users</p>
+        <a href="https://github.com/fscss-ttr/FSCSS/discussions" class="btn btn-outline" style="margin-top: 10px; display: inline-block; padding: 6px 12px; font-size: 14px;">
+          <i class="fab fa-github"></i> GitHub Discussions
+        </a>
+      </div>
+      
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-code-branch"></i>
+        </div>
+        <h4>Contribute</h4>
+        <p>Help improve FSCSS by contributing code, plugins, or documentation</p>
+        <a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md" class="btn btn-outline" style="margin-top: 10px; display: inline-block; padding: 6px 12px; font-size: 14px;">
+          <i class="fas fa-book"></i> Contributing Guide
+        </a>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <p style="margin-bottom: 10px;"><i class="fas fa-star" style="color: #ffd700;"></i> Found FSCSS helpful? Star us on GitHub!</p>
+      <a href="https://github.com/fscss-ttr/FSCSS" class="btn btn-primary">
+        <i class="fab fa-github"></i> Star on GitHub
+      </a>
+    </div>
+  </div>
+</div>
+
       </section>
+      
+      
 
       <!-- Installation Section -->
       <section id="installation" class="docs-section">
@@ -239,7 +229,7 @@
                 <span>bash</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>npm install fscss</code></pre>
+              <pre><code>npm install fscss@1.1.13</code></pre>
             </div>
             
             <p>For global CLI usage:</p>
@@ -428,64 +418,7 @@ $spacing: 1rem;
       <div class="footer-section">
         <div class="footer-logo">
           <div class="logo-icon">
-            <i class="fas fa-fscss-alt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="24" height="24">
-  <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="50%" stop-color="#1da1f2" />
-      <stop offset="50%" stop-color="#a0d8f1" />
-    </linearGradient>
-  </defs>
-
-  <!-- Background -->
-  <rect width="400" height="400" fill="url(#bgGradient)" />
-
-  <!-- Main 'f' shape -->
-  <path d="
-    M 140,280 
-    C 140,310 150,340 180,340
-    C 210,340 230,315 230,280
-    L 230,170
-    L 280,170
-    L 280,145
-    L 230,145
-    L 230,115
-    C 230,90 245,80 265,82
-    L 265,55
-    C 220,50 200,70 200,115
-    L 200,145
-    L 170,145
-    L 170,170
-    L 200,170
-    L 200,280
-    C 200,295 195,310 180,310
-    C 165,310 160,295 160,280
-    C 160,230 140,230 140,280
-    Z
-  " 
-  fill="white" 
-  stroke="#555" 
-  stroke-width="2"/>
-
-  <!-- Decorative flower in the counter -->
-  <g transform="translate(150, 240)">
-    <!-- Outer petals -->
-    <g opacity="0.8">
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(45)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(90)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(135)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(180)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(225)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(270)"/>
-      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(315)"/>
-    </g>
-    <!-- Center -->
-    <circle cx="0" cy="0" r="8" fill="#ffd54f"/>
-    <circle cx="0" cy="0" r="4" fill="#ffb300"/>
-  </g>
-</svg>
-
-</i>
+            <i class="fas fa-code"></i>
           </div>
           <span>FSCSS</span>
         </div>
@@ -513,7 +446,7 @@ $spacing: 1rem;
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+      <p>&copy; 2025 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
   </footer>
 
