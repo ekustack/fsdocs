@@ -1,20 +1,138 @@
-/* Gore-inspired dark highlight theme (improved) */
+
+/* Enhanced Gore-inspired dark highlight theme */
 .fscss-code {
-  background: #111;
-  color: #eee;
-  padding: 1em;
+  background: #0d1117;
+  color: #e6edf3;
+  padding: 1.2em;
   border-radius: 8px;
   overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-  line-height: 1.4;
-  white-space: pre; /* preserve spaces/newlines inside spans */
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  line-height: 1.5;
+  white-space: pre;
   display: block;
-  font-size: 13px;
+  font-size: 14px;
+  tab-size: 2;
+  border: 1px solid #30363d;
 }
-.fscss-keyword { color: #ff4d4d; font-weight: 700; }
-.fscss-method  { color: #66ff99; }
-.fscss-var     { color: #ffcc00; }
-.fscss-prop { color: #66aaff; font-weight: 600; }
-.fscss-number  { color: #66ccff; }
-.fscss-string  { color: #ff99ff; }
-.fscss-comment { color: #888; font-style: italic; }
+
+/* Keywords and directives */
+.fscss-keyword,
+.fscss-directive { 
+  color: #ff7b72; 
+  font-weight: 700; 
+}
+
+/* Array specific */
+.fscss-array-method { 
+  color: #ffa657; 
+  font-weight: 600; 
+}
+.fscss-array-access { 
+  color: #d2a8ff; 
+}
+
+/* Functions */
+.fscss-function,
+.fscss-method { 
+  color: #79c0ff; 
+}
+
+/* Share functions (%1, %2, etc) */
+.fscss-share { 
+  color: #7ee3b8; 
+  font-weight: 600; 
+}
+
+/* Merge functions (mx, mxs) */
+.fscss-merge { 
+  color: #ffb86c; 
+}
+
+/* Storage (str) */
+.fscss-storage { 
+  color: #f97583; 
+}
+
+/* Utility functions */
+.fscss-utility { 
+  color: #b392f0; 
+}
+
+/* Attribute selector */
+.fscss-attribute { 
+  color: #f97583; 
+}
+
+/* Vendor prefix */
+.fscss-vendor { 
+  color: #6cb6ff; 
+  font-weight: 600; 
+}
+
+/* Variables */
+.fscss-variable { 
+  color: #ffcc66; 
+  font-weight: 500; 
+}
+
+/* Properties */
+.fscss-property { 
+  color: #79c0ff; 
+  font-weight: 500; 
+}
+
+/* Numbers and units */
+.fscss-number { 
+  color: #b5cea8; 
+}
+
+/* Colors */
+.fscss-color { 
+  color: #ce9178; 
+}
+
+/* Strings */
+.fscss-string { 
+  color: #ce9178; 
+}
+
+/* Comments */
+.fscss-comment { 
+  color: #8b949e; 
+  font-style: italic; 
+}
+
+/* Operators */
+.fscss-operator { 
+  color: #79c0ff; 
+  font-weight: 600; 
+}
+
+/* Specific highlight for important tokens */
+.fscss-code span[class*="array"]:hover,
+.fscss-code span[class*="share"]:hover,
+.fscss-code span[class*="variable"]:hover {
+  filter: brightness(1.2);
+  transition: filter 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fscss-code {
+    font-size: 12px;
+    padding: 1em;
+  }
+}
+
+/* Print styles */
+@media print {
+  .fscss-code {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+  }
+  .fscss-comment { color: #666; }
+  .fscss-keyword { color: #0000ff; }
+  .fscss-string { color: #a31515; }
+  .fscss-number { color: #098658; }
+}
