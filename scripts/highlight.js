@@ -1,15 +1,15 @@
 function fscssCodeHl(){
   // broaden selector so it catches common ways to mark FSCSS blocks
   const selectors = [
-    '.code-block pre', 
+    '.code-block pre code', 
     'pre code[lang="fscss"]',
     'pre code.lang-fscss',
     'pre[data-lang="fscss"]',
     'pre.lang-fscss',
     'code[lang="fscss"]',
     'code.lang-fscss', 
-    '.code-container pre', 
-    '.editor-content pre', 
+    '.code-container pre code', 
+    '.editor-content pre code', 
   ].join(',');
 
   // Token regex: block comments, line comments, strings, function-like identifiers,
