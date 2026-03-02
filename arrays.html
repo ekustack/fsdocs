@@ -3,697 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS Arrays - Complete Guide</title>
-  <meta name="description" content="Master FSCSS Arrays - Learn how to use @arr for reusable value collections and dynamic styling">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://fscss.devtem.org/arrays.html">
+  
+  <!-- Enhanced Title with Version Info -->
+  <title>FSCSS Arrays v1.1.14+ - Complete Guide with New Array Methods</title>
+  
+  <!-- Enhanced Meta Description -->
+  <meta name="description" content="Master FSCSS Arrays v1.1.14+ - Learn how to use @arr for reusable value collections, new array methods (.reverse, .shuffle, .sort, .unit, .prefix), and dynamic styling techniques with complete examples.">
+  
+  <!-- Enhanced Keywords -->
+  <meta name="keywords" content="FSCSS arrays, FSCSS v1.1.14, CSS arrays, array methods, reverse array, shuffle array, sort array, array join, array unit, array prefix, FSCSS documentation, CSS preprocessor, dynamic CSS, reusable values, FSCSS tutorial">
+  
+  <!-- Robots & Favicon -->
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <meta name="theme-color" content="#1a73e8">
+  
+  <!-- Stylesheets & Fonts -->
+  <link rel="stylesheet" href="/assets/styles/arr.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="FSCSS Arrays v1.1.14+ - New Array Methods Guide">
+  <meta property="og:description" content="Complete documentation for FSCSS Arrays with new v1.1.14+ methods including .reverse, .shuffle, .sort, .unit, .prefix, and more. Learn how to use arrays for scalable CSS generation.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.onrender.com/arrays.html">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Logo - Arrays Documentation">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS Arrays v1.1.14+ - New Methods">
+  <meta name="twitter:description" content="New in FSCSS v1.1.14+: Array methods for reverse, shuffle, sort, unit conversion, prefixing, and more. Complete guide with examples.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  
+  <!-- Article Specific Meta -->
+  <meta property="article:published_time" content="2026-03-02T00:00:00Z">
+  <meta property="article:modified_time" content="2026-03-02T00:00:00Z">
+  <meta property="article:section" content="Documentation">
+  <meta property="article:tag" content="FSCSS v1.1.14">
+  <meta property="article:tag" content="Arrays">
+  <meta property="article:tag" content="Array Methods">
+  
+  <!-- Schema.org Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS Arrays v1.1.14+ - Complete Guide with New Array Methods",
+    "description": "Comprehensive documentation for FSCSS Arrays featuring new v1.1.14+ methods including .reverse, .shuffle, .sort, .unit, .prefix, and more. Learn how to use arrays for scalable CSS generation.",
+    "author": {
+      "@type": "Organization",
+      "name": "FSCSS Team",
+      "url": "https://fscss.devtem.org"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "datePublished": "2026-03-02",
+    "dateModified": "2026-03-02",
+    "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/arrays.html"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "version": "1.1.14",
+      "programmingLanguage": "CSS",
+      "description": "CSS preprocessor with advanced array methods"
+    },
+    "keywords": "FSCSS arrays, array methods, reverse, shuffle, sort, unit conversion, CSS preprocessor"
+  }
+  </script>
+  
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Documentation",
+        "item": "https://fscss.devtem.org/docs.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Arrays v1.1.14+",
+        "item": "https://fscss.devtem.org/arrays.html"
+      }
+    ]
+  }
+  </script>
   
   <style>
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --primary-light: #60a5fa;
-      --secondary: #7c3aed;
-      --accent: #06b6d4;
-      --dark: #0f172a;
-      --darker: #020617;
-      --light: #f8fafc;
-      --gray: #64748b;
-      --light-gray: #cbd5e1;
-      --border: #334155;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --radius: 8px;
-      --transition: all 0.3s ease;
-      --glow: 0 0 15px rgba(59, 130, 246, 0.5);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      background: var(--darker);
-      color: var(--light);
-      overflow-x: hidden;
-    }
-
-    /* Navigation */
-    .navbar {
-      background: rgba(15, 23, 42, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 1rem 0;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--light);
-    }
-
-    .logo-icon {
-      background: var(--primary);
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      box-shadow: var(--glow);
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .nav-link {
-      color: var(--light-gray);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--primary-light);
-    }
-
-    .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--primary);
-      border-radius: 2px;
-    }
-
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-
-    .bar {
-      width: 25px;
-      height: 3px;
-      background: var(--light);
-      margin: 3px 0;
-      transition: var(--transition);
-      border-radius: 2px;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
-      border-bottom: 1px solid var(--border);
-      padding: 4rem 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="rgba(59,130,246,0.05)" d="M0,0 L100,100 M100,0 L0,100"></path></svg>');
-      background-size: 100px 100px;
-      opacity: 0.3;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--primary-light), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .lead {
-      font-size: 1.25rem;
-      color: var(--light-gray);
-      margin-bottom: 1.5rem;
-    }
-
-    /* Main Content */
-    .main-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
-    }
-
-    .section {
-      margin-bottom: 4rem;
-    }
-
-    /* Cards */
-    .card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 2rem;
-      transition: var(--transition);
-    }
-
-    .card:hover {
-      border-color: var(--primary);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .glow-card {
-      box-shadow: var(--glow);
-      border-color: var(--primary);
-    }
-
-    .card-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(30, 41, 59, 0.5);
-    }
-
-    .card-body {
-      padding: 1.5rem;
-    }
-
-    /* Code Blocks */
-    .code-container {
-      position: relative;
-      margin: 1.5rem 0;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .code-header {
-      background: #1a1f2e;
-      color: var(--light-gray);
-      padding: 0.75rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .copy-btn {
-      background: none;
-      border: none;
-      color: var(--light-gray);
-      cursor: pointer;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-
-    .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--light);
-    }
-
-    pre {
-      background: #1e293b;
-      color: #e2e8f0;
-      padding: 1.5rem;
-      overflow-x: auto;
-      margin: 0;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    code {
-      font-family: 'Fira Code', monospace;
-      background: rgba(30, 41, 59, 0.7);
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      color: var(--primary-light);
-    }
-
-    /* Example Output */
-    .example-output {
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border);
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-
-    .btn-primary {
-      background: var(--primary);
+    /* Version badge styles */
+    .version-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--primary-light);
-      border: 1px solid var(--primary);
-    }
-
-    .btn-outline:hover {
-      background: rgba(59, 130, 246, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* Example Grid */
-    .example-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-
-    .example-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .example-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
-    }
-
-    .example-card-header {
-      padding: 1.25rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(30, 41, 59, 0.5);
-    }
-
-    .example-card-body {
-      padding: 1.25rem;
-    }
-
-    /* Demo Elements */
-    .demo-box {
-      width: 100px;
-      height: 100px;
-      background: var(--primary);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      margin: 0 auto;
-      transition: var(--transition);
-    }
-
-    .demo-flex {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Footer */
-    .footer {
-      background: var(--dark);
-      border-top: 1px solid var(--border);
-      padding: 3rem 0 1.5rem;
-      margin-top: 4rem;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .footer-section h4 {
-      margin-bottom: 1rem;
-      color: var(--light);
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-links a {
-      color: var(--light-gray);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--primary-light);
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.5rem 1.5rem 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--gray);
-      font-size: 0.9rem;
-    }
-
-    /* Animations */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Array Type Badges */
-    .array-badge {
-      display: inline-block;
       padding: 0.25rem 0.75rem;
-      background: var(--primary);
-      color: white;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-left: 0.5rem;
+      display: inline-block;
     }
-
-    .array-badge-secondary {
-      background: var(--secondary);
-    }
-
-    .array-badge-accent {
-      background: var(--accent);
-    }
-
-    /* Feature Highlights */
-    .feature-highlights {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-
-    .feature-highlight {
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .feature-highlight:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .feature-icon {
-      width: 60px;
-      height: 60px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1rem;
-      font-size: 1.5rem;
-      box-shadow: var(--glow);
-    }
-
-    /* Array Type Grid */
-    .array-type-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-
-    .array-type-card {
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-align: center;
-      transition: var(--transition);
-      border: 1px solid var(--border);
-    }
-
-    .array-type-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-    }
-
-    /* Comparison Table */
-    .comparison-table {
+    
+    .method-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 2rem 0;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .comparison-table th,
-    .comparison-table td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .comparison-table th {
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--primary-light);
-      font-weight: 600;
-    }
-
-    .comparison-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* Toggle Button for Code Examples */
-    .toggle-btn {
-      margin-left: 0.5rem;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.8rem;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      color: var(--light-gray);
-      transition: var(--transition);
-    }
-    
-    .toggle-btn:hover { 
-      background: rgba(255, 255, 255, 0.2); 
-    }
-    
-    .hidden { 
-      display: none; 
-    }
-
-    /* Array Demo Styles */
-    .array-demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
       margin: 1.5rem 0;
     }
-
-    .array-demo-item {
-      padding: 1rem;
-      border-radius: var(--radius);
-      text-align: center;
+    
+    .method-table th {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 0.75rem;
+      text-align: left;
       font-weight: 600;
-      transition: var(--transition);
     }
-
-    .array-demo-item:hover {
-      transform: scale(1.05);
+    
+    .method-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .nav-menu {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        background: var(--dark);
-        flex-direction: column;
-        text-align: center;
-        transition: var(--transition);
-        box-shadow: var(--shadow-lg);
-        padding: 2rem 0;
-        z-index: 99;
-      }
-
-      .nav-menu.active {
-        left: 0;
-      }
-
-      .nav-toggle {
-        display: flex;
-      }
-
-      .nav-toggle.active .bar:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 6px);
-      }
-
-      .nav-toggle.active .bar:nth-child(2) {
-        opacity: 0;
-      }
-
-      .nav-toggle.active .bar:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.75rem;
-      }
-
-      .example-grid,
-      .array-type-grid,
-      .feature-highlights {
-        grid-template-columns: 1fr;
-      }
-
-      .comparison-table {
-        font-size: 0.9rem;
-      }
-
-      .comparison-table th,
-      .comparison-table td {
-        padding: 0.75rem 0.5rem;
-      }
+    
+    .method-table tr:hover {
+      background: rgba(102, 126, 234, 0.05);
     }
-
-    /* Scroll to top button */
-    .scroll-btn {
-      background: var(--primary);
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      opacity: 0.8;
-      padding: 10px;
-      width: 50px;
-      height: 50px;
-      position: fixed;
-      z-index: 1900;
-      right: 20px;
-      bottom: 8em;
-      animation: animate 1s ease infinite alternate, slideSUp 0.5s ease 1 forwards;
-      color: #ddd;
-      font-weight: bolder;
-      display: none;
-      cursor: pointer;
+    
+    .method-example {
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.125rem 0.25rem;
+      border-radius: 4px;
     }
-
-    .scroll-btn.show {
+    
+    .new-badge {
+      background: #10b981;
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      margin-left: 0.5rem;
       display: inline-block;
     }
-
-    @keyframes animate {
-      from {
-        transform: translateY(3px);
-      }
-      to {
-        transform: translateY(0);
-      }
+    
+    .limitation-box {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #ef4444;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
     }
-
-    @keyframes slideSUp {
-      from {
-        bottom: -0.5em;
-      }
-      to {
-        bottom: 8em;
-      }
+    
+    .philosophy-box {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid #10b981;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
     }
   </style>
 </head>
@@ -729,9 +220,9 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>FSCSS Arrays</h1>
+      <h1>FSCSS Arrays <span class="version-badge">v1.1.14+</span></h1>
       <p class="lead">Master the power of reusable value collections with FSCSS Arrays</p>
-      <p>Create dynamic, maintainable styles with organized collections of colors, sizes, and more</p>
+      <p>Create dynamic, maintainable styles with organized collections of colors, sizes, and more <span class="new-badge">New Methods Added</span></p>
     </div>
   </section>
 
@@ -778,6 +269,270 @@
               <h4>Clean Syntax</h4>
               <p>Intuitive array declaration and access patterns</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Array Methods Overview -->
+    <section class="section">
+      <h2>FSCSS Array Methods <span class="version-badge">New in v1.1.14+</span></h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Method Access Mode</h3>
+        </div>
+        <div class="card-body">
+          <p>FSCSS arrays are string-native data structures designed to generate CSS efficiently. Unlike traditional script arrays, they return strings directly, making them ideal for reducing repetition and generating utility patterns at compile time.</p>
+          
+          <div class="philosophy-box">
+            <h4>Key Characteristics</h4>
+            <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+              <li><strong>String-native</strong> – All transformations output final string values</li>
+              <li><strong>No method chaining</strong> – Arrays return directly, not objects</li>
+              <li><strong>No nested execution</strong> – Array declarations don't resolve inner arrays</li>
+            </ul>
+          </div>
+          
+          <h4>Access Modes</h4>
+          <div class="code-container" style="margin-top: 1rem;">
+            <div class="code-header">
+              <span>Direct Output (Space Separated)</span>
+            </div>
+            <pre><code>@arr.name
+// Returns: item1 item2 item3</code></pre>
+          </div>
+          
+          <div class="code-container" style="margin-top: 1rem;">
+            <div class="code-header">
+              <span>Method Access Mode</span>
+            </div>
+            <pre><code>@arr.name!
+// Enables: @arr.name!.reverse, @arr.name!.length, etc.</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Complete Methods Table -->
+    <section class="section">
+      <h2>Available Array Methods</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Complete Method Reference</h3>
+        </div>
+        <div class="card-body">
+          <table class="method-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Example</th>
+                <th>Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.length</code></td><td>Returns number of items</td><td><code>@arr.n!.length</code></td><td>3</td></tr>
+              <tr><td><code>.first</code></td><td>Returns first item</td><td><code>@arr.n!.first</code></td><td>item1</td></tr>
+              <tr><td><code>.last</code></td><td>Returns last item</td><td><code>@arr.n!.last</code></td><td>item3</td></tr>
+              <tr><td><code>.list</code></td><td>Comma-separated list</td><td><code>@arr.n!.list</code></td><td>item1,item2,item3</td></tr>
+              <tr><td><code>.join(sep)</code></td><td>Join with custom separator</td><td><code>@arr.n!.join(+)</code></td><td>item1+item2+item3</td></tr>
+              <tr><td><code>.reverse</code></td><td>Reverse order (comma list)</td><td><code>@arr.n!.reverse</code></td><td>item3,item2,item1</td></tr>
+              <tr><td><code>.shuffle</code></td><td>Random order (comma list)</td><td><code>@arr.n!.shuffle</code></td><td>item2,item3,item1</td></tr>
+              <tr><td><code>.sort</code></td><td>Alpha/numeric sort</td><td><code>@arr.n!.sort</code></td><td>item1,item2,item3</td></tr>
+              <tr><td><code>.unique</code></td><td>Remove duplicates</td><td><code>@arr.n!.unique</code></td><td>item1,item2,item3</td></tr>
+              <tr><td><code>.indices</code></td><td>1-based indices</td><td><code>@arr.n!.indices</code></td><td>1,2,3</td></tr>
+              <tr><td><code>.randint</code></td><td>Returns a random item</td><td><code>@arr.n!.randint</code></td><td>item2</td></tr>
+              <tr><td><code>.segment</code></td><td>Wrap in [] brackets</td><td><code>@arr.n!.segment</code></td><td>[item1][item2][item3]</td></tr>
+              <tr><td><code>.sum</code></td><td>Sum numeric values</td><td><code>@arr.num!.sum</code></td><td>15</td></tr>
+              <tr><td><code>.min</code></td><td>Minimum numeric value</td><td><code>@arr.num!.min</code></td><td>4</td></tr>
+              <tr><td><code>.max</code></td><td>Maximum numeric value</td><td><code>@arr.num!.max</code></td><td>16</td></tr>
+              <tr><td><code>.unit(val)</code></td><td>Append unit to each</td><td><code>@arr.n!.unit(px)</code></td><td>4px,8px,12px</td></tr>
+              <tr><td><code>.prefix(v)</code></td><td>Add prefix to each</td><td><code>@arr.b!.prefix(btn-)</code></td><td>btn-A,btn-B,btn-C</td></tr>
+              <tr><td><code>.surround(b,a)</code></td><td>Wrap each item</td><td><code>@arr.b!.surround([,])</code></td><td>[A][B][C]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Array Mutation -->
+    <section class="section">
+      <h2>Array Mutation</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Adding and Removing Items</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>Add Items</span>
+            </div>
+            <pre><code>@arr.name!+[item4, item5]</code></pre>
+          </div>
+          
+          <div class="code-container" style="margin-top: 1rem;">
+            <div class="code-header">
+              <span>Remove Item (1-based index)</span>
+            </div>
+            <pre><code>@arr.name!-[2] // Removes second item</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Important Limitations -->
+    <section class="section">
+      <h2>Important Limitations</h2>
+      
+      <div class="card">
+        <div class="limitation-box">
+          <h4><i class="fas fa-exclamation-triangle"></i> No Method Chaining</h4>
+          <p>The following will not work:</p>
+          <pre><code>@arr.name!.unit(px)!.join(+) // Invalid</code></pre>
+          <p>Each method returns a string, not an array object.</p>
+        </div>
+        
+        <div class="limitation-box" style="margin-top: 1rem;">
+          <h4><i class="fas fa-exclamation-triangle"></i> No Nested Array Execution</h4>
+          <p>The following will not resolve the inner array:</p>
+          <pre><code>@arr.b[@arr.a!.list] // Stores literal string, doesn't execute</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Design Philosophy -->
+    <section class="section">
+      <h2>Design Philosophy</h2>
+      
+      <div class="card">
+        <div class="philosophy-box">
+          <p>FSCSS arrays are intentionally constrained to excel at their primary purpose:</p>
+          <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+            <li><strong>String-output generators</strong> – Direct transformation to CSS values</li>
+            <li><strong>Repetition reducers</strong> – Eliminate manual duplication</li>
+            <li><strong>Utility pattern generators</strong> – Create systematic CSS variations</li>
+          </ul>
+          <p style="margin-top: 1rem;">This focused approach ensures predictable, performant CSS generation without the complexity of full scripting capabilities.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Section: Practical Examples with New Methods -->
+    <section class="section">
+      <h2>Practical Examples with New Methods</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Gradient Generator</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>@arr colors[#1E2783, #8C29B2, #C41348]
+
+.box {
+  background: linear-gradient(40deg, @arr.colors!.list);
+}
+/* Output: background: linear-gradient(40deg, #1E2783,#8C29B2,#C41348); */
+ 
+.box-2 {
+  background: linear-gradient(40deg, @arr.colors!.reverse);
+}
+/* Output: background: linear-gradient(40deg,#C41348,#8C29B2,#1E2783); */</code></pre>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-flex" style="gap: 1rem;">
+              <div style="background: linear-gradient(40deg, #1E2783, #8C29B2, #C41348); width: 150px; height: 80px; border-radius: 8px;"></div>
+              <div style="background: linear-gradient(40deg, #C41348, #8C29B2, #1E2783); width: 150px; height: 80px; border-radius: 8px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h3>Spacing Utilities with .unit()</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>@arr spaces[8, 12, 16, 24]
+
+.m-@arr.spaces[] {
+  margin: @arr.spaces[]px;
+}
+
+/* Or using .surround() method */
+.card {
+  padding: @arr.spaces!.surround(,rem);
+}
+/* Output: padding: 8rem 12rem 16rem 24rem; */</code></pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h3>Component Variants with .randint()</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>@arr colors[#0066FF, #6B7280, #10B981, #F59E0B, #EF4444]
+
+.btn-a {
+  background: @arr.colors!.randint;
+}
+.btn-b {
+  background: @arr.colors!.randint;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h3>Reducing Typing with %n() Loop</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See CSS</button>
+            </div>
+            <pre class="fscss"><code>@arr sizing[width, height, max-width, max-height, min-height, min-width];
+  
+/* store array reference */
+$sizing: @arr.sizing!;
+  
+.box {
+  %6($sizing.list[: 200px;])
+}
+/* Output: 
+width: 200px; 
+height: 200px; 
+max-width: 200px; 
+max-height: 200px; 
+min-height: 200px; 
+min-width: 200px;
+*/</code></pre>
           </div>
         </div>
       </div>
@@ -1039,7 +794,7 @@
 
 /* Use function-based arrays */
 .alert {
-  padding: @fun.spacing.md @fun.spacing.lg.value;
+  padding: @fun.spacing.md.value @fun.spacing.lg.value;
   border-radius: 4px;
   margin-bottom: @fun.spacing.sm.value;
 }
@@ -1098,7 +853,7 @@
       </div>
     </section>
 
-    <!-- Array Types Comparison -->
+    <!-- Array Types Comparison (Updated) -->
     <section class="section">
       <h2>Array Types Comparison</h2>
       
@@ -1126,6 +881,12 @@
                 <td>Color palettes, spacing scales</td>
               </tr>
               <tr>
+                <td><strong>Method Arrays</strong> <span class="new-badge">v1.1.14+</span></td>
+                <td><code>@arr.name!.method</code></td>
+                <td>Transforming array values</td>
+                <td>.reverse, .shuffle, .unit(px), .prefix(btn-)</td>
+              </tr>
+              <tr>
                 <td><strong>Dynamic Arrays</strong></td>
                 <td><code>@arr.name[]</code> (auto-index)</td>
                 <td>Generating multiple similar styles</td>
@@ -1137,10 +898,10 @@
                 <td>Dynamic, varied styling</td>
                 <td>Random backgrounds, interactive elements</td>
               </tr>
-                            <tr>
+              <tr>
                 <td><strong>Arrays join</strong></td>
                 <td><code>@arr.name(separator)</code></td>
-                <td>separate array with words or character</td>
+                <td>Separate array with words or character</td>
                 <td>commonly used with random and similar functions</td>
               </tr>
               <tr>
@@ -1233,7 +994,7 @@
       </div>
     </section>
 
-    <!-- Best Practices -->
+    <!-- Best Practices (Updated) -->
     <section class="section">
       <h2>Best Practices</h2>
       
@@ -1280,8 +1041,47 @@
                 <li>Use auto-indexing for repetitive patterns</li>
                 <li>Create array-based design systems</li>
                 <li>Document your arrays for team collaboration</li>
+                <li>Use method access mode (!) only when needed</li>
+                <li>Plan array structure before applying methods</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="section">
+      <div class="card">
+        <div class="card-header">
+          <h3>Summary: Why FSCSS Arrays?</h3>
+        </div>
+        <div class="card-body">
+          <table class="method-table">
+            <tr><th>Feature</th><th>Benefit</th></tr>
+            <tr><td>String-native</td><td>Predictable CSS output</td></tr>
+            <tr><td>Simple syntax</td><td>Minimal learning curve</td></tr>
+            <tr><td>Focused methods</td><td>Purpose-built for CSS</td></tr>
+            <tr><td>Direct output</td><td>Easy debugging</td></tr>
+          </table>
+          
+          <div style="margin-top: 2rem;">
+            <h4>Use them to:</h4>
+            <ul style="margin-left: 2rem;">
+              <li>Generate color palettes and gradients</li>
+              <li>Create systematic spacing scales</li>
+              <li>Build component variant systems</li>
+              <li>Manage responsive breakpoints</li>
+              <li>Reduce manual repetition</li>
+            </ul>
+            
+            <h4 style="margin-top: 1rem;">Avoid them for:</h4>
+            <ul style="margin-left: 2rem;">
+              <li>Complex data manipulation</li>
+              <li>Nested data structures</li>
+            </ul>
+            
+            <p style="margin-top: 1rem; font-style: italic; color: #667eea;">FSCSS arrays: Simple by design, powerful in practice</p>
           </div>
         </div>
       </div>
@@ -1305,7 +1105,7 @@
         <h4>Core Features</h4>
         <ul class="footer-links">
           <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
-          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays <span class="new-badge">v1.1.14+</span></a></li>
           <li><a href="shared.html"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
           <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
           <li><a href="random.html"><i class="fas fa-dice"></i> Random</a></li>
@@ -1324,95 +1124,13 @@
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2025 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+      <p>&copy; 2026 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
     </div>
   </footer>
 
   <!-- Scroll to top button -->
   <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
   
-  <script>
-    // Mobile menu toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-      });
-    }
-    
-    // Copy button functionality
-    document.querySelectorAll('.copy-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const pre = this.closest('.code-container').querySelector('pre');
-        const text = pre.textContent;
-        
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i>';
-          
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
-        });
-      });
-    });
-    
-    // Toggle between FSCSS and CSS
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const container = btn.closest('.code-container');
-        const fscss = container.querySelector('.fscss');
-        const css = container.querySelector('.compiled');
-
-        fscss.classList.toggle('hidden');
-        css.classList.toggle('hidden');
-
-        btn.textContent = fscss.classList.contains('hidden') ? "Show FSCSS" : "See CSS";
-      });
-    });
-    
-    // Intersection Observer for animations
-    const fadeElements = document.querySelectorAll('.card, .example-card, .feature-highlight, .array-type-card');
-    
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-    
-    fadeElements.forEach(element => {
-      element.classList.add('fade-in');
-      fadeObserver.observe(element);
-    });
-    
-    // Scroll to top button
-    const scrollBack = document.querySelector(".scroll-btn");
-    
-    window.addEventListener("scroll", function() {
-      if (window.pageYOffset >= 300) {
-        scrollBack.classList.add("show");
-      } else {
-        scrollBack.classList.remove("show");
-      }
-    });
-    
-    scrollBack.addEventListener("click", (e) => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-    
-    // Update copyright year
-    document.querySelector("footer .footer-bottom p:first-child").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with 💡 for Web developers. MIT License.`;
-  </script>
+  <script src="/assets/scripts/main.js"></script>
 </body>
-</html>
+  </html>
