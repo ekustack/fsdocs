@@ -8,7 +8,8 @@ function fscssCodeHl(){
     'pre.lang-fscss',
     'code[lang="fscss"]',
     'code.lang-fscss', 
-    '.code-container pre' 
+    '.code-container pre', 
+    '.editor-content pre', 
   ].join(',');
 
   // Token regex: block comments, line comments, strings, function-like identifiers,
