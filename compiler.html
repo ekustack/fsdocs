@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS to CSS - Development Tool FSCSS@1.1.13</title>
+  <title>FSCSS to CSS - Development Tool FSCSS@1.1.14</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -841,7 +841,7 @@ body {
   transition: all 0.3s ease;
   tr Shape: @event.shape(star);
 }`,
-          language: 'scss',
+          language: 'fscss',
           theme: 'vs-dark',
           fontSize: 14,
           fontFamily: "'Fira Code', monospace",
@@ -1086,7 +1086,7 @@ document.querySelector('.panel-actions .fa-copy').parentElement
       document.getElementById("status-message").innerHTML = "";
       
       const input = fscssEditor.getValue();
-      const outputf = await runFscssEXT(input); // ✅ await
+      const outputf = await runFscssEXT(input); // await
       cssEditor.setValue(outputf);
       
       addLogEntry("Loaded FSCSS from URL Param", "info");
