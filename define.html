@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/define">
+
+  <!-- Primary Title -->
+  <title>FSCSS @define – Reusable Style Definitions & Parameterized block</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Master FSCSS @define and learn how to create reusable, parameterized style definitions for modular and maintainable CSS architecture. Build component systems with ease.">
+
+  <meta name="keywords" content="FSCSS @define, FSCSS define method, reusable CSS mixins, parameterized styles, CSS component system, FSCSS documentation, modular CSS architecture, style definitions">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS @define – Reusable Style Definitions">
+  <meta property="og:description" content="Create reusable, parameterized style definitions in FSCSS for building modular and maintainable CSS component systems.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/define">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Define Documentation">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-03-05T00:00:00Z">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS @define – Reusable Style Definitions">
+  <meta name="twitter:description" content="Learn how to create reusable, parameterized style definitions with FSCSS @define for modular CSS architecture.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles/import.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  
+  <!-- Scripts -->
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <!-- Article Meta -->
+  <meta property="article:section" content="Documentation">
+  <meta property="article:tag" content="FSCSS Define">
+  <meta property="article:tag" content="Reusable CSS">
+  <meta property="article:tag" content="Component Architecture">
+
+  <!-- Structured Data: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS @define – Reusable Style Definitions",
+    "description": "Comprehensive documentation explaining how to use the @define directive in FSCSS to create reusable, parameterized style definitions for modular CSS architecture.",
+    "author": {
+      "@type": "Organization",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "dateModified": "2026-03-05",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/define"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.1.15"
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Documentation",
+        "item": "https://fscss.devtem.org/docs"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "@define",
+        "item": "https://fscss.devtem.org/define"
+      }
+    ]
+  }
+  </script>
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="import.html" class="nav-link">Import</a>
+        <a href="define.html" class="nav-link active">Define</a>
+        <a href="random.html" class="nav-link">Random</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS @define</h1>
+      <p class="lead">Create reusable, parameterized style definitions for modular CSS architecture</p>
+      <p>Build component systems with clean, maintainable code using FSCSS defines</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Introduction to FSCSS @define</h2>
+          <span class="recommended-badge">
+            <i class="fas fa-star"></i> RECOMMENDED
+          </span>
+        </div>
+        <div class="card-body">
+          <p>The <code>@define</code> method in FSCSS allows you to create reusable style definitions that can accept parameters. Think of them as lightweight, parameterized mixins that generate CSS directly at compile time.</p>
+          
+          <p>Unlike traditional CSS preprocessor mixins, FSCSS defines operate as direct string generators, injecting final CSS output during compilation. This makes them <strong>predictable, performant, and perfect for building component systems</strong>.</p>
+          
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-copy"></i>
+              </div>
+              <h4>Reusable</h4>
+              <p>Define once, use anywhere across your project</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-sliders-h"></i>
+              </div>
+              <h4>Parameter Support</h4>
+              <p>Accept inputs with configurable default values</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-cubes"></i>
+              </div>
+              <h4>Two Modes</h4>
+              <p>Property defines and block defines for any use case</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h4>Direct Output</h4>
+              <p>Expands to final CSS during compilation</p>
+            </div>
+          </div>
+          
+          <div class="alert note">
+            <i class="fas fa-lightbulb"></i>
+            <div>
+              <strong>Key Concept:</strong> Parameters <strong>must</strong> be accessed using <code>@use()</code> inside define bodies. This ensures the compiler correctly resolves parameter values.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Syntax -->
+    <section class="section">
+      <h2>Basic Syntax</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Define Declaration</h3>
+          <span class="import-badge">@define</span>
+        </div>
+        <div class="card-body">
+          <p>The basic syntax for creating a define:</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>syntax.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>@define name(param: default) {
+  property: @use(param);
+  /* more properties */
+}</code></pre>
+          </div>
+          
+          <div class="example-grid" style="margin-top: 2rem;">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4><i class="fas fa-cube"></i> Simple Define</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>example.fscss</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="toggle-btn">See Compiled</button>
+                  </div>
+                  <pre class="fscss"><code>@define center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  @center()
+}</code></pre>
+                  <pre class="compiled hidden"><code>.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parameters and @use -->
+    <section class="section">
+      <h2>Parameters and @use()</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Working with Parameters</h3>
+          <span class="import-badge import-badge-secondary">@use()</span>
+        </div>
+        <div class="card-body">
+          <p>Defines can accept parameters with optional default values. Parameters <strong>must</strong> be accessed using <code>@use()</code>.</p>
+          
+          <div class="alert warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              <strong>⚠️ Important:</strong> Always use <code>@use(parameter)</code> to access parameter values. Direct references like <code>background: bg;</code> will not work.
+            </div>
+          </div>
+          
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>✅ Correct Usage</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@define card(bg: black, color: white) {
+  background: @use(bg);
+  color: @use(color);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>❌ Incorrect Usage</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>@define card(bg: black, color: white) {
+  background: bg;    /* Won't work */
+  color: color;      /* Won't work */
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="code-container" style="margin-top: 1.5rem;">
+            <div class="code-header">
+              <span>parameter-example.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>@define card(bg: black, color: white, pad: 20px, bd-r: 10px) {
+  background: @use(bg);
+  border-radius: @use(bd-r);
+  padding: @use(pad);
+  color: @use(color);
+}
+
+.box {
+  @card(#007999)
+}</code></pre>
+            <pre class="compiled hidden"><code>.box {
+  background: #007999;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+}</code></pre>
+          </div>
+          
+          <div class="example-output" style="margin-top: 1rem;">
+            <div class="demo-flex">
+              <div style="background: #007999; border-radius: 10px; padding: 20px; color: white; max-width: 300px;">
+                Card with parameterized styles
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Property Defines vs Block Defines -->
+    <section class="section">
+      <h2>Property Defines vs Block Defines</h2>
+      
+      <div class="example-grid">
+        <div class="example-card">
+          <div class="example-card-header">
+            <h4><i class="fas fa-paint-brush"></i> Property Defines</h4>
+            <span class="import-badge">Property</span>
+          </div>
+          <div class="example-card-body">
+            <p>Generate reusable groups of CSS properties. Ideal for layout utilities, flex/grid helpers, and common styling patterns.</p>
+            <div class="code-container">
+              <pre><code>@define flexCenter() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@define roundedCorners(radius: 8px) {
+  border-radius: @use(radius);
+  overflow: hidden;
+}
+
+.container {
+  @flexCenter()
+  @roundedCorners(12px)
+}</code></pre>
+            </div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-card-header">
+            <h4><i class="fas fa-code-branch"></i> Block Defines</h4>
+            <span class="import-badge import-badge-secondary">Block</span>
+          </div>
+          <div class="example-card-body">
+            <p>Generate full CSS structures like media queries or nested rules. They use string blocks enclosed in quotes.</p>
+            <div class="code-container">
+              <pre><code>@define mobile(size) {
+  "
+  @media (max-width: @use(size)) {
+    .container {
+      padding: 10px;
+    }
+    .box {
+      width: 100%;
+    }
+  }
+  "
+}
+
+@mobile(768px)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="section">
+      <h2>Practical Examples</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Building a Component System</h3>
+          <span class="import-badge import-badge-accent">Components</span>
+        </div>
+        <div class="card-body">
+          <p>Create a complete button component system using defines:</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>buttons.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>/* Base button define */
+@define btn-base(pad: 0.75rem 1.5rem, fs: 1rem, weight: 600) {
+  padding: @use(pad);
+  font-size: @use(fs);
+  font-weight: @use(weight);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Variant defines */
+@define btn-primary(bg: #3b82f6, color: white) {
+  background: @use(bg);
+  color: @use(color);
+  
+  &:hover {
+    background: darken(@use(bg), 10%);
+  }
+}
+
+@define btn-outline(color: #3b82f6) {
+  background: transparent;
+  color: @use(color);
+  border: 2px solid @use(color);
+  
+  &:hover {
+    background: @use(color);
+    color: white;
+  }
+}
+
+/* Usage */
+.primary-btn {
+  @btn-base()
+  @btn-primary()
+}
+
+.outline-btn {
+  @btn-base(pad: 0.75rem 2rem)
+  @btn-outline(#7c3aed)
+}</code></pre>
+            <pre class="compiled hidden"><code>.primary-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  background: #3b82f6;
+  color: white;
+}
+.primary-btn:hover {
+  background: #2563eb;
+}
+
+.outline-btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  background: transparent;
+  color: #7c3aed;
+  border: 2px solid #7c3aed;
+}
+.outline-btn:hover {
+  background: #7c3aed;
+  color: white;
+}</code></pre>
+          </div>
+          
+          <div class="example-output" style="margin-top: 2rem;">
+            <div class="demo-flex" style="gap: 1rem; flex-wrap: wrap;">
+              <button style="padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; background: #3b82f6; color: white;">Primary Button</button>
+              <button style="padding: 0.75rem 2rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; background: transparent; color: #7c3aed; border: 2px solid #7c3aed;">Outline Button</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h3>Responsive System with Block Defines</h3>
+          <span class="import-badge import-badge-accent">Responsive</span>
+        </div>
+        <div class="card-body">
+          <p>Create a responsive helper system using block defines:</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>responsive.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>/* Responsive breakpoint defines */
+@define respond-to(breakpoint) {
+  "
+  @media (min-width: @use(breakpoint)) {
+    /* styling... */ 
+  }
+  "
+}
+
+@define mobile-only() {
+  "
+  @media (max-width: 767px) {
+    /* styling... */
+  }
+  "
+}
+
+@define dark-mode() {
+  "
+  @media (prefers-color-scheme: dark) {
+    /* styling... */
+  }
+  "
+}</code></pre>
+            <pre class="compiled hidden"><code>.container {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #1a1a1a;
+    color: #f0f0f0;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Multiple Defines Composition -->
+    <section class="section">
+      <h2>Composing Multiple Defines</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Combine Defines for Complex Components</h3>
+        </div>
+        <div class="card-body">
+          <p>Multiple defines can be combined within a single rule for powerful composition:</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>card-component.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>@define card-base(pad: 1.5rem) {
+  padding: @use(pad);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+@define card-header() {
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+@define card-footer() {
+  border-top: 1px solid #eaeaea;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+}
+
+@define flexCenter() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Compose them together */
+.product-card {
+  @card-base()
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    @card-header()
+  }
+  
+  .card-content {
+    @flexCenter()
+    min-height: 200px;
+  }
+  
+  .card-actions {
+    @card-footer()
+    @flexCenter()
+    gap: 1rem;
+  }
+}</code></pre>
+            <pre class="compiled hidden"><code>.product-card {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.product-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+}
+.product-card .card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+.product-card .card-actions {
+  border-top: 1px solid #eaeaea;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Importing Define Libraries -->
+    <section class="section">
+      <h2>Importing Define Libraries</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Share Defines Across Projects</h3>
+          <span class="import-badge">@import</span>
+        </div>
+        <div class="card-body">
+          <p>Defines can be organized into libraries and shared through external files:</p>
+          
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4><i class="fas fa-palette"></i> _theme.fscss</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>/* Theme defines */
+@define light-theme() {
+  --bg: #ffffff;
+  --text: #333333;
+  --primary: #3b82f6;
+}
+
+@define dark-theme() {
+  --bg: #1a1a1a;
+  --text: #f0f0f0;
+  --primary: #60a5fa;
+}</code></pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4><i class="fas fa-cube"></i> _layout.fscss</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>/* Layout defines */
+@define container(max: 1200px) {
+  max-width: @use(max);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@define grid(cols: 3, gap: 2rem) {
+  display: grid;
+  grid-template-columns: repeat(@use(cols), 1fr);
+  gap: @use(gap);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="code-container" style="margin-top: 1.5rem;">
+            <div class="code-header">
+              <span>main.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>/* Import define libraries */
+@import(exec(_theme.fscss))
+@import(exec(_layout.fscss))
+
+/* Use the defines */
+
+:root{
+  @light-theme()
+} 
+:root.dark-theme{
+  @dark-theme()
+} 
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  @container()
+}
+
+.product-grid {
+  @grid(4, 1.5rem)
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="section">
+      <h2>Best Practices</h2>
+      
+      <div class="card">
+        <div class="card-body">
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Use Property Defines for Utilities</h4>
+              <p>Keep property defines focused on single responsibilities like flex center, rounded corners, or shadows</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Use Block Defines for Complex Structures</h4>
+              <p>Reserve block defines for media queries, keyframes, and nested rule structures</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Provide Default Values</h4>
+              <p>Always include sensible defaults for parameters to make defines flexible yet usable out of the box</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Keep Defines Focused</h4>
+              <p>Each define should do one thing well. Compose multiple defines for complex components</p>
+            </div>
+          </div>
+          
+          <div class="alert note" style="margin-top: 1.5rem;">
+            <i class="fas fa-lightbulb"></i>
+            <div>
+              <strong>Pro Tip:</strong> Organize your defines into logical files (e.g., _buttons.fscss, _layout.fscss, _animations.fscss) and import them as needed. This creates a maintainable component library.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section">
+      <h2>Why Use FSCSS Defines?</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Benefits of Reusable Definitions</h3>
+        </div>
+        <div class="card-body">
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-copy"></i>
+              </div>
+              <h4>Reduce Repetition</h4>
+              <p>Write styles once, use them everywhere. Eliminate duplicate code across your project</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <h4>Maintain Consistency</h4>
+              <p>Changes to a define update everywhere it's used, ensuring design consistency</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-cubes"></i>
+              </div>
+              <h4>Build Component Systems</h4>
+              <p>Create a library of reusable components that can be composed together</p>
+            </div>
+            
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h4>Faster Development</h4>
+              <p>Build new UI elements quickly by combining existing defines</p>
+            </div>
+          </div>
+
+          <table class="benefits-table" style="margin-top: 2rem; width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #1e293b; color: white;">
+                <th style="padding: 1rem; text-align: left;">Feature</th>
+                <th style="padding: 1rem; text-align: left;">Benefit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Reusable styles</td>
+                <td style="padding: 1rem;">Reduce repetition and maintenance overhead</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Parameter support</td>
+                <td style="padding: 1rem;">Flexible components that adapt to different contexts</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Direct expansion</td>
+                <td style="padding: 1rem;">Predictable output with no runtime overhead</td>
+              </tr>
+              <tr>
+                <td style="padding: 1rem;">Plugin-friendly</td>
+                <td style="padding: 1rem;">Share define libraries across projects and teams</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Core Features</h4>
+        <ul class="footer-links">
+          <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="define.html"><i class="fas fa-cubes"></i> Define</a></li>
+          <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
+          <li><a href="events.html"><i class="fas fa-code-branch"></i> Events</a></li>
+          <li><a href="import.html"><i class="fas fa-file-import"></i> Import</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="examples.html"><i class="fas fa-laptop-code"></i> Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> NPM Package</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  
+  <script src="/assets/scripts/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Copy button functionality
+      document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const container = this.closest('.code-container');
+          const pre = container.querySelector('pre:not(.compiled.hidden)') || container.querySelector('pre');
+          const text = pre.textContent;
+          
+          navigator.clipboard.writeText(text).then(() => {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+        });
+      });
+
+      // Toggle between FSCSS and compiled CSS
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const container = btn.closest('.code-container');
+          const fscss = container.querySelector('.fscss');
+          const compiled = container.querySelector('.compiled');
+
+          if (fscss && compiled) {
+            fscss.classList.toggle('hidden');
+            compiled.classList.toggle('hidden');
+            btn.textContent = fscss.classList.contains('hidden') ? 'See FSCSS' : 'See Compiled';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
