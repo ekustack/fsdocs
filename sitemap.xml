@@ -151,5 +151,61 @@
 	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
-
+<url>
+	<loc>https://fscss.devtem.org/variable-fullback-operator.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url> 
+<url>
+	<loc>https://fscss.devtem.org/variables.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/shared.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/random.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/import.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/functions.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/external.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/examples.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>		
+<url>
+	<loc>https://fscss.devtem.org/event.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/define.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://fscss.devtem.org/arrays.html</loc>
+	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+			
 </urlset>
+
