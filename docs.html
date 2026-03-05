@@ -44,12 +44,13 @@
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/styles/highlight.css">
+
   <link rel="stylesheet" href="/assets/styles/docs.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
   <!-- Scripts -->
-  <script src="/scripts/highlight.js" defer></script>
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
 
   <!-- Article Specific Meta -->
   <meta property="article:section" content="Documentation">
@@ -67,7 +68,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.1.13",
+    "version": "1.1.14",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -233,6 +234,7 @@ window.addEventListener("load", () => {
     
 <ul>
 <li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+<li><a href="/define"><i class="fas fa-layer-group"></i> Reusable block</a></li>
 <li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
 <li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
 <li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
@@ -243,7 +245,7 @@ window.addEventListener("load", () => {
 <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
 <li><a href="#vendors"><i class="fas fa-tags"></i> Vendor Prefixing</a></li>
 <li><a href="#fun"><i class="fas fa-function"></i> Function based</a></li>
-<li><a href="#arr"><i class="fas fa-layer-group"></i> Array method</a></li>
+<li><a href="/arrays"><i class="fas fa-layer-group"></i> Array method</a></li>
 <li><a href="#random"><i class="fas fa-dice"></i> Random function</a></li>
 <li><a href="#num"><i class="fas fa-calculator"></i> number calculation</a></li>
 <li><a href="/docs/import-fscss.html"><i class="fas fa-link"></i> @import method</a></li>
@@ -254,9 +256,9 @@ window.addEventListener("load", () => {
     
     <h3><i class="fas fa-book"></i> Resources</h3>
     <ul>
-      <li><a href="/examples"><i class="fas fa-laptop-code"></i> Examples</a></li>
+      <li><a href="compiler.html#examples"><i class="fas fa-laptop-code"></i> Examples</a></li>
       <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/"><i class="fas fa-file-alt"></i> Cheat Sheet</a></li>
-      <li><a href="https://github.com/fscss-ttr/FSCSS/discussions"><i class="fas fa-users"></i> Community</a></li>
+      <li><a href="https://dev.to/fscss-ttr"><i class="fas fa-users"></i> Community</a></li>
     </ul>
   </nav>
   
@@ -390,7 +392,7 @@ $global-font: 'Inter', sans-serif;
 
   <div class="try-btn-container">
     <a class="try-btn"
-       href="/compiler#run?code=str(shadowBlock%2C%20%22%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20border-radius%3A%200.75rem%3B%0A%22)%0A%0A.card%20%7B%0A%20%20background%3A%20white%3B%0A%20%20shadowBlock%0A%7D"
+       href="/compiler#run?code=str(shadowBlock%2C%20%22%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20border-radius%3A%200.75rem%3B%0A%22)%3B%0A%0A.card%20%7B%0A%20%20background%3A%20white%3B%0A%20%20shadowBlock%0A%7D"
        target="_blank">🚀 Try it yourself</a>
   </div>
 </section>
@@ -1769,7 +1771,7 @@ exec(_log, "count(10, 2)")
     <!-- Footer -->
     <div class="footer">
       
-      <p>FSCSS v1.1.13 | © 2025 | MIT License</p>
+      <p>FSCSS v1.1.14 | © 2025 | MIT License</p>
     </div>
   </main>
   
@@ -1907,5 +1909,6 @@ exec(_log, "count(10, 2)")
       
     })
   </script>
+  <script src="//fscss.devtem.org/scripts/highlight.js"></script>
 </body>
 </html>
