@@ -328,11 +328,6 @@ $border-radius: 8px;
   padding: 12px 24px;
   border-radius: $border-radius;
   transition: all 0.3s ease;
-  
-  &:hover {
-    background:linear-gradient(to left, black, $primary-color);
-    transform: translateY(-2px);
-  }
 }</code></pre>
             </div>
             
@@ -360,11 +355,7 @@ $border-radius: 8px;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
-
-.btn:hover {
-  background: linear-gradient(to left, back, #2563eb);
-  transform: translateY(-2px);
-}</code></pre>
+</code></pre>
             </div>
           </div>
         </div>
@@ -429,6 +420,33 @@ $spacing: 1rem;
             </div>
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Define reusable block</h3>
+          </div>
+          <div class="card-body">
+            <strong><a href="/define">@define Version 1.1.15+ </a></strong>
+            <p>Create reusable, parameterized style definitions for modular CSS architecture:</p>
+            
+            <div class="code-block">
+              <div class="code-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>/* Define card */
+@define card(bg, color){
+    background: @use(bg);
+    color: @use(color);
+}
+
+/* Apply the stored*/
+.card {
+  @card(#007999, #dddddd)
+}</code></pre>
+            </div>
+          </div>
+      </div>
       </section>
 
       <!-- More sections would follow for Events, Arrays, Shorthands, etc. -->
