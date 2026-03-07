@@ -3,546 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS to CSS - Development Tool FSCSS@1.1.14</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/fscss-to-css">
+
+  <!-- Primary Title -->
+  <title>FSCSS to CSS Converter – Online FSCSS Compiler (v1.1.15)</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Convert FSCSS to CSS instantly using the official FSCSS online compiler. Test, compile, and experiment with Figured Shorthand Cascading Style Sheets directly in your browser.">
+
+  <meta name="keywords" content="FSCSS to CSS, FSCSS compiler, convert FSCSS to CSS, online CSS preprocessor, FSCSS playground, shorthand CSS compiler, CSS developer tools">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS to CSS Converter – Online Compiler">
+  <meta property="og:description" content="Compile FSCSS to CSS instantly with the official browser-based FSCSS compiler.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/fscss-to-css">
+  <meta property="og:site_name" content="FSCSS Tools">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Compiler Tool">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS to CSS Converter – Online Tool">
+  <meta name="twitter:description" content="Compile FSCSS to CSS instantly using the official browser-based FSCSS compiler.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles/r2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #007acc;
-      --primary-dark: #005a9e;
-      --secondary: #68217a;
-      --accent: #ff4081;
-      --dark: #1e1e1e;
-      --darker: #252526;
-      --light: #f3f3f3;
-      --gray: #858585;
-      --light-gray: #e0e0e0;
-      --border: #3e3e42;
-      --success: #4CAF50;
-      --warning: #ff9800;
-      --danger: #f44336;
-      --radius: 4px;
-      --transition: all 0.3s ease;
-      --sidebar-width: 250px;
-      --header-height: 40px;
-      --status-height: 22px;
-      --panel-header-height: 35px;
-    }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <!-- Structured Data: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FSCSS to CSS Converter",
+    "url": "https://fscss.devtem.org/fscss-to-css",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Online compiler that converts FSCSS into standard CSS directly in the browser.",
+    "creator": {
+      "@type": "Person",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org"
+    },
+    "softwareVersion": "1.1.15"
+  }
+  </script>
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--dark);
-      color: var(--light);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: ;
-    }
-
-    /* Header */
-    header {
-      height: var(--header-height);
-      background: var(--darker);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 15px;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      color: var(--light);
-    }
-
-    .logo-icon {
-      color: var(--primary);
-    }
-
-    .header-controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    /* Main Layout */
-    .main-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--darker);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      transition: width 0.3s ease;
-    }
-
-    .sidebar.collapsed {
-      width: 40px;
-    }
-
-    .sidebar-toggle {
-      background: none;
-      border: none;
-      color: var(--light);
-      padding: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sidebar-content {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-
-    .sidebar-section {
-      margin-bottom: 20px;
-    }
-
-    .sidebar-section h3 {
-      font-size: 0.9rem;
-      color: var(--gray);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .sidebar-item {
-      padding: 8px 10px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-    }
-
-    .sidebar-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .sidebar-item.active {
-      background: var(--primary);
-    }
-
-    /* Editor Area */
-    .editor-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .tabs {
-      display: flex;
-      background: var(--darker);
-      border-bottom: 1px solid var(--border);
-      height: var(--panel-header-height);
-    }
-
-    .tab {
-      padding: 0 15px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      border-right: 1px solid var(--border);
-      font-size: 0.9rem;
-      transition: var(--transition);
-    }
-
-    .tab.active {
-      background: var(--dark);
-      color: var(--primary);
-    }
-
-    .tab:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .tab-close {
-      margin-left: 5px;
-      opacity: 0.7;
-      transition: var(--transition);
-    }
-
-    .tab-close:hover {
-      opacity: 1;
-      color: var(--danger);
-    }
-
-    .editor-container {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .editor-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .panel-header {
-      height: var(--panel-header-height);
-      background: var(--darker);
-      padding: 0 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.85rem;
-      color: var(--gray);
-    }
-
-    .panel-actions {
-      display: flex;
-      gap: 5px;
-    }
-
-    .panel-action {
-      background: none;
-      border: none;
-      color: var(--light);
-      cursor: pointer;
-      padding: 5px;
-      border-radius: var(--radius);
-      transition: var(--transition);
-    }
-
-    .panel-action:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .editor-box {
-      flex: 1;
-      height: 80vh;
-    }
-
-    .divider {
-      width: 5px;
-      background: var(--border);
-      cursor: col-resize;
-      transition: var(--transition);
-    }
-
-    .divider:hover {
-      background: var(--primary);
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      gap: 10px;
-      padding: 10px;
-      background: var(--darker);
-      border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-      position: ;
-padding-left: 4px;   
-padding-bottom: 3em;
-}
-
-    .btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 8px 15px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-    }
-
-    .btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-success {
-      background: var(--success);
-    }
-
-    .btn-success:hover {
-      background: #3d8b40;
-    }
-
-    .btn-danger {
-      background: var(--danger);
-    }
-
-    .btn-danger:hover {
-      background: #d32f2f;
-    }
-
-    .btn-secondary {
-      background: var(--secondary);
-    }
-
-    .btn-secondary:hover {
-      background: #5a1a6a;
-    }
-
-    /* Status Bar */
-    .status-bar {
-      height: var(--status-height);
-      background: var(--primary);
-      color: var(--light);
-      font-size: 0.8rem;
-      padding: 0 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Fira Code', monospace;
-      z-index: 1003;
-    }
-
-    .status-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    /* Status Log */
-    .status-log {
-      position: relative;
-      display: block;
-    }
-
-    .status-log.expanded {
-      max-height: 200px;
-    }
-
-    .status-log-content {
-      padding: 5px;
-    }
-
-    .log-entry {
-      margin-bottom: 5px;
-      padding-left: 10px;
-      border-left: 2px solid transparent;
-    }
-
-    .log-entry.info {
-      border-left-color: var(--primary);
-    }
-
-    .log-entry.success {
-      border-left-color: var(--success);
-    }
-
-    .log-entry.warning {
-      border-left-color: var(--warning);
-    }
-
-    .log-entry.error {
-      border-left-color: var(--danger);
-    }
-
-    .log-time {
-      color: var(--gray);
-      font-size: 0.75rem;
-      margin-right: 10px;
-    }
-
-    /* Method Dropdown */
-    .method-dropdown {
-      position: relative;
-    }
-
-    .method-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--darker);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      width: 300px;
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      display: none;
-    }
-
-    .method-menu.active {
-      display: block;
-    }
-
-    .method-item {
-      padding: 10px;
-      cursor: pointer;
-      transition: var(--transition);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .method-item:last-child {
-      border-bottom: none;
-    }
-
-    .method-item b {
-      color: var(--primary);
-      display: block;
-      font-size: 0.9rem;
-    }
-
-    .method-item p {
-      margin: 5px 0 0;
-      font-size: 0.8rem;
-      color: var(--gray);
-    }
-
-    .method-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .sidebar {
-        position: absolute;
-        z-index: 100;
-        height: 100vh;
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tools",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "FSCSS to CSS Converter",
+        "item": "https://fscss.devtem.org/fscss-to-css"
       }
+    ]
+  }
+  </script>
 
-      .sidebar:not(.collapsed) {
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-      }
-
-      .controls {
-        justify-content: center;
-      }
-
-      .btn span {
-        display: none;
-      }
-
-      .btn i {
-        margin-right: 0;
-      }
-    }
-
-    /* Monaco Editor Customization */
-    .monaco-editor {
-      border-radius: 0 0 var(--radius) var(--radius);
-    }
-
-    /* Loading Screen */
-    .page-loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--dark);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-    }
-
-    .page-loader.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loader-content {
-      text-align: center;
-      max-width: 500px;
-      padding: 20px;
-    }
-
-    .loader-logo {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-    }
-
-    .loader-progress {
-      width: 100%;
-      height: 4px;
-      background: var(--darker);
-      border-radius: 2px;
-      overflow: hidden;
-      margin: 20px 0;
-    }
-
-    .loader-progress-bar {
-      height: 100%;
-      width: 0%;
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-
-    .loader-status {
-      font-size: 0.9rem;
-      color: var(--gray);
-    }
-    .status-log {
-  background: var(--darker);
-  
-  
-  
-}
-
-.status-log.expanded {
-  max-height: 25vh; 
-  height: 23vh;
-  border-top: 1px solid var(--border);
-  bottom: 0;
-  padding: 1em;
-  left: 0;
-  right: 0;
-  position: relative;
-  z-index: 1002;
-  overflow: auto;
-}
-
-.status-log span {
-  display: block;
-  margin-bottom: 0;
-  margin-left: 2em;
-  margin-bottom: 3em;
-}
-.controls label.btn {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  
-}
-.sidelog{
-  display: flex;
-  justify-content: left;
-  border: 1px solid #36f;
-  flex-direction: column;
-  overflow: scroll;
-  max-height: 120px;
-}
-  </style>
 </head>
 <body>
   <!-- Loading Screen -->
@@ -692,6 +246,10 @@ padding-bottom: 3em;
                 </button>
                 <div class="method-menu">
                   <div class="method-item" data-value="@import(exec(style.fscss))">
+                    <b>@define</b>
+                    <p>define reusable block</p>
+                  </div>
+                  <div class="method-item" data-value="@import(exec(style.fscss))">
                     <b>@import</b>
                     <p>Imports and runs external FSCSS code.</p>
                   </div>
@@ -822,25 +380,21 @@ padding-bottom: 3em;
       require(['vs/editor/editor.main'], function() {
         const fscssEditor = monaco.editor.create(document.getElementById('fscssBox'), {
           value: `/* Write FSCSS here... */
-@import(exec(_init themes))
-$primary-color: #3366ff;
-$secondary-color: #ff3366;
-
-body {
-  color: $primary-color;
-  background: linear-gradient(45deg, $primary-color, $secondary-color);
-}
-
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background: $primary-color;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  tr Shape: @event.shape(star);
-}`,
+          @import(exec(_init flex-control))
+          @define card(bg, color){
+            background: @use(bg);
+            color: @use(color);
+            padding: 20px;
+            border-radius: 25px;
+          }
+          body{
+            @flex-wrap-center()
+            gap: 15px;
+          }
+         .card{
+           @card()
+         }
+`,
           language: 'fscss',
           theme: 'vs-dark',
           fontSize: 14,
@@ -1099,7 +653,7 @@ document.querySelector('.panel-actions .fa-copy').parentElement
 
 // Run once after editors load
 setTimeout(runFromURL, 1000);
-// ✅ Correct binding
+// Correct binding
 window.addEventListener("hashchange", runFromURL);
 
 // Final log
@@ -1110,4 +664,4 @@ addLogEntry('FSCSS to CSS tool ready', 'success');
     
   </script>
 </body>
-</html>
+          </html>
