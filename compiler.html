@@ -103,7 +103,62 @@
   <div class="page-loader" id="page-loader">
     <div class="loader-content">
       <div class="loader-logo">
-        <i class="fas fa-code"></i> FSCSS
+<i class="fscss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" height="25" width="25">
+  <defs>=
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="50%" stop-color="#079fff" />
+      <stop offset="50%" stop-color="#356fdd" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGradient)" />
+
+  <!-- Main 'f' shape -->
+  <path d="
+    M 140,280 
+    C 140,310 150,340 180,340
+    C 210,340 230,315 230,280
+    L 230,170
+    L 280,170
+    L 280,145
+    L 230,145
+    L 230,115
+    C 230,90 245,80 265,82
+    L 265,55
+    C 220,50 200,70 200,115
+    L 200,145
+    L 170,145
+    L 170,170
+    L 200,170
+    L 200,280
+    C 200,295 195,310 180,310
+    C 165,310 160,295 160,280
+    C 160,230 140,230 140,280
+    Z
+  " 
+  fill="white" 
+  stroke="#ddd" 
+  stroke-width="2"/>
+
+  <!-- Decorative flower in the counter -->
+  <g transform="translate(150, 240)">
+    <!-- Outer petals -->
+    <g opacity="0.8">
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(45)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(90)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(135)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(225)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(270)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(315)"/>
+    </g>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="8" fill="#ffd54f"/>
+    <circle cx="0" cy="0" r="4" fill="#ffb300"/>
+  </g>
+</svg></i> FSCSS
       </div>
       <div class="loader-progress">
         <div class="loader-progress-bar" id="loader-progress-bar"></div>
@@ -115,7 +170,62 @@
   <!-- Main Interface -->
   <header>
     <div class="logo">
-      <i class="fas fa-code logo-icon"></i>
+<i class="fscss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" height="25" width="25">
+  <defs>=
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="50%" stop-color="#079fff" />
+      <stop offset="50%" stop-color="#356fdd" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGradient)" />
+
+  <!-- Main 'f' shape -->
+  <path d="
+    M 140,280 
+    C 140,310 150,340 180,340
+    C 210,340 230,315 230,280
+    L 230,170
+    L 280,170
+    L 280,145
+    L 230,145
+    L 230,115
+    C 230,90 245,80 265,82
+    L 265,55
+    C 220,50 200,70 200,115
+    L 200,145
+    L 170,145
+    L 170,170
+    L 200,170
+    L 200,280
+    C 200,295 195,310 180,310
+    C 165,310 160,295 160,280
+    C 160,230 140,230 140,280
+    Z
+  " 
+  fill="white" 
+  stroke="#ddd" 
+  stroke-width="2"/>
+
+  <!-- Decorative flower in the counter -->
+  <g transform="translate(150, 240)">
+    <!-- Outer petals -->
+    <g opacity="0.8">
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(45)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(90)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(135)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(225)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#7e57c2" transform="rotate(270)"/>
+      <ellipse cx="0" cy="-18" rx="6" ry="14" fill="#5e35b1" transform="rotate(315)"/>
+    </g>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="8" fill="#ffd54f"/>
+    <circle cx="0" cy="0" r="4" fill="#ffb300"/>
+  </g>
+</svg></i>
       <span>FSCSS to CSS</span>
     </div>
     <div class="header-controls">
@@ -245,10 +355,10 @@
                   <i class="fas fa-plus"></i>
                 </button>
                 <div class="method-menu">
-                  <div class="method-item" data-value="@import(exec(style.fscss))">
-                    <b>@define</b>
-                    <p>define reusable block</p>
-                  </div>
+                  <div class="method-item" data-value="@define name(a, b){property: @use(a): /*...*/}">
+  <b>@define</b>
+  <p>Define reusable block.</p>
+</div>
                   <div class="method-item" data-value="@import(exec(style.fscss))">
                     <b>@import</b>
                     <p>Imports and runs external FSCSS code.</p>
@@ -664,4 +774,4 @@ addLogEntry('FSCSS to CSS tool ready', 'success');
     
   </script>
 </body>
-          </html>
+</html>
