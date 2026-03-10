@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://fscss.devtem.org/fscss-to-css">
 
   <!-- Primary Title -->
-  <title>FSCSS to CSS Converter – Online FSCSS Compiler (v1.1.15)</title>
+  <title>FSCSS to CSS Converter – Online FSCSS Compiler (v1.1.16)</title>
 
   <!-- Primary SEO -->
   <meta name="description" content="Convert FSCSS to CSS instantly using the official FSCSS online compiler. Test, compile, and experiment with Figured Shorthand Cascading Style Sheets directly in your browser.">
@@ -226,7 +226,7 @@
     <circle cx="0" cy="0" r="4" fill="#ffb300"/>
   </g>
 </svg></i>
-      <span>FSCSS to CSS</span>
+      <span>FSCSS v1.1.16 to CSS</span>
     </div>
     <div class="header-controls">
       <button class="btn btn-success" id="run">
@@ -359,9 +359,9 @@
   <b>@define</b>
   <p>Define reusable block.</p>
 </div>
-                  <div class="method-item" data-value="@import(exec(style.fscss))">
+                  <div class="method-item" data-value="@import((*) from icon-mask_v2)">
                     <b>@import</b>
-                    <p>Imports and runs external FSCSS code.</p>
+                    <p>Imports and runs external FSCSS.</p>
                   </div>
                   <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){ from{} to{} }">
                     <b>$(@keyframes,...)</b>
@@ -490,7 +490,7 @@
       require(['vs/editor/editor.main'], function() {
         const fscssEditor = monaco.editor.create(document.getElementById('fscssBox'), {
           value: `/* Write FSCSS here... */
-          @import(exec(_init flex-control))
+          @import((*) from flex-control)
           @define card(bg, color){
             background: @use(bg);
             color: @use(color);
