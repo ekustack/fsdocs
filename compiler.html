@@ -253,13 +253,13 @@
             <i class="fas fa-file-code"></i>
             <span>main.fscss</span>
           </div>
-          <div class="sidebar-item" onclick="alert('Access blocked');">
+          <div class="sidebar-item" onclick="window.location.href='https://github.com/fscss-ttr/FSCSS/blob/main/xf/styles/icon-mask_v2.fscss'">
             <i class="fas fa-file-code"></i>
-            <span>r.Lab.fscss</span>
+            <span>icon-mask_v2.fscss</span>
           </div>
-          <div class="sidebar-item" onclick="alert('Access blocked');">
+          <div class="sidebar-item" onclick="window.location.href='https://github.com/fscss-ttr/FSCSS/blob/main/xf/styles/circle-progress.fscss'">
             <i class="fas fa-file-code"></i>
-            <span>components.fscss</span>
+            <span>circle-progress.fscss</span>
           </div>
         </div>
 
@@ -354,36 +354,46 @@
                 <button class="panel-action" title="Insert Method">
                   <i class="fas fa-plus"></i>
                 </button>
-                <div class="method-menu">
-                  <div class="method-item" data-value="@define name(a, b){property: @use(a): /*...*/}">
-  <b>@define</b>
-  <p>Define reusable block.</p>
+<div class="method-menu">
+  <div class="method-item" data-value="@define name(a, b){property: @use(a): /*...*/}">
+    <b>@define</b>
+    <p>Define reusable block.</p>
+  </div>
+  <div class="method-item" data-value="@import((*) from icon-mask_v2)">
+    <b>@import</b>
+    <p>Imports and runs external.</p>
+  </div>
+  <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){ from{} to{} }">
+    <b>$(@keyframes,...)</b>
+    <p>Creates keyframes for multiple properties.</p>
+  </div>
+  <div class="method-item" data-value="-*-prop: value;">
+    <b>-*</b>
+    <p>Adds vendor prefixes for properties.</p>
+  </div>
+  <div class="method-item" data-value="%2(width, height [: 200px;])">
+    <b>%n(...)</b>
+    <p>Apply one value to multiple properties</p>
+  </div>
+  <div class="method-item" data-value="@arr colors[#1E2783, #8C29B2, #C41348]">
+    <b>@arr n[...]</b>
+    <p>Define array </p>
+  </div>
+  
+  <div class="method-item" data-value="color: @random([red, blue, yellow]);">
+    <b>@random()</b>
+    <p>Picks a random value.</p>
+  </div>
+  <div class="method-item" data-value="@event sample(e){ if e>=8{ return: num(8*2); } }">
+    <b>@event</b>
+    <p>Handles events with custom conditions.</p>
+  </div>
+  <div class="method-item" data-value="More methods available..."><a href="/docs">
+      <b>View Documentation</b>
+      <p>Check the full FSCSS documentation for more methods.</p>
+    </a>
+  </div>
 </div>
-                  <div class="method-item" data-value="@import((*) from icon-mask_v2)">
-                    <b>@import</b>
-                    <p>Imports and runs external FSCSS.</p>
-                  </div>
-                  <div class="method-item" data-value="$(@keyframes name, elem1, elem2 &[1s linear infinite]){ from{} to{} }">
-                    <b>$(@keyframes,...)</b>
-                    <p>Creates keyframes for multiple properties.</p>
-                  </div>
-                  <div class="method-item" data-value="-*-prop: value;">
-                    <b>-*</b>
-                    <p>Adds vendor prefixes for properties.</p>
-                  </div>
-                  <div class="method-item" data-value="color: @random([red, blue, yellow]);">
-                    <b>@random()</b>
-                    <p>Picks a random value at runtime.</p>
-                  </div>
-                  <div class="method-item" data-value="@event sample(e){ if e>=8{ return: num(8*2); } }">
-                    <b>@event</b>
-                    <p>Handles events with custom conditions.</p>
-                  </div>
-                  <div class="method-item" data-value="More methods available...">
-                    <b>View Documentation</b>
-                    <p>Check the full FSCSS documentation for more methods.</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
