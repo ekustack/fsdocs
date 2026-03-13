@@ -76,7 +76,7 @@
     "operatingSystem": "All",
     "description": "FSCSS is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.1.13",
+    "version": "1.1.17",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -630,7 +630,7 @@ $item-width: num(100 / $columns!);
             
             <div class="example-card">
               <div class="example-card-header">
-                <h4>mxs() - Multiple Shared</h4>
+                <h4>@define name() - define reusable style block</h4>
               </div>
               <div class="example-card-body">
                 <div class="code-container">
@@ -638,18 +638,57 @@ $item-width: num(100 / $columns!);
                     <span>FSCSS</span>
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
-                  <pre><code>.bordered-box {
-  mxs(border-width, outline-width" 4px")
-  border-style: solid;
-  border-color: #f59e0b;
-}</code></pre>
+                  <pre><code>@define flex-center(gap:15px){
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  gap: @use(gap);
+                  } 
+                 .card{
+                 @flex-center(1em)
+                 }</code></pre>
                 </div>
                 
-                <div class="example-output" style="min-height: 120px;">
-                  <div class="demo-box" style="border: 4px solid #f59e0b; outline: 4px solid rgba(245, 158, 11, 0.3);">Bordered</div>
-                </div>
               </div>
             </div>
+            
+                        <div class="example-card">
+              <div class="example-card-header">
+                <h4>@import() - import external FSCSS. <a href="https://github.com/fscss-ttr/fscss-modules">https://github.com/fscss-ttr/fscss-modules</a></h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>FSCSS</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                  </div>
+                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.17/exec.min.js" async&gt;&lt;/script&gt;
+&lt;style&gt;
+@import((
+circle-progress as clp,
+progress-range as pr, 
+progress-root as p-root
+) from circle-progress)
+
+@p-root()
+body{
+  background: black;
+}
+@clp(.progress-circle)
+
+.p72 {
+  @pr(72)
+}
+
+&lt;/style&gt;
+
+&lt;div class="progress-circle p72"&gt;72%&lt;/div&gt;
+</code></pre>
+                </div>
+                
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -790,7 +829,7 @@ $secondary: #8b5cf6;
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2025 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
   </footer>
 
