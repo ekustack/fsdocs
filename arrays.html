@@ -719,10 +719,10 @@ min-width: 200px;
 /* Apply random values from arrays */
 .dynamic-card {
 /* array join method */
-  background: @random([@arr.backgrounds(,)]);
+  background: @random(@arr.backgrounds);
   transform: 
-    rotate(@random([@arr.rotations(,)])) 
-    scale(@random([@arr.scales(, )]));
+    rotate(@random(@arr.rotations)) 
+    scale(@random(@arr.scales));
   padding: 2rem;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -730,8 +730,8 @@ min-width: 200px;
 
 .dynamic-card:hover {
   transform: 
-    rotate(@random([@arr.rotations(,)])) 
-    scale(@random([@arr.scales(, )]));
+    rotate(@random(@arr.rotations)) 
+    scale(@random(@arr.scales));
 }</code></pre>
 
             <pre class="compiled hidden"><code>/* Note: @random generates different values on each compilation */
@@ -897,7 +897,7 @@ min-width: 200px;
               </tr>
               <tr>
                 <td><strong>@random Arrays</strong></td>
-                <td><code>@random([@arr.name(,)])</code></td>
+                <td><code>@random(@arr.name)</code></td>
                 <td>Dynamic, varied styling</td>
                 <td>Random backgrounds, interactive elements</td>
               </tr>
