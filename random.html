@@ -3,15 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FSCSS Random - Dynamic Styling</title>
-  <meta name="description" content="Master FSCSS Random - Learn how to use @random for dynamic, ever-changing styles">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/docs/random">
+
+  <!-- Primary Title -->
+  <title>FSCSS @random – Dynamic Random Values in CSS</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Learn how to use FSCSS @random to generate dynamic values in your styles. Create random colors, sizes, and effects using shorthand CSS for interactive and ever-changing designs.">
+
+  <meta name="keywords" content="FSCSS random, FSCSS @random, CSS random values, dynamic CSS styling, random colors CSS, CSS preprocessor functions, FSCSS documentation">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS @random – Dynamic Styling with Random Values">
+  <meta property="og:description" content="Use FSCSS @random to create dynamic, ever-changing styles with random values in CSS.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/docs/random">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Random Function Documentation">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS @random – CSS Random Values Guide">
+  <meta name="twitter:description" content="Generate random styles in CSS using FSCSS @random. Perfect for dynamic UI effects and experimentation.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="icon" href="//raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
-    <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+
   <!-- Scripts -->
   <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
 
+  <!-- Article Meta -->
+  <meta property="article:section" content="Documentation">
+  <meta property="article:tag" content="FSCSS Random">
+  <meta property="article:tag" content="CSS Functions">
+  <meta property="article:tag" content="Dynamic Styling">
+
+  <!-- Structured Data: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS @random – Dynamic Values in CSS",
+    "description": "Documentation explaining how to use the @random function in FSCSS to generate dynamic styling values.",
+    "author": {
+      "@type": "Organization",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "dateModified": "2026-02-28",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/docs/random"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.1.22"
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Documentation",
+        "item": "https://fscss.devtem.org/docs"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "@random",
+        "item": "https://fscss.devtem.org/docs/random"
+      }
+    ]
+  }
+  </script>
+  
   <style>
     :root {
       --primary: #3b82f6;
@@ -651,9 +756,9 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <div class="logo-icon">
-          <i class="fas fa-code"></i>
-        </div>
+        <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
         <span>FSCSS</span>
       </div>
       
@@ -832,7 +937,7 @@
       <div class="card">
         <div class="card-header">
           <h3>Organized Random Value Collections</h3>
-          <span class="random-badge random-badge-secondary">@random + Arrays</span>
+          <span class="random-badge random-badge-secondary">@random + @arr</span>
         </div>
         <div class="card-body">
           <p>Combine <code>@random</code> with arrays to create organized collections of possible values for more controlled randomness.</p>
@@ -844,39 +949,39 @@
               <button class="toggle-btn">See CSS</button>
             </div>
             <pre class="fscss"><code>/* Define organized arrays for random selection */
-@arr(primary-colors[#3b82f6, #1d4ed8, #60a5fa, #93c5fd]);
-@arr(accent-colors[#8b5cf6, #7c3aed, #a78bfa, #c4b5fd]);
-@arr(sizes[1rem, 1.25rem, 1.5rem, 1.75rem, 2rem]);
-@arr(border-radius[4px, 8px, 12px, 16px, 24px]);
+@arr primary-colors[#3b82f6, #1d4ed8, #60a5fa, #93c5fd]
+@arr accent-colors[#8b5cf6, #7c3aed, #a78bfa, #c4b5fd]
+@arr sizes[1rem, 1.25rem, 1.5rem, 1.75rem, 2rem]
+@arr border-radius[4px, 8px, 12px, 16px, 24px]
 
 /* Use arrays with @random */
 .random-card {
-  background: @random([@arr.primary-colors(,)]);
+  background: @random(@arr.primary-colors);
   color: white;
   padding: 2rem;
-  border-radius: @random([@arr.border-radius(,)]);
+  border-radius: @random(@arr.border-radius);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 1rem;
   transition: all 0.3s ease;
 }
 
 .random-card:hover {
-  background: @random([@arr.accent-colors(,)]);
+  background: @random(@arr.accent-colors);
   transform: translateY(-5px) scale(1.02);
 }
 
 .random-heading {
-  font-size: @random([@arr.sizes(,)]);
+  font-size: @random(@arr.sizes);
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
 /* Multiple random properties */
 .dynamic-element {
-  background: @random([@arr.primary-colors(,)]);
-  border: 3px solid @random([@arr.accent-colors(,)]);
-  border-radius: @random([@arr.border-radius(,)]);
-  padding: @random([@arr.sizes(,)]);
+  background: @random(@arr.primary-colors);
+  border: 3px solid @random(@arr.accent-colors);
+  border-radius: @random(@arr.border-radius);
+  padding: @random(@arr.sizes);
   transform: rotate(@random([0deg, 5deg, -5deg, 10deg, -10deg]));
 }</code></pre>
 
@@ -1060,9 +1165,9 @@ $spacing-unit: 1;
               </div>
               <div class="example-card-body">
                 <div class="code-container">
-                  <pre><code>@arr(delays[0s, 0.1s, 0.2s, 0.3s, 0.4s]);
+                  <pre><code>@arr delays[0s, 0.1s, 0.2s, 0.3s, 0.4s];
 .loading-dot {
-  animation: bounce 1s infinite @random([@arr.delays(,)]);
+  animation: bounce 1s infinite @random(@arr.delays);
   background: @random([#3b82f6, #8b5cf6, #06b6d4]);
 }
 
@@ -1193,9 +1298,9 @@ $spacing-unit: 1;
     <div class="footer-content">
       <div class="footer-section">
         <div class="footer-logo">
-          <div class="logo-icon">
-            <i class="fas fa-code"></i>
-          </div>
+ <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
           <span>FSCSS</span>
         </div>
         <p>Simplify your CSS workflow with powerful shorthand syntax</p>
@@ -1224,7 +1329,7 @@ $spacing-unit: 1;
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2025 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+      <p>&copy; 2026 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
     </div>
   </footer>
 
