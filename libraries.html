@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="canonical" href="https://fscss.devtem.org/libraries.html">
+  <title>FSCSS Remote Libraries – Plugins & Extensions | FSCSS</title>
+  
+  <meta name="description" content="Discover remote FSCSS libraries and plugins. Extend FSCSS with powerful shorthand modules, utilities, and community-driven extensions.">
+  <meta name="keywords" content="FSCSS plugins, FSCSS libraries, remote modules, CSS preprocessor extensions, Figsh, FSCSS community">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a73e8">
+  
+  <meta property="og:title" content="FSCSS Remote Libraries – Extend Your Workflow">
+  <meta property="og:description" content="Browse and integrate community-driven FSCSS libraries. Enhance your styling with shorthand plugins.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/libraries.html">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:site_name" content="FSCSS">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS Remote Libraries">
+  <meta name="twitter:description" content="Powerful FSCSS plugins for modern frontend development.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+
+  <style>
+    .libraries-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .libraries-header h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #fff 0%, #a0c0ff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
+    .search-wrapper {
+      max-width: 650px;
+      margin: 1.5rem auto 2rem;
+      position: relative;
+    }
+    .search-input-lib {
+      width: 100%;
+      padding: 1rem 1.2rem 1rem 3rem;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 60px;
+      color: white;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
+    }
+    .search-input-lib:focus {
+      outline: none;
+      border-color: #3b82f6;
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+    }
+    .search-wrapper i {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+    .results-count {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+    .libs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.8rem;
+      margin: 2rem 0;
+    }
+    .lib-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
+      border-radius: 1.25rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .lib-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(59,130,246,0.5);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
+    }
+    .lib-card-body {
+      padding: 1.5rem;
+      flex: 1;
+    }
+    .lib-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .lib-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(to right, #e2e8f0, #b9d0ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .lib-version {
+      background: rgba(59,130,246,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #60a5fa;
+      white-space: nowrap;
+    }
+    .lib-description {
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin: 0.8rem 0 1rem;
+      font-size: 0.9rem;
+    }
+    .lib-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.75rem;
+    }
+    .lib-meta span {
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      color: #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .lib-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+    }
+    .keyword {
+      background: rgba(59,130,246,0.15);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      color: #93c5fd;
+    }
+    .lib-footer {
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      border-radius: 40px;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-sm:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+    }
+    .lib-card-skeleton {
+      background: rgba(15,23,42,0.6);
+      border-radius: 1.25rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      padding: 1.5rem;
+      height: 240px;
+    }
+    .skeleton-line {
+      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .contribute-star-section { margin: 3rem 0 2rem; }
+    .no-results { text-align: center; padding: 3rem; color: #94a3b8; }
+    .error-banner {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      color: #fca5a5;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) {
+      .libs-grid { grid-template-columns: 1fr; }
+      .libraries-header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="libraries.html" class="nav-link active">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem;">
+    <main class="libraries-main">
+      <div class="libraries-header">
+        <h1><i class="fas fa-plug" style="margin-right: 12px;"></i> FSCSS Remote Libraries</h1>
+        <p style="font-size: 1.2rem; opacity: 0.85;">Extend your styling power with community-driven plugins &amp; shorthand modules</p>
+        
+      </div>
+
+      <form class="search-wrapper" id="search-lib">
+        <i class="fas fa-search"></i>
+        <input type="search" id="librarySearch" class="search-input-lib" placeholder="Search by name, description, author, or keyword...">
+      </form>
+      <a href="submit-guide.html" 
+   style="display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 0.8rem 1.8rem; border-radius: 50px; color: white; text-decoration: none; font-weight: 600;">
+  <i class="fas fa-plus-circle"></i>
+  Submit Your Library
+</a>
+      <div class="results-count" id="resultsCount">Loading libraries…</div>
+
+      <div id="librariesGrid" class="libs-grid"></div>
+
+      <div class="contribute-star-section">
+        <div class="card glow-card" style="background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(0,0,0,0.3));">
+          <div class="card-header">
+            <h2><i class="fas fa-handshake" style="margin-right: 10px;"></i> Supercharge the Ecosystem</h2>
+          </div>
+          <div class="card-body">
+            <p>Have you built an FSCSS plugin or shorthand utility? Share it with the world! Remote libraries make FSCSS infinitely extensible.</p>
+            <div class="feature-grid">
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-star"></i></div>
+                <h4>Star the Core Repo</h4>
+                <p>Support FSCSS development and help others discover the project.</p>
+                <a href="https://github.com/fscss-ttr/FSCSS" class="btn btn-outline" style="margin-top: 8px; display: inline-block;">
+                  <i class="fab fa-github"></i> Star on GitHub
+                </a>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-code-branch"></i></div>
+                <h4>Submit Your Library</h4>
+                <p>Contribute your own .fscss module to our official collection.</p>
+                <a href="submit-guide.html" class="btn btn-outline" style="margin-top: 8px; display: inline-block;">
+                  <i class="fas fa-paper-plane"></i> Submit Plugin
+                </a>
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 24px;">
+              <i class="fas fa-globe"></i> Remote import: <code style="background:#0f172a; padding:4px 10px; border-radius:30px;">@import(exec(_init library-name))</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn"><span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span></div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="libraries.html">Libraries</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ------------------------------------------------------------
+    // Utilities
+    // ------------------------------------------------------------
+    function esc(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function parseGitHubUrl(url) {
+      const m = url.trim().match(/github\.com\/([^\/]+)\/([^\/\s]+?)(?:\.git)?\/?$/i);
+      if (!m) return null;
+      return { owner: m[1], repo: m[2] };
+    }
+
+    // ------------------------------------------------------------
+    // Fetch ONLY package.json from GitHub (main/master)
+    // ------------------------------------------------------------
+    async function fetchLibData(repoUrl) {
+      const parsed = parseGitHubUrl(repoUrl);
+      if (!parsed) {
+        return {
+          repoUrl,
+          owner: '?',
+          repo: '?',
+          name: repoUrl,
+          description: 'Invalid GitHub URL',
+          version: null,
+          author: null,
+          keywords: [],
+        };
+      }
+
+      const { owner, repo } = parsed;
+      const lib = {
+        repoUrl,
+        owner,
+        repo,
+        name: repo,               // fallback name
+        description: null,
+        version: null,
+        author: null,
+        keywords: [],
+      };
+
+      // Try main, then master
+      for (const branch of ['main', 'master']) {
+        try {
+          const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/package.json`;
+          const res = await fetch(rawUrl);
+          if (res.ok) {
+            const pkg = await res.json();
+            if (pkg.name)        lib.name        = pkg.name;
+            if (pkg.version)     lib.version     = pkg.version;
+            if (pkg.description) lib.description = pkg.description;
+            if (pkg.author) {
+              lib.author = typeof pkg.author === 'string' ? pkg.author : (pkg.author?.name ?? null);
+            }
+            if (Array.isArray(pkg.keywords) && pkg.keywords.length) {
+              lib.keywords = pkg.keywords;
+            }
+            break; // success, stop trying branches
+          }
+        } catch (_) { /* try next branch */ }
+      }
+
+      // If no description was found, provide a generic one
+      if (!lib.description) {
+        lib.description = 'FSCSS remote library – see repository for details.';
+      }
+
+      return lib;
+    }
+
+    // ------------------------------------------------------------
+    // Rendering
+    // ------------------------------------------------------------
+    let masterList = [];
+    let filterTerm = '';
+
+    function renderSkeletons(count) {
+      const grid = document.getElementById('librariesGrid');
+      grid.innerHTML = Array.from({ length: count }, () => `
+        <div class="lib-card-skeleton">
+          <div class="skeleton-line" style="height:20px;width:60%;margin-bottom:1rem;"></div>
+          <div class="skeleton-line" style="height:12px;width:100%;"></div>
+          <div class="skeleton-line" style="height:12px;width:85%;"></div>
+          <div class="skeleton-line" style="height:12px;width:70%;margin-top:0.5rem;"></div>
+          <div class="skeleton-line" style="height:10px;width:40%;margin-top:1.2rem;"></div>
+        </div>
+      `).join('');
+    }
+
+    function renderLibraries() {
+      const grid = document.getElementById('librariesGrid');
+      const counter = document.getElementById('resultsCount');
+
+      const term = filterTerm.toLowerCase();
+      const filtered = masterList.filter(lib => {
+        if (!term) return true;
+        return (
+          lib.name.toLowerCase().includes(term) ||
+          (lib.description || '').toLowerCase().includes(term) ||
+          (lib.author || '').toLowerCase().includes(term) ||
+          (lib.owner || '').toLowerCase().includes(term) ||
+          lib.keywords.some(k => k.toLowerCase().includes(term))
+        );
+      });
+
+      counter.textContent = filtered.length === 1 ? '1 library found' : `${filtered.length} librar${filtered.length === 0 ? 'ies' : 'ies'} found`;
+
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="no-results" style="grid-column:1/-1;"><i class="fas fa-box-open fa-2x" style="margin-bottom:1rem;"></i><p>No matching libraries. Try another keyword.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(lib => {
+        const repoLink = lib.repoUrl;
+        const issuesLink = `https://github.com/${lib.owner}/${lib.repo}/issues`;
+
+        // Only show author (if exists) and version (if exists)
+        const metaItems = [];
+        if (lib.author) {
+          metaItems.push(`<span><i class="fas fa-user"></i> ${esc(lib.author)}</span>`);
+        } else if (lib.owner) {
+          metaItems.push(`<span><i class="fas fa-user"></i> ${esc(lib.owner)}</span>`);
+        }
+
+        const kwHtml = lib.keywords.length
+          ? `<div class="lib-keywords">${lib.keywords.slice(0, 6).map(k => `<span class="keyword">#${esc(k)}</span>`).join('')}</div>`
+          : '';
+
+        return `
+          <div class="lib-card">
+            <div class="lib-card-body">
+              <div class="lib-card-header">
+                <span class="lib-name"><i class="fas fa-cube" style="font-size:.9rem;margin-right:8px;opacity:.7;"></i>${esc(lib.name)}</span>
+                ${lib.version
+                  ? `<span class="lib-version">v${esc(lib.version)}</span>`
+                  : `<span class="lib-version" style="opacity:.5;">no version</span>`}
+              </div>
+              <div class="lib-description">${esc(lib.description)}</div>
+              ${metaItems.length ? `<div class="lib-meta">${metaItems.join('')}</div>` : ''}
+              ${kwHtml}
+            </div>
+            <div class="lib-footer">
+              <a href="${esc(repoLink)}" target="_blank" rel="noopener" class="btn-sm"><i class="fab fa-github"></i> Source &amp; Usage</a>
+              <a href="${esc(issuesLink)}" target="_blank" rel="noopener" class="btn-sm"><i class="fas fa-comment-dots"></i> Feedback</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ------------------------------------------------------------
+    // Bootstrap
+    // ------------------------------------------------------------
+    const FALLBACK_REMOTES = [
+      "https://github.com/fscss-ttr/st-core.fscss",
+      "https://github.com/Figsh/Circle-progress.fscss",
+      "https://github.com/Figsh/counterx.fscss"
+    ];
+
+    async function loadLibraries() {
+      let remotes = FALLBACK_REMOTES;
+      try {
+        const res = await fetch('https://cdn.jsdelivr.net/gh/fscss-ttr/FSCSS@main/assets/scripts/libs.json');
+        if (res.ok) {
+          const json = await res.json();
+          if (Array.isArray(json.remotes) && json.remotes.length) {
+            remotes = json.remotes;
+          }
+        }
+      } catch (_) { /* fallback already set */ }
+
+      renderSkeletons(remotes.length);
+      document.getElementById('resultsCount').textContent = 'Loading libraries…';
+
+      // Fetch all in parallel
+      const results = await Promise.allSettled(remotes.map(url => fetchLibData(url)));
+      masterList = results
+        .map((result, idx) => {
+          if (result.status === 'fulfilled') return result.value;
+          // on error, return a minimal object
+          const url = remotes[idx];
+          const parsed = parseGitHubUrl(url);
+          return {
+            repoUrl: url,
+            owner: parsed?.owner || '?',
+            repo: parsed?.repo || url,
+            name: parsed?.repo || 'unknown',
+            description: 'Could not load package.json. Please check the repository.',
+            version: null,
+            author: null,
+            keywords: [],
+          };
+        })
+        .filter(Boolean);
+
+      renderLibraries();
+    }
+
+    // ------------------------------------------------------------
+    // Event listeners
+    // ------------------------------------------------------------
+    // Prevent form submission (so Enter doesn't reload)
+    const searchForm = document.getElementById('search-lib');
+    if (searchForm) {
+      searchForm.addEventListener('submit', e => e.preventDefault());
+    }
+
+    // Live search input
+    const searchInput = document.getElementById('librarySearch');
+    if (searchInput) {
+      searchInput.addEventListener('input', e => {
+        filterTerm = e.target.value;
+        renderLibraries();
+      });
+    }
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+      });
+    }
+
+    // Start everything
+    loadLibraries();
+  </script>
+</body>
+</html>
