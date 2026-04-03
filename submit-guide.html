@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/submit.html">
+  <title>Submit Your FSCSS Library | FSCSS</title>
+
+  <meta name="description" content="Share your FSCSS plugin with the community. Submit your library to the FSCSS registry in 3 simple steps.">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+
+  <style>
+    .submit-wrapper {
+      max-width: 760px;
+      margin: 3rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* ── Page header ── */
+    .submit-hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .submit-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .submit-hero p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+    }
+
+    /* ── Requirements box ── */
+    .requirements {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .requirements strong {
+      color: #86efac;
+      display: block;
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+    }
+    .requirements ul {
+      margin: 0;
+      padding-left: 1.4rem;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      line-height: 1.9;
+    }
+    .requirements code {
+      background: rgba(15,23,42,0.7);
+      padding: 0.1rem 0.45rem;
+      border-radius: 5px;
+      font-size: 0.82rem;
+      color: #7dd3fc;
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .step {
+      display: flex;
+      gap: 1.2rem;
+      background: rgba(15,23,42,0.55);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.1rem;
+      padding: 1.4rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .step:hover {
+      border-color: rgba(59,130,246,0.35);
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      background: #2563eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: white;
+      margin-top: 2px;
+    }
+    .step-content strong {
+      display: block;
+      font-size: 1rem;
+      color: #e2e8f0;
+      margin-bottom: 0.35rem;
+    }
+    .step-content p {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      margin: 0 0 0.75rem;
+      line-height: 1.6;
+    }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    /* Code block */
+    .code-block {
+      background: #0b1120;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 0.75rem;
+      padding: 1rem 1.2rem;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #cbd5e1;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+      position: relative;
+    }
+    .code-block .hl { color: #86efac; }          /* your new line */
+    .code-block .cm { color: #475569; }           /* comment */
+    .code-block .str { color: #7dd3fc; }          /* string */
+    .code-block .punc { color: #64748b; }         /* punctuation */
+
+    .code-hint {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .code-hint i { color: #f59e0b; }
+
+    code {
+      background: rgba(15,23,42,0.7);
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+      font-size: 0.82rem;
+      color: #7dd3fc;
+      font-family: monospace;
+    }
+
+    /* ── CTA ── */
+    .cta-area {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 60px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.35);
+    }
+    .btn-submit:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37,99,235,0.45);
+    }
+    .cta-note {
+      margin-top: 0.9rem;
+      font-size: 0.82rem;
+      color: #475569;
+    }
+    .cta-note a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    .cta-note a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .submit-hero h1 { font-size: 1.8rem; }
+      .step { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="submit-wrapper">
+
+    <div class="submit-hero">
+      <h1><i class="fas fa-paper-plane" style="margin-right: 10px;"></i> Submit Your Library</h1>
+      <p>Share your FSCSS plugin with the community in 3 simple steps</p>
+    </div>
+
+    <div class="requirements">
+      <strong><i class="fas fa-check-circle" style="margin-right: 6px;"></i> Requirements before submitting</strong>
+      <ul>
+        <li>Public GitHub repository</li>
+        <li>A <code>package.json</code> in the root is recommended — it unlocks version, author &amp; keywords display</li>
+        <li>If included, <code>package.json</code> should have: <code>name</code>, <code>version</code>, <code>description</code>, <code>keywords</code></li>
+        <li>File extension should be <code>.fscss</code></li>
+      </ul>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <strong>Open the registry file on GitHub</strong>
+          <p>Click the button below — it opens GitHub's built-in editor pointed directly at <code>libs.json</code>. You'll need a GitHub account (free).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <strong>Add your repository URL to the <code>"remotes"</code> array</strong>
+          <p>Append your GitHub repo URL as the last item. Make sure a comma follows the previous entry.</p>
+          <div class="code-block"><span class="punc">{</span>
+  <span class="str">"remotes"</span><span class="punc">: [</span>
+    <span class="str">"https://github.com/fscss-ttr/st-core.fscss"</span><span class="punc">,</span>
+    <span class="str">"https://github.com/Figsh/Circle-progress.fscss"</span><span class="punc">,</span>
+    <span class="hl">"https://github.com/YOUR_USERNAME/YOUR_REPO.fscss"</span>  <span class="cm">← add yours</span>
+  <span class="punc">]</span>
+<span class="punc">}</span></div>
+          <p class="code-hint"><i class="fas fa-triangle-exclamation"></i> No comma after the last entry — JSON will be invalid otherwise.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <strong>Open a Pull Request</strong>
+          <p>Scroll to the bottom of the GitHub editor, write a short commit message, then click <strong>Propose changes</strong> → <strong>Create pull request</strong>. We'll review and merge it shortly.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-area">
+      <a href="https://github.com/fscss-ttr/FSCSS/edit/main/assets/scripts/libs.json"
+         target="_blank"
+         rel="noopener"
+         class="btn-submit">
+        <i class="fab fa-github"></i> Open Editor &amp; Submit
+      </a>
+      <p class="cta-note">
+        Not sure how to fork &amp; PR? 
+        <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request" target="_blank" rel="noopener">GitHub's guide</a> walks you through it.
+        Questions? <a href="https://github.com/fscss-ttr/FSCSS/discussions" target="_blank" rel="noopener">Open a discussion.</a>
+      </p>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn"><span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span></div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="libraries.html">Libraries</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu   = document.getElementById('nav-menu');
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+      });
+    }
+  </script>
+</body>
+</html>
