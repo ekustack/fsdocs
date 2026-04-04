@@ -585,7 +585,7 @@
     async function loadLibraries() {
       let remotes = FALLBACK_REMOTES;
       try {
-        const res = await fetch('https://cdn.jsdelivr.net/gh/fscss-ttr/FSCSS@main/assets/scripts/libs.json');
+        const res = await fetch('https://raw.githubusercontent.com/fscss-ttr/FSCSS/refs/heads/main/assets/scripts/libs.json');
         if (res.ok) {
           const json = await res.json();
           if (Array.isArray(json.remotes) && json.remotes.length) {
