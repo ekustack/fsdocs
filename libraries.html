@@ -596,9 +596,11 @@
 
       renderSkeletons(remotes.length);
       document.getElementById('resultsCount').textContent = 'Loading libraries…';
-
+      // sort
+      remotes.sort(() => Math.random() - 0.5)
       // Fetch all in parallel
       const results = await Promise.allSettled(remotes.map(url => fetchLibData(url)));
+      
       masterList = results
         .map((result, idx) => {
           if (result.status === 'fulfilled') return result.value;
