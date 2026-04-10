@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO -->
+  <title>FSCSS Rainbow Orbit Generator – Interactive count() & @arr Demo</title>
+  <meta name="description" content="Create stunning animated orbit patterns using FSCSS. Explore count(), @arr loops, and dynamic styling with this interactive Rainbow Orbit generator.">
+  <meta name="keywords" content="FSCSS, CSS animation, orbit generator, count function, @arr loop, CSS visualizer, frontend animation, dynamic CSS, rainbow orbit, CSS playground">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/rainbow-orbit">
+  
+  <!-- Theme -->
+  <meta name="theme-color" content="#0a0a0f">
+  
+  <!-- Open Graph (Social Share) -->
+  <meta property="og:title" content="FSCSS Rainbow Orbit – Interactive CSS Generator">
+  <meta property="og:description" content="Play with count() and @arr loops to generate beautiful animated orbit systems using FSCSS. Live controls + real-time code.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/rainbow-orbit">
+  <meta property="og:image" content="https://fscss.devtem.org/og-orbit.png">
+  <meta property="og:site_name" content="FSCSS">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS Rainbow Orbit Generator">
+  <meta name="twitter:description" content="Interactive FSCSS demo for count() + @arr loops. Build animated orbit systems in seconds.">
+  <meta name="twitter:image" content="https://fscss.devtem.org/og-orbit.png">
+  <meta name="twitter:creator" content="@MrFigsh">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FSCSS Rainbow Orbit Generator",
+      "url": "https://fscss.devtem.org/rainbow-orbit",
+      "description": "Interactive FSCSS demo that visualizes count() and @arr loops to generate animated orbit patterns.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "creator": {
+        "@type": "Person",
+        "name": "Figsh"
+      },
+      "keywords": [
+        "FSCSS",
+        "CSS animation",
+        "count function",
+        "@arr loop",
+        "orbit generator",
+        "frontend playground"
+      ]
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #222230;
+    --accent: #7c6aff;
+    --text: #e8e8f0;
+    --muted: #666680;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    background: #7c6aff18;
+    border: 1px solid #7c6aff44;
+    padding: 4px 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: clamp(12px, 2.5vw, 15px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  header p {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    min-height: 0;
+  }
+
+  /* ── CANVAS ── */
+  .canvas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+  }
+
+  .canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, #7c6aff08 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── ORBIT ── */
+  .orbit-wrap {
+    position: relative;
+    width: min(300px, 70vw, 50vh);
+    aspect-ratio: 1;
+  }
+
+  .orbit {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #ffffff08;
+  }
+  .orbit-ring:nth-child(1) { width: 100%; height: 100%; }
+  .orbit-ring:nth-child(2) { width: 70%; height: 70%; }
+  .orbit-ring:nth-child(3) { width: 40%; height: 40%; }
+
+  .center-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 20px white, 0 0 40px #7c6aff;
+    z-index: 10;
+  }
+
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  /* ── SPIN ANIMATION ── */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+
+  .orbit.spinning { animation: spin var(--spin-dur, 8s) linear infinite; }
+  .orbit.spinning .dot { animation: spin-reverse var(--spin-dur, 8s) linear infinite; }
+
+  /* ── CODE PANEL ── */
+  .code-panel {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .panel-section {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .panel-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 12px;
+  }
+
+  /* ── SLIDERS ── */
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .control-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .control-label span { color: var(--accent); font-weight: 700; }
+
+  .val-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: #7c6aff18;
+    border: 1px solid #7c6aff33;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #a89fff;
+    width: 46px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    min-width: 0;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px #7c6aff22;
+    transition: box-shadow 0.2s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 6px #7c6aff33;
+  }
+
+  /* toggles */
+  .toggle-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .toggle-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+    touch-action: manipulation;
+  }
+  .toggle-btn.active {
+    border-color: var(--accent);
+    color: #a89fff;
+    background: #7c6aff15;
+  }
+  .toggle-btn:hover:not(.active) {
+    border-color: #444460;
+    color: var(--text);
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: #0d0d12;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.7;
+    color: #9090b0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .tok-dir   { color: #7c6aff; }
+  .tok-fn    { color: #f0b060; }
+  .tok-num   { color: #60d0a0; }
+  .tok-prop  { color: #80c8ff; }
+  .tok-val   { color: #ff8080; }
+  .tok-sel   { color: #e8e8f0; }
+  .tok-cmt   { color: #444460; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    background: #0d0d12;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .stat-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+
+  /* Tablet: narrow side panel */
+  @media (max-width: 800px) {
+    .main {
+      grid-template-columns: 1fr 300px;
+    }
+  }
+
+  /* Mobile: stack vertically */
+  @media (max-width: 600px) {
+    header h1 { font-size: 12px; }
+    header p  { display: none; }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .canvas {
+      padding: 28px 16px;
+      min-height: 260px;
+    }
+
+    .orbit-wrap {
+      width: min(240px, 65vw);
+    }
+
+    .code-panel {
+      border-left: none;
+      border-top: 1px solid var(--border);
+      overflow: visible;
+    }
+
+    .panel-scroll {
+      overflow: visible;
+    }
+
+    /* hide code block on very small screens to save space */
+    .panel-section:last-of-type {
+      display: none;
+    }
+
+    .stats-bar {
+      gap: 12px;
+      padding: 10px 16px;
+    }
+
+    .control-label {
+      width: 70px;
+      font-size: 10px;
+    }
+  }
+
+  /* Very small phones */
+  @media (max-width: 360px) {
+    .orbit-wrap {
+      width: 200px;
+    }
+    header { padding: 10px 14px; gap: 8px; }
+    .canvas { padding: 20px 10px; min-height: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FSCSS</div>
+  <h1>Rainbow Orbit — count() + @arr Loop</h1>
+  <p>@arr i[count(n, step)]</p>
+</header>
+
+<div class="main">
+
+  <div class="canvas" id="canvas">
+    <div class="orbit-wrap">
+      <div class="orbit" id="orbit">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="center-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-panel">
+    <div class="panel-scroll">
+
+      <!-- Controls -->
+      <div class="panel-section">
+        <div class="panel-label">Parameters</div>
+
+        <div class="control-row">
+          <div class="control-label"><span>count</span>(n)</div>
+          <input type="range" id="cnt" min="4" max="72" value="36" step="1">
+          <div class="val-badge" id="cnt-val">36</div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label"><span>step</span></div>
+          <input type="range" id="step" min="1" max="30" value="10" step="1">
+          <div class="val-badge" id="step-val">10</div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label"><span>radius</span></div>
+          <input type="range" id="radius" min="40" max="140" value="100" step="4">
+          <div class="val-badge" id="radius-val">100px</div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label"><span>dot size</span></div>
+          <input type="range" id="dotsize" min="4" max="28" value="12" step="2">
+          <div class="val-badge" id="dotsize-val">12px</div>
+        </div>
+      </div>
+
+      <!-- Shape + Spin -->
+      <div class="panel-section">
+        <div class="panel-label">Shape</div>
+        <div class="toggle-row">
+          <button class="toggle-btn active" data-shape="circle">circle</button>
+          <button class="toggle-btn" data-shape="square">square</button>
+          <button class="toggle-btn" data-shape="diamond">diamond</button>
+          <button class="toggle-btn" data-shape="triangle">triangle</button>
+        </div>
+        <div class="panel-label" style="margin-top:14px;">Spin</div>
+        <div class="toggle-row">
+          <button class="toggle-btn active" data-spin="off">off</button>
+          <button class="toggle-btn" data-spin="slow">slow</button>
+          <button class="toggle-btn" data-spin="fast">fast</button>
+        </div>
+      </div>
+
+      <!-- Live Code -->
+      <div class="panel-section">
+        <div class="panel-label">Generated FSCSS</div>
+        <div class="code-block" id="code-out"></div>
+      </div>
+
+    </div><!-- /panel-scroll -->
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-val" id="s-dots">36</div>
+        <div class="stat-label">Dots</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="s-rules">36</div>
+        <div class="stat-label">CSS Rules</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="s-deg">10°</div>
+        <div class="stat-label">Step</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="s-arr">i[…]</div>
+        <div class="stat-label">Array</div>
+      </div>
+    </div>
+
+  </div><!-- /code-panel -->
+
+</div><!-- /main -->
+
+<script>
+  const orbitEl  = document.getElementById('orbit');
+  const codeOut  = document.getElementById('code-out');
+
+  let cfg = {
+    count:   36,
+    step:    10,
+    radius:  100,
+    dotSize: 12,
+    shape:   'circle',
+    spin:    'off',
+  };
+
+  // ── SCALE RADIUS TO ORBIT WRAP SIZE ────────────────────────
+  // cfg.radius is a logical value (0-140); we scale it to actual px
+  function scaledRadius() {
+    const wrap = orbitEl.parentElement;
+    const wrapPx = wrap.offsetWidth || 240;
+    // logical max is 140 → maps to half the wrap size
+    return Math.round((cfg.radius / 140) * (wrapPx / 2) * 0.9);
+  }
+
+  // ── BUILD DOTS ──────────────────────────────────────────────
+  function buildOrbit() {
+    orbitEl.querySelectorAll('.dot').forEach(d => d.remove());
+
+    const vals = [];
+    for (let i = 0; i < cfg.count; i++) vals.push((i + 1) * cfg.step);
+
+    const r = scaledRadius();
+
+    vals.forEach((v, idx) => {
+      const hue = (idx / cfg.count) * 360;
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      const s = cfg.dotSize;
+
+      dot.style.cssText = `
+        width: ${s}px;
+        height: ${s}px;
+        background: hsl(${hue}, 100%, 60%);
+        color: hsl(${hue}, 100%, 60%);
+        transform: rotate(${(idx / cfg.count) * 360}deg) translateX(${r}px);
+        border-radius: ${shapeRadius()};
+      `;
+
+      if (cfg.shape === 'diamond') {
+        dot.style.transform = `rotate(${(idx / cfg.count) * 360}deg) translateX(${r}px) rotate(45deg)`;
+      }
+      if (cfg.shape === 'triangle') {
+        dot.style.width = '0';
+        dot.style.height = '0';
+        dot.style.background = 'transparent';
+        dot.style.borderLeft   = `${s/2}px solid transparent`;
+        dot.style.borderRight  = `${s/2}px solid transparent`;
+        dot.style.borderBottom = `${s}px solid hsl(${hue}, 100%, 60%)`;
+        dot.style.borderRadius = '0';
+        dot.style.boxShadow    = 'none';
+      }
+
+      orbitEl.appendChild(dot);
+    });
+
+    applySpinClass();
+    updateCode(vals, r);
+    updateStats(vals);
+  }
+
+  function shapeRadius() {
+    if (cfg.shape === 'square') return '2px';
+    if (cfg.shape === 'diamond') return '2px';
+    return '50%';
+  }
+
+  // ── SPIN ────────────────────────────────────────────────────
+  function applySpinClass() {
+    orbitEl.classList.remove('spinning');
+    orbitEl.style.removeProperty('--spin-dur');
+    if (cfg.spin === 'slow') {
+      orbitEl.style.setProperty('--spin-dur', '12s');
+      orbitEl.classList.add('spinning');
+    } else if (cfg.spin === 'fast') {
+      orbitEl.style.setProperty('--spin-dur', '3s');
+      orbitEl.classList.add('spinning');
+    }
+  }
+
+  // ── LIVE CODE ───────────────────────────────────────────────
+  function updateCode(vals, r) {
+    const preview = vals.slice(0, 5).join(', ') + (vals.length > 5 ? ', ...' : '');
+    codeOut.innerHTML =
+`<span class="tok-cmt">/* [${preview}] */</span>
+
+<span class="tok-dir">@arr</span> i[<span class="tok-fn">count</span>(<span class="tok-num">${cfg.count}</span>, <span class="tok-num">${cfg.step}</span>)]
+
+<span class="tok-sel">.orbit .dot:nth-child(<span class="tok-dir">@arr</span>.i[])</span> {
+  <span class="tok-prop">$i</span>: <span class="tok-dir">@arr</span>.i[];
+
+  <span class="tok-prop">background</span>: <span class="tok-fn">hsl</span>(<span class="tok-val">$i</span>, 100%, 60%);
+  <span class="tok-prop">transform</span>:
+    <span class="tok-fn">rotate</span>(<span class="tok-val">$i</span>!deg)
+    <span class="tok-fn">translateX</span>(<span class="tok-num">${r}px</span>);
+  <span class="tok-prop">%2</span>(width, height[: <span class="tok-num">${cfg.dotSize}px</span>;])
+  <span class="tok-prop">position</span>: absolute;
+}`;
+  }
+
+  // ── STATS ───────────────────────────────────────────────────
+  function updateStats(vals) {
+    document.getElementById('s-dots').textContent  = cfg.count;
+    document.getElementById('s-rules').textContent = cfg.count;
+    document.getElementById('s-deg').textContent   = cfg.step + '°';
+    document.getElementById('s-arr').textContent   = vals.slice(0,3).join(',') + '…';
+  }
+
+  // ── WIRE INPUTS ─────────────────────────────────────────────
+  function wire(id, key, suffix='') {
+    const el    = document.getElementById(id);
+    const badge = document.getElementById(id + '-val');
+    el.addEventListener('input', () => {
+      cfg[key] = parseInt(el.value);
+      badge.textContent = el.value + suffix;
+      buildOrbit();
+    });
+  }
+
+  wire('cnt',     'count');
+  wire('step',    'step',    '°');
+  wire('radius',  'radius',  'px');
+  wire('dotsize', 'dotSize', 'px');
+
+  document.querySelectorAll('[data-shape]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-shape]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cfg.shape = btn.dataset.shape;
+      buildOrbit();
+    });
+  });
+
+  document.querySelectorAll('[data-spin]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-spin]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cfg.spin = btn.dataset.spin;
+      applySpinClass();
+    });
+  });
+
+  // Rebuild on resize so radius scales correctly
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildOrbit, 80);
+  });
+
+  buildOrbit();
+</script>
+</body>
+</html>
