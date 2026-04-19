@@ -4,18 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Canonical -->
   <link rel="canonical" href="https://fscss.devtem.org/submit-guide">
-  <title>Submit Your FSCSS Library | FSCSS</title>
 
-  <meta name="description" content="Share your FSCSS plugin with the community. Submit your library to the FSCSS registry in 3 simple steps.">
+  <!-- Title (more search intent) -->
+  <title>Submit FSCSS Library | Publish & Share Your CSS modules</title>
+
+  <!-- Description (expanded for ranking) -->
+  <meta name="description" content="Learn how to submit and publish your FSCSS library. Step-by-step guide to adding your plugin to the FSCSS registry and making it discoverable by developers.">
+
+  <!-- Keywords (optional but useful for niche) -->
+  <meta name="keywords" content="submit CSS library, FSCSS plugin, publish CSS package, FSCSS registry, frontend tools, CSS preprocessor plugins">
+
   <meta name="author" content="Figsh">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1a73e8">
 
-  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <!-- Language -->
+  <meta http-equiv="content-language" content="en">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Submit Your FSCSS Library">
+  <meta property="og:description" content="Step-by-step guide to publishing and submitting your FSCSS plugin to the ecosystem.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/submit-guide">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="Submit FSCSS Library Guide">
+  <meta property="og:site_name" content="FSCSS">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Submit FSCSS Library">
+  <meta name="twitter:description" content="Publish your FSCSS plugin and share it with the developer community.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta name="twitter:creator" content="@MrFigsh">
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/styles/style.css">
 
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Structured Data: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Submit Your FSCSS Library",
+    "description": "Step-by-step guide to submitting and publishing FSCSS libraries.",
+    "author": {
+      "@type": "Person",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FSCSS",
+      "url": "https://fscss.devtem.org"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/submit-guide"
+    },
+    "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+    "inLanguage": "en-US"
+  }
+  </script>
+
+  <!-- Breadcrumb (very important) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Libraries",
+        "item": "https://fscss.devtem.org/libraries"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Submit Guide",
+        "item": "https://fscss.devtem.org/submit-guide"
+      }
+    ]
+  }
+  </script>
   <style>
     .submit-wrapper {
       max-width: 760px;
@@ -227,7 +315,7 @@
 
     <div class="submit-hero">
       <h1><i class="fas fa-paper-plane" style="margin-right: 10px;"></i> Submit Your Library</h1>
-      <p>Share your FSCSS plugin with the community in 3 simple steps</p>
+      <p>Share your FSCSS module with the community in 3 simple steps</p>
     </div>
 
     <div class="requirements">
@@ -323,16 +411,7 @@
       <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
   </footer>
-
-  <script>
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu   = document.getElementById('nav-menu');
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-      });
-    }
-  </script>
+  <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
