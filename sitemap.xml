@@ -1,225 +1,99 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-		<!--	created with www.mysitemapgenerator.com	-->
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-	<loc>https://fscss.devtem.org/</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/libraries</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/404</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/submit-guide</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/arrays</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/index.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/compiler</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/docs.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/define</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/examples.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/docs</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/variables.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/event</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/event.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/examples</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/arrays.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/external</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/shared.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/fscss-brand</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/import.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/functions</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/external.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/import</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/random.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/libraries</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/functions.html</loc>
-	<lastmod>2025-11-27T12:36:40+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/modular-system</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/modules-guide</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/docs/external-fscss.html</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>0.8</priority>
+<loc>https://fscss.devtem.org/rainbow-orbit</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/docs/import-fscss.html</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>0.8</priority>
+<loc>https://fscss.devtem.org/random</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/docs/fscss-event-function.html</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>0.8</priority>
+<loc>https://fscss.devtem.org/shared</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler.html</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/submit-guide</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/variable-fullback-operator</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/variables</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>0.1</priority>
+<loc>https://fscss.devtem.org/docs/external-fscss</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>0.6</priority>
+<loc>https://fscss.devtem.org/docs/fscss-event-function</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
 <url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
+<loc>https://fscss.devtem.org/docs/import-fscss</loc>
+<lastmod>2026-04-19T14:36:16+01:00</lastmod>
 </url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/compiler</loc>
-	<lastmod>2025-11-27T12:36:41+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/variable-fullback-operator.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url> 
-<url>
-	<loc>https://fscss.devtem.org/variables.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/shared.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/random.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/import.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/functions.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/external.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/examples.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>		
-<url>
-	<loc>https://fscss.devtem.org/event.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/define.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://fscss.devtem.org/arrays.html</loc>
-	<lastmod>2025-11-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-	<url>
-	<loc>https://fscss.devtem.org/modular-system</loc>
-	<lastmod>2026-2-27T12:36:38+01:00</lastmod>
-	<priority>1.0</priority>
-</url>		
 </urlset>
-
