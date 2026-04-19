@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/modules-guide">
+
+  <!-- Primary Title (slightly stronger keywords) -->
+  <title>FSCSS Modules & Libraries Guide | Build, Publish & Import FSCSS Packages</title>
+
+  <!-- SEO Description (more intent-driven) -->
+  <meta name="description" content="Learn how to build, structure, publish, and import FSCSS modules. Complete guide to package.json schema, library discovery, and named imports in the FSCSS ecosystem.">
+
+  <!-- Keywords (optional but fine to keep) -->
+  <meta name="keywords" content="FSCSS modules, FSCSS libraries, CSS preprocessor plugins, package.json schema, FSCSS ecosystem, CSS tooling, frontend libraries">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1a73e8">
+
+  <!-- Language & Geo -->
+  <meta http-equiv="content-language" content="en">
+  <meta name="geo.region" content="NG">
+
+  <!-- Open Graph (improved consistency) -->
+  <meta property="og:title" content="FSCSS Modules & Libraries Guide">
+  <meta property="og:description" content="Build and publish FSCSS libraries. Learn package structure, imports, and ecosystem best practices.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/modules-guide">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Modules and Libraries Guide">
+  <meta property="og:site_name" content="FSCSS">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS Modules & Libraries Guide">
+  <meta name="twitter:description" content="Complete developer guide to FSCSS modules, package.json structure, and library ecosystem.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta name="twitter:creator" content="@MrFigsh">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+
+  <!-- Performance -->
+  <link rel="preload" as="image" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Structured Data: Article (better for this page than SoftwareApplication) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS Modules & Libraries Guide",
+    "description": "Complete guide to building, structuring, and publishing FSCSS libraries and modules.",
+    "author": {
+      "@type": "Person",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FSCSS",
+      "url": "https://fscss.devtem.org"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/modules-guide"
+    },
+    "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+    "inLanguage": "en-US"
+  }
+  </script>
+
+  <!-- Structured Data: Breadcrumb (BIG SEO BOOST) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Libraries",
+        "item": "https://fscss.devtem.org/libraries"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Modules Guide",
+        "item": "https://fscss.devtem.org/modules-guide"
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* additional page-specific styling – maintains same style language as submit-guide */
+    .modules-wrapper {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+    .hero-modules {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .hero-modules h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
+    .hero-modules p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .section-card {
+      background: rgba(15,23,42,0.55);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.5rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.2rem;
+      transition: border-color 0.2s;
+      overflow-x: auto;
+    }
+    .section-card:hover {
+      border-color: rgba(59,130,246,0.35);
+    }
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title i {
+      color: #3b82f6;
+      font-size: 1.6rem;
+    }
+    .badge-required {
+      background: #2563eb20;
+      border: 1px solid #3b82f660;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.7rem;
+      color: #93c5fd;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+    .field-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .field-table th, .field-table td {
+      text-align: left;
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .field-table th {
+      color: #cbd5e1;
+      font-weight: 600;
+      width: 130px;
+    }
+    .field-table td {
+      color: #b9c7db;
+    }
+    .field-table code {
+      background: #0f172a;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #7dd3fc;
+    }
+    .json-block {
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: 1rem;
+      padding: 1.2rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin: 1rem 0;
+    }
+    .code-inline {
+      background: rgba(15,23,42,0.8);
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: #7dd3fc;
+      font-family: monospace;
+    }
+    .hl-json { color: #86efac; }
+    .str-json { color: #7dd3fc; }
+    .punc-json { color: #64748b; }
+    .cm-json { color: #475569; }
+    .info-note {
+      background: rgba(59,130,246,0.12);
+      border-left: 4px solid #3b82f6;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+      color: #cbd5e6;
+    }
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .lib-card {
+      background: #0f172a;
+      border-radius: 1rem;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid #1e293b;
+      transition: transform 0.1s ease, border-color 0.2s;
+    }
+    .lib-card:hover {
+      border-color: #3b82f660;
+      transform: translateY(-2px);
+    }
+    .lib-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #f1f5f9;
+    }
+    .lib-card h3 i {
+      margin-right: 8px;
+      color: #60a5fa;
+      font-size: 1.1rem;
+    }
+    .lib-card p {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+    .lib-link {
+      font-size: 0.8rem;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .lib-link i {
+      font-size: 0.75rem;
+      margin-left: 4px;
+    }
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      overflow-x: auto;
+    }
+    .checklist li {
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+    .checklist li i.fa-check-circle {
+      color: #22c55e;
+      width: 18px;
+    }
+    hr {
+      border-color: #1e293b;
+      margin: 2rem 0;
+    }
+    @media (max-width: 700px) {
+      .modules-wrapper { padding: 0 1rem 3rem; }
+      .section-card { padding: 1.2rem; }
+      .section-title { font-size: 1.4rem; }
+      .library-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn"><span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span></div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="modules-wrapper">
+    <div class="hero-modules">
+      <h1><i class="fas fa-cubes"></i> FSCSS Modules & Libraries</h1>
+      <p>A guide to understanding the FSCSS package ecosystem — how libraries are structured, registered, and imported.</p>
+    </div>
+
+    <!-- What Is This? -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-question-circle"></i> What Is This?</div>
+      <p>The <a href="https://github.com/fscss-ttr/fscss-modules" target="_blank" style="color:#60a5fa;">fscss-modules</a> registry is the central discovery hub for FSCSS-compatible libraries. It powers the <strong><a href="https://fscss.devtem.org/libraries" style="color:#60a5fa;">FSCSS Libraries page</a></strong> — where developers can browse, learn about, and import available community and core plugins.</p>
+      <div class="info-note"><i class="fas fa-info-circle"></i> Submitting here <strong>does not</strong> automatically make your library importable by name. That's a separate step covered below.</div>
+    </div>
+
+    <!-- Understanding package.json -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-file-code"></i> Understanding <code class="code-inline">package.json</code></div>
+      <p>Every FSCSS library should include a <code class="code-inline">package.json</code> at its root. Here's a full example with each field explained:</p>
+      <div class="json-block">
+        <span class="punc-json">{</span><br>
+        &nbsp;&nbsp;<span class="str-json">"name"</span><span class="punc-json">:</span> <span class="str-json">"st-core"</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"version"</span><span class="punc-json">:</span> <span class="str-json">"1.1.0"</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"description"</span><span class="punc-json">:</span> <span class="str-json">"Lightweight FSCSS-based UI library for statistical dashboards and components"</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"extension"</span><span class="punc-json">:</span> <span class="str-json">"fscss"</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"fscss_version"</span><span class="punc-json">:</span> <span class="str-json">"^1.1.24"</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"blocked_methods"</span><span class="punc-json">:</span> <span class="punc-json">[]</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"repository"</span><span class="punc-json">:</span> <span class="punc-json">{</span> <span class="str-json">"type"</span><span class="punc-json">:</span> <span class="str-json">"git"</span><span class="punc-json">,</span> <span class="str-json">"url"</span><span class="punc-json">:</span> <span class="str-json">"https://github.com/fscss-ttr/st-core.fscss"</span> <span class="punc-json">}</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;<span class="str-json">"file"</span><span class="punc-json">:</span> <span class="punc-json">{</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str-json">"usage"</span><span class="punc-json">:</span> <span class="punc-json">{</span> <span class="str-json">"directive"</span><span class="punc-json">:</span> <span class="str-json">"st-*"</span><span class="punc-json">,</span> <span class="str-json">"helpers"</span><span class="punc-json">:</span> <span class="punc-json">[</span><span class="str-json">"st-root"</span><span class="punc-json">,</span><span class="str-json">"st-container"</span><span class="punc-json">]</span> <span class="punc-json">}</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str-json">"modules"</span><span class="punc-json">:</span> <span class="punc-json">[</span><span class="str-json">"./st-core.fscss"</span><span class="punc-json">]</span><span class="punc-json">,</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str-json">"remote"</span><span class="punc-json">:</span> <span class="str-json">"./st-core.fscss"</span><br>
+        &nbsp;&nbsp;<span class="punc-json">}</span><br>
+        <span class="punc-json">}</span>
+      </div>
+      <table class="field-table">
+        <tr><th><code>name</code></th><td><i class="fas fa-check-circle" style="color:#22c55e; font-size:0.8rem;"></i> Short identifier (no .fscss suffix needed)</td></tr>
+        <tr><th><code>version</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Semantic version — bump on every release</td></tr>
+        <tr><th><code>description</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> One-line summary shown on libraries page</td></tr>
+        <tr><th><code>extension</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Must be <code>"fscss"</code></td></tr>
+        <tr><th><code>fscss_version</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Minimum compiler version (semver range)</td></tr>
+        <tr><th><code>blocked_methods</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Array of disabled built‑ins. Leave <code>[]</code> if none</td></tr>
+        <tr><th><code>repository</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> GitHub repo URL</td></tr>
+        <tr><th><code>bugs</code></th><td><i class="fas fa-thumbs-up" style="color:#f59e0b;"></i> recommended – issues URL</td></tr>
+        <tr><th><code>file.usage.directive</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Mixin prefix pattern (e.g. <code>st-*</code>)</td></tr>
+        <tr><th><code>file.usage.helpers</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Explicit list of all public mixins/helpers</td></tr>
+        <tr><th><code>file.modules</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Array of relative paths to all .fscss source files</td></tr>
+        <tr><th><code>file.remote</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> Single entry-point file for remote <code>@import</code></td></tr>
+        <tr><th><code>author</code></th><td><i class="fas fa-thumbs-up" style="color:#f59e0b;"></i> recommended – shown on discovery card</td></tr>
+        <tr><th><code>license</code></th><td><i class="fas fa-check-circle" style="color:#22c55e;"></i> MIT strongly recommended</td></tr>
+       </table>
+    </div>
+
+    <!-- The Two Steps: Discover vs Import by Name -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-code-branch"></i> Discover vs. Import by Name</div>
+      <p>There's an important distinction between <strong>listing</strong> your library and making it <strong>named-importable</strong>.</p>
+      <div style="margin-bottom: 1rem;">
+        <h3 style="font-size:1.2rem; margin:0.5rem 0 0.2rem;"><i class="fas fa-eye"></i> Step 1 — List in the Registry (Discovery Only)</h3>
+        <p>Submit a PR to <code class="code-inline">fscss-ttr/FSCSS/edit/main/assets/scripts/libs.json</code> adding your repo URL:</p>
+        <div class="json-block">
+          <span class="punc-json">{</span><br>
+          &nbsp;&nbsp;<span class="str-json">"remotes"</span><span class="punc-json">:</span> <span class="punc-json">[</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="str-json">"https://github.com/fscss-ttr/st-core.fscss"</span><span class="punc-json">,</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="str-json">"https://github.com/Figsh/counterx.fscss"</span><br>
+          &nbsp;&nbsp;<span class="punc-json">]</span><br>
+          <span class="punc-json">}</span>
+        </div>
+        <p>This makes your library <strong>visible</strong> at <a href="https://fscss.devtem.org/libraries" style="color:#60a5fa;">fscss.devtem.org/libraries</a>. Users can find and read about your lib here.</p>
+      </div>
+      <div>
+        <h3 style="font-size:1.2rem; margin:0.5rem 0 0.2rem;"><i class="fas fa-sign-in-alt"></i> Step 2 — Named Import Support (Full Integration)</h3>
+        <p>To allow <code class="code-inline">@import((*) from your-lib)</code>, your entry file must be added to the FSCSS core folder: <code class="code-inline">/xf/styles/</code>. Until then, users import via full URL:</p>
+        <div class="json-block" style="background:#0a0f1c;">
+          @import((*) from "https://raw.githubusercontent.com/.../main/lib.fscss")
+        </div>
+        <div class="info-note"><i class="fas fa-clipboard-list"></i> See the <a href="https://fscss.devtem.org/submit-guide" style="color:#60a5fa;">Submit Guide</a> for the full walkthrough.</div>
+      </div>
+    </div>
+
+    <!-- Entry File Requirements -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-file-alt"></i> Entry File Requirements</div>
+      <p>Your library must expose a <strong>single entry file</strong> — either <code class="code-inline">index.fscss</code> or <code class="code-inline">your-lib-name.fscss</code>. This file should either contain all source directly or import internal modules, acting as a complete single-file bundle. The <code class="code-inline">file.remote</code> field in <code>package.json</code> must point to this file.</p>
+    </div>
+
+    <!-- Ecosystem Libraries -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-leaf"></i> Ecosystem Libraries</div>
+      <div class="library-grid">
+        <div class="lib-card"><h3><i class="fas fa-chart-line"></i> st-core.fscss</h3><p>Pure CSS statistical charts & dashboards – line charts, dot plots, clip‑path driven. Zero JS.</p><a class="lib-link" href="https://github.com/fscss-ttr/st-core.fscss" target="_blank">github.com/fscss-ttr/st-core.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-sort-numeric-up-alt"></i> counterx.fscss</h3><p>Pure CSS counting animations – count‑up/down animations driven entirely by CSS logic.</p><a class="lib-link" href="https://github.com/Figsh/counterx.fscss" target="_blank">github.com/Figsh/counterx.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-chart-pie"></i> Circle-progress.fscss</h3><p>Animated circular progress indicators, perfect for dashboards and KPI displays.</p><a class="lib-link" href="https://github.com/Figsh/Circle-progress.fscss" target="_blank">github.com/Figsh/Circle-progress.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-mask"></i> icon-mask.fscss</h3><p>SVG icon systems via CSS masking – full icon system under 60 lines.</p><a class="lib-link" href="https://github.com/fscss-ttr/icon-mask.fscss" target="_blank">github.com/fscss-ttr/icon-mask.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-arrows-alt"></i> flex-control.fscss</h3><p>Flexbox utility macros that keep layout code terse and readable.</p><a class="lib-link" href="https://github.com/fscss-ttr/flex-control.fscss" target="_blank">github.com/fscss-ttr/flex-control.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-code"></i> camelcase_css.fscss</h3><p>500+ camelCase property mappings → compiled to standard kebab‑case.</p><a class="lib-link" href="https://github.com/Figsh/camelcase_css.fscss" target="_blank">github.com/Figsh/camelcase_css.fscss <i class="fas fa-external-link-alt"></i></a></div>
+        <div class="lib-card"><h3><i class="fas fa-snake"></i> css_snake_case.fscss</h3><p>snake_case CSS property mappings for snake_case lovers.</p><a class="lib-link" href="https://github.com/fscss-ttr/css_snake_case.fscss" target="_blank">github.com/fscss-ttr/css_snake_case.fscss <i class="fas fa-external-link-alt"></i></a></div>
+      </div>
+    </div>
+
+    <!-- Quick Checklist -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-clipboard-list"></i> Quick Checklist — Before You Submit</div>
+      <ul class="checklist">
+        <li><i class="fas fa-check-circle"></i> <code>package.json</code> includes all required fields (<code>extension</code>, <code>fscss_version</code>, <code>file.usage</code>, <code>file.modules</code>, <code>file.remote</code>)</li>
+        <li><i class="fas fa-check-circle"></i> <code>file.remote</code> points to a valid, publicly accessible <code>.fscss</code> entry file</li>
+        <li><i class="fas fa-check-circle"></i> Entry file is either self-contained or imports all internal modules</li>
+        <li><i class="fas fa-check-circle"></i> <code>file.usage.helpers</code> lists every public mixin/directive</li>
+        <li><i class="fas fa-check-circle"></i> Repository is public on GitHub</li>
+        <li><i class="fas fa-check-circle"></i> <code>README.md</code> explains usage with at least one example</li>
+        <li><i class="fas fa-check-circle"></i> PR submitted to <a href="https://github.com/fscss-ttr/FSCSS" style="color:#60a5fa;">fscss-ttr/FSCSS</a> with your URL added to <code>libs.json</code></li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div class="section-card">
+      <div class="section-title"><i class="fas fa-link"></i> Resources</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem;">
+        <a href="https://fscss.devtem.org/libraries" style="color:#60a5fa;"><i class="fas fa-book"></i> Libraries Discovery Page</a>
+        <a href="https://fscss.devtem.org/submit-guide" style="color:#60a5fa;"><i class="fas fa-paper-plane"></i> Submit Guide</a>
+        <a href="https://github.com/fscss-ttr/FSCSS/blob/main/assets/scripts/libs.json" style="color:#60a5fa;"><i class="fas fa-database"></i> libs.json reference</a>
+        <a href="https://github.com/Figsh/xfscss" style="color:#60a5fa;"><i class="fas fa-tools"></i> FSCSS Core (xfscss)</a>
+        <a href="https://github.com/fscss-ttr/FSCSS/issues" style="color:#60a5fa;"><i class="fas fa-bug"></i> Report an Issue</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo"><div class="logo-icn"><span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span></div><span>FSCSS</span></div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links"><li><a href="docs.html">Documentation</a></li><li><a href="examples.html">Examples</a></li><li><a href="libraries.html">Libraries</a></li><li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li></ul>
+      </div>
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links"><li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li><li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li><li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 FSCSS. Made with <i class="fas fa-lightbulb"></i> for Web developers. MIT License.</p></div>
+  </footer>
+<script src="/assets/scripts/main.js" ></script>
+</body>
+</html>
