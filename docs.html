@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,12 +8,12 @@
   <link rel="canonical" href="https://fscss.devtem.org/docs">
 
   <!-- Primary Title -->
-  <title>FSCSS Documentation – Complete Guide to Figured Shorthand CSS Preprocessor</title>
+  <title>FSCSS Documentation – Complete Reference for Figured Shorthand CSS</title>
 
   <!-- Primary Meta -->
-  <meta name="description" content="Official FSCSS documentation. Learn how to use Figured Shorthand Cascading Style Sheets (FSCSS), a lightweight and powerful CSS preprocessor built to simplify modern frontend styling workflows.">
+  <meta name="description" content="Official FSCSS documentation. Complete reference for Figured Shorthand Cascading Style Sheets (FSCSS) v1.1.25, covering variables, define, pattern, arrays, events, imports, and every built-in function.">
 
-  <meta name="keywords" content="FSCSS documentation, Figured Shorthand CSS, FSCSS guide, CSS preprocessor, shorthand CSS system, lightweight CSS framework, frontend styling tool, modern CSS workflow, DevTemple FSCSS">
+  <meta name="keywords" content="FSCSS documentation, Figured Shorthand CSS, FSCSS reference, CSS preprocessor, shorthand CSS system, FSCSS arrays, FSCSS event, FSCSS pattern, FSCSS define, DevTemple FSCSS">
 
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
@@ -22,33 +21,32 @@
   <meta name="theme-color" content="#111827">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="FSCSS Documentation – Complete CSS Preprocessor Guide">
-  <meta property="og:description" content="Master FSCSS, a powerful shorthand CSS preprocessor designed for speed, scalability, and clean frontend architecture.">
+  <meta property="og:title" content="FSCSS Documentation – Complete Reference">
+  <meta property="og:description" content="Complete reference for FSCSS v1.1.25, a lightweight shorthand CSS preprocessor.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/docs">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
-  <meta property="og:image:alt" content="FSCSS Documentation Preview">
+  <meta property="og:image:alt" content="FSCSS Documentation">
   <meta property="og:site_name" content="FSCSS Docs">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+  <meta property="og:updated_time" content="2026-08-18T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
-  <meta name="twitter:title" content="FSCSS Documentation – Lightweight CSS Preprocessor">
-  <meta name="twitter:description" content="Learn FSCSS and simplify your styling workflow using a modern shorthand CSS system.">
+  <meta name="twitter:title" content="FSCSS Documentation – Complete Reference">
+  <meta name="twitter:description" content="Complete reference for FSCSS v1.1.25.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
 
   <!-- Favicon -->
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
 
   <!-- Styles -->
-
   <link rel="stylesheet" href="/assets/styles/docs.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+
   <!-- Scripts -->
   <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
 
@@ -56,7 +54,6 @@
   <meta property="article:section" content="Documentation">
   <meta property="article:tag" content="FSCSS">
   <meta property="article:tag" content="CSS Preprocessor">
-  <meta property="article:tag" content="Frontend Development">
 
   <!-- Structured Data: Software -->
   <script type="application/ld+json">
@@ -68,7 +65,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.1.14",
+    "version": "1.1.25",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -86,8 +83,8 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "FSCSS Documentation – Complete Guide",
-    "description": "Complete documentation for FSCSS, a modern shorthand CSS preprocessor built for performance and scalability.",
+    "headline": "FSCSS Documentation – Complete Reference",
+    "description": "Complete reference documentation for FSCSS v1.1.25.",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -100,7 +97,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-02-28",
+    "dateModified": "2026-08-18",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/docs"
@@ -129,204 +126,229 @@
     ]
   }
   </script>
+
   <!-- Page Loader -->
-<section class="page-loader">
-  <div class="page-loader-text">
-    <span>F</span>
-    <span>S</span>
-    <span>C</span>
-    <span>S</span>
-    <span>S</span>
-  </div>
-</section>
-
-<style>
-/* Loader base */
-.page-loader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #0d1117; /* dark background for docs */
-  z-index: 9999;
-}
-
-/* Text styling */
-.page-loader-text {
-  display: flex;
-  gap: 8px;
-  font-size: 3rem;
-  font-weight: bold;
-  font-family: "ADLaM Display", sans-serif;
-  color: #0066ff; /* FSCSS brand-like color */
-  letter-spacing: 4px;
-}
-
-/* Animate each letter */
-.page-loader-text span {
-  display: inline-block;
-  opacity: 0.2;
-  transform: scale(0.8);
-  animation: bounceFade 1.2s infinite;
-}
-
-/* Different delays for each letter */
-.page-loader-text span:nth-child(1) { animation-delay: 0s; }
-.page-loader-text span:nth-child(2) { animation-delay: 0.2s; }
-.page-loader-text span:nth-child(3) { animation-delay: 0.4s; }
-.page-loader-text span:nth-child(4) { animation-delay: 0.6s; }
-.page-loader-text span:nth-child(5) { animation-delay: 0.8s; }
-
-@keyframes bounceFade {
-  0%, 100% {
-    transform: translateY(0) scale(0.8);
+  <style>
+  .page-loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d1117;
+    z-index: 9999;
+  }
+  .page-loader-text {
+    display: flex;
+    gap: 8px;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: "ADLaM Display", sans-serif;
+    color: #0066ff;
+    letter-spacing: 4px;
+  }
+  .page-loader-text span {
+    display: inline-block;
     opacity: 0.2;
+    transform: scale(0.8);
+    animation: bounceFade 1.2s infinite;
   }
-  50% {
-    transform: translateY(-15px) scale(1);
-    opacity: 1;
+  .page-loader-text span:nth-child(1) { animation-delay: 0s; }
+  .page-loader-text span:nth-child(2) { animation-delay: 0.2s; }
+  .page-loader-text span:nth-child(3) { animation-delay: 0.4s; }
+  .page-loader-text span:nth-child(4) { animation-delay: 0.6s; }
+  .page-loader-text span:nth-child(5) { animation-delay: 0.8s; }
+  @keyframes bounceFade {
+    0%, 100% { transform: translateY(0) scale(0.8); opacity: 0.2; }
+    50% { transform: translateY(-15px) scale(1); opacity: 1; }
   }
-}
-
-/* Hide loader smoothly after load */
-.page-loader.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-</style>
-
-<script>
-// Remove loader after page load
-window.addEventListener("load", () => {
-  setTimeout(()=>{
-  document.querySelector(".page-loader").classList.add("fade-out");
-  }, 2000);
-});
-</script>
+  .page-loader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  </style>
+  <script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.querySelector(".page-loader").classList.add("fade-out");
+    }, 1200);
+  });
+  </script>
 
 </head>
 <body>
+
+  <section class="page-loader">
+    <div class="page-loader-text">
+      <span>F</span><span>S</span><span>C</span><span>S</span><span>S</span>
+    </div>
+  </section>
+
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
     <div class="logo">
-       <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-       </div>
-      <h1>FSCSS</h1>
+      <div class="logo-icn">
+        <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
+      </div>
+      <h1>FSCSS v1.1.25</h1>
     </div>
-    
+
     <a href="/compiler"><div class="compiler-info">
       <i class="fas fa-check-circle"></i>
       <span>Compiler is production ready</span>
     </div></a>
-    
+
     <h3><i class="fas fa-home"></i> Getting Started</h3>
     <ul>
-      <li><a href="#fscss-dev" class="active"><i class="fas fa-play-circle"></i> Introduction</a></li>
-      <li><a href="index.html#install"><i class="fas fa-download"></i> Installation</a></li>
-      <li><a href="docs/external-fscss.html"><i class="fas fa-cog"></i> Setup & Usage</a></li>
+      <li><a href="#introduction" class="active"><i class="fas fa-play-circle"></i> Introduction</a></li>
+      <li><a href="#installation"><i class="fas fa-download"></i> Installation</a></li>
+      <li><a href="#quick-start"><i class="fas fa-bolt"></i> Quick Start</a></li>
     </ul>
-    
-    <h3><i class="fas fa-star"></i> Core Features</h3>
-    
-<ul>
-<li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
-<li><a href="/define"><i class="fas fa-layer-group"></i> Reusable block</a></li>
-<li><a href="#replace"><i class="fas fa-retweet"></i> Style Replacement</a></li>
-<li><a href="#repeat"><i class="fas fa-redo"></i> Repeat Function</a></li>
-<li><a href="#copy"><i class="fas fa-copy"></i> Copy Function</a></li>
-<li><a href="#ext"><i class="fas fa-code"></i> string extractor </a></li>
-<li><a href="#drops"><i class="fas fa-puzzle-piece"></i> Drops</a></li>
-<li><a href="#share"><i class="fas fa-share-alt"></i> Shared Properties</a></li>
-<li><a href="#attr"><i class="fas fa-code-branch"></i> Attribute Selectors</a></li>
-<li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes</a></li>
-<li><a href="#vendors"><i class="fas fa-tags"></i> Vendor Prefixing</a></li>
-<li><a href="#fun"><i class="fas fa-function"></i> Function based</a></li>
-<li><a href="/arrays"><i class="fas fa-layer-group"></i> Array method</a></li>
-<li><a href="#random"><i class="fas fa-dice"></i> Random function</a></li>
-<li><a href="#num"><i class="fas fa-calculator"></i> number calculation</a></li>
-<li><a href="/docs/import-fscss.html"><i class="fas fa-link"></i> @import method</a></li>
-<li><a href="/docs/fscss-event-function.html"><i class="fas fa-bolt"></i> @event function</a></li>
-<li><a href="#count"><i class="fas fa-sort-numeric-up"></i> count function</a></li>
-<li><a href="#length"><i class="fas fa-ruler"></i> length function</a></li>
-</ul>
-    
-    <h3><i class="fas fa-book"></i> Resources</h3>
+
+    <h3><i class="fas fa-star"></i> Core Concepts</h3>
     <ul>
-      <li><a href="compiler.html#examples"><i class="fas fa-laptop-code"></i> Examples</a></li>
-      <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/"><i class="fas fa-file-alt"></i> Cheat Sheet</a></li>
-      <li><a href="https://dev.to/fscss-ttr"><i class="fas fa-users"></i> Community</a></li>
+      <li><a href="#variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+      <li><a href="#define"><i class="fas fa-cubes"></i> Reusable Blocks (@define)</a></li>
+      <li><a href="#pattern"><i class="fas fa-brain"></i> Pattern Matching (pattern)</a></li>
+      <li><a href="#fun"><i class="fas fa-cogs"></i> Function Stores (@fun)</a></li>
+      <li><a href="#arr"><i class="fas fa-list-ol"></i> Arrays (@arr)</a></li>
+      <li><a href="#random"><i class="fas fa-random"></i> Random (@random)</a></li>
+      <li><a href="#event"><i class="fas fa-code-branch"></i> Event Logic (@event)</a></li>
+      <li><a href="#import"><i class="fas fa-file-import"></i> Imports (@import)</a></li>
+      <li><a href="#shared"><i class="fas fa-layer-group"></i> Shorthand Properties</a></li>
+      <li><a href="#attr"><i class="fas fa-crosshairs"></i> Attribute Selectors</a></li>
+      <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes Compact</a></li>
+      <li><a href="#vendors"><i class="fas fa-toolbox"></i> Vendor Prefixing</a></li>
+    </ul>
+
+    <h3><i class="fas fa-calculator"></i> Utility Functions</h3>
+    <ul>
+      <li><a href="#num"><i class="fas fa-square-root-alt"></i> num()</a></li>
+      <li><a href="#count"><i class="fas fa-sort-numeric-up"></i> count()</a></li>
+      <li><a href="#length"><i class="fas fa-ruler"></i> length()</a></li>
+      <li><a href="#copy"><i class="fas fa-copy"></i> copy()</a></li>
+      <li><a href="#ext"><i class="fas fa-i-cursor"></i> @ext()</a></li>
+      <li><a href="#rpt"><i class="fas fa-redo"></i> rpt()</a></li>
+      <li><a href="#exec"><i class="fas fa-terminal"></i> exec()</a></li>
+    </ul>
+
+    <h3><i class="fas fa-book"></i> Reference</h3>
+    <ul>
+      <li><a href="#fscss-files"><i class="fas fa-folder-open"></i> File Structure</a></li>
+      <li><a href="#about"><i class="fas fa-info-circle"></i> Project Background</a></li>
+      <li><a href="#community"><i class="fas fa-users"></i> Community</a></li>
     </ul>
   </nav>
-  
+
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Home Section -->
-    <section id="home" class="section">
+
+    <!-- Introduction -->
+    <section id="introduction" class="section">
       <div class="hero">
         <h1>FSCSS Documentation</h1>
-        <p>Figured Shorthand CSS is a powerful CSS preprocessor that simplifies your stylesheets with intuitive shorthand syntax, reusable patterns, and enhanced functionality.</p>
+        <p>Figured Shorthand CSS is a lightweight CSS preprocessor that reduces repetition through shorthand syntax, reusable definitions, pattern matching, and conditional logic, while compiling to plain, dependency-free CSS.</p>
         <a href="#installation" class="btn">
           <i class="fas fa-rocket"></i> Get Started
         </a>
       </div>
-      
-      <h2><i class="fas fa-lightbulb"></i> Why Use FSCSS?</h2>
-      <p>FSCSS streamlines your CSS workflow with features designed to reduce repetition, improve readability, and enhance maintainability of your stylesheets.</p>
-      
+
+      <h2><i class="fas fa-lightbulb"></i> Why FSCSS</h2>
+      <p>FSCSS is designed to reduce repetitive declarations, keep stylesheets maintainable at scale, and add capabilities that plain CSS does not offer natively, such as conditional logic, reusable parameterized blocks, and array-driven generation. It compiles to standard CSS with no runtime dependency required for the compiled output.</p>
+
       <div class="benefits">
         <div class="benefit-card">
           <i class="fas fa-bolt"></i>
-          <h4>Faster Development</h4>
-          <p>Write complex CSS with significantly less code using intuitive shorthand syntax</p>
+          <h4>Shorthand Syntax</h4>
+          <p>Write fewer characters for common patterns such as shared property values and vendor prefixes.</p>
         </div>
-        
         <div class="benefit-card">
           <i class="fas fa-sync-alt"></i>
-          <h4>Improved Maintainability</h4>
-          <p>Reuse styles and variables across your project for consistent updates</p>
+          <h4>Reusable Definitions</h4>
+          <p>Define styles once with @define, @fun, or pattern(), then reuse them across a project.</p>
         </div>
-        
         <div class="benefit-card">
-          <i class="fas fa-magic"></i>
-          <h4>Enhanced Readability</h4>
-          <p>Clear, concise syntax makes your stylesheets easier to understand</p>
+          <i class="fas fa-code-branch"></i>
+          <h4>Conditional Logic</h4>
+          <p>Use @event to return different values based on parameters and comparisons.</p>
         </div>
       </div>
     </section>
-<!-- Variables Section -->
-<section id="variables" class="section">
-  <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
-  <p>
-    FSCSS variables give you flexible ways to store and reuse values across your stylesheets. 
-    They can be inline, scoped to elements, global, or even store entire blocks of styles. 
-    Define once, reuse anywhere.
-  </p>
 
-  <div class="feature-card">
-    <h4><i class="fas fa-check-circle"></i> Key Features</h4>
-    <ul>
-      <li>Inline variables: <code>$name: value;</code> → used with <code>$name!</code></li>
-      <li>Global variables: <code>$global: value;</code> → available everywhere</li>
-      <li>Local (scoped) variables: defined inside a selector, used only in that block</li>
-      <li>Block variables: <code>str(name, "block of styles")</code> → store whole chunks of CSS</li>
-      <li>All variables compile down to native CSS <code>--custom-properties</code></li>
-    </ul>
-  </div>
+    <!-- Installation -->
+    <section id="installation" class="section">
+      <h2><i class="fas fa-download"></i> Installation</h2>
 
-  <h3>Inline & Global Variables</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
+      <h3>NPM</h3>
+      <p>Install FSCSS as a project dependency, or globally for CLI access.</p>
+      <div class="code-container">
+        <div class="code-header"><span>bash</span><button class="copy-btn">Copy</button></div>
+        <pre><code>npm install fscss@latest
 
-<pre class="fscss"><code>// Inline & global variables
-$primary: #3b82f6;
+# Global CLI installation
+npm install -g fscss
+fscss input.fscss output.css</code></pre>
+      </div>
+
+      <h3>CDN (Runtime Mode)</h3>
+      <p>Load the FSCSS runtime directly in an HTML file for prototyping. Runtime mode compiles FSCSS in the browser and is not recommended for production.</p>
+      <div class="code-container">
+        <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.25/exec.min.js" defer&gt;&lt;/script&gt;
+&lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
+      </div>
+
+      <h3>CLI Compilation</h3>
+      <p>For production, compile FSCSS to a standard CSS file ahead of deployment. This removes any runtime dependency from the shipped page.</p>
+      <div class="code-container">
+        <div class="code-header"><span>bash</span><button class="copy-btn">Copy</button></div>
+        <pre><code>fscss style.fscss style.css</code></pre>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section id="quick-start" class="section">
+      <h2><i class="fas fa-bolt"></i> Quick Start</h2>
+      <p>Create a file named <code>style.fscss</code>:</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>$primary-color: #2563eb;
+$border-radius: 8px;
+
+.btn {
+  background: $primary-color;
+  color: white;
+  padding: 12px 24px;
+  border-radius: $border-radius;
+  transition: all 0.3s ease;
+}</code></pre>
+        <pre class="compiled hidden"><code>.btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}</code></pre>
+      </div>
+      <p>Compile it with the CLI:</p>
+      <div class="code-container">
+        <div class="code-header"><span>bash</span><button class="copy-btn">Copy</button></div>
+        <pre><code>fscss style.fscss style.css</code></pre>
+      </div>
+    </section>
+
+    <!-- Variables -->
+    <section id="variables" class="section">
+      <h2><i class="fas fa-dollar-sign"></i> Variables</h2>
+      <p>FSCSS variables store and reuse values. They may be inline, globally scoped, locally scoped to a selector, or defined as a named block of properties. All variables compile down to native CSS <code>--custom-properties</code> or are inlined directly, depending on usage.</p>
+
+      <h3>Inline and Global Variables</h3>
+      <p>Declared with <code>$name: value;</code> and referenced with <code>$name!</code>. The <code>!</code> forces evaluation at the point of use.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>$primary: #3b82f6;
 $secondary: #8b5cf6;
 $global-font: 'Inter', sans-serif;
 
@@ -335,93 +357,29 @@ $global-font: 'Inter', sans-serif;
   border: 2px solid $secondary!;
   font-family: $global-font!;
 }</code></pre>
-
-<pre class="compiled hidden"><code>.button {
+        <pre class="compiled hidden"><code>.button {
   background: #3b82f6;
   border: 2px solid #8b5cf6;
   font-family: 'Inter', sans-serif;
 }</code></pre>
-  </div>
+      </div>
 
-  <div class="try-btn-container">
-    <a class="try-btn"
-       href="/compiler#run?code=%24primary%3A%20%233b82f6%3B%0A%24secondary%3A%20%238b5cf6%3B%0A%24global-font%3A%20'Inter'%2C%20sans-serif%3B%0A%0A.button%20%7B%0A%20%20background%3A%20%24primary!%3B%0A%20%20border%3A%202px%20solid%20%24secondary!%3B%0A%20%20font-family%3A%20%24global-font!%3B%0A%7D"
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-
-  <h3>Local Variables (Scoped)</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>.card {
+      <h3>Local (Scoped) Variables</h3>
+      <p>A variable declared inside a selector is scoped to that block only.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>.card {
   $local-bg: #f1f5f9;
   background: $local-bg!;
   padding: 1rem;
 }</code></pre>
-  </div>
+      </div>
 
-  <h3>Block Value Variables</h3>
-  <p>
-    Block variables let you store reusable style snippets as text, then inject them wherever needed.
-  </p>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
-
-<pre class="fscss"><code>str(shadowBlock, "
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 0.75rem;
-")
-
-.card {
-  background: white;
-  shadowBlock
-}</code></pre>
-
-<pre class="compiled hidden"><code>.card {
-  background: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 0.75rem;
-}</code></pre>
-  </div>
-
-  <div class="try-btn-container">
-    <a class="try-btn"
-       href="/compiler#run?code=str(shadowBlock%2C%20%22%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20border-radius%3A%200.75rem%3B%0A%22)%0A%0A.card%20%7B%0A%20%20background%3A%20white%3B%0A%20%20shadowBlock%0A%7D"
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
-<!-- Replace Section -->
-<section id="replace" class="section">
-  <h2><i class="fas fa-retweet"></i> Style Replacement</h2>
-  <p>
-    Store reusable style patterns and inject them wherever needed. Perfect for maintaining 
-    consistent styles across components and reducing repetition in your stylesheets.
-  </p>
-  
-  <div class="feature-card">
-    <h4><i class="fas fa-check-circle"></i> When to Use</h4>
-    <p>- Creating reusable style patterns</p>
-    <p>- Maintaining consistent component styles</p>
-    <p>- Reducing repetition in your stylesheets</p>
-    <p>- Applying complex styles with a simple reference</p>
-  </div>
-  
-  <h3>Practical Example</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
-
-<pre class="fscss"><code>// Store a card style pattern
-str(cardStyle, "
+      <h3>Block Variables — str()</h3>
+      <p><code>str(name, "css properties")</code> stores a reusable block of CSS text under a label. Writing the bare label inside a selector injects the stored block. This is the primary mechanism for reusable style patterns that are simpler than a parameterized <code>@define</code>.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>str(cardStyle, "
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -429,17 +387,15 @@ str(cardStyle, "
   transition: transform 0.3s ease;
 ")
 
-// Store a hover effect
 str(cardHover, "
   transform: translateY(-5px);
   box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 ")
 
-// Apply stored styles
 .product-card {
   cardStyle
   max-width: 300px;
-  
+
   &:hover {
     cardHover
   }
@@ -449,8 +405,7 @@ str(cardHover, "
   cardStyle
   background: #f0f9ff;
 }</code></pre>
-
-<pre class="compiled hidden"><code>.product-card {
+        <pre class="compiled hidden"><code>.product-card {
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -470,281 +425,518 @@ str(cardHover, "
   background: #f0f9ff;
   transition: transform 0.3s ease;
 }</code></pre>
-  </div>
+      </div>
+    </section>
 
-  <div class="try-btn-container">
-    <a class="try-btn" 
-       href="/compiler#run?code=%2F%2F%20Store%20a%20card%20style%20pattern%0Astr(cardStyle%2C%20%22%0A%20%20padding%3A%201.5rem%3B%0A%20%20border-radius%3A%208px%3B%0A%20%20box-shadow%3A%200%204px%206px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%20%20background%3A%20white%3B%0A%20%20transition%3A%20transform%200.3s%20ease%3B%0A%22)%0A%0A%2F%2F%20Store%20a%20hover%20effect%0Astr(cardHover%2C%20%22%0A%20%20transform%3A%20translateY(-5px)%3B%0A%20%20box-shadow%3A%200%2010px%2015px%20rgba(0%2C0%2C0%2C0.1)%3B%0A%22)%0A%0A%2F%2F%20Apply%20stored%20styles%0A.product-card%20%7B%0A%20%20cardStyle%0A%20%20max-width%3A%20300px%3B%0A%20%20%0A%20%20%26%3Ahover%20%7B%0A%20%20%20%20cardHover%0A%20%20%7D%0A%7D%0A%0A.user-profile%20%7B%0A%20%20cardStyle%0A%20%20background%3A%20%23f0f9ff%3B%0A%7D" 
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
+    <!-- Define -->
+    <section id="define" class="section">
+      <h2><i class="fas fa-cubes"></i> Reusable Blocks — @define</h2>
+      <p><code>@define</code> creates a reusable, parameterized style definition. Parameters accept default values and must be accessed inside the body with <code>@use(parameter)</code>. Direct references such as <code>background: bg;</code> are not resolved.</p>
 
-    <!-- Repeat Section -->
-<section id="repeat" class="section">
-  <h2><i class="fas fa-redo"></i> Repeat Function <code>rpt()</code></h2>
-  <p>
-    Need to generate repeating characters, units, or patterns without writing them manually? 
-    The <code>rpt()</code> function repeats any value a specified number of times. 
-    Great for content, backgrounds, and decorative effects.
-  </p>
-
-  <h3>Practical Example</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
-<pre class="fscss"><code>// Decorative separator
-.separator::after {
-  content: "rpt(10, '— ')";
-  display: block;
-  text-align: center;
-  color: #94a3b8;
-  margin: 1rem 0;
+      <h3>Syntax</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@define name(param: default) {
+  property: @use(param);
 }</code></pre>
+      </div>
 
-<pre class="compiled hidden"><code>.separator::after {
-  content: "— — — — — — — — — — —";
-  display: block;
-  text-align: center;
-  color: #94a3b8;
-  margin: 1rem 0;
-}</code></pre>
-  </div>
-
-  <div class="try-btn-container">
-    <a class="try-btn" 
-       href="/compiler#run?code=%2F%2F%20Decorative%20separator%0A.separator%3A%3Aafter%20%7B%0A%20%20content%3A%20%22rpt(10%2C%20'%E2%80%94%20')%22%3B%0A%20%20display%3A%20block%3B%0A%20%20text-align%3A%20center%3B%0A%20%20color%3A%20%2394a3b8%3B%0A%20%20margin%3A%201rem%200%3B%0A%7D" 
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
-
-<!-- Copy Section -->
-<section id="copy" class="section">
-  <h2><i class="fas fa-copy"></i> Copy Function <code>copy()</code></h2>
-  <p>
-    The <code>copy()</code> function extracts part of a value or string and stores it as a variable. 
-    Perfect for working with design tokens, colors, or long values you only want to write once.
-  </p>
-
-  <h3>Practical Example</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
-<pre class="fscss"><code>body {
-  background: #4ff000 copy(4, primary-color);
-  color: $primary-color!;
-}</code></pre>
-
-<pre class="compiled hidden"><code>
-
-body {
-  background: #4ff000;
-  color: var(--primary-color);
+      <h3>Property Defines</h3>
+      <p>Generate a group of declarations inside a rule.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@define card(bg: black, color: white, pad: 20px, bd-r: 10px) {
+  background: @use(bg);
+  border-radius: @use(bd-r);
+  padding: @use(pad);
+  color: @use(color);
 }
-:root{--primary-color: #4ff000;}
-</code></pre>
-  </div>
 
-  <div class="try-btn-container">
-    <a class="try-btn" 
-       href="/compiler#run?code=body%20%7B%0A%20%20background%3A%20%234ff000%20copy(4%2C%20primary-color)%3B%0A%20%20color%3A%20%24primary-color!%3B%0A%7D" 
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
-
-<!-- Ext Section -->
-<section id="ext" class="section">
-  <h2><i class="fas fa-i-cursor"></i> <code>@ext()</code> – Value & String Extractor</h2>
-  <p>
-    <code>@ext()</code> lets you slice strings or values by index and store them as variables. 
-    Think of it as substring extraction, but directly inside your CSS.
-  </p>
-
-  <h3>Example</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
-<pre class="fscss"><code>body {
-  property: "the red color @ext(4,3: myRed)";
-  color: @ext.myRed;
+.box {
+  @card(#007999)
 }</code></pre>
-
-<pre class="compiled hidden"><code>
-
-body {
-  property: "the red color";
-  color: red;
-}</code></pre>
-  </div>
-
-  <div class="try-btn-container">
-    <a class="try-btn" 
-       href="/compiler#run?code=body%20%7B%0A%20%20property%3A%20%22the%20red%20color%20%40ext(4%2C3%3A%20myRed)%22%3B%0A%20%20color%3A%20%40ext.myRed%3B%0A%7D" 
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
-
-    
-<!-- mx -->
-<section id="drops" class="section">
-  <h2><i class="fas fa-code-branch"></i> mx() / mxs() </h2>
-  <p>
-    Use <code>mx()</code> and <code>mxs()</code> to quickly apply multiple properties with the same value.  
-    <code>mxs()</code> takes a shared value string, while <code>mx()</code> requires appending colons manually.
-  </p>
-
-  <h3>Use Cases</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Consistent Box Sizes</h5>
-      <div class="code-container">
-        <pre><code>.card {
-  mxs(width, height, max-height, max-width, min-width, min-height, '200px')
+        <pre class="compiled hidden"><code>.box {
+  background: #007999;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
 }</code></pre>
       </div>
-    </div>
 
-    <div>
-      <h5>Flexible Value Declaration</h5>
+      <h3>Block Defines</h3>
+      <p>Generate full CSS structures, such as media queries, using a string block enclosed in backticks.</p>
       <div class="code-container">
-        <pre><code>.box {
-  mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@define mobile(size) {
+  `
+  @media (max-width: @use(size)) {
+    .container {
+      padding: 10px;
+    }
+  }
+  `
+}
+
+@mobile(768px)</code></pre>
+      </div>
+
+      <h3>Composition</h3>
+      <p>Multiple defines may be applied within a single rule to build up a component from smaller, focused pieces.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@define btn-base(pad: 0.75rem 1.5rem) {
+  padding: @use(pad);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@define btn-primary(bg: #3b82f6) {
+  background: @use(bg);
+  color: white;
+}
+
+.primary-btn {
+  @btn-base()
+  @btn-primary()
+}</code></pre>
+        <pre class="compiled hidden"><code>.primary-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #3b82f6;
+  color: white;
 }</code></pre>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <h3>Practical Example</h3>
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <button class="toggle-btn">See CSS</button>
-    </div>
+    <!-- Pattern -->
+    <section id="pattern" class="section">
+      <h2><i class="fas fa-brain"></i> Pattern Matching — pattern()</h2>
+      <p><code>pattern()</code> matches a natural-language description against phrases written elsewhere in a stylesheet and injects the associated CSS when the similarity score meets a defined threshold. Unlike <code>@define</code>, which requires an exact call, <code>pattern()</code> resolves by approximate meaning rather than an exact name.</p>
 
-<pre class="fscss"><code>.card {
-  mxs(width, height, max-height, max-width, min-width, min-height, '200px')
+      <h3>Syntax</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>pattern(threshold: "description", `
+  css
+`)</code></pre>
+      </div>
+      <p>The threshold is a number from 0 to 1 representing the minimum similarity score required to trigger the pattern. It defaults to 1 (near-exact match) if omitted.</p>
+
+      <h3>Example</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>pattern(0.5: "Hello World card", `
+  border-radius: 12px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+`)
+
+.card {
+  hello world card
+}</code></pre>
+        <pre class="compiled hidden"><code>.card {
+  border-radius: 12px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}</code></pre>
+      </div>
+
+      <h3>Property Patterns and Block Patterns</h3>
+      <p>A property pattern resolves inside a selector, contributing a set of declarations. A block pattern resolves to a full structure, such as a keyframe animation, and may be written standalone, outside any selector.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>pattern(0.7: "animated keyframe for spin", `
+  @keyframes spin {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+`)
+
+an Animated keyframe for spin</code></pre>
+      </div>
+
+      <p>Availability: <code>pattern()</code> is available from v1.1.25 via CDN, API, and CLI.</p>
+    </section>
+
+    <!-- Fun -->
+    <section id="fun" class="section">
+      <h2><i class="fas fa-cogs"></i> Function Stores — @fun</h2>
+      <p><code>@fun(name){...}</code> defines a named group of key-value pairs, referenced by dot notation. It is suited to design tokens such as spacing scales or color palettes.</p>
+
+      <h3>Full Block Use</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@fun(card-style){
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.card {
+  @fun.card-style
+  border: 1px solid #e2e8f0;
+}</code></pre>
+        <pre class="compiled hidden"><code>.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}</code></pre>
+      </div>
+
+      <h3>Property and Value Access</h3>
+      <p><code>@fun.name.property</code> pulls a single property from the block. <code>@fun.name.property.value</code> resolves to only the value of that property, useful when the value is needed inline, such as inside <code>linear-gradient()</code>.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@fun(e){
+  a: 100px;
+  b: 200px;
+}
+@fun(col){
+  1: #550066;
+  2: #005523;
 }
 .box {
-  mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
+  width: @fun.e.a.value;
+  height: @fun.e.b.value;
+  background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
 }</code></pre>
-
-<pre class="compiled hidden"><code>.card {
-  width: 200px;
+        <pre class="compiled hidden"><code>.box {
+  width: 100px;
   height: 200px;
-  max-height: 200px;
-  max-width: 200px;
-  min-width: 200px;
-  min-height: 200px;
+  background: linear-gradient(#550066, #005523);
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Arrays -->
+    <section id="arr" class="section">
+      <h2><i class="fas fa-list-ol"></i> Arrays — @arr</h2>
+      <p>FSCSS arrays store ordered collections of values, referenced by index or iterated automatically. Arrays are 1-indexed and are string-native: every method returns a string directly rather than an array object, and method calls do not chain.</p>
+
+      <h3>Declaration and Access</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@arr(colors[#3b82f6, #8b5cf6, #06b6d4, #10b981]);
+@arr(spacing[0.5rem, 1rem, 1.5rem, 2rem]);
+
+.primary-button {
+  background: @arr.colors[1];
+  padding: @arr.spacing[2] @arr.spacing[3];
+}</code></pre>
+        <pre class="compiled hidden"><code>.primary-button {
+  background: #3b82f6;
+  padding: 1.5rem 2rem;
+}</code></pre>
+      </div>
+
+      <h3>Auto-Indexing</h3>
+      <p>Empty brackets <code>@arr.name[]</code> iterate through every item, generating one rule per item when used in a selector such as <code>:nth-child()</code>.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@arr(delays[0.1s, 0.3s, 0.5s]);
+@arr(colors[#ef4444, #f59e0b, #10b981]);
+@arr(indexes[count(3, 1)]);
+
+.loading-dot:nth-child(@arr.indexes[]) {
+  $index: @arr.indexes[];
+  animation-delay: @arr.delays[$index!];
+  background: @arr.colors[$index!];
+}</code></pre>
+        <pre class="compiled hidden"><code>.loading-dot:nth-child(1) {
+  animation-delay: 0.1s;
+  background: #ef4444;
 }
-.box {
-  width: 200px;
-  height: 200px;
-  max-height: 200px;
-  max-width: 200px;
-  min-width: 200px;
-  min-height: 200px;
+.loading-dot:nth-child(2) {
+  animation-delay: 0.3s;
+  background: #f59e0b;
+}
+.loading-dot:nth-child(3) {
+  animation-delay: 0.5s;
+  background: #10b981;
 }</code></pre>
-  </div>
-
-  <div class="try-btn-container">
-    <a class="try-btn"
-       href="/compiler#run?code=.card%20%7B%0A%20%20mxs(width%2C%20height%2C%20max-height%2C%20max-width%2C%20min-width%2C%20min-height%2C%20'200px')%0A%7D%0A.box%20%7B%0A%20%20mx(width%2C%20height%2C%20max-height%2C%20max-width%2C%20min-width%2C%20min-height%2C%20'%3A%20200px%3B')%0A%7D"
-       target="_blank">🚀 Try it yourself</a>
-  </div>
-</section>
-    
-
-<!-- share -->
-<section id="share" class="section">
-  <h2><i class="fas fa-layer-group"></i> Shared Properties (%1 - %6, %i)</h2>
-  <p>
-    Shared values let you assign a single value to multiple properties at once.
-    Use <code>%2</code>, <code>%3</code>, up to <code>%6</code> for 2–6 properties, or <code>%i</code> for custom counts.  
-    This helps you reduce repetition and keep your stylesheets concise.
-  </p>
-
-  <h3>Use Cases</h3>
-  <div class="example-grid">
-    <div>
-      <h5>%2 - Two Properties, One Value</h5>
-      <div class="code-container">
-        <pre><code>div{%2(width, height[: 50px;])}</code></pre>
       </div>
-    </div>
 
-    <div>
-      <h5>%3 - Three Properties, One Value</h5>
+      <h3>Method Access Mode</h3>
+      <p>Appending <code>!</code> to an array reference switches from direct output to method access mode, enabling the methods below.</p>
       <div class="code-container">
-        <pre><code>.box{%3(border-radius, outline-width, min-width[: 5px;])}</code></pre>
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@arr.name        /* direct output: item1, item2, item3 */
+@arr.name!.method  /* method access mode */</code></pre>
       </div>
-    </div>
 
-    <div>
-      <h5>%4 - Four Properties, One Value</h5>
+      <table class="benefits-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background: #1e293b; color: white;">
+            <th style="padding: 0.75rem; text-align: left;">Method</th>
+            <th style="padding: 0.75rem; text-align: left;">Description</th>
+            <th style="padding: 0.75rem; text-align: left;">Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.length</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Number of items</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.length</code> → 3</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.first</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">First item</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.first</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.last</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Last item</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.last</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.list</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Comma-separated list of all items</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.list</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.join(sep)</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Join items with a custom separator</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.join(+)</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.reverse</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Items in reverse order</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.reverse</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.shuffle</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Items in random order</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.shuffle</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.sort</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Alphabetic or numeric sort</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.sort</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.unique</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Remove duplicate items</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.unique</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.indices</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">1-based index list</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.indices</code> → 1,2,3</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.randint</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">One random item</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.randint</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.segment</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Wrap each item in brackets</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.segment</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.sum</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Sum of numeric items</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.num!.sum</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.min</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minimum numeric value</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.num!.min</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.max</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Maximum numeric value</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.num!.max</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.unit(val)</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Append a unit to each item</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.n!.unit(px)</code></td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>.prefix(v)</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Prepend a prefix to each item</td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>@arr.b!.prefix(btn-)</code></td></tr>
+          <tr><td style="padding: 0.6rem;"><code>.surround(b,a)</code></td><td style="padding: 0.6rem;">Wrap each item with a before and after value</td><td style="padding: 0.6rem;"><code>@arr.b!.surround([,])</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Mutation</h3>
+      <p>Items may be added or removed from a declared array using index-based operators.</p>
       <div class="code-container">
-        <pre><code>h1{%4(margin, padding, gap, inset[: 10px;])}</code></pre>
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@arr.name!+[item4, item5]  /* append items */
+@arr.name!-[2]             /* remove the second item */</code></pre>
       </div>
-    </div>
 
-    <div>
-      <h5>%5 - Five Properties, One Value</h5>
+      <h3>Limitations</h3>
+      <p>Array methods do not chain; each method call returns a plain string, not a further array. Nested array declarations are not resolved: writing <code>@arr.b[@arr.a!.list]</code> stores the literal text rather than executing the inner array.</p>
+
+      <h3>Combining with @random</h3>
       <div class="code-container">
-        <pre><code>button{%5(border-width, font-size, line-height, letter-spacing, word-spacing[: 2px;])}</code></pre>
-      </div>
-    </div>
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@arr(backgrounds[#3b82f6, #8b5cf6, #06b6d4]);
 
-    <div>
-      <h5>%6 - Six Properties, One Value</h5>
+.dynamic-card {
+  background: @random(@arr.backgrounds);
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Random -->
+    <section id="random" class="section">
+      <h2><i class="fas fa-random"></i> Random — @random</h2>
+      <p><code>@random()</code> selects one value from a list at compile time (or at each render, in runtime mode). It accepts either an inline list or a reference to a declared array.</p>
+
+      <h3>Inline List</h3>
       <div class="code-container">
-        <pre><code>.grid{%6(row-gap, column-gap, padding, margin, top, left[: 1rem;])}</code></pre>
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>.btn {
+  background: @random([red, blue, green, brown]);
+  transform: translate(@random([10, 30, 60])px);
+  rotate: @random([0, 90, 150])deg;
+}</code></pre>
       </div>
-    </div>
-  </div>
 
-  <!-- FSCSS Example -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=%0Adiv%20%7B%0A%20%20%252(width%2C%20height%5B%3A%2050px%3B%5D)%0A%7D%0A%0A.box%20%7B%0A%20%20%253(border-radius%2C%20outline-width%2C%20min-width%5B%3A%205px%3B%5D)%0A%7D%0A%0Ah1%20%7B%0A%20%20%254(margin%2C%20padding%2C%20gap%2C%20inset%5B%3A%2010px%3B%5D)%0A%7D%0A%0Abutton%20%7B%0A%20%20%255(border-width%2C%20font-size%2C%20line-height%2C%20letter-spacing%2C%20word-spacing%5B%3A%202px%3B%5D)%0A%7D%0A%0A.grid%20%7B%0A%20%20%256(row-gap%2C%20column-gap%2C%20padding%2C%20margin%2C%20top%2C%20left%5B%3A%201rem%3B%5D)%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>div {
+      <h3>From a Declared Array</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@arr(palette[#4361ee, #f72585, #7209b7]);
+
+.btn {
+  border: 2px groove @random(@arr.palette);
+}</code></pre>
+      </div>
+
+      <p>Each compilation, or each page render in runtime mode, selects a new value independently per <code>@random()</code> call.</p>
+    </section>
+
+    <!-- Event -->
+    <section id="event" class="section">
+      <h2><i class="fas fa-code-branch"></i> Event Logic — @event</h2>
+      <p><code>@event</code> defines a parameterized function that returns different values based on conditions, using <code>if</code>, <code>el-if</code>, and <code>el</code> blocks. It brings conditional logic into a stylesheet without a build script.</p>
+
+      <h3>Basic Usage</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@event theme(mode) {
+  if mode: dark {
+    return: #111111;
+  }
+  el {
+    return: #ffffff;
+  }
+}
+
+body {
+  background: @event.theme(dark);
+  color: @event.theme(light);
+}</code></pre>
+        <pre class="compiled hidden"><code>body {
+  background: #111111;
+  color: #ffffff;
+}</code></pre>
+      </div>
+
+      <h3>Multiple Conditions</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@event size(type) {
+  if type: small {
+    return: 12px;
+  }
+  el-if type: medium {
+    return: 16px;
+  }
+  el-if type: large {
+    return: 20px;
+  }
+  el {
+    return: 24px;
+  }
+}
+
+h1 {
+  font-size: @event.size(large);
+}</code></pre>
+        <pre class="compiled hidden"><code>h1 {
+  font-size: 20px;
+}</code></pre>
+      </div>
+
+      <h3>Comparison Operators</h3>
+      <p>Numeric parameters support <code>==</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, and <code>&lt;=</code>.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@event rating(score) {
+  if score >= 90 {
+    return: #10b981;
+  }
+  el-if score >= 70 {
+    return: #f59e0b;
+  }
+  el {
+    return: #ef4444;
+  }
+}
+
+.user-score-95 {
+  color: @event.rating(95);
+}</code></pre>
+        <pre class="compiled hidden"><code>.user-score-95 {
+  color: #10b981;
+}</code></pre>
+      </div>
+
+      <h3>Combining with num()</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>@event spacing(level) {
+  if level == 1 {
+    return: num(4*2)px;
+  }
+  el-if level == 2 {
+    return: num(8*2)px;
+  }
+  el {
+    return: num(16*2)px;
+  }
+}
+
+.card-medium {
+  padding: @event.spacing(2);
+}</code></pre>
+        <pre class="compiled hidden"><code>.card-medium {
+  padding: 16px;
+}</code></pre>
+      </div>
+
+      <h3>Combining with Variables</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>$dark-bg: #111111;
+$light-bg: #ffffff;
+
+@event themedBackground(mode) {
+  if mode: dark {
+    return: $dark-bg!;
+  }
+  el {
+    return: $light-bg!;
+  }
+}
+
+body {
+  background: @event.themedBackground(dark);
+}</code></pre>
+        <pre class="compiled hidden"><code>body {
+  background: #111111;
+}</code></pre>
+      </div>
+
+      <h3>Best Practices</h3>
+      <p>Give events clear, descriptive names such as <code>theme</code>, <code>spacing</code>, or <code>device</code>. Keep each event focused on a single responsibility rather than branching on multiple unrelated parameters.</p>
+    </section>
+
+    <!-- Import -->
+    <section id="import" class="section">
+      <h2><i class="fas fa-file-import"></i> Imports — @import</h2>
+      <p><code>@import</code> loads modules from a built-in library, a local path, or a remote URL, and can import selectively, with aliasing, or as a wildcard.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>/* Named import */
+@import((module) from lib-or-path)
+
+/* Multiple named modules */
+@import((
+  mod-a,
+  mod-b
+) from lib-or-path)
+
+/* Aliased import, avoids name clashes */
+@import((module as alias) from lib-or-path)
+
+/* Wildcard import */
+@import((*) from lib-or-path)
+
+/* Remote import from a CDN or absolute URL */
+@import((module) from "https://cdn.example/file.fscss")</code></pre>
+      </div>
+
+      <h3>Example: Splitting Theme and Layout Files</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>@import(exec(_theme.fscss))
+@import(exec(_layout.fscss))
+
+:root {
+  @light-theme()
+}
+
+.container {
+  @container()
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Shorthand -->
+    <section id="shared" class="section">
+      <h2><i class="fas fa-layer-group"></i> Shorthand Properties</h2>
+
+      <h3>Shared Values — %n</h3>
+      <p><code>%2</code> through <code>%6</code> assign a single value to two through six properties in one call. <code>%i</code> supports a custom count.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>div {
   %2(width, height[: 50px;])
 }
 
 .box {
   %3(border-radius, outline-width, min-width[: 5px;])
-}
-
-h1 {
-  %4(margin, padding, gap, inset[: 10px;])
-}
-
-button {
-  %5(border-width, font-size, line-height, letter-spacing, word-spacing[: 2px;])
-}
-
-.grid {
-  %6(row-gap, column-gap, padding, margin, top, left[: 1rem;])
 }</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>div {
+        <pre class="compiled hidden"><code>div {
   width: 50px;
   height: 50px;
 }
@@ -753,1081 +945,287 @@ button {
   border-radius: 5px;
   outline-width: 5px;
   min-width: 5px;
-}
-
-h1 {
-  margin: 10px;
-  padding: 10px;
-  gap: 10px;
-  inset: 10px;
-}
-
-button {
-  border-width: 2px;
-  font-size: 2px;
-  line-height: 2px;
-  letter-spacing: 2px;
-  word-spacing: 2px;
-}
-
-.grid {
-  row-gap: 1rem;
-  column-gap: 1rem;
-  padding: 1rem;
-  margin: 1rem;
-  top: 1rem;
-  left: 1rem;
 }</code></pre>
-  </div>
+      </div>
 
-  <!-- Live Preview -->
-  <div class="preview-grid">
-    <div class="demo-box">div (%2)</div>
-    <div class="demo-box box">.box (%3)</div>
-    <h1 class="demo-h1">h1 (%4)</h1>
-    <button class="demo-btn">button (%5)</button>
-    <div class="demo-grid">
-      <div>1</div><div>2</div><div>3</div><div>4</div>
-    </div>
-  </div>
-</section>
-
-<!-- Demo Styles -->
-<style>
-.preview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.demo-box {
-  width: 50px;
-  height: 50px;
-  background: #60a5fa;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  font-size:.75rem;
-  border-radius:4px;
+      <h3>mx() and mxs()</h3>
+      <p>Both apply the same value to multiple properties. <code>mxs()</code> takes a plain shared value; <code>mx()</code> requires the colon and semicolon to be written explicitly, allowing more flexible declarations.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.card {
+  mxs(width, height, max-height, max-width, min-width, min-height, '200px')
 }
 .box {
-  border-radius: 5px;
-  outline: 2px solid #3b82f6;
-  min-width: 5px;
+  mx(width, height, max-height, max-width, min-width, min-height, ': 200px;')
+}</code></pre>
+        <pre class="compiled hidden"><code>.card {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 200px;
 }
-.demo-h1 {
-  margin: 10px;
-  padding: 10px;
-  gap: 10px;
-  inset: 10px;
-  background:#fbbf24;
-  color:#000;
-  font-size:1rem;
-}
-.demo-btn {
-  border-width: 2px;
-  font-size: 2px;
-  line-height: 2px;
-  letter-spacing: 2px;
-  word-spacing: 2px;
-  background:#34d399;
-  color:#fff;
-  padding:.5rem 1rem;
-}
-.demo-grid {
-  display:grid;
-  grid-template-columns: repeat(2,1fr);
-  row-gap:1rem;
-  column-gap:1rem;
-  padding:1rem;
-  margin:1rem;
-  top:1rem;
-  left:1rem;
-  background:#f87171;
-  color:#fff;
-}
-.demo-grid div {
-  background:#fff;
-  color:#000;
-  padding:.5rem;
-  border-radius:4px;
-  text-align:center;
-}
-</style>
+.box {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}</code></pre>
+      </div>
+    </section>
 
-      <!-- attr -->
-<section id="attr" class="section">
-  <h2><i class="fas fa-crosshairs"></i> Attribute Selector Shortcut</h2>
-  <p>
-    FSCSS makes attribute selectors faster to write.  
-    For example, <code>$(type:submit)</code> compiles to <code>[type='submit']</code>.  
-    This is handy for forms, input types, roles, and any attribute-based selection.
-  </p>
-
-  <h3>Use Case</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Target Form Buttons</h5>
+    <!-- Attribute Selectors -->
+    <section id="attr" class="section">
+      <h2><i class="fas fa-crosshairs"></i> Attribute Selectors</h2>
+      <p>The shorthand <code>$(attribute:value)</code> compiles to a standard CSS attribute selector.</p>
       <div class="code-container">
-        <pre><code>$(type:submit) {
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>$(type:submit) {
+  background: green;
+  color: white;
+}</code></pre>
+        <pre class="compiled hidden"><code>[type='submit'] {
   background: green;
   color: white;
 }</code></pre>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- FSCSS Input -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=%24(type%3Asubmit)%20%7B%0A%20%20background%3A%20green%3B%0A%20%20color%3A%20white%3B%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>$(type:submit) {
-  background: green;
-  color: white;
-}</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>[type='submit'] {
-  background: green;
-  color: white;
-}</code></pre>
-  </div>
-
-  <!-- Live Preview -->
-  <div class="preview-grid">
-    <input type="submit" value="Submit Button">
-  </div>
-</section>
-
-<!-- keyframes -->
-<section id="keyframes" class="section">
-  <h2><i class="fas fa-film"></i> Keyframes Compact</h2>
-  <p>
-    FSCSS lets you define and apply animations in one block with 
-    <code>$(@keyframes name, selectors, &[duration timing options])</code>.  
-    It generates both the <code>@keyframes</code> and applies the animation to your elements automatically.
-  </p>
-
-  <h3>Use Case</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Slide Animation</h5>
+    <!-- Keyframes -->
+    <section id="keyframes" class="section">
+      <h2><i class="fas fa-film"></i> Keyframes Compact</h2>
+      <p><code>$(@keyframes name, selectors, &amp;[duration timing options])</code> defines a <code>@keyframes</code> rule and applies the resulting animation to the given selectors in a single block.</p>
       <div class="code-container">
-        <pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
   from { transform: translateX(-100%); }
   to   { transform: translateX(0); }
 }</code></pre>
-      </div>
-    </div>
-  </div>
-
-  <!-- FSCSS Input -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=%24(%40keyframes%20slideIn%2C%20.box%2C%20.card%2C%20%26%5B3s%20linear%20infinite%5D)%20%7B%0A%20%20from%20%7B%20transform%3A%20translateX(-100%25)%3B%20%7D%0A%20%20to%20%7B%20transform%3A%20translateX(0)%3B%20%7D%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>$(@keyframes slideIn, .box, .card, &[3s linear infinite]) {
-  from { transform: translateX(-100%); }
-  to   { transform: translateX(0); }
-}</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>.box, .card {
+        <pre class="compiled hidden"><code>.box, .card {
   animation: slideIn 3s linear infinite;
 }
 @keyframes slideIn {
   from { transform: translateX(-100%); }
   to   { transform: translateX(0); }
 }</code></pre>
-  </div>
-
-  <!-- Live Preview -->
-  <div class="preview-grid">
-    <div class="demo-box2 box">.box</div>
-    <div class="demo-box2 card">.card</div>
-  </div>
-</section>
-
-<!-- Demo Styles -->
-<style>
-.preview-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-  align-items: center;
-}
-.preview-grid input[type="submit"] {
-  padding: .5rem 1rem;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-}
-.demo-box2 {
-  width: 80px;
-  height: 40px;
-  background: #3b82f6;
-  color: white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border-radius: 4px;
-}
-.demo-box2.box, .demo-box2.card {
-  animation: slideIn 3s linear infinite;
-}
-@keyframes slideIn {
-  from { transform: translateX(-100%); }
-  to   { transform: translateX(0); }
-}
-</style>
-    <!-- vendors -->
-
-    <!-- vendors -->
-<section id="vendors" class="section">
-  <h2><i class="fas fa-toolbox"></i> Vendor Prefixing (-*-)</h2>
-  <p>
-    Use the <code>-*-</code> prefix to automatically apply vendor-specific properties across
-    <code>-webkit</code>, <code>-moz</code>, <code>-ms</code>, and <code>-o</code>.  
-    This ensures cross-browser compatibility without writing each prefix manually.
-  </p>
-
-  <h3>Use Case</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Cross-Browser Transforms</h5>
-      <div class="code-container">
-        <pre><code>.box {
-  -*-transform: rotate(45deg);
-}</code></pre>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- FSCSS Input -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=.box%20%7B%0A%20%20-*-%20transform%3A%20rotate(45deg)%3B%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>.box {
+    <!-- Vendor Prefixing -->
+    <section id="vendors" class="section">
+      <h2><i class="fas fa-toolbox"></i> Vendor Prefixing</h2>
+      <p>The <code>-*-</code> prefix expands a property across <code>-webkit-</code>, <code>-moz-</code>, <code>-ms-</code>, and <code>-o-</code>, followed by the unprefixed property.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.box {
   -*-transform: rotate(45deg);
 }</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>.box {
+        <pre class="compiled hidden"><code>.box {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }</code></pre>
-  </div>
-
-  <!-- Live Preview -->
-  <div class="preview-grid4">
-    <div class="demo-box4 box">Rotated</div>
-  </div>
-</section>
-
-<!-- fun -->
-<section id="fun" class="section">
-  <h2><i class="fas fa-cogs"></i> Function Based (@fun)</h2>
-  <p>
-    FSCSS allows defining reusable groups of values with <code>@fun(name){...}</code>.  
-    These can store sizes, colors, or property sets and can be referenced anywhere using dot-notation.
-  </p>
-
-  <h3>Use Case</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Reusable Palette & Sizes</h5>
-      <div class="code-container">
-        <pre><code>@fun(e){
-  a: 100px;
-  b: 200px;
-}
-@fun(col){
-  1: #550066;
-  2: #005523;
-}
-.box {
-  width: @fun.e.a.value;
-  height: @fun.e.b.value;
-  background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
-}</code></pre>
       </div>
-    </div>
-  </div>
-
-  <!-- FSCSS Input -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=%40fun(e)%7B%0A%20%20a%3A%20100px%3B%0A%20%20b%3A%20200px%3B%0A%7D%0A%40fun(col)%7B%0A%20%201%3A%20%23550066%3B%0A%20%202%3A%20%23005523%3B%0A%7D%0A.box%20%7B%0A%20%20width%3A%20%40fun.e.a.value%3B%0A%20%20height%3A%20%40fun.e.b.value%3B%0A%20%20background%3A%20linear-gradient(%40fun.col.1.value%2C%20%40fun.col.2.value)%3B%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>@fun(e){
-  a: 100px;
-  b: 200px;
-}
-@fun(col){
-  1: #550066;
-  2: #005523;
-}
-.box {
-  width: @fun.e.a.value;
-  height: @fun.e.b.value;
-  background: linear-gradient(@fun.col.1.value, @fun.col.2.value);
-}</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>.box {
-  width: 100px;
-  height: 200px;
-  background: linear-gradient(#550066, #005523);
-}</code></pre>
-  </div>
-
-  <!-- Live Preview -->
-  <div class="preview-grid3">
-    <div class="demo-box3 box">Box</div>
-  </div>
-</section>
-
-<!-- Demo Styles -->
-<style>
-.preview-grid3 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-  align-items: center;
-}
-.demo-box3 {
-  width: 120px;
-  height: 60px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
-}
-.demo-box3.box {
-  width: 100px;
-  height: 200px;
-  background: linear-gradient(#550066, #005523);
-}
-</style>
-    
-
-   <!-- arr -->
-<section id="arr" class="section">
-  <h2><i class="fas fa-list-ol"></i> Array Method (@arr)</h2>
-  <p>
-    The <code>@arr()</code> directive lets you define reusable arrays of values—ideal for staggered animations, theming, and scalable utilities.  
-    Arrays are <strong>1-indexed</strong> (starting from <code>[1]</code>), and can store numbers, colors, strings, or any valid CSS value.
-  </p>
-
-  <h3>Use Case</h3>
-  <div class="example-grid">
-    <div>
-      <h5>Animating with Arrays</h5>
-      <div class="code-container">
-        <pre><code>@arr(e[0.1, 2.5, 7]);
-@arr(col[red, blue, green]);
-
-section {
-  background: @arr.col[2];
-}
-
-section :nth-child(@arr.e[]) {
-  animation: spin 3s linear infinite;
-  animation-delay: @arr.e[]s;
-  background: @arr.col[3];
-}</code></pre>
-      </div>
-    </div>
-  </div>
-
-  <!-- FSCSS Input -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>fscss</span>
-      <button class="copy-btn">Copy</button>
-      <a class="try-btn" href="/compiler#run?code=%40arr(e%5B0.1%2C%202.5%2C%207%5D)%3B%0A%40arr(col%5Bred%2C%20blue%2C%20green%5D)%3B%0A%0Asection%20%7B%0A%20%20background%3A%20%40arr.col%5B2%5D%3B%0A%7D%0A%0Asection%20%3Anth-child(%40arr.e%5B%5D)%20%7B%0A%20%20animation%3A%20spin%203s%20linear%20infinite%3B%0A%20%20animation-delay%3A%20%40arr.e%5B%5Ds%3B%0A%20%20background%3A%20%40arr.col%5B3%5D%3B%0A%7D%0A%0A%40keyframes%20spin%20%7B%0A%20%200%25%20%7B%20transform%3A%20rotate(0)%3B%20%7D%0A%20%20100%25%20%7B%20transform%3A%20rotate(360deg)%3B%20%7D%0A%7D" target="_blank">Try it yourself</a>
-    </div>
-<pre><code>@arr(e[0.1, 2.5, 7]);
-@arr(col[red, blue, green]);
-
-section {
-  background: @arr.col[2];
-}
-
-section :nth-child(@arr.e[]) {
-  animation: spin 3s linear infinite;
-  animation-delay: @arr.e[]s;
-  background: @arr.col[3];
-}
-
-@keyframes spin {
-  0%   { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
-}</code></pre>
-  </div>
-
-  <!-- CSS Output -->
-  <div class="code-container">
-    <div class="code-header">
-      <span>css</span>
-      <button class="copy-btn">Copy</button>
-    </div>
-<pre><code>section {
-  background: blue;
-}
-
-section :nth-child(1) {
-  animation: spin 3s linear infinite;
-  animation-delay: 0.1s;
-  background: green;
-}
-
-section :nth-child(2) {
-  animation: spin 3s linear infinite;
-  animation-delay: 2.5s;
-  background: green;
-}
-
-section :nth-child(3) {
-  animation: spin 3s linear infinite;
-  animation-delay: 7s;
-  background: green;
-}
-
-@keyframes spin {
-  0%   { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
-}</code></pre>
-  </div>
-
-  <!-- Live Preview -->
-  <div class="preview-grid">
-    <section class="demo-section">
-      <div class="demo-box">1</div>
-      <div class="demo-box">2</div>
-      <div class="demo-box">3</div>
     </section>
-  </div>
-</section>
 
-<!-- Demo Styles -->
-<style>
-.preview-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-  align-items: center;
-}
-.demo-section {
-  display: flex;
-  gap: 1rem;
-}
-.demo-box {
-  width: 60px;
-  height: 60px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border-radius: 6px;
-  font-weight: bold;
-  color: white;
-  background: blue;
-}
-.demo-section .demo-box:nth-child(1) {
-  animation: spin 3s linear infinite;
-  animation-delay: 0.1s;
-  background: green;
-}
-.demo-section .demo-box:nth-child(2) {
-  animation: spin 3s linear infinite;
-  animation-delay: 2.5s;
-  background: green;
-}
-.demo-section .demo-box:nth-child(3) {
-  animation: spin 3s linear infinite;
-  animation-delay: 7s;
-  background: green;
-}
-@keyframes spin {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
-}
-</style>
-
- <section id="random" class="section">
-  <h2 class="section-title">🎲<code>@random()</code> Method</h2>
-  <p class="section-intro">
-    The <code>@random()</code> method lets you apply randomized values to CSS properties, enabling dynamic, ever-changing styles without JavaScript. When combined with <code>@arr()</code>, it becomes a powerful tool for reusable random styling.
-  </p>
-  
-  <div class="doc-subsection" id="random-syntax">
-    <h3 class="subsection-title">🔧 Syntax Overview</h3>
-    <div class="code-container">
-      <pre><code>@random([value1, value2, value3, ...])</code></pre>
-    </div>
-    <p>Returns a randomly selected value from the array on each stylesheet render.</p>
-  </div>
-  
-  <div class="doc-subsection" id="random-example">
-    <h3 class="subsection-title">✨ Example: Randomized Button Style</h3>
-    <div class="code-container">
-      <pre><code>
-.btn {
-  padding: 10px 20px;
-  margin: 10px;
-  background: @random([lightgreen, yellow, gray]);
-  color: @random([midnightblue, blue, green]);
-  border: 2px groove @random([#4361ee, #f72585, #7209b7]);
-  transform: translate(@random([10,30,60])px);
-  rotate: @random([0,90,150])deg;
-}</code></pre>
-    </div>
-    <p>Each page load applies a new combination of background, color, translation, and rotation to <code>.btn</code>.</p>
-  </div>
-  
-  <div class="doc-subsection" id="random-use-cases">
-    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
-    <ul class="benefits-list">
-      <li>Random button colors or positions</li>
-      <li>Playful or animated UI elements</li>
-      <li>Fast prototyping with automatic variations</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="random-benefits">
-    <h3 class="subsection-title">🚀 Benefits</h3>
-    <ul class="usage-list">
-      <li><stron"g>Dynamic UI:</strong> Fresh styles every reload</li>
-      <li><strong>Reusable:</strong> Combine with <code>@arr()</code></li>
-      <li><strong>No JS Needed:</strong> Pure FSCSS logic</li>
-      <li><strong>Clean Syntax:</strong> Short and maintainable</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="random-summary">
-    <h3 class="subsection-title">🔚 Summary</h3>
-    <p>
-      FSCSS <code>@random()</code> makes randomized styling effortless—perfect for motion, contrast, or playful designs without relying on JavaScript.
-    </p>
-  </div>
-</section>
-
-<section id="copy" class="section">
-  <h2 class="section-title">✂️<code>copy()</code> Function</h2>
-  <p class="section-intro">
-    The <code>copy()</code> function is used to extract and reuse parts of string values, making it ideal for design tokens, dynamic variables, or text-based CSS manipulation.
-  </p>
-  
-  <div class="doc-subsection" id="copy-syntax">
-    <h3 class="subsection-title">🔧 Syntax Overview</h3>
-    <div class="code-container">
-      <pre><code>copy(length, variable)</code></pre>
-    </div>
-    <ul class="usage-list">
-      <li><strong>length:</strong> Number of characters to extract
-        <ul>
-          <li>Positive → from the start</li>
-          <li>Negative → from the end</li>
-          <li>Larger than string → returns full string</li>
-        </ul>
-      </li>
-      <li><strong>variable:</strong> The FSCSS variable name to store the extracted result</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="copy-example">
-    <h3 class="subsection-title">✨ Example Usage</h3>
-    <div class="code-container">
-      <pre><code>body {
-  /* primary-color = #4ff */
-  background: #4ff000 copy(4, primary-color);
-  color: $primary-color!;
+    <!-- num -->
+    <section id="num" class="section">
+      <h2><i class="fas fa-square-root-alt"></i> num()</h2>
+      <p><code>num(expression)</code> evaluates an arithmetic expression at compile time, supporting <code>+ - * /</code>. A unit may be appended directly after the closing parenthesis.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>selector {
+  max-height: num(40 * 4);
 }
 
-a {
-  color: $primary-color!;
-}
-
-span:before {
-  content: "blue or midnightblue copy(-14, my-darkblue)";
-  border: 2px solid $my-darkblue!;
-}</code></pre>
-    </div>
-  </div>
-  
-  <div class="doc-subsection" id="copy-how-it-works">
-    <h3 class="subsection-title">🧠 How It Works</h3>
-    <ul class="ref-list">
-      <li><code>copy(4, primary-color)</code> → extracts first 4 chars of <code>#4ff000</code> → <code>#4ff</code></li>
-      <li>Stores result in <code>$primary-color</code>, reusable anywhere</li>
-      <li><code>copy(-14, my-darkblue)</code> → extracts last 14 chars from the string → <code>midnightblue</code></li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="copy-best-practices">
-    <h3 class="subsection-title">✅ Best Practices</h3>
-    <ul class="usage-list">
-      <li>Use descriptive variable names for extracted values</li>
-      <li>Double-check string length when using negative values</li>
-      <li>Perfect for color tokens, naming consistency, and reusability</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="copy-summary">
-    <h3 class="subsection-title">🔚 Summary</h3>
-    <p>
-      FSCSS <code>copy()</code> enables powerful string slicing and variable reuse, bringing DRY principles and token-based design to your stylesheets.
-    </p>
-  </div>
-</section>
-
-<section id="num" class="section">
-  <h2 class="section-title"><i class="fas fa-calculator"></i><code>@num()</code> – String to Number</h2>
-  <p class="section-intro">
-    The <code>@num()</code> method allows inline numeric calculations directly in your stylesheets.
-    You can perform arithmetic like <code>num(40 * 2)</code> → <code>80</code>, and append units such as <code>num(4 * 6)px</code> → <code>24px</code>.
-  </p>
-  
-  <div class="doc-subsection" id="num-syntax">
-    <h3 class="subsection-title">🔧 Syntax Overview</h3>
-    <div class="code-container">
-      <pre><code>@num(expression)</code></pre>
-    </div>
-    <ul class="usage-list">
-      <li><strong>expression:</strong> Any valid arithmetic using <code>+ - * /</code></li>
-      <li><strong>Units:</strong> Append units like <code>px</code>, <code>%</code>, <code>em</code>, etc.</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="num-examples">
-    <h3 class="subsection-title">✨ Example Usage</h3>
-    <div class="example-grid">
-      <div>
-        <h5>1. Calculating max-height</h5>
-        <div class="code-container">
-          <pre><code>selector {
-  max-height: num(40 * 4); /* = 160 */
-}</code></pre>
-        </div>
-      </div>
-      
-      <div>
-        <h5>2. Mix with @random for dynamic values</h5>
-        <div class="code-container">
-          <pre><code>textarea {
+textarea {
   max-height: num(@random([40, 10, 5, 0]) + 50);
 }</code></pre>
-        </div>
-      </div>
-    </div>
-    <p><a href="#random"><strong>See the <code>@random()</code> method →</strong></a></p>
-  </div>
-  
-  <div class="doc-subsection" id="num-how-it-works">
-    <h3 class="subsection-title">🧠 How It Works</h3>
-    <ul class="ref-list">
-      <li><code>num(40 * 4)</code> → evaluates to <code>160</code></li>
-      <li><code>num(10 + 20)px</code> → compiles to <code>30px</code></li>
-      <li><code>num(@random([5, 15]) * 2)</code> → produces either <code>10</code> or <code>30</code></li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="num-use-cases">
-    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
-    <ul class="benefits-list">
-      <li>Responsive calculations without JS</li>
-      <li>Dynamic values with <code>@random()</code> and <code>@arr()</code></li>
-      <li>Reusable math for animations, spacing, and sizing</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="num-best-practices">
-    <h3 class="subsection-title">✅ Best Practices</h3>
-    <ul class="usage-list">
-      <li>Keep expressions simple for readability</li>
-      <li>Pair with <code>@random()</code> and <code>@arr()</code> for dynamic patterns</li>
-      <li>Use variables for clarity: <code>@num($spacing * 2)</code></li>
-      <li>Validate unit compatibility when mixing values</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="num-summary">
-    <h3 class="subsection-title">🔚 Summary</h3>
-    <ul>
-      <li><strong>Lightweight Calculation:</strong> Compute values inline with <code>+ - * /</code></li>
-      <li><strong>Supports Units:</strong> Works with <code>px</code>, <code>%</code>, <code>em</code>, etc.</li>
-      <li><strong>Dynamic Pairing:</strong> Combine with <code>@random()</code>, <code>@arr()</code>, <code>@fun()</code>, and variables</li>
-      <li><strong>Cleaner Code:</strong> Math in stylesheets, no JS required</li>
-    </ul>
-  </div>
-</section>
-
-<section id="count" class="section">
-  <h2 class="section-title">🔢<code>count()</code> Method</h2>
-  <p class="section-intro">
-    The <code>count()</code> method generates sequential numeric values automatically. It’s perfect for creating ordered patterns, spacing variations, array auto indexing, or iterative property values in FSCSS without writing loops.
-  </p>
-  
-  <div class="doc-subsection" id="count-syntax">
-    <h3 class="subsection-title">🔧 Syntax Overview</h3>
-    <div class="code-container">
-      <pre><code>count(limit)
- count(limit, step)</code></pre>
-    </div>
-    <p>
-      Generates a comma-separated sequence of numbers starting from <code>1</code> (or a custom step value if provided).
-    </p>
-  </div>
-  
-  <div class="doc-subsection" id="count-example">
-    <h3 class="subsection-title">✨ Example: Counting in Style</h3>
-    <div class="code-container">
-      <pre><code>
-/* Example 1 */
-exec(_log, "count(5)")
-/* Output: 1, 2, 3, 4, 5 */
-
-/* Example 2 */
-exec(_log, "count(10, 2)") 
-/* Output: 2, 4, 6, 8, 10 */
-@arr num[count(5)]
- div:nth-child(@arr.num[]){
- animation-delay: @arr.num[];
-  background: @random([red, blue, green]);
+        <pre class="compiled hidden"><code>selector {
+  max-height: 160;
 }</code></pre>
-    </div>
-    <p>Automatically generates sequences you can use for spacing, sizes, and progressive effects.</p>
-  </div>
-  
-  <div class="doc-subsection" id="count-use-cases">
-    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
-    <ul class="benefits-list">
-      <li>Incremental element sizes or margins</li>
-      <li>Dynamic step-based animations</li>
-      <li>Patterned gradients or transformations</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="count-benefits">
-    <h3 class="subsection-title">🚀 Benefits</h3>
-    <ul class="usage-list">
-      <li><strong>Automatic Sequences:</strong> No manual typing</li>
-      <li><strong>Flexible:</strong> Custom step support</li>
-      <li><strong>Loop Ready:</strong> Works perfectly with <code>other fscss functions</code></li>
-      <li><strong>Readable:</strong> Simple, short, and intuitive</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="count-summary">
-    <h3 class="subsection-title">🔚 Summary</h3>
-    <p>
-      The FSCSS <code>count()</code> method brings elegant number generation to your stylesheet — ideal for consistent iteration and modular design without code repetition.
-    </p>
-  </div>
-</section>
+      </div>
+    </section>
 
+    <!-- count -->
+    <section id="count" class="section">
+      <h2><i class="fas fa-sort-numeric-up"></i> count()</h2>
+      <p><code>count(limit)</code> generates a comma-separated sequence of numbers starting at 1. <code>count(limit, step)</code> starts from a custom step value.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>exec(_log, "count(5)")     /* 1, 2, 3, 4, 5 */
+exec(_log, "count(10, 2)") /* 2, 4, 6, 8, 10 */
 
-<section id="length" class="section">
-  <h2 class="section-title">📏<code>length()</code> Method</h2>
-  <p class="section-intro">
-    The <code>length()</code> method returns the number of characters in a string. It’s a handy utility for calculations, string-based logic, or even conditional style adjustments in FSCSS.
-  </p>
-  
-  <div class="doc-subsection" id="length-syntax">
-    <h3 class="subsection-title">🔧 Syntax Overview</h3>
-    <div class="code-container">
-      <pre><code>length("Your Text Here")</code></pre>
-    </div>
-    <p>
-      Evaluates the given string and returns its total character count (including spaces and punctuation).
-    </p>
-  </div>
-  
-  <div class="doc-subsection" id="length-example">
-    <h3 class="subsection-title">✨ Example: Dynamic Width by Text Length</h3>
-    <div class="code-container">
-      <pre><code>
-.text-box {
+@arr num[count(5)]
+div:nth-child(@arr.num[]) {
+  animation-delay: @arr.num[];
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- length -->
+    <section id="length" class="section">
+      <h2><i class="fas fa-ruler"></i> length()</h2>
+      <p><code>length("text")</code> returns the character count of a string, including spaces and punctuation. It is typically combined with <code>num()</code> to derive a size from a string's length.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.text-box {
   width: num(length("Hello World") * 10)px;
-  background: lightblue;
-  padding: 10px;
+}</code></pre>
+        <pre class="compiled hidden"><code>.text-box {
+  width: 110px;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- copy -->
+    <section id="copy" class="section">
+      <h2><i class="fas fa-copy"></i> copy()</h2>
+      <p><code>copy(length, variable)</code> extracts a substring from a value and stores it under a new variable name. A positive length counts from the start of the string; a negative length counts from the end. A length greater than the string returns the full string.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>body {
+  background: #4ff000 copy(4, primary-color);
+  color: $primary-color!;
+}</code></pre>
+        <pre class="compiled hidden"><code>body {
+  background: #4ff000;
+  color: var(--primary-color);
 }
+:root { --primary-color: #4ff; }</code></pre>
+      </div>
+    </section>
 
-/* length("Hello World") → 11
-   Resulting width → 110px */
-</code></pre>
-    </div>
-    <p>Measure string lengths directly inside your FSCSS logic to create adaptive element sizes or styles.</p>
-  </div>
-  
-  <div class="doc-subsection" id="length-use-cases">
-    <h3 class="subsection-title">🧩 What You Can Build With It</h3>
-    <ul class="benefits-list">
-      <li>Auto-sizing text containers</li>
-      <li>Responsive typography systems</li>
-      <li>Character-based animations</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="length-benefits">
-    <h3 class="subsection-title">🚀 Benefits</h3>
-    <ul class="usage-list">
-      <li><strong>Precise:</strong> Counts every character</li>
-      <li><strong>Functional:</strong> Integrates into expressions</li>
-      <li><strong>Useful:</strong> Great for logic and sizing</li>
-      <li><strong>Lightweight:</strong> No external JS needed</li>
-    </ul>
-  </div>
-  
-  <div class="doc-subsection" id="length-summary">
-    <h3 class="subsection-title">🔚 Summary</h3>
-    <p>
-      FSCSS <code>length()</code> makes it easy to bring text-awareness into your design logic — perfect for responsive or text-reactive layouts without scripts.
-    </p>
-  </div>
-</section>
-    
-<!-- Detailed Exploration Section -->
-<section id="fscss-dev" class="section">
-  <h2><i class="fas fa-search"></i> Detailed Exploration of FSCSS</h2>
+    <!-- ext -->
+    <section id="ext" class="section">
+      <h2><i class="fas fa-i-cursor"></i> @ext()</h2>
+      <p><code>@ext(source, start, length)</code> slices a string by index and stores the result as a variable, referenced afterward as <code>@ext.name</code>.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>body {
+  property: "the red color @ext(4,3: myRed)";
+  color: @ext.myRed;
+}</code></pre>
+        <pre class="compiled hidden"><code>body {
+  property: "the red color";
+  color: red;
+}</code></pre>
+      </div>
+    </section>
 
-  <p>
-    FSCSS, an acronym for <strong>Figured Shorthand Cascading Style Sheet</strong>, emerges as a promising methodology within the realm of web development, specifically aimed at enhancing the efficiency and readability of CSS (Cascading Style Sheets).
-  </p>
+    <!-- rpt -->
+    <section id="rpt" class="section">
+      <h2><i class="fas fa-redo"></i> rpt()</h2>
+      <p><code>rpt(count, value)</code> repeats a value a given number of times, most commonly used inside <code>content</code> for decorative or generated text.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.separator::after {
+  content: "rpt(10, '— ')";
+}</code></pre>
+        <pre class="compiled hidden"><code>.separator::after {
+  content: "— — — — — — — — — — —";
+}</code></pre>
+      </div>
+    </section>
 
-  <h3><i class="fas fa-book"></i> Definition and Purpose</h3>
-  <p>
-    FSCSS is defined as a styling approach designed to simplify CSS by introducing shorthand notations. The primary objective is to reduce repetitive code, thereby making styles more concise and easier to maintain.
-  </p>
-  <p>
-    This methodology rethinks traditional CSS writing, focusing on efficiency without compromising functionality. For instance, it aims to address the common challenge of bloated CSS files, which can hinder performance and readability, especially in large-scale projects.
-  </p>
-  <p>
-    The evidence leans toward FSCSS being particularly beneficial for developers seeking clean and maintainable CSS structures. This is supported by its emphasis on reducing redundancy, a common pain point in web development where stylesheets can become unwieldy over time.
-  </p>
+    <!-- exec -->
+    <section id="exec" class="section">
+      <h2><i class="fas fa-terminal"></i> exec()</h2>
+      <p><code>exec(_log, message)</code> and <code>exec(_warn, message)</code> print debugging output to the console at compile time. They do not produce CSS output.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>exec(_log, 'compiling theme module')
+exec(_warn, 'deprecated variable name')</code></pre>
+      </div>
+    </section>
 
-  <h3><i class="fas fa-cogs"></i> Key Features and Functionality</h3>
-  <ul>
-    <li>
-      <strong>Shorthand Methods:</strong> Use of notations like <code>%2</code> to share values across multiple properties, reducing repetitive declarations.
-    </li>
-    <li>
-      <strong>Rapid Tag Formatting (rtF):</strong> Style multiple elements quickly, useful for lists, grids, and modular design.
-    </li>
-    <li>
-      <strong>Animation Efficiency:</strong> Compact syntax for defining animations, making them easier to manage.
-    </li>
-    <li>
-      <strong>Script Integration:</strong> Compatibility with FSCSS-specific scripts and tools to automate or enhance styling processes.
-    </li>
-  </ul>
-  <p>
-    These features collectively address modern development needs where performance and maintainability are critical.
-  </p>
+    <!-- File Structure -->
+    <section id="fscss-files" class="section">
+      <h2><i class="fas fa-folder-open"></i> File Structure Overview</h2>
+      <table class="benefits-table" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #1e293b; color: white;">
+            <th style="padding: 0.75rem; text-align: left;">File</th>
+            <th style="padding: 0.75rem; text-align: left;">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/exec.min.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minified runtime, served via the jsDelivr CDN, for browser-side compilation.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/exec.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Un-minified source of the runtime, used for development and debugging.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/index.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Standard npm package entry point.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/xfscss.min.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minified module for handling FSCSS processing inside JavaScript environments.</td></tr>
+          <tr><td style="padding: 0.6rem;"><code>/e/</code> (v1.1.6+)</td><td style="padding: 0.6rem;">Error handling and logging utilities used for diagnostics during development.</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  <h3><i class="fas fa-lightbulb"></i> Use Cases and Adoption</h3>
-  <ul>
-    <li>Enterprise-level websites needing consistent styling</li>
-    <li>Startup projects aiming for scalability</li>
-    <li>Developers working under tight deadlines for faster delivery</li>
-  </ul>
-</section>
+    <!-- Project Background -->
+    <section id="about" class="section">
+      <h2><i class="fas fa-info-circle"></i> Project Background</h2>
+      <p>FSCSS, short for Figured Shorthand Cascading Style Sheet, was conceived in 2022 by Ekuyik Sam, with early development carried out by Figsh. Initial development focused on the shared-value shorthand methods (<code>%2</code> through <code>%6</code>, <code>%i</code>) and basic variable handling with <code>$name: value</code>.</p>
+      <p>In 2023, the <code>copy()</code> function was introduced alongside the first public test release. In 2024, the preprocessor's internal handling of variables and functions was expanded. In 2025, FSCSS was published to npm as the <code>fscss</code> package, adding an advanced string-replacement function, an extended <code>%n()</code> method supporting arbitrary counts, developer-facing console logging, and direct execution through a browser extension. In 2026, the project reached v1.1.25, adding array method extensions, <code>@event</code> conditional logic, and <code>pattern()</code> semantic matching.</p>
+      <p>FSCSS is published under Figsh Development as the <code>fscss</code> package on npm, and maintained through the <code>fscss-ttr</code> organization on GitHub.</p>
+    </section>
 
+    <!-- Community -->
+    <section id="community" class="section">
+      <h2><i class="fas fa-users"></i> Community</h2>
+      <p>Contributions, bug reports, and feature suggestions are welcome through GitHub. Tutorials and discussion are also published on dev.to.</p>
+      <ul>
+        <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">GitHub Discussions</a></li>
+        <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contributing Guide</a></li>
+        <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issue Tracker</a></li>
+        <li><a href="https://dev.to/fscss-ttr">dev.to Community</a></li>
+        <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
+      </ul>
+    </section>
 
-<!-- Introduction Section -->
-<section id="intro-fscss" class="section">
-  <h2><i class="fas fa-rocket"></i> Introducing FSCSS: Figured Shorthand Cascading Style Sheet</h2>
-
-  <p>We hope you have an excellent experience exploring its features and capabilities.</p>  
-
-  <p>
-    The FSCSS journey began in <strong>2022</strong>, conceived by <strong>Ekuyik Sam</strong> as a robust testing framework. Early development by <strong><a href="//figsh.devtem.org">Figsh</a></strong> focused on core concepts like <code>%2</code> to <code>%6</code>, <code>%i</code>, and basic variable handling using <code>$...</code>.
-  </p>
-
-  <p>
-    Building on this foundation, FSCSS quickly evolved. As outlined in the official <a href="/">documentation</a>, the framework now includes:
-  </p>
-  <ul>
-    <li>Shorthand methods <code>%1()</code> to <code>%6()</code></li>
-    <li>Powerful merging tools like <code>mx()</code> and <code>mxs()</code></li>
-    <li>String manipulation with <code>str()</code> and <code>re()</code></li>
-    <li>Reusable value extraction with <code>copy()</code></li>
-    <li>Advanced variable handling like <code>$...:...</code> and <code>$...!</code></li>
-    <li>Support for <code>@keyframes</code> and advanced selector patterns with <code>$(... :...)</code></li>
-  </ul>
-
-  <p><strong>2023</strong> marked a significant milestone with the <code>copy()</code> function and the framework’s first public release for testing.</p>
-  <p><strong>2024</strong> introduced improved preprocessor memory and new functions, leading into <strong>2025</strong> with the official <strong><a href="//www.npmjs.com/package/fscss">npm package release</a></strong> of <code>fscss</code>.</p>
-
-  <p>This latest release includes:</p>
-  <ul>
-    <li>An advanced <code>replace</code> function for full string matching</li>
-    <li>Expanded <code>%n()</code> method supporting infinite counting</li>
-    <li>Developer-friendly console logs and debugging tools</li>
-    <li>Direct execution via the FSCSS browser extension</li>
-  </ul>
-
-  <p>
-    <strong>FSCSS</strong> is officially published under the <strong><a href="//figsh.devtem.org">Figsh</a> Development</strong> as the <code>fscss</code> package on <a href="//www.npmjs.com/package/fscss">npm</a>. Led by <strong>Ekuyik Sam</strong> and managed through the <strong>fscss-ttr</strong> initiative, it promotes collaboration and learning in the developer community.
-  </p>
-
-  <p>You can find tutorials and community support on:</p>
-  <ul>
-    <li><a href="https://dev.to" target="_blank">dev.to</a></li>
-    <li><a href="https://codepen.io" target="_blank">CodePen</a></li>
-    <li>X (formerly Twitter)</li>
-    <li>Facebook</li>
-    <li>YouTube</li>
-    <li><a href="https://stackoverflow.com" target="_blank">Stack Overflow</a></li>
-    <li><a href="https://quora.com" target="_blank">Quora</a></li>
-    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
-  </ul>
-</section>
-
-<section id="fscss-files" class="section">
-  <h2><i class="fas fa-folder-open"></i> FSCSS File Structure Overview</h2>
-  
-  <ul>
-    <li>
-      <strong><i class="fas fa-file-code"></i> <code>/exec.min.js</code> (from jsDelivr)</strong>
-      <p>
-        A minified version of the executable JavaScript file. “Minified” means unnecessary characters like spaces and comments are removed, making the file smaller and faster to load. Delivered via <strong>jsDelivr</strong>, a global Content Delivery Network (CDN) for efficient delivery.
-      </p>
-    </li>
-    
-    <li>
-      <strong><i class="fas fa-file-alt"></i> <code>/exec.js</code> (original)</strong>
-      <p>
-        The original, un-minified version of the executable JavaScript file. This version is easier for developers to read and debug. The minified <code>exec.min.js</code> is typically generated from this for production deployment.
-      </p>
-    </li>
-    
-    <li>
-      <strong><i class="fas fa-sign-in-alt"></i> <code>/index.js</code> (npm default)</strong>
-      <p>
-        The standard entry point for JavaScript projects using npm (Node Package Manager). When a project is run or imported as a package, <code>index.js</code> is the first file executed.
-      </p>
-    </li>
-    
-    <li>
-      <strong><i class="fas fa-download"></i> <code>/xfscss.min.js</code> (for importation)</strong>
-      <p>
-        A minified JavaScript file designed to handle FSCSS functions, such as dynamic CSS processing and styling within JavaScript environments. Optimized for production use and integration via script imports.
-      </p>
-    </li>
-    
-    <li>
-      <strong><i class="fas fa-tools"></i> <code>/e/</code> (available in version <strong>1.1.6+</strong>)</strong>
-      <p>
-        A directory/module introduced in version <strong>1.1.6</strong> containing utilities for error handling and logging. Provides <em>developer-friendly</em> tools for debugging and diagnostics, helping identify and fix issues during development.
-      </p>
-    </li>
-  </ul>
-</section>
-    
-    <!-- Footer -->
     <div class="footer">
-      
-      <p>FSCSS v1.1.14 | © 2025 | MIT License</p>
+      <p>FSCSS v1.1.25 | MIT License</p>
     </div>
   </main>
-  
+
   <script>
-    // Copy button functionality
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', function() {
-        const pre = this.parentElement.nextElementSibling;
+        const container = this.closest('.code-container');
+        const pre = container.querySelector('pre:not(.compiled.hidden)') || container.querySelector('pre');
         const text = pre.textContent;
-        
         navigator.clipboard.writeText(text).then(() => {
           const originalText = this.textContent;
-          this.textContent = 'Copied!';
-          
-          setTimeout(() => {
-            this.textContent = originalText;
-          }, 2000);
+          this.textContent = 'Copied';
+          setTimeout(() => { this.textContent = originalText; }, 2000);
         });
       });
     });
-    
-    // Smooth scrolling for anchor links
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
-        
         if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 20,
-            behavior: 'smooth'
-          });
-          
-          // Update active link
-          document.querySelectorAll('.sidebar a.active').forEach(link => {
-            link.classList.remove('active');
-          });
+          window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
+          document.querySelectorAll('.sidebar a.active').forEach(link => link.classList.remove('active'));
           this.classList.add('active');
         }
       });
     });
-    
-    // Update active link on scroll
+
     window.addEventListener('scroll', function() {
       const sections = document.querySelectorAll('.section');
       let currentSection = '';
-      
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
         if (scrollY >= sectionTop - 100) {
           currentSection = section.getAttribute('id');
         }
       });
-      
       document.querySelectorAll('.sidebar a').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${currentSection}`) {
@@ -1835,80 +1233,32 @@ exec(_log, "count(10, 2)")
         }
       });
     });
-  document.querySelectorAll('.toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const container = btn.closest('.code-container');
-      const fscss = container.querySelector('.fscss');
-      const css = container.querySelector('.compiled');
 
-      fscss.classList.toggle('hidden');
-      css.classList.toggle('hidden');
-
-      btn.textContent = fscss.classList.contains('hidden') ? "Hide CSS" : "See CSS";
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const container = btn.closest('.code-container');
+        const fscss = container.querySelector('.fscss');
+        const css = container.querySelector('.compiled');
+        if (fscss && css) {
+          fscss.classList.toggle('hidden');
+          css.classList.toggle('hidden');
+          btn.textContent = fscss.classList.contains('hidden') ? 'See FSCSS' : 'See CSS';
+        }
+      });
     });
-  });
-              document.querySelector(".footer p:first-child").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with 💡 for Web developers. MIT License.`;
-              
   </script>
-      <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
-  <style>
-   .scroll-btn{
-     background: #09f;
-     border-radius: 50%;
-     border: 1px solid rgb(255,255,255, 0.5);
-     opacity: 0.8;
-     padding: 10px;
-     width: 50px;
-     height: 50px;
-     position: fixed !important;
-     z-index: 1900;
-     right: 10px;
-     bottom: 8em;
-     animation: animate 1s ease infinite alternate, slideSUp 0.5s ease 1 forwards;
-     color: #ddd;
-     font-weight: bolder;
-     display: none;
-   }
-  .scroll-btn.show{
-    display: inline-block;
-  }
-   @keyframes animate{
-     from{
-       transform: translateY(3px);
-     }
-     to{
-       transform: translateY(0);
-     }
-   }
-   @keyframes slideSUp{
-     from{
-       bottom: -0.5em;
-     }
-     to{
-       bottom: 8em;
-     }
-   }
-  </style>
+
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
   <script>
-  const scrollBack=document.querySelector(".scroll-btn");
-  
-  window.addEventListener("scroll", function(){
-    if(window.pageYOffset>=300){
-      scrollBack.classList.add("show");
-    }
-    else{
-      scrollBack.classList.remove("show");
-    }
-  })
-    scrollBack.addEventListener("click", (e)=>{
-      
-        window.scrollTo({
-          top:0,
-          behavior: 'smooth' 
-        }) 
-      
-    })
+    const scrollBack = document.querySelector(".scroll-btn");
+    window.addEventListener("scroll", function() {
+      if (window.pageYOffset >= 300) { scrollBack.classList.add("show"); }
+      else { scrollBack.classList.remove("show"); }
+    });
+    scrollBack.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   </script>
-  <script src="//fscss.devtem.org/scripts/highlight.js"></script>
+
+  <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
