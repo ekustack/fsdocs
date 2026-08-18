@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/pattern">
+
+  <!-- Primary Title -->
+  <title>FSCSS pattern() – Semantic Pattern Matching & Fuzzy Style Injection</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Master FSCSS pattern() and learn how to match natural-language phrases to reusable CSS using confidence thresholds. Build intent-based, fuzzy-matched style systems.">
+
+  <meta name="keywords" content="FSCSS pattern, FSCSS pattern method, semantic pattern matching CSS, fuzzy style injection, NLP CSS, intent-based styling, CSS similarity matching, FSCSS documentation">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS pattern() – Semantic Pattern Matching">
+  <meta property="og:description" content="Match natural-language phrases to reusable CSS using confidence thresholds. Build intent-based, fuzzy-matched style systems with FSCSS.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/pattern">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Pattern Documentation">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-08-18T00:00:00Z">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS pattern() – Semantic Pattern Matching">
+  <meta name="twitter:description" content="Learn how to match natural-language phrases to reusable CSS using confidence thresholds with FSCSS pattern().">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles/import.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+
+  <!-- Scripts -->
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <!-- Article Meta -->
+  <meta property="article:section" content="Documentation">
+  <meta property="article:tag" content="FSCSS Pattern">
+  <meta property="article:tag" content="Semantic Matching">
+  <meta property="article:tag" content="Fuzzy Style Injection">
+
+  <!-- Structured Data: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS pattern() – Semantic Pattern Matching",
+    "description": "Comprehensive documentation explaining how to use the pattern() method in FSCSS to match natural-language phrases to reusable CSS using confidence thresholds.",
+    "author": {
+      "@type": "Organization",
+      "name": "Figsh"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "dateModified": "2026-08-18",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/pattern"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.1.25"
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS Home",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Documentation",
+        "item": "https://fscss.devtem.org/docs"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "pattern",
+        "item": "https://fscss.devtem.org/pattern"
+      }
+    ]
+  }
+  </script>
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="">
+          <img src="https://fscss.devtem.org/assets/images/fscss.png" alt="FSCSS" width="40">
+        </div>
+        <span>FSCSS</span>
+      </div>
+
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="import.html" class="nav-link">Import</a>
+        <a href="define.html" class="nav-link">Define</a>
+        <a href="pattern.html" class="nav-link active">Pattern</a>
+        <a href="random.html" class="nav-link">Random</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS pattern()</h1>
+      <p class="lead">Match natural-language phrases to reusable CSS using confidence thresholds</p>
+      <p>Write what you mean, and let FSCSS resolve it to the closest matching style</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Introduction to FSCSS pattern()</h2>
+          <span class="recommended-badge">
+            <i class="fas fa-star"></i> NEW IN v1.1.25
+          </span>
+        </div>
+        <div class="card-body">
+          <p>The <code>pattern()</code> method lets you define a piece of CSS alongside a plain-language description, then reference it anywhere in your stylesheet using natural phrases instead of exact class names or mixin calls.</p>
+
+          <p>Unlike <code>@define</code>, which requires an exact call signature, <code>pattern()</code> resolves by <strong>similarity</strong>. A phrase in your stylesheet is scored against every pattern description, and the best match above its confidence threshold gets injected as CSS.</p>
+
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-brain"></i>
+              </div>
+              <h4>Semantic Matching</h4>
+              <p>Phrases don't need to match exactly — close enough clears the threshold</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-sliders-h"></i>
+              </div>
+              <h4>Confidence Threshold</h4>
+              <p>Set how strict or forgiving each pattern's matching should be</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-quote-right"></i>
+              </div>
+              <h4>Quote-Safe Syntax</h4>
+              <p>Mix quote types freely so CSS content can include its own quotes</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h4>Direct Injection</h4>
+              <p>Matched CSS is expanded in place during compilation</p>
+            </div>
+          </div>
+
+          <div class="alert note">
+            <i class="fas fa-lightbulb"></i>
+            <div>
+              <strong>Key Concept:</strong> The threshold is a <strong>minimum similarity score</strong> (0–1). A phrase must score at or above it to trigger the pattern. Higher thresholds mean stricter, closer-to-exact matches.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Syntax -->
+    <section class="section">
+      <h2>Basic Syntax</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Pattern Declaration</h3>
+          <span class="import-badge">pattern()</span>
+        </div>
+        <div class="card-body">
+          <p>The basic syntax for defining a pattern:</p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>syntax.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>pattern(threshold: "description", `
+  /* css to inject */
+`)</code></pre>
+          </div>
+
+          <div class="example-grid" style="margin-top: 2rem;">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4><i class="fas fa-cube"></i> Simple Pattern</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <div class="code-header">
+                    <span>example.fscss</span>
+                    <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="toggle-btn">See Compiled</button>
+                  </div>
+                  <pre class="fscss"><code>pattern(0.5: "Hello World card", `
+  border-radius: 12px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+`)
+
+.card {
+  hello world card
+}</code></pre>
+                  <pre class="compiled hidden"><code>.card {
+  border-radius: 12px;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Threshold and Matching -->
+    <section class="section">
+      <h2>Threshold and Matching</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>How Similarity Scoring Works</h3>
+          <span class="import-badge import-badge-secondary">threshold</span>
+        </div>
+        <div class="card-body">
+          <p>Every pattern has a threshold — a minimum similarity score a phrase must reach to trigger it. Phrases are compared word-for-word against the description, case-insensitively.</p>
+
+          <div class="alert warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              <strong>⚠️ Important:</strong> The colon <code>:</code> separates the threshold from the description. Omitting the threshold defaults it to <code>1</code> (near-exact match required).
+            </div>
+          </div>
+
+          <div class="example-grid">
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>✅ Forgiving Match</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>pattern(0.5: "Beautiful card", `
+  background: #06f;
+`)
+
+/* matches: "beautiful card",
+   "beautiful", "a card that's beautiful" */</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="example-card">
+              <div class="example-card-header">
+                <h4>❌ Strict Match</h4>
+              </div>
+              <div class="example-card-body">
+                <div class="code-container">
+                  <pre><code>pattern("dark button", `
+  background: #111;
+`)
+
+/* threshold defaults to 1 —
+   only "dark button" itself matches */</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-container" style="margin-top: 1.5rem;">
+            <div class="code-header">
+              <span>threshold-example.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>pattern(0.8: "dark background and light color", `
+  background: #212121;
+  color: #ffffff;
+`)
+
+.chip {
+  style dark background and light color
+}</code></pre>
+            <pre class="compiled hidden"><code>.chip {
+  background: #212121;
+  color: #ffffff;
+}</code></pre>
+          </div>
+
+          <div class="example-output" style="margin-top: 1rem;">
+            <div class="demo-flex">
+              <div style="background: #212121; color: #ffffff; padding: 12px 20px; border-radius: 8px; max-width: 300px;">
+                Chip with matched dark styling
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Property Patterns vs Block Patterns -->
+    <section class="section">
+      <h2>Property Patterns vs Block Patterns</h2>
+
+      <div class="example-grid">
+        <div class="example-card">
+          <div class="example-card-header">
+            <h4><i class="fas fa-paint-brush"></i> Property Patterns</h4>
+            <span class="import-badge">Property</span>
+          </div>
+          <div class="example-card-body">
+            <p>Resolve to a group of declarations inside a rule. Ideal for cards, buttons, and common component styling described in plain language.</p>
+            <div class="code-container">
+              <pre><code>pattern(0.6: "rounded primary button", `
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  background: #ffffff;
+  color: #764ba2;
+  font-weight: 600;
+  cursor: pointer;
+`)
+
+.btn {
+  rounded primary button
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-card-header">
+            <h4><i class="fas fa-code-branch"></i> Block Patterns</h4>
+            <span class="import-badge import-badge-secondary">Block</span>
+          </div>
+          <div class="example-card-body">
+            <p>Resolve to full CSS structures like keyframes or at-rules. The matching phrase can stand alone, outside any selector.</p>
+            <div class="code-container">
+              <pre><code>pattern(0.7: "animated keyframe for spin", `
+  @keyframes spin {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+`)
+
+an Animated keyframes for spin</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="section">
+      <h2>Practical Examples</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Building a Component System</h3>
+          <span class="import-badge import-badge-accent">Components</span>
+        </div>
+        <div class="card-body">
+          <p>Describe a small set of components once, then invoke them anywhere with natural phrasing:</p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>components.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>pattern(0.6: "rounded primary button", `
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  background: #ffffff;
+  color: #764ba2;
+  font-weight: 600;
+  cursor: pointer;
+`)
+
+pattern(0.9: "hello world heading", `h1:before{content: 'Hello World';}`)
+
+.btn {
+  rounded primary button
+}
+
+.title {
+  hello world heading
+}</code></pre>
+            <pre class="compiled hidden"><code>.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  background: #ffffff;
+  color: #764ba2;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.title {
+  h1:before{content: 'Hello World';}
+}</code></pre>
+          </div>
+
+          <div class="example-output" style="margin-top: 2rem;">
+            <div class="demo-flex" style="gap: 1rem; flex-wrap: wrap;">
+              <button style="border: none; border-radius: 8px; padding: 10px 20px; background: #ffffff; color: #764ba2; font-weight: 600; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.15);">Button</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="section">
+      <h2>Best Practices</h2>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Write Distinct Descriptions</h4>
+              <p>Keep pattern descriptions distinguishable from each other to avoid overlapping matches</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Tune Thresholds Deliberately</h4>
+              <p>Use higher thresholds (0.8+) for short, generic phrases; lower thresholds for longer, unique ones</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Use Block Patterns for At-Rules</h4>
+              <p>Reserve block patterns for keyframes, media queries, and standalone structures</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h4>Prefer Backtick Blocks for CSS</h4>
+              <p>Use backticks for the CSS argument so it can freely contain single or double quotes</p>
+            </div>
+          </div>
+
+          <div class="alert note" style="margin-top: 1.5rem;">
+            <i class="fas fa-lightbulb"></i>
+            <div>
+              <strong>Pro Tip:</strong> Group related patterns into a single file (e.g. <code>_patterns.fscss</code>) and import them, the same way you would organize <code>@define</code> libraries.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section">
+      <h2>Why Use FSCSS pattern()?</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Benefits of Semantic Pattern Matching</h3>
+        </div>
+        <div class="card-body">
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-comment-dots"></i>
+              </div>
+              <h4>Write What You Mean</h4>
+              <p>Describe intent in plain language instead of memorizing exact call signatures</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-sliders-h"></i>
+              </div>
+              <h4>Forgiving by Design</h4>
+              <p>Small wording differences still resolve correctly, thanks to threshold-based matching</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-cubes"></i>
+              </div>
+              <h4>Great for Teams</h4>
+              <p>Non-technical contributors can describe styling needs without learning exact syntax</p>
+            </div>
+
+            <div class="feature-highlight">
+              <div class="feature-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h4>Resolved at Compile Time</h4>
+              <p>No runtime cost — matching happens during compilation, just like @define</p>
+            </div>
+          </div>
+
+          <table class="benefits-table" style="margin-top: 2rem; width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #1e293b; color: white;">
+                <th style="padding: 1rem; text-align: left;">Feature</th>
+                <th style="padding: 1rem; text-align: left;">Benefit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Similarity scoring</td>
+                <td style="padding: 1rem;">Phrases don't need to match descriptions exactly</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Configurable threshold</td>
+                <td style="padding: 1rem;">Control how strict or forgiving each pattern is</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Quote-type-aware parsing</td>
+                <td style="padding: 1rem;">CSS content can freely include quotes without breaking the pattern</td>
+              </tr>
+              <tr>
+                <td style="padding: 1rem;">Direct expansion</td>
+                <td style="padding: 1rem;">Predictable output with no runtime overhead</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="alert note" style="margin-top: 1.5rem;">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>Availability:</strong> <code>pattern()</code> is live now on <strong>v1.1.25</strong> via CDN, API, and CLI. VS Code extension syntax highlighting and autocomplete are landing <strong>August 20, 2026</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Core Features</h4>
+        <ul class="footer-links">
+          <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="define.html"><i class="fas fa-cubes"></i> Define</a></li>
+          <li><a href="pattern.html"><i class="fas fa-brain"></i> Pattern</a></li>
+          <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
+          <li><a href="events.html"><i class="fas fa-code-branch"></i> Events</a></li>
+          <li><a href="import.html"><i class="fas fa-file-import"></i> Import</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html"><i class="fas fa-book"></i> Documentation</a></li>
+          <li><a href="examples.html"><i class="fas fa-laptop-code"></i> Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> NPM Package</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="/assets/scripts/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Copy button functionality
+      document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const container = this.closest('.code-container');
+          const pre = container.querySelector('pre:not(.compiled.hidden)') || container.querySelector('pre');
+          const text = pre.textContent;
+
+          navigator.clipboard.writeText(text).then(() => {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+        });
+      });
+
+      // Toggle between FSCSS and compiled CSS
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const container = btn.closest('.code-container');
+          const fscss = container.querySelector('.fscss');
+          const compiled = container.querySelector('.compiled');
+
+          if (fscss && compiled) {
+            fscss.classList.toggle('hidden');
+            compiled.classList.toggle('hidden');
+            btn.textContent = fscss.classList.contains('hidden') ? 'See FSCSS' : 'See Compiled';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
