@@ -11,9 +11,9 @@
   <title>FSCSS @import – Modular CSS Architecture & File Organization</title>
 
   <!-- Primary SEO -->
-  <meta name="description" content="Master FSCSS @import and learn how to build modular, scalable, and reusable stylesheet architectures using Figured Shorthand Cascading Style Sheets. Organize your CSS efficiently.">
+  <meta name="description" content="Master FSCSS @import (v1.2.0). Build modular, scalable stylesheet architectures with selective imports, aliases, and the modern runtime / esm entry points.">
 
-  <meta name="keywords" content="FSCSS @import, FSCSS import system, modular CSS architecture, CSS preprocessor import, organize CSS files, reusable stylesheets, FSCSS documentation, scalable CSS structure">
+  <meta name="keywords" content="FSCSS @import, FSCSS import system, modular CSS architecture, CSS preprocessor import, selective import, organize CSS files, reusable stylesheets, FSCSS documentation, scalable CSS structure">
 
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
@@ -29,7 +29,7 @@
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Import Documentation">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -75,7 +75,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-02-28",
+    "dateModified": "2026-09-04",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/import"
@@ -84,7 +84,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.1.13"
+      "version": "1.2.0"
     }
   }
   </script>
@@ -123,8 +123,8 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <div class="logo-icon">
-          <i class="fas fa-code"></i>
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
         </div>
         <span>FSCSS</span>
       </div>
@@ -133,9 +133,9 @@
         <a href="index.html" class="nav-link">Home</a>
         <a href="docs.html" class="nav-link">Documentation</a>
         <a href="examples.html" class="nav-link">Examples</a>
-        <a href="events.html" class="nav-link">Events</a>
+        <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="api.html" class="nav-link">API</a>
         <a href="import.html" class="nav-link active">Import</a>
-        <a href="random.html" class="nav-link">Random</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
       </div>
@@ -152,6 +152,7 @@
   <section class="hero">
     <div class="hero-content">
       <h1>FSCSS @import</h1>
+      <h3>Recommended: <a href="https://github.com/fscss-ttr/fscss-modules/" style="color: white;">fscss-modules</a> + v1.2.0 up import system</h3>
       <p class="lead">Organize your stylesheets into modular, reusable components with FSCSS @import</p>
       <p>Create a scalable, maintainable CSS architecture by splitting your styles into logical modules</p>
     </div>
@@ -169,9 +170,9 @@
           </span>
         </div>
         <div class="card-body">
-          <p>The <code>@import</code> method in FSCSS allows you to bring one <code>.fscss</code> file into another. This gives your project a <strong>modular structure</strong>, where each file focuses on a single task (like variables, mixins, or components).</p>
+          <p>The <code>@import</code> method in FSCSS allows you to bring one <code>.fscss</code> file (or selected parts of it) into another. This gives your project a <strong>modular structure</strong>, where each file focuses on a single task (variables, mixins, components, utilities…).</p>
           
-          <p>Think of <code>@import</code> as "connecting puzzle pieces": you make small, clean pieces of code and then combine them into a full stylesheet. This makes your styles easier to <strong>read, maintain, and reuse</strong>.</p>
+          <p>Think of <code>@import</code> as connecting puzzle pieces: you make small, clean pieces of code and then combine them into a full stylesheet. This makes your styles easier to <strong>read, maintain, and reuse</strong>.</p>
           
           <div class="feature-highlights">
             <div class="feature-highlight">
@@ -200,10 +201,10 @@
             
             <div class="feature-highlight">
               <div class="feature-icon">
-                <i class="fas fa-tachometer-alt"></i>
+                <i class="fas fa-filter"></i>
               </div>
-              <h4>Performance</h4>
-              <p>Load only what you need for each page</p>
+              <h4>Selective Imports</h4>
+              <p>Import only what you need with aliases</p>
             </div>
           </div>
           
@@ -211,6 +212,58 @@
             <i class="fas fa-lightbulb"></i>
             <div>
               <strong>Best Practice:</strong> Use <code>@import</code> to organize your styles into <em>logical groups</em> (variables, mixins, buttons, layouts). This way you avoid one giant stylesheet that's hard to manage.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modern Import Syntax (v1.1.16+) -->
+    <section class="section">
+      <h2>Modern Import Syntax (v1.1.16+ / v1.2.0)</h2>
+      
+      <div class="card glow-card">
+        <div class="card-header">
+          <h3><i class="fas fa-star" style="color:#f59e0b; margin-right:8px;"></i> Selective Import with Aliases</h3>
+          <span class="import-badge">Recommended</span>
+        </div>
+        <div class="card-body">
+          <p>
+            The preferred way to import is the selective form. You can pick exactly which exports you need and give them short aliases.
+          </p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>/* Import selected pieces from a module library and give them short names */
+@import((
+  circle-progress as clp,
+  progress-range as pr,
+  progress-root as p-root
+) from circle-progress)
+
+/* Now use the aliases */
+@p-root()
+@clp(.progress-circle)
+
+.p72 {
+  @pr(72)
+}</code></pre>
+          </div>
+
+          <p style="margin-top:1.25rem;">
+            This is the same pattern used by the official modules in 
+            <a href="https://github.com/fscss-ttr/fscss-modules" target="_blank" rel="noopener">fscss-modules</a>.
+          </p>
+
+          <div class="alert note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              Under the hood the pipeline runs three related stages (in order):
+              <code>impSel</code> (pick / selective), <code>impFrom</code> (from), and <code>procImp</code> (full import).
+              You can disable any of them with <code>exec.obj.block(f import)</code>, <code>exec.obj.block(f import pick)</code>, or <code>exec.obj.block(f import from)</code>.
             </div>
           </div>
         </div>
@@ -380,11 +433,11 @@ str(respond-to, "
           <span class="import-badge import-badge-secondary">@import(exec(...))</span>
         </div>
         <div class="card-body">
-          <p>Now, create a <code>main.fscss</code> file where you will gather everything. Use <code>@import(exec(...))</code> to bring in your module files.</p>
+          <p>Create a <code>main.fscss</code> file where you gather everything. You can still use the classic form:</p>
           
           <div class="code-container">
             <div class="code-header">
-              <span>main.fscss</span>
+              <span>main.fscss (classic)</span>
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
               <button class="toggle-btn">See Compiled</button>
             </div>
@@ -485,6 +538,28 @@ body {
   background: #6d28d9;
 }</code></pre>
           </div>
+
+          <p style="margin-top:1.5rem;">Or the modern selective form (preferred when the module exports multiple pieces):</p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Selective import</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>@import((
+  flexCenter as center,
+  cardStyle as card
+) from "_mixins.fscss")
+
+.hero {
+  @center
+  height: 80vh;
+}
+
+.panel {
+  @card
+}</code></pre>
+          </div>
           
           <div class="example-output">
             <div class="demo-flex">
@@ -506,22 +581,22 @@ body {
       
       <div class="card">
         <div class="card-header">
-          <h3>Connect FSCSS to Your HTML</h3>
+          <h3>Connect FSCSS to Your HTML (v1.2.0)</h3>
           <span class="import-badge import-badge-accent">HTML Integration</span>
         </div>
         <div class="card-body">
-          <p>Finally, link <code>main.fscss</code> inside your HTML page. The FSCSS compiler will automatically turn it into valid CSS in the browser.</p>
+          <p>Finally, link <code>main.fscss</code> inside your HTML page. With the new <strong>runtime</strong> entry point the compiler automatically processes everything.</p>
           
           <div class="alert warning">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
-              <strong>Note:</strong> This approach is great for development and testing. For production, consider compiling FSCSS to standard CSS for better performance.
+              <strong>Note:</strong> Runtime mode is perfect for development and demos. For production, compile with the CLI (<code>fscss main.fscss main.css</code>) so the page ships pure CSS.
             </div>
           </div>
           
           <div class="code-container">
             <div class="code-header">
-              <span>index.html</span>
+              <span>index.html (v1.2.0)</span>
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <pre><code>&lt;!DOCTYPE html&gt;
@@ -532,10 +607,10 @@ body {
   &lt;title&gt;FSCSS Modular Example&lt;/title&gt;
 
   &lt;!-- Link your main FSCSS file --&gt;
-  &lt;link type="text/fscss" href="main.fscss"&gt;
+  &lt;link type="fscss" href="main.fscss"&gt;
 
-  &lt;!-- Include FSCSS compiler --&gt;
-  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.13/exec.min.js" defer&gt;&lt;/script&gt;
+  &lt;!-- New v1.2.0 runtime (auto-runs) --&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class="container"&gt;
@@ -548,6 +623,19 @@ body {
   &lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+          </div>
+
+          <p style="margin-top:1.25rem;">Prefer full control? Use the ESM build instead:</p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>ESM (manual)</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>&lt;script type="module"&gt;
+  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.0/esm.min.js";
+  await xfscss.reboot();   // processes all &lt;link type="fscss"&gt; and &lt;style&gt;
+&lt;/script&gt;</code></pre>
           </div>
         </div>
       </div>
@@ -583,39 +671,36 @@ body {
             
             <div class="example-card">
               <div class="example-card-header">
-                <h4><i class="fas fa-bolt"></i> Conditional Imports</h4>
+                <h4><i class="fas fa-filter"></i> Selective + Alias</h4>
               </div>
               <div class="example-card-body">
-                <p>Load certain files only when conditions match.</p>
+                <p>Import only the pieces you need and rename them.</p>
                 <div class="code-container">
-                  <pre><code>/* Load extra styles for mobile */
-@media (max-width: 768px) {
-  @import(exec(mobile.fscss))
-}
+                  <pre><code>@import((
+  primaryBtn as btn,
+  secondaryBtn as btn2
+) from "my-buttons.fscss")
 
-/* Load dark theme automatically */
-@media (prefers-color-scheme: dark) {
-  @import(exec(dark-theme.fscss))
-}</code></pre>
+.cta { @btn }
+.alt  { @btn2 }</code></pre>
                 </div>
               </div>
             </div>
             
             <div class="example-card">
               <div class="example-card-header">
-                <h4><i class="fas fa-code-branch"></i> Dynamic Imports</h4>
+                <h4><i class="fas fa-code-branch"></i> With Events / Themes</h4>
               </div>
               <div class="example-card-body">
                 <p>Combine <code>@import</code> with events for dynamic loading.</p>
                 <div class="code-container">
-                  <pre><code>/* style.fscss */
-@import(exec(_init themes))
+                  <pre><code>@import(exec(_init themes))
 
 div.star {
-   background: @event.theme(forest);
-   $box-size: 200px;
-   %2(width, height[: $box-size!;])
-   tr Shape: @event.shape(star);
+  background: @event.theme(forest);
+  $box-size: 200px;
+  %2(width, height[: $box-size!;])
+  tr Shape: @event.shape(star);
 }</code></pre>
                 </div>
               </div>
@@ -625,9 +710,37 @@ div.star {
           <div class="alert warning">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
-              <strong>Warning:</strong> Avoid circular imports (when file A imports file B, and file B imports file A). This can cause infinite loops and break your build.
+              <strong>Warning:</strong> Avoid circular imports (file A imports file B, and file B imports file A). This can cause infinite loops and break processing.
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blocking & Pipeline Control -->
+    <section class="section">
+      <h2>Controlling the Import Pipeline</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3><code>exec.obj.block</code> for imports</h3>
+        </div>
+        <div class="card-body">
+          <p>You can selectively disable import processing stages when needed (debugging, special builds, etc.):</p>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span>FSCSS</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>/* Skip all import handling */
+exec.obj.block(f import);
+
+/* Or skip only selective / from stages */
+exec.obj.block(f import pick);
+exec.obj.block(f import from);</code></pre>
+          </div>
+          <p>All <code>exec.obj.block(...)</code> markers are stripped from the final CSS.</p>
         </div>
       </div>
     </section>
@@ -657,7 +770,7 @@ div.star {
                 <i class="fas fa-tachometer-alt"></i>
               </div>
               <h4>Flexible Architecture</h4>
-              <p>Load only what you need, use conditional imports, and reuse modules</p>
+              <p>Load only what you need, use selective imports, and reuse modules</p>
             </div>
             
             <div class="feature-highlight">
@@ -680,8 +793,34 @@ div.star {
           <div class="alert warning">
             <i class="fas fa-exclamation-circle"></i>
             <div>
-              <strong>Performance Note:</strong> In development, multiple files are fine. For production, consider bundling them into one file to reduce HTTP requests.
+              <strong>Performance Note:</strong> In development, multiple files are fine. For production, compile with the CLI so the browser receives a single optimized CSS file.
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Ready to modularize?</h2>
+        </div>
+        <div class="card-body">
+          <p>Start with the official modules or build your own. The v1.2.0 runtime and selective import syntax make it straightforward.</p>
+          <div class="demo-flex" style="gap: 0.75rem; flex-wrap: wrap;">
+            <a href="https://github.com/fscss-ttr/fscss-modules" class="btn btn-primary" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> fscss-modules
+            </a>
+            <a href="api.html" class="btn btn-outline">
+              <i class="fas fa-code"></i> API Reference
+            </a>
+            <a href="examples.html" class="btn btn-outline">
+              <i class="fas fa-laptop-code"></i> Examples
+            </a>
+            <a href="docs.html" class="btn btn-outline">
+              <i class="fas fa-book"></i> Documentation
+            </a>
           </div>
         </div>
       </div>
@@ -693,8 +832,8 @@ div.star {
     <div class="footer-content">
       <div class="footer-section">
         <div class="footer-logo">
-          <div class="logo-icon">
-            <i class="fas fa-code"></i>
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
           </div>
           <span>FSCSS</span>
         </div>
@@ -704,10 +843,10 @@ div.star {
       <div class="footer-section">
         <h4>Core Features</h4>
         <ul class="footer-links">
-          <li><a href="variables.html"><i class="fas fa-dollar-sign"></i> Variables</a></li>
-          <li><a href="arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
-          <li><a href="functions.html"><i class="fas fa-cogs"></i> Functions</a></li>
-          <li><a href="events.html"><i class="fas fa-code-branch"></i> Events</a></li>
+          <li><a href="/variables"><i class="fas fa-dollar-sign"></i> Variables</a></li>
+          <li><a href="/arrays.html"><i class="fas fa-layer-group"></i> Arrays</a></li>
+          <li><a href="/define"><i class="fas fa-cogs"></i> @define</a></li>
+          <li><a href="/event"><i class="fas fa-code-branch"></i> Events</a></li>
           <li><a href="import.html"><i class="fas fa-file-import"></i> Import</a></li>
         </ul>
       </div>
@@ -717,6 +856,7 @@ div.star {
         <ul class="footer-links">
           <li><a href="docs.html"><i class="fas fa-book"></i> Documentation</a></li>
           <li><a href="examples.html"><i class="fas fa-laptop-code"></i> Examples</a></li>
+          <li><a href="api.html"><i class="fas fa-code"></i> API</a></li>
           <li><a href="https://github.com/fscss-ttr/FSCSS"><i class="fab fa-github"></i> GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/fscss"><i class="fab fa-npm"></i> NPM Package</a></li>
         </ul>
@@ -724,7 +864,7 @@ div.star {
     </div>
     
     <div class="footer-bottom">
-      <p>&copy; 2026 FSCSS. Made with ❤️ for Web developers. MIT License.</p>
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
   </footer>
 
