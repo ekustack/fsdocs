@@ -11,7 +11,7 @@
   <title>FSCSS Documentation – Complete Reference for Figured Shorthand CSS</title>
 
   <!-- Primary Meta -->
-  <meta name="description" content="Official FSCSS documentation. Complete reference for Figured Shorthand Cascading Style Sheets (FSCSS) v1.1.25, covering variables, define, pattern, arrays, events, imports, and every built-in function.">
+  <meta name="description" content="Official FSCSS documentation. Complete reference for Figured Shorthand Cascading Style Sheets (FSCSS) v1.2.0, covering variables, define, pattern, arrays, events, imports, and every built-in function.">
 
   <meta name="keywords" content="FSCSS documentation, Figured Shorthand CSS, FSCSS reference, CSS preprocessor, shorthand CSS system, FSCSS arrays, FSCSS event, FSCSS pattern, FSCSS define, DevTemple FSCSS">
 
@@ -22,21 +22,21 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="FSCSS Documentation – Complete Reference">
-  <meta property="og:description" content="Complete reference for FSCSS v1.1.25, a lightweight shorthand CSS preprocessor.">
+  <meta property="og:description" content="Complete reference for FSCSS v1.2.0, a lightweight shorthand CSS preprocessor.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/docs">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Documentation">
   <meta property="og:site_name" content="FSCSS Docs">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-08-18T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
   <meta name="twitter:title" content="FSCSS Documentation – Complete Reference">
-  <meta name="twitter:description" content="Complete reference for FSCSS v1.1.25.">
+  <meta name="twitter:description" content="Complete reference for FSCSS v1.2.0.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
 
   <!-- Favicon -->
@@ -65,7 +65,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.1.26",
+    "version": "1.2.0",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -84,7 +84,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "FSCSS Documentation – Complete Reference",
-    "description": "Complete reference documentation for FSCSS v1.1.25.",
+    "description": "Complete reference documentation for FSCSS v1.2.0.",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -97,7 +97,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-08-18",
+    "dateModified": "2026-09-04",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/docs"
@@ -192,7 +192,7 @@
       <div class="logo-icn">
         <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
       </div>
-      <h1>FSCSS v1.1.26</h1>
+      <h1>FSCSS v1.2.0</h1>
     </div>
 
     <a href="/compiler"><div class="compiler-info">
@@ -247,9 +247,9 @@
 
     <!-- Introduction -->
     <section id="introduction" class="section">
-      <div class="hero">
+      <div class="hero" style="color: #ffffff;">
         <h1>FSCSS Documentation</h1>
-        <p>Figured Shorthand CSS is a lightweight CSS preprocessor that reduces repetition through shorthand syntax, reusable definitions, pattern matching, and conditional logic, while compiling to plain, dependency-free CSS.</p>
+        <p style="color: #ffffff;">Figured Shorthand CSS is a lightweight CSS preprocessor that reduces repetition through shorthand syntax, reusable definitions, pattern matching, and conditional logic, while compiling to plain, dependency-free CSS.</p>
         <a href="#installation" class="btn">
           <i class="fas fa-rocket"></i> Get Started
         </a>
@@ -292,11 +292,11 @@ npm install -g fscss
 fscss input.fscss output.css</code></pre>
       </div>
 
-      <h3>CDN (Runtime Mode)</h3>
-      <p>Load the FSCSS runtime directly in an HTML file for prototyping. Runtime mode compiles FSCSS in the browser and is not recommended for production.</p>
+      <h3>CDN (Browser Mode)</h3>
+      <p>Load FSCSS directly in an HTML file for prototyping. From v1.2.0 onward there are two entry points: <code>runtime.js</code>, which auto-scans and compiles FSCSS in the browser, and <code>esm.js</code>, a module build for manual/tooling use that never auto-runs. Browser compilation is not recommended for production; compile ahead of time with the CLI instead.</p>
       <div class="code-container">
         <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.25/exec.min.js" defer&gt;&lt;/script&gt;
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
       </div>
 
@@ -1147,6 +1147,7 @@ exec(_warn, 'deprecated variable name')</code></pre>
     <!-- File Structure -->
     <section id="fscss-files" class="section">
       <h2><i class="fas fa-folder-open"></i> File Structure Overview</h2>
+      <p>From v1.2.0 onward the browser-facing surface is two files. The previous scattered internal files (<code>/e/exec.js</code>, <code>/exec.js</code>, <code>/xfscss.js</code>, <code>/xfscss.min.js</code>, etc.) are consolidated behind them; the npm package entry point and every 1.1.x method are unaffected.</p>
       <table class="benefits-table" style="width: 100%; border-collapse: collapse;">
         <thead>
           <tr style="background: #1e293b; color: white;">
@@ -1155,11 +1156,10 @@ exec(_warn, 'deprecated variable name')</code></pre>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/exec.min.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minified runtime, served via the jsDelivr CDN, for browser-side compilation.</td></tr>
-          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/exec.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Un-minified source of the runtime, used for development and debugging.</td></tr>
-          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/index.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Standard npm package entry point.</td></tr>
-          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/xfscss.min.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minified module for handling FSCSS processing inside JavaScript environments.</td></tr>
-          <tr><td style="padding: 0.6rem;"><code>/e/</code> (v1.1.6+)</td><td style="padding: 0.6rem;">Error handling and logging utilities used for diagnostics during development.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/runtime.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Browser runtime, served via the jsDelivr CDN. Auto-scans the page for FSCSS and compiles it on load.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/runtime.min.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">Minified build of <code>runtime.js</code>, for production/CDN use.</td></tr>
+          <tr><td style="padding: 0.6rem; border-bottom: 1px solid #334155;"><code>/esm.js</code></td><td style="padding: 0.6rem; border-bottom: 1px solid #334155;">ES module build. Exposes the same <code>xfscss</code> API but never auto-runs, for tooling and manual/build-time use.</td></tr>
+          <tr><td style="padding: 0.6rem;"><code>/index.js</code></td><td style="padding: 0.6rem;">Standard npm package entry point (unchanged).</td></tr>
         </tbody>
       </table>
     </section>
@@ -1168,7 +1168,7 @@ exec(_warn, 'deprecated variable name')</code></pre>
     <section id="about" class="section">
       <h2><i class="fas fa-info-circle"></i> Project Background</h2>
       <p>FSCSS, short for Figured Shorthand Cascading Style Sheet, was conceived in 2022 by Ekuyik Sam, with early development carried out by Figsh. Initial development focused on the shared-value shorthand methods (<code>%2</code> through <code>%6</code>, <code>%i</code>) and basic variable handling with <code>$name: value</code>.</p>
-      <p>In 2023, the <code>copy()</code> function was introduced alongside the first public test release. In 2024, the preprocessor's internal handling of variables and functions was expanded. In 2025, FSCSS was published to npm as the <code>fscss</code> package, adding an advanced string-replacement function, an extended <code>%n()</code> method supporting arbitrary counts, developer-facing console logging, and direct execution through a browser extension. In 2026, the project reached v1.1.25, adding array method extensions, <code>@event</code> conditional logic, and <code>pattern()</code> semantic matching.</p>
+      <p>In 2023, the <code>copy()</code> function was introduced alongside the first public test release. In 2024, the preprocessor's internal handling of variables and functions was expanded. In 2025, FSCSS was published to npm as the <code>fscss</code> package, adding an advanced string-replacement function, an extended <code>%n()</code> method supporting arbitrary counts, developer-facing console logging, and direct execution through a browser extension. In 2026, the project reached v1.1.25, adding array method extensions, <code>@event</code> conditional logic, and <code>pattern()</code> semantic matching. Later in 2026, v1.2.0 consolidated the browser entry points into <code>runtime.js</code> and <code>esm.js</code>.</p>
       <p>FSCSS is published under Figsh Development as the <code>fscss</code> package on npm, and maintained through the <code>fscss-ttr</code> organization on GitHub.</p>
     </section>
 
@@ -1186,7 +1186,7 @@ exec(_warn, 'deprecated variable name')</code></pre>
     </section>
 
     <div class="footer">
-      <p>FSCSS v1.1.26 | MIT License</p>
+      <p>FSCSS v1.2.0 | MIT License</p>
     </div>
   </main>
 
