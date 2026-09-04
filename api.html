@@ -3,44 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Canonical  -->
   <link rel="canonical" href="https://fscss.devtem.org/api">
-  
+
   <!-- Primary Title -->
-  <title>FSCSS API Reference – runtime.js & esm.js | v1.2.0 + </title>
-  
+  <title>FSCSS – JavaScript API Reference | Figured Shorthand CSS</title>
+
   <!-- Primary SEO -->
-  <meta name="description" content="Complete API reference for FSCSS v1.2.0 up. Documented methods: run, process, inline, assign, exec, reboot. Two clean entry points: runtime.js (auto) and esm.js (manual).">
-  
-  <meta name="keywords" content="FSCSS API, xfscss, runtime.js, esm.js, CSS preprocessor API, fscss methods, process, reboot, exec">
-  
+  <meta name="description" content="Reference for the FSCSS xfscss JavaScript API: run, inline, process, assign, exec, and reboot. Covers runtime.js and esm.js usage.">
+
+  <meta name="keywords" content="FSCSS API, xfscss, FSCSS runtime.js, FSCSS esm.js, CSS preprocessor API, Figured Shorthand CSS">
+
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
   <meta name="theme-color" content="#1a73e8">
-  
+
   <!-- Open Graph -->
-  <meta property="og:title" content="FSCSS API Reference – v1.2.0">
-  <meta property="og:description" content="Public API surface for FSCSS: run, process, inline, assign, exec, reboot. runtime.js vs esm.js explained.">
+  <meta property="og:title" content="FSCSS – JavaScript API Reference">
+  <meta property="og:description" content="Reference for the FSCSS xfscss JavaScript API: run, inline, process, assign, exec, and reboot.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/api">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Logo">
   <meta property="og:site_name" content="FSCSS">
   <meta property="og:locale" content="en_US">
-  
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
-  <meta name="twitter:title" content="FSCSS API Reference – v1.2.0">
-  <meta name="twitter:description" content="Complete public API for FSCSS runtime and ESM builds.">
+  <meta name="twitter:title" content="FSCSS – JavaScript API Reference">
+  <meta name="twitter:description" content="Reference for the FSCSS xfscss JavaScript API: run, inline, process, assign, exec, and reboot.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
-  
+
   <!-- Favicon -->
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
-  
+
   <!-- Styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -49,15 +49,22 @@
   <!-- Scripts -->
   <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
 
-  <!-- Structured Data -->
+  <!-- Structured Data: SoftwareApplication -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "FSCSS API Reference – v1.2.0 up",
-      "description": "Public API surface for FSCSS: run, process, inline, assign, exec, reboot. Two entry points: runtime.js and esm.js.",
+      "@type": "SoftwareApplication",
+      "name": "FSCSS",
+      "alternateName": "Figured Shorthand Cascading Style Sheets",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "programmingLanguage": "CSS",
+      "description": "FSCSS is a lightweight CSS preprocessor that simplifies styling through shorthand syntax and modern workflow utilities.",
       "url": "https://fscss.devtem.org/api",
-      "author": {
+      "version": "1.2.0",
+      "inLanguage": "en-US",
+      "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+      "creator": {
         "@type": "Person",
         "name": "Figsh"
       },
@@ -65,11 +72,10 @@
         "@type": "Organization",
         "name": "DevTemple",
         "url": "https://devtem.org"
-      },
-      "datePublished": "2026-09-04",
-      "version": "1.2.0"
+      }
     }
   </script>
+
 </head>
 
 <body>
@@ -82,17 +88,17 @@
  </div>
         <span>FSCSS v1.2.0</span>
       </div>
-      
+
       <div class="nav-menu" id="nav-menu">
         <a href="index.html" class="nav-link">Home</a>
         <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="api.html" class="nav-link active">API</a>
         <a href="examples.html" class="nav-link">Examples</a>
         <a href="libraries.html" class="nav-link">Libraries</a>
-        <a href="api.html" class="nav-link active">API</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
       </div>
-      
+
       <div class="nav-toggle" id="nav-toggle">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -108,30 +114,34 @@
         <input type="text" placeholder="Search Libraries..." class="search-input" onclick="window.location.href='libraries.html'">
         <i class="fas fa-search"></i>
       </div>
-      
+
       <div class="sidebar-content">
         <div class="sidebar-section">
-          <h3 class="sidebar-title">Getting Started</h3>
+          <h3 class="sidebar-title">Entry Points</h3>
           <ul class="sidebar-links">
-            <li><a href="docs.html#introduction" class="sidebar-link">Introduction</a></li>
-            <li><a href="docs.html#installation" class="sidebar-link">Installation</a></li>
-            <li><a href="docs.html#quick-start" class="sidebar-link">Quick Start</a></li>
+            <li><a href="#runtime-vs-esm" class="sidebar-link">runtime.js vs esm.js</a></li>
+            <li><a href="#loading" class="sidebar-link">Loading the API</a></li>
           </ul>
         </div>
-        
-
 
         <div class="sidebar-section">
-          <h3 class="sidebar-title">API Reference</h3>
+          <h3 class="sidebar-title">xfscss Methods</h3>
           <ul class="sidebar-links">
-            <li><a href="#entry-points" class="sidebar-link active">Entry Points</a></li>
-            <li><a href="#xfscss-object" class="sidebar-link">xfscss Object</a></li>
             <li><a href="#run" class="sidebar-link">run()</a></li>
-            <li><a href="#process" class="sidebar-link">process()</a></li>
-            <li><a href="#inline" class="sidebar-link">inline()</a></li>
-            <li><a href="#assign" class="sidebar-link">assign() / reboot()</a></li>
-            <li><a href="#exec" class="sidebar-link">exec()</a></li>
-            <li><a href="#blocking" class="sidebar-link">exec.obj.block</a></li>
+            <li><a href="#inline" class="sidebar-link">inline(css)</a></li>
+            <li><a href="#process" class="sidebar-link">process(css)</a></li>
+            <li><a href="#assign" class="sidebar-link">assign()</a></li>
+            <li><a href="#reboot" class="sidebar-link">reboot()</a></li>
+            <li><a href="#exec" class="sidebar-link">exec(options)</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Related</h3>
+          <ul class="sidebar-links">
+            <li><a href="docs.html#installation" class="sidebar-link">Installation</a></li>
+            <li><a href="/pattern" class="sidebar-link">Pattern</a></li>
+            <li><a href="/define" class="sidebar-link">@define blocks</a></li>
           </ul>
         </div>
       </div>
@@ -139,40 +149,37 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Header -->
-      <section id="introduction" class="docs-section">
+      <section class="docs-section">
         <div class="section-header">
-          <h1>FSCSS API Reference</h1>
-          <p class="lead">Public surface for FSCSS from v1.2.0 — two clean entry points, full backward compatibility with every 1.1.x method.</p>
+          <h1>JavaScript API Reference</h1>
+          <p class="lead">The <code>xfscss</code> object exposed by runtime.js and esm.js</p>
         </div>
-        
+
         <div class="card glow-card">
           <div class="card-header">
-            <h2><i class="fas fa-info-circle" style="margin-right: 8px;"></i> What changed in 1.2.0</h2>
+            <h2>Overview</h2>
           </div>
           <div class="card-body">
-            <p>Previous versions exposed scattered internal files (<code>/e/exec.js</code>, <code>/exec.js</code>, <code>/xfscss.js</code>, etc.).  
-            <strong>v1.2.0 consolidates everything into two public entry points:</strong></p>
-            <ul>
-              <li><code>runtime.js</code> / <code>runtime.min.js</code> — drop-in browser script that auto-scans and runs</li>
-              <li><code>esm.js</code> — pure ES module that never auto-runs (you call the API yourself)</li>
-            </ul>
-            <p>The npm package and CLI remain completely unchanged. Every method that existed in 1.1.x still works.</p>
+            <p>As of v1.2.0, the browser-facing API is served from two public entry points, <code>runtime.js</code> and <code>esm.js</code>. Use one or the other, never both. Every method below is identical on both builds &mdash; the only difference is <em>when</em> it runs automatically. All npm/CLI usage is unaffected.</p>
           </div>
         </div>
-      </section>
 
-      <!-- Entry Points -->
-      <section id="entry-points" class="docs-section">
-        <h2>Entry Points</h2>
-
-        <div class="card">
+        <div class="card" id="runtime-vs-esm">
           <div class="card-header">
-            <h3><i class="fas fa-bolt" style="color: #f59e0b; margin-right: 8px;"></i> runtime.js — Auto-run (Browser)</h3>
+            <h3>runtime.js vs esm.js</h3>
           </div>
           <div class="card-body">
-            <p>Use this for plain HTML pages. It automatically finds <code>&lt;link type="fscss"&gt;</code> and <code>&lt;style&gt;</code> elements, processes them, and injects the result.</p>
-            
+            <p><strong>runtime.js</strong> is for plain HTML pages. It auto-scans the document for <code>[type*="fscss"]</code> links and <code>&lt;style&gt;</code>/<code>[style]</code> content, processes them, and reveals the page once done &mdash; no setup required. <code>xfscss.reboot()</code> is still available on it for re-running after you inject markup dynamically.</p>
+            <p><strong>esm.js</strong> is for module-based use: an FSCSS-to-CSS conversion tool, build-time processing, or any manipulation that shouldn't automatically run against the live page. It never auto-boots and never touches page loading &mdash; you call <code>xfscss.reboot()</code> (or the individual methods) yourself, optionally from <code>DOMContentLoaded</code> if you do want page-code behavior.</p>
+          </div>
+        </div>
+
+        <div class="card" id="loading">
+          <div class="card-header">
+            <h3>Loading the API</h3>
+          </div>
+          <div class="card-body">
+            <p>Browser, auto-run:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>HTML</span>
@@ -182,32 +189,7 @@
 &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
             </div>
 
-            <p>Or the non-minified build:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>HTML</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i></button>
-              </div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.js" async&gt;&lt;/script&gt;</code></pre>
-            </div>
-
-            <p><strong>Behavior:</strong></p>
-            <ul>
-              <li>Auto-boots on load (calls <code>main()</code> internally)</li>
-              <li>Fetches every <code>[type*="fscss"]</code> link</li>
-              <li>Processes all <code>&lt;style&gt;</code> elements and inline <code>style</code> attributes</li>
-              <li>Exposes the full <code>xfscss</code> object on the global scope so you can still call methods manually if needed</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-cube" style="color: #3b82f6; margin-right: 8px;"></i> esm.js — Manual control (Modules)</h3>
-          </div>
-          <div class="card-body">
-            <p>Use this when you want full control: build tools, FSCSS-to-CSS converters, custom pipelines, or when you do <em>not</em> want the page to auto-process.</p>
-            
+            <p>Module, manual control:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
@@ -215,98 +197,23 @@
               </div>
               <pre><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.0/esm.js";
 
-// Nothing happens until you call it
-await xfscss.reboot();   // or xfscss.assign()
-// or
-const css = await xfscss.process(myFscssString);</code></pre>
+// call whichever method you need
+xfscss.reboot();</code></pre>
             </div>
-
-            <p><strong>Behavior:</strong></p>
-            <ul>
-              <li><strong>Never</strong> auto-runs</li>
-              <li>Does <strong>not</strong> touch any loader element</li>
-              <li>Does <strong>not</strong> scan the DOM unless you explicitly call <code>run()</code>, <code>assign()</code> or <code>reboot()</code></li>
-              <li>Ideal for offline compilation tools, Node-like environments (via bundlers), or selective processing</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card glow-card">
-          <div class="card-header">
-            <h3>When to use which?</h3>
-          </div>
-          <div class="card-body">
-            <table style="width:100%; border-collapse: collapse;">
-              <thead>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.15);">
-                  <th style="text-align:left; padding: 8px;">Use case</th>
-                  <th style="text-align:left; padding: 8px;">Recommended</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                  <td style="padding: 8px;">Quick HTML prototype / demo page</td>
-                  <td style="padding: 8px;"><code>runtime.js</code></td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                  <td style="padding: 8px;">Need to process only specific strings</td>
-                  <td style="padding: 8px;"><code>esm.js</code> + <code>process()</code></td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                  <td style="padding: 8px;">Build tool / FSCSS → CSS converter</td>
-                  <td style="padding: 8px;"><code>esm.js</code></td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                  <td style="padding: 8px;">Want auto-scan + still call API later</td>
-                  <td style="padding: 8px;"><code>runtime.js</code> (global <code>xfscss</code>)</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px;">Production (recommended)</td>
-                  <td style="padding: 8px;">CLI / npm package (compile ahead of time)</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
 
-      <!-- xfscss Object -->
-      <section id="xfscss-object" class="docs-section">
-        <h2>The <code>xfscss</code> Object</h2>
-        
-        <div class="card">
-          <div class="card-body">
-            <p>Both builds expose the same API surface:</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>JavaScript</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i></button>
-              </div>
-              <pre><code>xfscss = {
-  run:     fscssRunner,   // process all &lt;style&gt; elements
-  inline:  fscssInline,   // strip selectors → declarations only
-  process: fscssProcess,  // full FSCSS → CSS pipeline
-  assign:  fscssAssign,   // full bootstrap (fetch + process + inline)
-  exec:    fscssExec,     // inject text or URL and process
-  reboot:  fscssReboot    // alias of assign
-}</code></pre>
-            </div>
-            <p>All methods that existed in 1.1.x continue to work exactly the same way.</p>
-          </div>
-        </div>
-      </section>
+      <!-- API Methods -->
+      <section class="docs-section">
+        <h2>Methods</h2>
 
-      <!-- run -->
-      <section id="run" class="docs-section">
-        <h2><code>xfscss.run()</code></h2>
-        
-        <div class="card">
+        <div class="card" id="run">
           <div class="card-header">
-            <h3>Process every <code>&lt;style&gt;</code> element currently in the document</h3>
+            <h3><code>xfscss.run()</code></h3>
           </div>
           <div class="card-body">
-            <p>Scans <code>document.querySelectorAll('style')</code>, runs the full FSCSS pipeline on each, and replaces the content with the compiled CSS.</p>
-            
+            <p>Async. Finds every <code>&lt;style&gt;</code> element on the page and processes its FSCSS content in place, replacing each element's contents with compiled CSS. Logs a warning and exits early if no <code>&lt;style&gt;</code> elements are found. Errors during processing are caught and logged rather than thrown.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
@@ -314,239 +221,106 @@ const css = await xfscss.process(myFscssString);</code></pre>
               </div>
               <pre><code>await xfscss.run();</code></pre>
             </div>
-
-            <p><strong>Notes</strong></p>
-            <ul>
-              <li>Does <em>not</em> fetch external <code>&lt;link type="fscss"&gt;</code> files (use <code>assign</code> / <code>reboot</code> for that).</li>
-              <li>Safe to call multiple times.</li>
-              <li>Errors are caught and logged to the console.</li>
-            </ul>
           </div>
         </div>
-      </section>
 
-      <!-- process -->
-      <section id="process" class="docs-section">
-        <h2><code>xfscss.process(css)</code></h2>
-        
-        <div class="card">
+        <div class="card" id="inline">
           <div class="card-header">
-            <h3>Full FSCSS → CSS transformation pipeline</h3>
+            <h3><code>xfscss.inline(css)</code></h3>
           </div>
           <div class="card-body">
-            <p>Takes a string of FSCSS and returns a Promise that resolves to pure CSS.</p>
-            
+            <p>Strips selectors and braces from a block of CSS, returning just the declarations inside. Used internally to turn a processed rule block into a flat string suitable for a <code>style</code> attribute.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>const pureCss = await xfscss.process(`
-  $primary: #2563eb;
-  .btn {
-    background: $primary;
-    padding: 12px 24px;
-  }
-`);
-
-console.log(pureCss);
-// .btn {
-//   background: #2563eb;
-//   padding: 12px 24px;
-// }</code></pre>
-            </div>
-
-            <p>This is the core engine. It runs (in order, unless blocked):</p>
-            <ol style="margin-left: 25px;">
-              <li>Import selectors / from / full import</li>
-              <li>VFC</li>
-              <li>Pattern matching</li>
-              <li>Store (before)</li>
-              <li>External (before)</li>
-              <li>Variables</li>
-              <li>Functions / Fun objects</li>
-              <li>Length / Count</li>
-              <li><code>@define</code></li>
-              <li>Arrays</li>
-              <li>Events</li>
-              <li>Random</li>
-              <li>Copy / transform values</li>
-              <li>Store (after)</li>
-              <li>Numeric processing</li>
-              <li>External (after)</li>
-              <li>Transform group</li>
-              <li>Debug</li>
-            </ol>
-            <p>You can selectively disable stages with <code>exec.obj.block(...)</code> (see below).</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- inline -->
-      <section id="inline" class="docs-section">
-        <h2><code>xfscss.inline(css)</code></h2>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3>Strip selectors — keep only declarations</h3>
-          </div>
-          <div class="card-body">
-            <p>Useful when you want to apply processed FSCSS directly as an inline <code>style</code> attribute.</p>
-            
-            <div class="code-block">
-              <div class="code-header">
-                <span>JavaScript</span>
-                <button class="copy-btn"><i class="fas fa-copy"></i></button>
-              </div>
-              <pre><code>const declarations = xfscss.inline(`
-  .btn {
-    background: #2563eb;
-    color: white;
-    padding: 12px 24px;
-  }
-`);
-// → "background: #2563eb; color: white; padding: 12px 24px;"
-
-element.setAttribute("style", declarations);</code></pre>
+              <pre><code>const flat = xfscss.inline(".btn{ color: red; }");
+// " color: red; "</code></pre>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- assign / reboot -->
-      <section id="assign" class="docs-section">
-        <h2><code>xfscss.assign()</code> / <code>xfscss.reboot()</code></h2>
-        
-        <div class="card">
+        <div class="card" id="process">
           <div class="card-header">
-            <h3>Full bootstrap — the complete page processor</h3>
+            <h3><code>xfscss.process(css)</code></h3>
           </div>
           <div class="card-body">
-            <p><code>assign</code> and <code>reboot</code> are aliases of the same function.</p>
-            
+            <p>Async. The core FSCSS compiler. Takes a raw FSCSS string and runs it through the full pipeline &mdash; imports, variables, functions, <code>@define</code> blocks, arrays, events, random values, patterns, extensions, and transformations &mdash; then returns the compiled CSS string. This is the method to reach for when you want FSCSS-to-CSS conversion without touching the DOM (e.g. inside esm.js tooling).</p>
+            <p>Individual pipeline stages can be skipped per input by including a matching <code>exec.obj.block(...)</code> marker in the source (for example <code>exec.obj.block(all)</code> skips the entire pipeline). All markers are stripped from the output regardless.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>await xfscss.reboot();   // preferred name in docs
-// or
-await xfscss.assign();</code></pre>
+              <pre><code>const compiled = await xfscss.process(rawFscssString);</code></pre>
             </div>
-
-            <p>What it does (in order):</p>
-            <ol>
-              <li>Finds every <code>[type*="fscss"]</code> link and fetches them concurrently</li>
-              <li>Injects the raw content into new <code>&lt;style&gt;</code> elements</li>
-              <li>Runs <code>processStyles()</code> (the same pipeline as <code>run()</code>)</li>
-              <li>Processes every element that has a <code>style</code> attribute (using <code>process</code> + <code>inline</code>)</li>
-            </ol>
-
-            <p><strong>runtime.js</strong> calls this automatically on load.<br>
-            <strong>esm.js</strong> never calls it — you must invoke it yourself when you are ready.</p>
           </div>
         </div>
-      </section>
 
-      <!-- exec -->
-      <section id="exec" class="docs-section">
-        <h2><code>xfscss.exec({ type, content, onError, onSuccess })</code></h2>
-        
-        <div class="card">
+        <div class="card" id="assign">
           <div class="card-header">
-            <h3>Inject and process CSS/FSCSS on demand</h3>
+            <h3><code>xfscss.assign()</code></h3>
           </div>
           <div class="card-body">
-            <p>Flexible helper for both inline text and remote URLs.</p>
-            
+            <p>Async. Bootstraps FSCSS on the current page: fetches and injects any <code>[type*="fscss"]</code> linked stylesheets, runs <code>process()</code>/<code>run()</code> across all <code>&lt;style&gt;</code> elements once, then processes any inline <code>style</code> attributes found in the document. This is what <code>runtime.js</code> calls automatically on load.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>// From a string
-xfscss.exec({
-  type: "text",          // or "auto", "fscss", "text/css", ...
-  content: `
-    $color: #e11d48;
-    .alert { color: $color; }
-  `,
-  onSuccess: (styleEl) => console.log("Injected", styleEl),
-  onError: (msg) => console.error(msg)
-});
+              <pre><code>await xfscss.assign();</code></pre>
+            </div>
+          </div>
+        </div>
 
-// From a URL
-xfscss.exec({
-  type: "fromUrl",       // or "URL", "link", "external"
-  content: "https://example.com/theme.fscss",
-  onSuccess: (styleEl) => { /* ... */ },
-  onError: (msg) => { /* ... */ }
+        <div class="card" id="reboot">
+          <div class="card-header">
+            <h3><code>xfscss.reboot()</code></h3>
+          </div>
+          <div class="card-body">
+            <p>Alias for <code>assign()</code>. Use this name when you want to explicitly re-run FSCSS processing &mdash; for example after injecting new markup into the DOM, or as the manual entry point on <code>esm.js</code>, which never calls it for you.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JavaScript</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>document.addEventListener("DOMContentLoaded", () => {
+  xfscss.reboot();
 });</code></pre>
             </div>
-
-            <p><strong>Supported <code>type</code> values</strong></p>
-            <ul>
-              <li><strong>Text mode:</strong> <code>"text"</code>, <code>"auto"</code>, <code>"text/fscss"</code>, <code>"text/css"</code>, <code>"text/xfscss"</code>, <code>"fscss"</code></li>
-              <li><strong>URL mode:</strong> <code>"fromUrl"</code>, <code>"URL"</code>, <code>"fromURL"</code>, <code>"link"</code>, <code>"external"</code></li>
-            </ul>
-            <p>After injection the full bootstrap (<code>main</code> / <code>reboot</code>) is triggered so the new styles are processed immediately.</p>
           </div>
         </div>
-      </section>
 
-      <!-- Blocking -->
-      <section id="blocking" class="docs-section">
-        <h2><code>exec.obj.block(...)</code> — Selective pipeline control</h2>
-        
-        <div class="card">
+        <div class="card" id="exec">
           <div class="card-header">
-            <h3>Disable individual processing stages</h3>
+            <h3><code>xfscss.exec(options)</code></h3>
           </div>
           <div class="card-body">
-            <p>Inside any FSCSS source you can write directives that skip specific stages of the pipeline. This is useful for debugging or when you only need a subset of features.</p>
-            
+            <p>Injects a new <code>&lt;style&gt;</code> element from either an FSCSS/CSS text string or an external URL, then re-runs the bootstrap so it gets processed immediately.</p>
+            <table class="api-table">
+              <thead>
+                <tr><th>Option</th><th>Type</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>type</code></td><td>string</td><td>Defaults to <code>"text"</code>. Text-like values: <code>text</code>, <code>auto</code>, <code>text/fscss</code>, <code>text/css</code>, <code>text/xfscss</code>, <code>fscss</code>. URL-like values: <code>fromUrl</code>, <code>URL</code>, <code>fromURL</code>, <code>link</code>, <code>external</code>.</td></tr>
+                <tr><td><code>content</code></td><td>string</td><td>Required. Either the raw FSCSS/CSS text, or a URL to fetch it from, depending on <code>type</code>.</td></tr>
+                <tr><td><code>onSuccess</code></td><td>function</td><td>Optional. Called with the created <code>&lt;style&gt;</code> element once it's appended and processed.</td></tr>
+                <tr><td><code>onError</code></td><td>function</td><td>Optional. Called with an error message string if <code>content</code> is missing, the type is unsupported, or a URL fetch fails.</td></tr>
+              </tbody>
+            </table>
             <div class="code-block">
               <div class="code-header">
-                <span>FSCSS</span>
+                <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>/* Skip the entire pipeline */
-exec.obj.block(all);
-
-/* Or skip individual stages */
-exec.obj.block(f import);
-exec.obj.block(pattern);
-exec.obj.block(store);
-exec.obj.block(fun);
-exec.obj.block(define);
-exec.obj.block(arr);
-exec.obj.block(event);
-exec.obj.block(random);
-exec.obj.block(copy);
-exec.obj.block(num);
-exec.obj.block(debug);
-/* ... and many more */</code></pre>
+              <pre><code>xfscss.exec({
+  type: "text",
+  content: ".btn { background: $primary-color; }",
+  onSuccess: (el) => console.log("injected", el),
+  onError: (msg) => console.error(msg)
+});</code></pre>
             </div>
-
-            <p>All <code>exec.obj.block(...)</code> markers are stripped from the final CSS output.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Compatibility note -->
-      <section class="docs-section">
-        <div class="card glow-card">
-          <div class="card-header">
-            <h2><i class="fas fa-check-circle" style="color: #22c55e; margin-right: 8px;"></i> Compatibility Guarantee</h2>
-          </div>
-          <div class="card-body">
-            <p>Every public method and feature that worked in FSCSS 1.1.x continues to work in 1.2.0.</p>
-            <ul>
-              <li>npm package &amp; CLI — unchanged</li>
-              <li>All <code>@define</code>, <code>@event</code>, <code>pattern()</code>, arrays, stores, etc. — unchanged</li>
-              <li>Only the <em>browser entry-point files</em> were consolidated</li>
-            </ul>
-            <p>You can safely upgrade. Old CDN URLs will keep working for a transition period, but new projects should use the two entry points documented above.</p>
           </div>
         </div>
       </section>
@@ -554,17 +328,14 @@ exec.obj.block(debug);
       <!-- Call to Action -->
       <section class="cta-section">
         <div class="cta-card">
-          <h2>Ready to try the new API?</h2>
-          <p>Install the latest version and start using the clean runtime / esm surface.</p>
+          <h2>Looking for the language reference?</h2>
+          <p>The API above covers the JavaScript runtime. For FSCSS syntax &mdash; variables, <code>@define</code>, patterns, arrays &mdash; see the docs.</p>
           <div class="cta-buttons">
-            <a href="https://www.npmjs.com/package/fscss" class="btn btn-primary">
-              <i class="fab fa-npm"></i> Install via NPM
+            <a href="docs.html" class="btn btn-primary">
+              <i class="fas fa-book"></i> Documentation
             </a>
-            <a href="docs.html" class="btn btn-outline">
-              <i class="fas fa-book"></i> Back to Docs
-            </a>
-            <a href="https://github.com/Figsh/xfscss" class="btn btn-outline">
-              <i class="fab fa-github"></i> GitHub
+            <a href="examples.html" class="btn btn-outline">
+              <i class="fas fa-code"></i> View Examples
             </a>
           </div>
         </div>
@@ -584,18 +355,18 @@ exec.obj.block(debug);
         </div>
         <p>Simplify your CSS workflow with powerful shorthand syntax</p>
       </div>
-      
+
       <div class="footer-section">
         <h4>Resources</h4>
         <ul class="footer-links">
           <li><a href="docs.html">Documentation</a></li>
-          <li><a href="examples.html">Examples</a></li>
           <li><a href="api.html">API Reference</a></li>
+          <li><a href="examples.html">Examples</a></li>
           <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-section">
         <h4>Community</h4>
         <ul class="footer-links">
@@ -605,7 +376,7 @@ exec.obj.block(debug);
         </ul>
       </div>
     </div>
-    
+
     <div class="footer-bottom">
       <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
     </div>
@@ -614,3 +385,4 @@ exec.obj.block(debug);
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
