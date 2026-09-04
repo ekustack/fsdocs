@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/inline">
+
+  <!-- Primary Title -->
+  <title>FSCSS – Inline Style Processing (v1.2.0+) | Figured Shorthand CSS</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="From FSCSS v1.2.0, style attributes are compiled on boot just like <style> blocks — @define mixins, arrays, and the full pipeline work inline, and pair with xfscss.process() for dynamic runtime updates.">
+
+  <meta name="keywords" content="FSCSS inline styles, FSCSS style attribute, xfscss.process, dynamic CSS, FSCSS v1.2.0, Figured Shorthand CSS">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#1a73e8">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSCSS – Inline Style Processing (v1.2.0+)">
+  <meta property="og:description" content="style attributes now go through the full FSCSS pipeline on boot, and pair with xfscss.process() for dynamic runtime updates.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/inline">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Logo">
+  <meta property="og:site_name" content="FSCSS">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS – Inline Style Processing (v1.2.0+)">
+  <meta name="twitter:description" content="style attributes now go through the full FSCSS pipeline on boot.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <!-- Scripts -->
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "FSCSS Inline Style Processing – v1.2.0+",
+      "description": "style attributes are compiled on boot just like <style> blocks, and pair with xfscss.process() for dynamic runtime updates.",
+      "url": "https://fscss.devtem.org/inline",
+      "author": { "@type": "Person", "name": "Figsh" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DevTemple",
+        "url": "https://devtem.org"
+      },
+      "dateModified": "2026-09-04",
+      "version": "1.2.0"
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+         <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
+        <span>FSCSS v1.2.0</span>
+      </div>
+
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="api.html" class="nav-link">API</a>
+        <a href="inline.html" class="nav-link active">Inline</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-search">
+        <input type="text" placeholder="Search Libraries..." class="search-input" onclick="window.location.href='libraries.html'">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Inline Styles</h3>
+          <ul class="sidebar-links">
+            <li><a href="#overview" class="sidebar-link">Overview</a></li>
+            <li><a href="#how-it-works" class="sidebar-link">How boot handles it</a></li>
+            <li><a href="#example" class="sidebar-link">Example</a></li>
+            <li><a href="#persistence" class="sidebar-link">Declarations persist after cleanup</a></li>
+            <li><a href="#dynamic" class="sidebar-link">Dynamic updates with process()</a></li>
+            <li><a href="#plugins" class="sidebar-link">Works with library mixins too</a></li>
+            <li><a href="#choosing" class="sidebar-link">runtime.js vs esm.js here</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Related</h3>
+          <ul class="sidebar-links">
+            <li><a href="api.html#process" class="sidebar-link">xfscss.process()</a></li>
+            <li><a href="api.html#assign" class="sidebar-link">xfscss.assign() / reboot()</a></li>
+            <li><a href="docs.html#define" class="sidebar-link">@define blocks</a></li>
+            <li><a href="docs.html#arr" class="sidebar-link">Arrays (@arr)</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="docs-section" id="overview">
+        <div class="section-header">
+          <h1>Inline Style Processing</h1>
+          <p class="lead">From v1.2.0, <code>style="..."</code> attributes go through the same pipeline as <code>&lt;style&gt;</code> blocks</p>
+        </div>
+
+        <div class="card glow-card">
+          <div class="card-header">
+            <h2>What's new</h2>
+          </div>
+          <div class="card-body">
+            <p>Before v1.2.0, FSCSS syntax only fully resolved inside <code>&lt;style&gt;</code> elements. From v1.2.0 onward, boot also runs the compiler against every element's <code>style</code> attribute, so <code>@define</code> mixins, variables, arrays, and the rest of the pipeline work directly inline &mdash; no separate stylesheet needed for one-off or per-element styling.</p>
+            <p>This matters most when paired with the JS API: an inline mixin call can be re-compiled and swapped in at runtime with <code>xfscss.process()</code>, giving you dynamic, FSCSS-powered updates without hand-writing CSS in JavaScript.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="how-it-works">
+        <h2>How boot handles it</h2>
+        <div class="card">
+          <div class="card-body">
+            <p>On <code>runtime.js</code> auto-boot (or a manual <code>xfscss.reboot()</code> / <code>xfscss.assign()</code> call), FSCSS:</p>
+            <ol>
+              <li>Processes every <code>&lt;style&gt;</code> element, as before.</li>
+              <li>Then walks every element carrying a <code>style</code> attribute, runs it through <code>xfscss.process()</code>, flattens the result with <code>xfscss.inline()</code>, and writes it back with <code>setAttribute("style", ...)</code>.</li>
+            </ol>
+            <p>Because both passes share the same compiler, anything valid in a <code>&lt;style&gt;</code> block &mdash; <code>@define</code> calls, variables, arrays, patterns &mdash; is valid in a <code>style</code> attribute too.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="example">
+        <h2>Example</h2>
+        <div class="card">
+          <div class="card-header">
+            <h3>A <code>@define</code> mixin called directly from <code>style</code></h3>
+          </div>
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+
+&lt;style&gt;
+  @define btn-style(bg: #636EE7){
+    padding: 10px 20px;
+    color: color-mix(#dddddd, @use(bg));
+    background: @use(bg);
+    border: 2px solid;
+    border-radius: 25px;
+    font-weight: 700;
+  }
+&lt;/style&gt;
+
+&lt;button style="@btn-style(#1a2a4f)"&gt;Search&lt;/button&gt;
+&lt;button style="@btn-style(#f00f00)"&gt;Search&lt;/button&gt;
+&lt;button style="@btn-style(#4f4f4f)"&gt;Search&lt;/button&gt;</code></pre>
+            </div>
+            <p>Each button's <code>style</code> attribute compiles independently on boot, using the shared <code>@define</code> declared in the <code>&lt;style&gt;</code> block.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="persistence">
+        <h2>Declarations placed inline still persist after cleanup</h2>
+        <div class="card">
+          <div class="card-body">
+            <p>Once a <code>style</code> attribute is processed, the compiled output replaces it &mdash; the original FSCSS source (including any <code>@arr</code> or other declaration written inline) is no longer visible in the attribute. But the array itself was registered page-wide during that processing pass, so it stays available for later calls in the same page session, even though its declaration line is gone from the DOM.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;button style="
+@arr colors[#1E2783, #8C29B2, #C41348, #0098d0]
+@btn-style(@arr.colors!.randint)
+" onclick="update(this)"&gt;Click&lt;/button&gt;</code></pre>
+            </div>
+            <p>After boot, this button's visible <code>style</code> attribute is just the compiled declarations &mdash; the <code>@arr colors[...]</code> line is stripped &mdash; but <code>@arr.colors</code> is still resolvable afterward, which is what makes the dynamic update below work.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="dynamic">
+        <h2>Dynamic updates with <code>xfscss.process()</code></h2>
+        <div class="card">
+          <div class="card-body">
+            <p>Because <code>xfscss.process()</code> runs the full compiler on demand, you can recompute a mixin call at any time &mdash; on a click, an interval, a data change &mdash; and write the result straight back to the element.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>JavaScript</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>const update = async (btn) => {
+  const newStyle = await xfscss.process("@btn-style(@arr.colors!.randint)");
+  btn.setAttribute("style", newStyle); // flat with: xfscss.inline(newStyle) 
+};</code></pre>
+            </div>
+            <p>Clicking the button re-resolves <code>@arr.colors!.randint</code> to a new random color from the array each time, then recompiles the <code>@btn-style</code> mixin against it &mdash; no rewritten CSS, no framework state, just FSCSS re-run on demand.</p>
+            <p>flat the result (newStyle) with xfscss.inline(newStyle) if the result includes <code>...{...}</code></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="plugins">
+        <h2>Works with library mixins too</h2>
+        <div class="card">
+          <div class="card-body">
+            <p>Since boot treats every <code>style</code> attribute the same way it treats a <code>&lt;style&gt;</code> block, mixins from imported plugin modules resolve inline as well &mdash; for example calling an st-core mixin like <code>@st-container()</code> directly from a <code>style</code> attribute works the same as calling it inside a stylesheet.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;div class="chart-line line-2" style="background: #E8A030; @st-chart-points(10, 20, 16, 15, 66, 50, 80, 54)"&gt;&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="choosing">
+        <h2><code>runtime.js</code> vs <code>esm.js</code> for inline processing</h2>
+        <div class="card">
+          <div class="card-body">
+            <p><strong>runtime.js</strong> is the natural fit for pages that want this working automatically &mdash; it boots, processes every <code>&lt;style&gt;</code> and <code>style</code> attribute on the page, and exposes <code>xfscss</code> globally so you can still call <code>process()</code> yourself afterward for dynamic updates, as in the click example above.</p>
+            <p><strong>esm.js</strong> fits better when you only want the compiler as a tool &mdash; for example an FSCSS-to-CSS conversion utility, or a custom pipeline that decides which elements to process and when &mdash; since it never touches the page or the DOM unless you call <code>xfscss.reboot()</code>, <code>run()</code>, or <code>process()</code> yourself.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="cta-card">
+          <h2>See the full API</h2>
+          <p><code>process()</code>, <code>inline()</code>, <code>assign()</code>/<code>reboot()</code> and the rest are documented in full on the API reference.</p>
+          <div class="cta-buttons">
+            <a href="api.html" class="btn btn-primary">
+              <i class="fas fa-terminal"></i> API Reference
+            </a>
+            <a href="docs.html" class="btn btn-outline">
+              <i class="fas fa-book"></i> Back to Docs
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="api.html">API Reference</a></li>
+          <li><a href="inline.html">Inline Styles</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
