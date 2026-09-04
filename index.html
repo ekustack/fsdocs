@@ -157,9 +157,8 @@
         <div class="sidebar-section">
           <h3 class="sidebar-title">API Reference</h3>
           <ul class="sidebar-links">
-            <li><a href="#functions" class="sidebar-link">Functions</a></li>
-            <li><a href="#directives" class="sidebar-link">Directives</a></li>
-            <li><a href="/libraries" class="sidebar-link">Utilities</a></li>
+            <li><a href="/api" class="sidebar-link">API docs</a></li>
+            <li><a href="/libraries" class="sidebar-link">Modules</a></li>
           </ul>
         </div>
       </div>
@@ -293,7 +292,7 @@ fscss input.fscss output.css</code></pre>
             <h3>CDN Usage</h3>
           </div>
           <div class="card-body">
-            <p>As of v1.2.0, FSCSS ships two public entry points instead of the old internal files (<code>/e/exec.js</code>, <code>/exec.js</code>, <code>/xfscss.js</code>, etc.). Use one or the other, never both — the npm package and CLI usage are unchanged, and every v1.1.x method still works.</p>
+            <p>From v1.2.0 onward, FSCSS ships two public entry points instead of the old internal files (<code>/e/exec.js</code>, <code>/exec.js</code>, <code>/xfscss.js</code>, etc.). Use one or the other, never both — the npm package and CLI usage are unchanged, and every v1.1.x method still works.</p>
 
             <p><strong>runtime.js</strong> — for plain HTML pages. It auto-scans your page and runs automatically:</p>
             <div class="code-block">
@@ -316,7 +315,7 @@ fscss input.fscss output.css</code></pre>
 xfscss.reboot();</code></pre>
             </div>
 
-            <p>Both builds expose the same API: <code>run</code>, <code>inline</code>, <code>process</code>, <code>assign</code>, <code>exec</code>, <code>reboot</code>.</p>
+            <p>Both builds expose the same API (<a href="/api">API docs</a>): <code>run</code>, <code>inline</code>, <code>process</code>, <code>assign</code>, <code>exec</code>, <code>reboot</code>.</p>
           </div>
         </div>
       </section>
@@ -574,3 +573,4 @@ $spacing: 1rem;
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
