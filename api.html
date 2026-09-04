@@ -133,6 +133,7 @@
             <li><a href="#assign" class="sidebar-link">assign()</a></li>
             <li><a href="#reboot" class="sidebar-link">reboot()</a></li>
             <li><a href="#exec" class="sidebar-link">exec(options)</a></li>
+            <li><a href="#blocking" class="sidebar-link">exec.obj.block</a></li>
           </ul>
         </div>
 
@@ -160,7 +161,7 @@
             <h2>Overview</h2>
           </div>
           <div class="card-body">
-            <p>As of v1.2.0, the browser-facing API is served from two public entry points, <code>runtime.js</code> and <code>esm.js</code>. Use one or the other, never both. Every method below is identical on both builds &mdash; the only difference is <em>when</em> it runs automatically. All npm/CLI usage is unaffected.</p>
+            <p>From v1.2.0 onward, the browser-facing API is served from two public entry points, <code>runtime.js</code> and <code>esm.js</code>. This is the entry-point structure going forward &mdash; future releases in the 1.2.x line and beyond keep using these same two files unless noted otherwise in that release's changelog. Use one or the other, never both. Every method below is identical on both builds &mdash; the only difference is <em>when</em> it runs automatically. All npm/CLI usage is unaffected.</p>
           </div>
         </div>
 
@@ -179,6 +180,7 @@
             <h3>Loading the API</h3>
           </div>
           <div class="card-body">
+            <p>Pin whichever release you're on in the URL &mdash; the paths below (<code>runtime.js</code> / <code>runtime.min.js</code> / <code>esm.js</code>) stay the same from v1.2.0 onward, only the version number changes.</p>
             <p>Browser, auto-run:</p>
             <div class="code-block">
               <div class="code-header">
@@ -247,7 +249,7 @@ xfscss.reboot();</code></pre>
           </div>
           <div class="card-body">
             <p>Async. The core FSCSS compiler. Takes a raw FSCSS string and runs it through the full pipeline &mdash; imports, variables, functions, <code>@define</code> blocks, arrays, events, random values, patterns, extensions, and transformations &mdash; then returns the compiled CSS string. This is the method to reach for when you want FSCSS-to-CSS conversion without touching the DOM (e.g. inside esm.js tooling).</p>
-            <p>Individual pipeline stages can be skipped per input by including a matching <code>exec.obj.block(...)</code> marker in the source (for example <code>exec.obj.block(all)</code> skips the entire pipeline). All markers are stripped from the output regardless.</p>
+            <p>Individual pipeline stages can be skipped per input by including a matching <code>exec.obj.block(...)</code> marker in the source (for example <code>exec.obj.block(all)</code> skips the entire pipeline). See the <a href="#blocking">full marker list</a> below. All markers are stripped from the output regardless.</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
@@ -321,6 +323,80 @@ xfscss.reboot();</code></pre>
   onError: (msg) => console.error(msg)
 });</code></pre>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- exec.obj.block -->
+      <section class="docs-section" id="blocking">
+        <h2>Selective pipeline control &mdash; <code>exec.obj.block(...)</code></h2>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Skip individual stages of <code>process()</code></h3>
+          </div>
+          <div class="card-body">
+            <p>Inside any FSCSS source, a matching <code>exec.obj.block(...)</code> marker tells <code>process()</code> to skip that stage of the pipeline &mdash; useful for debugging or when only a subset of features is needed. All markers are stripped from the compiled output regardless of whether they matched anything.</p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>/* Skip the entire pipeline */
+exec.obj.block(all);
+
+/* Or skip individual stages */
+exec.obj.block(f import);
+exec.obj.block(f import pick);
+exec.obj.block(f import from);
+exec.obj.block(vfc);
+exec.obj.block(pattern);
+exec.obj.block(store);
+exec.obj.block(store:before);
+exec.obj.block(store:after);
+exec.obj.block(ext);
+exec.obj.block(ext:before);
+exec.obj.block(ext:after);
+exec.obj.block(f var);
+exec.obj.block(fun);
+exec.obj.block(obj);
+exec.obj.block(length);
+exec.obj.block(count);
+exec.obj.block(define);
+exec.obj.block(arr);
+exec.obj.block(event);
+exec.obj.block(random);
+exec.obj.block(copy);
+exec.obj.block(num);
+exec.obj.block(t group);
+exec.obj.block(debug);</code></pre>
+            </div>
+
+            <table class="api-table">
+              <thead>
+                <tr><th>Marker</th><th>Skips</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>all</code></td><td>The entire pipeline &mdash; the source passes through untouched (markers still stripped)</td></tr>
+                <tr><td><code>f import</code> / <code>f import pick</code> / <code>f import from</code></td><td>Import resolution (selector-pick and <code>from</code> forms, plus the general import pass)</td></tr>
+                <tr><td><code>vfc</code></td><td>VFC pass</td></tr>
+                <tr><td><code>pattern</code></td><td>Pattern matching</td></tr>
+                <tr><td><code>store</code> / <code>store:before</code> / <code>store:after</code></td><td>Style-store substitution, either generally or at a specific pass</td></tr>
+                <tr><td><code>ext</code> / <code>ext:before</code> / <code>ext:after</code></td><td>External processing, either generally or at a specific pass</td></tr>
+                <tr><td><code>f var</code></td><td>Variable substitution</td></tr>
+                <tr><td><code>fun</code> / <code>obj</code></td><td>Function stores / function-object processing</td></tr>
+                <tr><td><code>length</code> / <code>count</code></td><td>Length and count helpers</td></tr>
+                <tr><td><code>define</code></td><td><code>@define</code> block expansion</td></tr>
+                <tr><td><code>arr</code></td><td>Arrays and loops</td></tr>
+                <tr><td><code>event</code></td><td>Event functions</td></tr>
+                <tr><td><code>random</code></td><td>Random value generation</td></tr>
+                <tr><td><code>copy</code></td><td>Value transformation/copying pass</td></tr>
+                <tr><td><code>num</code></td><td>Numeric processing</td></tr>
+                <tr><td><code>t group</code></td><td>Transform group application</td></tr>
+                <tr><td><code>debug</code></td><td>Debug output pass</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
