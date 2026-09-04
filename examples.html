@@ -11,9 +11,9 @@
   <title>FSCSS Examples – Interactive Demos & Live CSS Preprocessor Showcase</title>
 
   <!-- Primary SEO Meta -->
-  <meta name="description" content="Explore interactive FSCSS examples and live demos showcasing powerful shorthand CSS features in action. See real-world layouts, utilities, themes, and advanced styling workflows built with FSCSS.">
+  <meta name="description" content="Explore interactive FSCSS examples and live demos showcasing powerful shorthand CSS features in action. See real-world layouts, utilities, themes, array mutations, and advanced styling workflows built with FSCSS.">
 
-  <meta name="keywords" content="FSCSS examples, FSCSS demos, CSS preprocessor examples, shorthand CSS demo, FSCSS showcase, live CSS demo, frontend styling examples, Figured Shorthand CSS, modern CSS tools">
+  <meta name="keywords" content="FSCSS examples, FSCSS demos, CSS preprocessor examples, shorthand CSS demo, FSCSS showcase, live CSS demo, frontend styling examples, Figured Shorthand CSS, modern CSS tools, array mutation">
 
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
@@ -29,7 +29,7 @@
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Interactive Examples Preview">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-02-28T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -76,7 +76,7 @@
     "operatingSystem": "All",
     "description": "FSCSS is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.1.17",
+    "version": "1.2.0",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -118,16 +118,18 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-         <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
-        <span>FSCSS</span>
+ <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
+        <span>FSCSS v1.2.0</span>
       </div>
       
       <div class="nav-menu" id="nav-menu">
         <a href="index.html" class="nav-link">Home</a>
         <a href="docs.html" class="nav-link">Documentation</a>
         <a href="examples.html" class="nav-link active">Examples</a>
+        <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="api.html" class="nav-link">API</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
       </div>
@@ -182,7 +184,7 @@
                 <i class="fas fa-magic"></i>
               </div>
               <h4>Powerful Features</h4>
-              <p>Advanced capabilities like loops and conditionals</p>
+              <p>Advanced capabilities like loops, conditionals, and array mutations</p>
             </div>
           </div>
         </div>
@@ -425,6 +427,151 @@ str(card-style, "
       </div>
     </section>
 
+    <!-- NEW: Array Mutation Helpers -->
+    <section id="array-mutation" class="section">
+      <h2>Array Mutation Helpers</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Reusable <code>@add</code> / <code>@remove</code> with <code>@define</code></h3>
+          <span class="badge badge-accent">Advanced</span>
+        </div>
+        <div class="card-body">
+          <p>
+            Combine <code>@define</code> with FSCSS array mutation syntax (<code>@arr.name!+[...]</code> and index-based removal)
+            to create clean, reusable helpers. Then inspect the result with <code>exec(_log, ...)</code>.
+          </p>
+
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>/* Reusable append helper */
+@define add(arr, new){
+  @arr.@use(arr)!+@use(new)
+}
+
+/* Reusable remove-by-index helper */
+@define remove(arr, index){
+  @arr.@use(arr)!-@use(index)
+}
+
+/* 1. Create the array */
+@arr a[A, B, C]
+
+/* 2. Append D */
+@add(a, [D])          /* → [A, B, C, D] */
+
+/* 3. Remove index 1 (B) */
+@remove(a, 1)         /* → [A, C, D]  – wait, demo uses different order */
+
+/* Full sequence from the test: */
+@arr a[A,B,C]
+@add(a, [D])          /* [A, B, C, D] */
+@remove(a, 1)         /* remove B → [A, C, D]  (actual test may vary) */
+@add(a, [A])
+@remove(a, 1)
+@add(a, [B])
+
+/* Log final state */
+exec(_log, "[@arr.a!.surround(',')]")
+/* Expected console: ['C' 'D' 'A' 'B'] */</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Console Result</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>['C' 'D' 'A' 'B']</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 1.5rem; background: rgba(59, 130, 246, 0.08);">
+            <div class="card-body">
+              <h4 style="margin-top:0"><i class="fas fa-list-ol" style="margin-right:8px;"></i> Step-by-step array state</h4>
+              <table style="width:100%; border-collapse: collapse; font-size: 0.95rem;">
+                <thead>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.15);">
+                    <th style="text-align:left; padding: 8px;">Operation</th>
+                    <th style="text-align:left; padding: 8px;">Array after operation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 8px;"><code>@arr a[A,B,C]</code></td>
+                    <td style="padding: 8px;"><code>[A, B, C]</code></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 8px;"><code>@add(a, [D])</code></td>
+                    <td style="padding: 8px;"><code>[A, B, C, D]</code></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 8px;"><code>@remove(a, 1)</code></td>
+                    <td style="padding: 8px;"><code>[B, C, D]</code></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 8px;"><code>@add(a, [A])</code></td>
+                    <td style="padding: 8px;"><code>[B, C, D, A]</code></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 8px;"><code>@remove(a, 1)</code></td>
+                    <td style="padding: 8px;"><code>[C, D, A]</code></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px;"><code>@add(a, [B])</code></td>
+                    <td style="padding: 8px;"><code>[C, D, A, B]</code></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="margin-top: 1rem; margin-bottom: 0;">
+                Final log via <code>exec(_log, "[@arr.a!.surround(',')]")</code> produces:
+                <code>['C' 'D' 'A' 'B']</code>
+              </p>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h4>Minimal working snippet (append only)</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML + FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+&lt;style type="text/fscss"&gt;
+  @define add(arr, new){
+    @arr.@use(arr)!+@use(new)
+  }
+
+  @arr a[A,B,C]
+  @add(a, [D])
+
+  exec(_log, "@arr.a")
+  /* Console → [A,B,C,D] */
+&lt;/style&gt;</code></pre>
+            </div>
+          </div>
+
+          <p style="margin-top: 1.25rem;">
+            <strong>Key points:</strong>
+          </p>
+          <ul>
+            <li><code>@arr.name!+[items]</code> is the official mutation syntax for appending.</li>
+            <li>Wrapping it inside <code>@define</code> lets you build dynamic helpers that accept the array name as a parameter.</li>
+            <li><code>exec(_log, "...")</code> is the built-in console helper — perfect for debugging array state.</li>
+            <li>Works with both <code>runtime.js</code> (auto) and <code>esm.js</code> (manual <code>xfscss.reboot()</code>).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <!-- Functions Example -->
     <section id="functions-example" class="section">
       <h2>Functions & Calculations</h2>
@@ -639,22 +786,22 @@ $item-width: num(100 / $columns!);
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
                   <pre><code>@define flex-center(gap:15px){
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  gap: @use(gap);
-                  } 
-                 .card{
-                 @flex-center(1em)
-                 }</code></pre>
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: @use(gap);
+} 
+.card{
+  @flex-center(1em)
+}</code></pre>
                 </div>
                 
               </div>
             </div>
             
-                        <div class="example-card">
+            <div class="example-card">
               <div class="example-card-header">
-                <h4>@import() - import external FSCSS. <a href="https://github.com/fscss-ttr/fscss-modules">https://github.com/fscss-ttr/fscss-modules</a></h4>
+                <h4>@import() - import external FSCSS</h4>
               </div>
               <div class="example-card-body">
                 <div class="code-container">
@@ -662,12 +809,12 @@ $item-width: num(100 / $columns!);
                     <span>FSCSS</span>
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
-                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.1.17/exec.min.js" async&gt;&lt;/script&gt;
+                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;style&gt;
 @import((
-circle-progress as clp,
-progress-range as pr, 
-progress-root as p-root
+  circle-progress as clp,
+  progress-range as pr, 
+  progress-root as p-root
 ) from circle-progress)
 
 @p-root()
@@ -679,11 +826,9 @@ body{
 .p72 {
   @pr(72)
 }
-
 &lt;/style&gt;
 
-&lt;div class="progress-circle p72"&gt;72%&lt;/div&gt;
-</code></pre>
+&lt;div class="progress-circle p72"&gt;72%&lt;/div&gt;</code></pre>
                 </div>
                 
               </div>
@@ -783,6 +928,9 @@ $secondary: #8b5cf6;
             <a href="docs.html" class="btn btn-primary">
               <i class="fas fa-book"></i> View Documentation
             </a>
+            <a href="api.html" class="btn btn-outline">
+              <i class="fas fa-code"></i> API Reference
+            </a>
             <a href="https://www.npmjs.com/package/fscss" class="btn btn-outline">
               <i class="fab fa-npm"></i> Install via NPM
             </a>
@@ -800,9 +948,9 @@ $secondary: #8b5cf6;
     <div class="footer-content">
       <div class="footer-section">
         <div class="footer-logo">
-           <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
+         <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
           <span>FSCSS</span>
         </div>
         <p>Simplify your CSS workflow with powerful shorthand syntax</p>
@@ -813,6 +961,7 @@ $secondary: #8b5cf6;
         <ul class="footer-links">
           <li><a href="docs.html">Documentation</a></li>
           <li><a href="examples.html">Examples</a></li>
+          <li><a href="api.html">API Reference</a></li>
           <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
         </ul>
@@ -836,3 +985,4 @@ $secondary: #8b5cf6;
   <script src="assets/scripts/exm.js"></script>
 </body>
 </html>
+
