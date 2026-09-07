@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://fscss.devtem.org/building-fscss-modules">
+
+  <!-- Primary Title -->
+  <title>Building an FSCSS Module – Experience Writeup | Lessons from siri-wave & flux-wave</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Practical experience report on turning raw CSS components into proper, reusable FSCSS modules. Anatomy, pitfalls, arrays, count() limits, naming, and a checklist for the next module.">
+
+  <meta name="keywords" content="FSCSS module, build FSCSS module, siri-wave, flux-wave, FSCSS @define, FSCSS arrays, FSCSS best practices, module anatomy, fscss-modules">
+
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#111827">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Building an FSCSS Module – Experience Writeup">
+  <meta property="og:description" content="What actually happened when turning two raw CSS components into reusable FSCSS modules. Real pitfalls, patterns that held up, and a checklist.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/building-fscss-modules">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS Module Building Guide">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:updated_time" content="2026-09-07T00:00:00Z">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="Building an FSCSS Module – Experience Writeup">
+  <meta name="twitter:description" content="Lessons from shipping siri-wave.fscss and flux-wave.fscss. Anatomy, silent failures, and a practical checklist.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Building an FSCSS Module – Experience Writeup",
+    "description": "Practical lessons from turning raw CSS components into reusable FSCSS modules (siri-wave and flux-wave).",
+    "author": { "@type": "Person", "name": "Figsh" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org"
+    },
+    "dateModified": "2026-09-07",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/building-fscss-modules"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.2.0"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FSCSS Home", "item": "https://fscss.devtem.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Libraries", "item": "https://fscss.devtem.org/libraries" },
+      { "@type": "ListItem", "position": 3, "name": "Building Modules", "item": "https://fscss.devtem.org/building-fscss-modules" }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="libraries.html" class="nav-link active">Libraries</a>
+        <a href="api.html" class="nav-link">API</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-search">
+        <input type="text" placeholder="Search Libraries..." class="search-input" onclick="window.location.href='libraries.html'">
+        <i class="fas fa-search"></i>
+      </div>
+      
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Libraries & Modules</h3>
+          <ul class="sidebar-links">
+            <li><a href="libraries.html" class="sidebar-link">All Libraries</a></li>
+            <li><a href="building-fscss-modules.html" class="sidebar-link active">Building Modules</a></li>
+            <li><a href="https://github.com/fscss-ttr/fscss-modules" class="sidebar-link">fscss-modules repo</a></li>
+          </ul>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">This Guide</h3>
+          <ul class="sidebar-links">
+            <li><a href="#anatomy" class="sidebar-link">Module Anatomy</a></li>
+            <li><a href="#define-pitfalls" class="sidebar-link">@define Pitfalls</a></li>
+            <li><a href="#arrays-loops" class="sidebar-link">Arrays & Loops</a></li>
+            <li><a href="#count-limit" class="sidebar-link">count() Limit</a></li>
+            <li><a href="#debugging" class="sidebar-link">Debugging</a></li>
+            <li><a href="#naming" class="sidebar-link">Naming</a></li>
+            <li><a href="#checklist" class="sidebar-link">Checklist</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Header -->
+      <section class="docs-section">
+        <div class="section-header">
+          <h1>Building an FSCSS Module</h1>
+          <p class="lead">Experience writeup — what actually happened when turning two raw CSS components into proper, reusable modules.</p>
+        </div>
+
+        <div class="card glow-card">
+          <div class="card-body">
+            <p>
+              Notes from taking two raw CSS components (a Siri-style blob loader and a flowing gradient wave) 
+              and turning them into proper, reusable FSCSS modules: <code>siri-wave.fscss</code> and <code>flux-wave.fscss</code>.
+            </p>
+            <p style="margin-bottom:0">
+              Written before opening the PR to list them on 
+              <a href="libraries.html">fscss.devtem.org/libraries</a>, 
+              so the process is repeatable for the next module.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Anatomy -->
+      <section id="anatomy" class="docs-section">
+        <h2>Module anatomy that held up</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>Every working module in the ecosystem (<code>st-core.fscss</code>, and now these two) follows the same shape:</p>
+            
+            <ol style="line-height:1.7;">
+              <li>
+                <strong>A root tokens mixin</strong> 
+                (<code>@define X-root(root:root){...}</code> or <code>X-tokens(...)</code>) — 
+                a single <code>@define</code> that writes every custom property the module needs as CSS variables on a selector, 
+                <code>:root</code> by default. Called once, before anything else.
+              </li>
+              <li>
+                <strong>A base reset</strong>, scoped to the component’s own selector 
+                (<code>@use(st), @use(st) *{...}</code>), never a bare <code>*</code> global reset. 
+                A global reset bundled inside a component module means every additional module imported on the same page 
+                re-applies its own global reset — redundant at best, a silent override fight at worst.
+              </li>
+              <li>
+                <strong>Structural mixins</strong>, one per visual piece (container, line, dot, band, card…), 
+                each taking a <code>named</code> selector parameter so the same mixin can be reused under different class names on the same page.
+              </li>
+              <li>
+                <strong>A one-call composite</strong> (<code>X-preset(st:...)</code>) that wires the above together for the common case, 
+                while the individual mixins stay available for anyone who wants to compose their own layout.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- @define pitfalls -->
+      <section id="define-pitfalls" class="docs-section">
+        <h2>@define blocks: what actually breaks</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>The syntax itself is forgiving. The mistakes that cost real debugging time were structural, not syntactic.</p>
+
+            <h3 style="margin-top:1.5rem;">Don’t wrap a child mixin call in a selector block it doesn’t need</h3>
+            <p>
+              A mixin like <code>sk-line(st, w, h)</code> already builds its own full selector internally. 
+              Wrapping the <em>call</em> in another selector block:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS — wrong</span></div>
+              <pre><code>@use(st) .sk-line-1{
+  @sk-line(.sk-line-1, 100%)   /* wrong */
+}</code></pre>
+            </div>
+
+            <p>
+              produces a doubled, non-matching selector in the compiled output 
+              (something like <code>.sk-body .sk-line-1 .sk-line-1</code>). 
+              This compiles without error and produces valid CSS — it just never matches anything in the actual markup. 
+              No warning, no red squiggle, just styles that silently don’t apply.
+            </p>
+            <p>The fix is to call the child mixin directly with the full selector as its argument:</p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS — right</span></div>
+              <pre><code>@sk-line(@use(st) .sk-line-1, 100%)   /* right */</code></pre>
+            </div>
+
+            <h3 style="margin-top:1.75rem;">Watch for stray leading punctuation in the root block</h3>
+            <p>
+              A recurring one across modules: a stray leading colon producing 
+              <code>:@use(root){</code> instead of the intended selector. 
+              Worth a visual scan of every root mixin before shipping.
+            </p>
+
+            <h3 style="margin-top:1.75rem;">A declared parameter that’s never referenced is a silent no-op</h3>
+            <p>
+              <code>sk-list(st, count:5)</code> compiling fine while its body hardcodes <code>count(5)</code> internally 
+              is the clearest example: calling <code>@sk-list(.feed, 6)</code> compiles, runs, and renders exactly 5 items anyway — 
+              no warning that the <code>6</code> you passed went nowhere.
+            </p>
+            <p>
+              The only way to catch this is reading the mixin body and checking every declared parameter 
+              actually appears inside it via <code>@use(...)</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Arrays & Loops -->
+      <section id="arrays-loops" class="docs-section">
+        <h2>Arrays and loops</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              The trigger for <code>@arr.name[]</code> to expand as a loop (rather than resolve to a single value) 
+              is the array reference sitting in <strong>selector position, followed by a block</strong>:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>div:nth-child(@arr.colors[]){
+  color: @arr.colors[];
+}</code></pre>
+            </div>
+
+            <p>
+              This is the pattern from the docs themselves, and it’s the one that reliably fired across every mixin tested. 
+              A bare reference inside a mixin call’s arguments, with no accompanying selector-plus-block, 
+              was inconsistent enough in practice that it’s not worth relying on. 
+              If a loop needs to run N times, give it a selector position to run in.
+            </p>
+
+            <h3 style="margin-top:1.5rem;">The index-array pattern (parallel arrays)</h3>
+            <p>For looping with more than one parallel array:</p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@arr colors[magenta, cyan, green, purple, orange, blue]
+@arr colors-i[count(6,1)]
+
+@use(st).@arr.colors[@arr.colors-i[]]{
+  /* ... */
+}</code></pre>
+            </div>
+
+            <p>
+              Declare the values array, declare a plain index array from <code>count(n)</code>, 
+              then index into the values array through the index array inside the selector-plus-block. 
+              This is how <code>st-core.fscss</code>’s <code>st-chart-dots()</code> generates its eight dots, 
+              and it’s what both wave modules ended up converging on independently.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- count() limit -->
+      <section id="count-limit" class="docs-section">
+        <h2><code>count()</code> has a real, undocumented limit</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              <code>count()</code> needs a <strong>literal number</strong> at compile time. 
+              It does not resolve an expression that still contains an unresolved parameter:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS — does not work</span></div>
+              <pre><code>@arr flux-i[count(num(@use(count)),1)]   /* does not resolve */</code></pre>
+            </div>
+
+            <p>
+              Confirmed by sprinkling <code>exec(_log, "...")</code> calls around the expansion and watching 
+              what actually printed at compile time versus what was expected — 
+              <code>num(@use(count))</code> never resolved to a plain number before <code>count()</code> needed it.
+            </p>
+            <p>
+              This fails silently in the same way as the doubled-selector bug: no compiler error, 
+              just an array that doesn’t behave as intended (in this case, one that doesn’t expand at all, 
+              or expands with the literal, un-evaluated expression text).
+            </p>
+
+            <h3 style="margin-top:1.5rem;">The workaround</h3>
+            <p>
+              Don’t try to make the array’s <em>size</em> dynamic through a parameter. 
+              Make the array’s <em>name</em> swappable instead, defaulting to an internally declared array with a real literal count:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS — works</span></div>
+              <pre><code>@define flux-bands(st:.wave, counter: flux-i){`
+  @arr flux-i[count(4,1)]
+
+  @use(st).wave-@arr.@use(counter)[]{
+    /* ... */
+  }
+`}</code></pre>
+            </div>
+
+            <p>
+              A caller who wants a different count pre-declares their own array (with its own real literal <code>count()</code> call) 
+              and passes its name in through <code>counter</code>. This sidesteps the limitation entirely.
+            </p>
+            <p>
+              <strong>Tradeoff:</strong> if you extend the count this way, any per-item tokens 
+              (like <code>--flux-band5-bg</code>) still need to be declared by hand somewhere — 
+              the loop only generates the selector blocks, it doesn’t invent data.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Debugging -->
+      <section id="debugging" class="docs-section">
+        <h2>Debugging technique that actually worked</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              <code>exec(_log, "message")</code> was the only reliable way to see what the compiler was actually doing at a given point, 
+              since FSCSS fails silently far more often than it errors.
+            </p>
+            <p>
+              When something compiles but doesn’t render as expected, the fix isn’t to stare at the FSCSS source harder — 
+              it’s to drop <code>exec(_log, ...)</code> calls around the suspect expansion and check what actually printed 
+              versus what was assumed.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>exec(_log, "before loop")
+@arr colors-i[count(6,1)]
+exec(_log, "@arr.colors-i")
+/* check console for the actual expanded value */</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Naming -->
+      <section id="naming" class="docs-section">
+        <h2>Naming, to avoid collisions</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <ul style="line-height:1.7;">
+              <li>
+                <strong>Keyframe names need a module-specific prefix.</strong> 
+                <code>pulse</code> collides the moment a second animated module lands on the same page. 
+                <code>siri-pulse</code>, <code>flux-flow</code> — namespaced from the start, cost nothing and prevent a real bug later.
+              </li>
+              <li>
+                <strong>Custom property names need the same treatment.</strong> 
+                The original wave-container bug (tokens declared as <code>--siri-wave-container-width</code>, 
+                read back as <code>--wave-container-width</code>) only happened because of a naming mismatch, 
+                but the deeper lesson is that generic prefixes like <code>--wave-*</code> are exactly the kind of name 
+                a second, unrelated module is likely to reuse. Prefix with the module’s own short namespace, consistently, everywhere.
+              </li>
+              <li>
+                <strong>Import / module names can’t be scoped.</strong> 
+                FSCSS’s <code>@import((*) from name)</code> only accepts a bare module name or a quoted URL/path — 
+                there’s no <code>@variant</code> or <code>/variant</code> syntax. 
+                Two related components (<code>siri-wave</code>, <code>flux-wave</code>) have to ship as two fully separate module names; 
+                there’s no way to publish them as variants of one shared <code>wave</code> name at the import level. 
+                Family relationships have to live in naming and documentation instead.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Checklist -->
+      <section id="checklist" class="docs-section">
+        <h2>Checklist for the next module</h2>
+        
+        <div class="card glow-card">
+          <div class="card-header">
+            <h3><i class="fas fa-clipboard-check" style="margin-right:8px;"></i> Before you open the PR</h3>
+          </div>
+          <div class="card-body">
+            <ul style="list-style:none; padding-left:0; line-height:1.9;">
+              <li><input type="checkbox" disabled> Root tokens mixin — one custom-property-writing block, called once</li>
+              <li><input type="checkbox" disabled> Base reset scoped to the component’s own selector, never global <code>*</code></li>
+              <li><input type="checkbox" disabled> Every structural mixin takes a selector param</li>
+              <li><input type="checkbox" disabled> Every declared parameter is actually referenced via <code>@use(...)</code> somewhere in the body</li>
+              <li><input type="checkbox" disabled> No child mixin call gets wrapped in a selector block it doesn’t need</li>
+              <li><input type="checkbox" disabled> Any loop uses the selector-position-plus-block pattern, not a bare call-argument reference</li>
+              <li><input type="checkbox" disabled> Any <code>count()</code> call uses a literal number, not an expression built from <code>@use(...)</code></li>
+              <li><input type="checkbox" disabled> Keyframe names and custom property names are prefixed with the module’s own namespace</li>
+              <li><input type="checkbox" disabled> <code>exec(_log, ...)</code> used during development to confirm expansions actually did what was intended</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="docs-section">
+        <div class="card glow-card">
+          <div class="card-header">
+            <h2>Ship the next one</h2>
+          </div>
+          <div class="card-body">
+            <p>
+              These patterns held up across <code>st-core</code>, <code>siri-wave</code>, and <code>flux-wave</code>. 
+              Use the checklist, keep the namespace consistent, and reach for <code>exec(_log, ...)</code> the moment something compiles but doesn’t render.
+            </p>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1rem;">
+              <a href="libraries.html" class="btn btn-primary">
+                <i class="fas fa-book-open"></i> Browse Libraries
+              </a>
+              <a href="https://github.com/fscss-ttr/fscss-modules" class="btn btn-outline" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> fscss-modules
+              </a>
+              <a href="api.html" class="btn btn-outline">
+                <i class="fas fa-code"></i> API Reference
+              </a>
+              <a href="/import" class="btn btn-outline">
+                <i class="fas fa-file-import"></i> @import Guide
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="libraries.html">Libraries</a></li>
+          <li><a href="api.html">API</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
