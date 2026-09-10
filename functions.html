@@ -45,9 +45,11 @@
   <!-- Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  
+    <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
   <!-- Scripts -->
   <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
 
   <!-- Article Meta -->
   <meta property="article:section" content="Documentation">
@@ -83,7 +85,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.1.13"
+      "version": "1.1.14"
     }
   }
   </script>
@@ -809,9 +811,9 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-         <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
+        <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
         <span>FSCSS</span>
       </div>
       
@@ -1030,16 +1032,16 @@ color: white;
               <button class="toggle-btn">See CSS</button>
             </div>
             <pre class="fscss"><code>/* Define arrays for random selection */
-@arr(colors[#3b82f6, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444]);
-@arr(rotations[0deg, 5deg, -5deg, 10deg, -10deg, 15deg, -15deg]);
-@arr(scales[0.9, 0.95, 1, 1.05, 1.1]);
+@arr colors[#3b82f6, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444]
+@arr rotations[0deg, 5deg, -5deg, 10deg, -10deg, 15deg, -15deg]
+@arr scales[0.9, 0.95, 1, 1.05, 1.1]
 
 /* Apply random values*/
 .dynamic-element {
-  background: @random([@arr.colors(,)]);
+  background: @random(@arr.colors);
   transform: 
-    rotate(@random([@arr.rotations(,)])) 
-    scale(@random([@arr.scales(,)]));
+    rotate(@random(@arr.rotations)) 
+    scale(@random(@arr.scales));
   padding: 2rem;
   border-radius: 8px;
   color: white;
@@ -1049,8 +1051,8 @@ color: white;
 
 .dynamic-element:hover {
   transform: 
-    rotate(@random([@arr.rotations(,)])) 
-    scale(@random([@arr.scales(,)]));
+    rotate(@random(@arr.rotations)) 
+    scale(@random(@arr.scales));
 }
 
 /* Random with direct values */
@@ -1503,9 +1505,9 @@ $spacing-unit: 1;
     <div class="footer-content">
       <div class="footer-section">
         <div class="footer-logo">
-           <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
+ <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
           <span>FSCSS</span>
         </div>
         <p>Simplify your CSS workflow with powerful shorthand syntax</p>
