@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/nested-loop">
+
+  <title>Styling Nested divs with One FSCSS Array Loop | @arr + rpt()</title>
+
+  <meta name="description" content="Generate deeply nested selectors with a single FSCSS loop. Combine @arr, count(), and rpt() to style nested divs without hand-writing selectors.">
+  <meta name="keywords" content="FSCSS nested selectors, FSCSS array loop, rpt, @arr, count, nested div CSS, FSCSS tutorial">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="Styling Nested divs with One FSCSS Array Loop">
+  <meta property="og:description" content="One loop with @arr + rpt() generates div, div div, div div div… and assigns colors, padding, and more.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/nested-loop">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:title" content="Styling Nested divs with One FSCSS Array Loop">
+  <meta name="twitter:description" content="Generate nested selectors with @arr + rpt() — no more hand-writing div div div.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Styling Deeply Nested divs with One FSCSS Array Loop",
+    "description": "Generate nested selectors with @arr, count(), and rpt() so you never hand-write div div div chains again.",
+    "author": { "@type": "Person", "name": "Figsh" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "url": "https://devtem.org"
+    },
+    "dateModified": "2026-09-11",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/nested-loop"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.2.0"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS v1.2.0</span>
+      </div>
+      
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="arrays.html" class="nav-link">Arrays</a>
+        <a href="api.html" class="nav-link">API</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-search">
+        <input type="text" placeholder="Search..." class="search-input" onclick="window.location.href='libraries.html'">
+        <i class="fas fa-search"></i>
+      </div>
+      
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Related</h3>
+          <ul class="sidebar-links">
+            <li><a href="/arrays.html" class="sidebar-link">Arrays & Loops</a></li>
+            <li><a href="docs.html" class="sidebar-link">Documentation</a></li>
+            <li><a href="examples.html" class="sidebar-link">Examples</a></li>
+            <li><a href="api.html" class="sidebar-link">API</a></li>
+          </ul>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">On this page</h3>
+          <ul class="sidebar-links">
+            <li><a href="#problem" class="sidebar-link">The problem</a></li>
+            <li><a href="#solution" class="sidebar-link">One-loop solution</a></li>
+            <li><a href="#generated" class="sidebar-link">What gets generated</a></li>
+            <li><a href="#how" class="sidebar-link">How it works</a></li>
+            <li><a href="#variations" class="sidebar-link">Variations</a></li>
+            <li><a href="#live" class="sidebar-link">Live demo</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="docs-section">
+        <div class="section-header">
+          <h1>Styling Nested <code>div</code>s with One Loop</h1>
+          <p class="lead">Generate <code>div</code>, <code>div div</code>, <code>div div div</code>… with a single <code>@arr</code> + <code>rpt()</code> pattern. No more hand-written selector chains.</p>
+        </div>
+
+        <div class="card glow-card">
+          <div class="card-body">
+            <p style="margin-bottom:0">
+              This guide combines <a href="/arrays.html"><strong>arrays &amp; loops</strong></a> with
+              <a href="docs.html"><strong>rpt()</strong></a> from the core docs.
+              Requires FSCSS <strong>v1.1.x+</strong> (examples use the 1.2.0 runtime).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problem -->
+      <section id="problem" class="docs-section">
+        <h2>The problem</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>Writing nested selectors by hand is painful and error-prone:</p>
+            <div class="code-block">
+              <div class="code-header"><span>CSS — the hard way</span></div>
+              <pre><code>div { background: orange; }
+div div { background: purple; }
+div div div { background: indigo; }
+/* …and it gets worse the deeper you go */</code></pre>
+            </div>
+
+            <p style="margin-top:1.25rem;">You have a simple nested structure:</p>
+            <div class="code-block">
+              <div class="code-header"><span>HTML</span></div>
+              <pre><code>&lt;div&gt;1
+  &lt;div&gt;2
+    &lt;div&gt;3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <p style="margin-bottom:0;">
+              You want each level to have a different background (and maybe padding, radius, etc.)
+              without maintaining a growing list of selectors.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Solution -->
+      <section id="solution" class="docs-section">
+        <h2>The one-loop solution</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-header"><span>HTML + FSCSS</span></div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+
+&lt;style&gt;
+@arr colors[orange, purple, indigo]
+@arr levels[count(3, 1)]          /* → 1, 2, 3 */
+
+rpt(@arr.levels[], "div ") {      /* builds "div ", "div div ", "div div div " */
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+&lt;/style&gt;</code></pre>
+            </div>
+            <p style="margin-top:1rem; margin-bottom:0;">
+              That’s the whole pattern: one levels array, one colors array, one <code>rpt()</code> in selector position.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generated -->
+      <section id="generated" class="docs-section">
+        <h2>What gets generated</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-header"><span>Compiled CSS</span></div>
+              <pre><code>div {
+  background: orange;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+
+div div {
+  background: purple;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+
+div div div {
+  background: indigo;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" class="docs-section">
+        <h2>How it works</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <ol style="line-height:1.8;">
+              <li>
+                <code>@arr levels[count(3, 1)]</code> creates the numbers <code>1, 2, 3</code>.
+                <code>count(n, start)</code> needs a <strong>literal</strong> number (see
+                <a href="building-fscss-modules.html">building modules</a> for the limit).
+              </li>
+              <li>
+                <code>rpt(@arr.levels[], "div ")</code> sits in <strong>selector position</strong>.
+                For each level it repeats the string <code>"div "</code> that many times:
+                <code>"div "</code>, <code>"div div "</code>, <code>"div div div "</code>.
+              </li>
+              <li>
+                Inside the block, <code>@arr.colors[@arr.levels[]]</code> picks the color for the current index
+                (arrays are 1-indexed in this usage).
+              </li>
+              <li>
+                FSCSS expands the whole rule once per array item — one clean loop, pure CSS after compile.
+              </li>
+            </ol>
+
+            <p style="margin-top:1.25rem; margin-bottom:0;">
+              The same selector-position + block rule that drives
+              <a href="/arrays.html">array loops in general</a> is what makes the expansion reliable here.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Variations -->
+      <section id="variations" class="docs-section">
+        <h2>Easy variations</h2>
+        
+        <div class="card">
+          <div class="card-header"><h3>Change depth</h3></div>
+          <div class="card-body">
+            <p>Update <code>count()</code> and the colors array together so they stay in sync:</p>
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@arr colors[tomato, coral, salmon, crimson]
+@arr levels[count(4, 1)]
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Child combinator instead of descendant</h3></div>
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>rpt(@arr.levels[], "div > ") {
+  /* generates: div >, div > div >, div > div > div > */
+  background: @arr.colors[@arr.levels[]];
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Different values per level</h3></div>
+          <div class="card-body">
+            <p>Reference the level index for anything — font-size, opacity, animation-delay, etc.:</p>
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@arr colors[orange, purple, indigo]
+@arr sizes[1rem, 0.9rem, 0.8rem]
+@arr levels[count(3, 1)]
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  font-size: @arr.sizes[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Other tags or class chains</h3></div>
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@arr levels[count(3, 1)]
+
+rpt(@arr.levels[], ".card ") {
+  /* .card , .card .card , .card .card .card */
+  border: 1px solid #334155;
+  padding: 12px;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live demo -->
+      <section id="live" class="docs-section">
+        <h2>Live demo</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>After the runtime processes the styles, the nested structure below should show three levels with orange → purple → indigo:</p>
+
+            <div class="example-output" style="padding:1.5rem; background:rgba(30,41,59,0.5); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+              <div style="background:orange; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                Level 1
+                <div style="background:purple; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                  Level 2
+                  <div style="background:indigo; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                    Level 3
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p style="margin-top:1.25rem; margin-bottom:0;">
+              Drop the one-loop snippet into a page with
+              <code>runtime.min.js</code> (or compile with the CLI) to generate the same result from source.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why -->
+      <section class="docs-section">
+        <h2>Why this feels good</h2>
+        
+        <div class="card glow-card">
+          <div class="card-body">
+            <ul style="line-height:1.8;">
+              <li><strong>Zero repetitive typing</strong> — depth and styles stay in one place</li>
+              <li><strong>Depth and colors stay in sync</strong> — change <code>count()</code> and the parallel arrays together</li>
+              <li><strong>Still pure CSS after compilation</strong> — no runtime cost for the nested rules</li>
+              <li><strong>Works with browser runtime or CLI</strong> — same source either way</li>
+            </ul>
+            <p style="margin-top:1rem; margin-bottom:0;">
+              Hand-writing nested selectors used to be a small but annoying chore.
+              With FSCSS arrays + <code>rpt()</code>, it becomes a reusable one-liner pattern.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <div class="card">
+          <div class="card-body" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+            <a href="/arrays.html" class="btn btn-primary"><i class="fas fa-layer-group"></i> Arrays &amp; Loops</a>
+            <a href="docs.html" class="btn btn-outline"><i class="fas fa-book"></i> Full docs</a>
+            <a href="examples.html" class="btn btn-outline"><i class="fas fa-code"></i> Examples</a>
+            <a href="api.html" class="btn btn-outline"><i class="fas fa-code"></i> API</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="/arrays.html">Arrays</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="api.html">API</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issues</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">Discussions</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. Made with 💡 for Web developers. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
