@@ -136,7 +136,7 @@ const navlogo=document.querySelector(".nav-container .nav-logo");
 if(navlogo){
 navlogo.innerHTML=`<div class="logo-icn">
    <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
- </div><span>FSCSS v1.2.0</span>
+ </div><span>FSCSS v1.2.1</span>
 `;
 }
 
