@@ -56,7 +56,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.2.0"
+      "version": "1.2.1"
     }
   }
   </script>
@@ -69,7 +69,7 @@
         <div class="logo-icn">
           <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
         </div>
-        <span>FSCSS v1.2.0</span>
+        <span>FSCSS v1.2.1</span>
       </div>
       
       <div class="nav-menu" id="nav-menu">
@@ -180,11 +180,11 @@ div div div { background: indigo; }
           <div class="card-body">
             <div class="code-block">
               <div class="code-header"><span>HTML + FSCSS</span></div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
 
 &lt;style&gt;
 @arr colors[orange, purple, indigo]
-@arr levels[count(3, 1)]          /* → 1, 2, 3 */
+@arr levels[count(@arr.colors!.length, 1)]          /* → 1, 2, 3 */
 
 rpt(@arr.levels[], "div ") {      /* builds "div ", "div div ", "div div div " */
   background: @arr.colors[@arr.levels[]];
@@ -249,6 +249,7 @@ div div div {
                 <code>@arr levels[count(3, 1)]</code> creates the numbers <code>1, 2, 3</code>.
                 <code>count(n, start)</code> needs a <strong>literal</strong> number (see
                 <a href="building-fscss-modules.html">building modules</a> for the limit).
+                <br>From version 1.2.1 count can also count length of an array: <code>count(@arr.name!.length)</code>
               </li>
               <li>
                 <code>rpt(@arr.levels[], "div ")</code> sits in <strong>selector position</strong>.
@@ -279,7 +280,7 @@ div div div {
         <div class="card">
           <div class="card-header"><h3>Change depth</h3></div>
           <div class="card-body">
-            <p>Update <code>count()</code> and the colors array together so they stay in sync:</p>
+            <p>Update <code>count() or sync to the array length (version 1.2.1+) </code> and the colors array together so they stay in sync:</p>
             <div class="code-block">
               <div class="code-header"><span>FSCSS</span></div>
               <pre><code>@arr colors[tomato, coral, salmon, crimson]
