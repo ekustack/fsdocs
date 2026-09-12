@@ -6,16 +6,16 @@
 
   <link rel="canonical" href="https://fscss.devtem.org/nested-loop">
 
-  <title>Styling Nested divs with One FSCSS Array Loop | @arr + rpt()</title>
+  <title>Styling Nested divs with One FSCSS Array Loop | @arr + rpt() · v1.2.1</title>
 
-  <meta name="description" content="Generate deeply nested selectors with a single FSCSS loop. Combine @arr, count(), and rpt() to style nested divs without hand-writing selectors.">
-  <meta name="keywords" content="FSCSS nested selectors, FSCSS array loop, rpt, @arr, count, nested div CSS, FSCSS tutorial">
+  <meta name="description" content="Generate deeply nested selectors with a single FSCSS loop. Combine @arr, count(@arr!.length), rpt(), empty{} preserve, and @define helpers (v1.2.1+).">
+  <meta name="keywords" content="FSCSS nested selectors, FSCSS array loop, rpt, @arr, count length, empty preserve, nested div CSS, FSCSS 1.2.1">
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#111827">
 
-  <meta property="og:title" content="Styling Nested divs with One FSCSS Array Loop">
-  <meta property="og:description" content="One loop with @arr + rpt() generates div, div div, div div div… and assigns colors, padding, and more.">
+  <meta property="og:title" content="Styling Nested divs with One FSCSS Array Loop (v1.2.1)">
+  <meta property="og:description" content="One loop with @arr + rpt() generates div, div div, div div div… Use count(@arr!.length) and empty{} preserve from 1.2.1.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://fscss.devtem.org/nested-loop">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
@@ -25,7 +25,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:title" content="Styling Nested divs with One FSCSS Array Loop">
-  <meta name="twitter:description" content="Generate nested selectors with @arr + rpt() — no more hand-writing div div div.">
+  <meta name="twitter:description" content="Generate nested selectors with @arr + rpt() — count(@arr!.length), empty{} preserve, and @define helpers.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
 
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
@@ -40,14 +40,14 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "Styling Deeply Nested divs with One FSCSS Array Loop",
-    "description": "Generate nested selectors with @arr, count(), and rpt() so you never hand-write div div div chains again.",
+    "description": "Generate nested selectors with @arr, count(@arr!.length), rpt(), and empty{} preserve so you never hand-write div div div chains again.",
     "author": { "@type": "Person", "name": "Figsh" },
     "publisher": {
       "@type": "Organization",
       "name": "DevTemple",
       "url": "https://devtem.org"
     },
-    "dateModified": "2026-09-11",
+    "dateModified": "2026-09-12",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/nested-loop"
@@ -77,6 +77,7 @@
         <a href="docs.html" class="nav-link">Documentation</a>
         <a href="examples.html" class="nav-link">Examples</a>
         <a href="arrays.html" class="nav-link">Arrays</a>
+        <a href="define.html" class="nav-link">Define</a>
         <a href="api.html" class="nav-link">API</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
@@ -101,10 +102,11 @@
         <div class="sidebar-section">
           <h3 class="sidebar-title">Related</h3>
           <ul class="sidebar-links">
-            <li><a href="/arrays.html" class="sidebar-link">Arrays & Loops</a></li>
+            <li><a href="/arrays.html" class="sidebar-link">Arrays &amp; Loops</a></li>
+            <li><a href="/define.html" class="sidebar-link">@define</a></li>
+            <li><a href="docs.html#inline" class="sidebar-link">Inline helpers</a></li>
             <li><a href="docs.html" class="sidebar-link">Documentation</a></li>
             <li><a href="examples.html" class="sidebar-link">Examples</a></li>
-            <li><a href="api.html" class="sidebar-link">API</a></li>
           </ul>
         </div>
         
@@ -113,8 +115,11 @@
           <ul class="sidebar-links">
             <li><a href="#problem" class="sidebar-link">The problem</a></li>
             <li><a href="#solution" class="sidebar-link">One-loop solution</a></li>
+            <li><a href="#empty" class="sidebar-link">empty{} preserve</a></li>
+            <li><a href="#length" class="sidebar-link">count(@arr!.length)</a></li>
             <li><a href="#generated" class="sidebar-link">What gets generated</a></li>
             <li><a href="#how" class="sidebar-link">How it works</a></li>
+            <li><a href="#define-helper" class="sidebar-link">@define helper</a></li>
             <li><a href="#variations" class="sidebar-link">Variations</a></li>
             <li><a href="#live" class="sidebar-link">Live demo</a></li>
           </ul>
@@ -131,10 +136,15 @@
 
         <div class="card glow-card">
           <div class="card-body">
-            <p style="margin-bottom:0">
-              This guide combines <a href="/arrays.html"><strong>arrays &amp; loops</strong></a> with
+            <p style="margin-bottom:0.5rem">
+              This guide combines <a href="/arrays.html"><strong>arrays &amp; loops</strong></a>,
+              <a href="/define.html"><strong>@define</strong></a>, and
               <a href="docs.html"><strong>rpt()</strong></a> from the core docs.
-              Requires FSCSS <strong>v1.1.x+</strong> (examples use the 1.2.0 runtime).
+            </p>
+            <p style="margin-bottom:0">
+              Examples use <strong>FSCSS v1.2.1</strong> — including
+              <code>count(@arr.name!.length)</code>, the <code>empty{ /* preserve */ }</code> pattern,
+              and inline helpers.
             </p>
           </div>
         </div>
@@ -152,6 +162,7 @@
               <pre><code>div { background: orange; }
 div div { background: purple; }
 div div div { background: indigo; }
+div div div div { background: blue; }
 /* …and it gets worse the deeper you go */</code></pre>
             </div>
 
@@ -160,7 +171,9 @@ div div div { background: indigo; }
               <div class="code-header"><span>HTML</span></div>
               <pre><code>&lt;div&gt;1
   &lt;div&gt;2
-    &lt;div&gt;3&lt;/div&gt;
+    &lt;div&gt;3
+      &lt;div&gt;4&lt;/div&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </div>
@@ -179,24 +192,95 @@ div div div { background: indigo; }
         <div class="card">
           <div class="card-body">
             <div class="code-block">
-              <div class="code-header"><span>HTML + FSCSS</span></div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
+              <div class="code-header"><span>HTML + FSCSS (v1.2.1)</span></div>
+              <pre><code>&lt;script type="module" async&gt;
+  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.1/esm.min.js";
+  xfscss.reboot();
+&lt;/script&gt;
 
 &lt;style&gt;
-@arr colors[orange, purple, indigo]
-@arr levels[count(@arr.colors!.length, 1)]          /* → 1, 2, 3 */
+@arr colors[orange, purple, indigo, blue]
+@arr levels[count(@arr.colors!.length)]   /* → 1, 2, 3, 4  (v1.2.1+) */
 
-rpt(@arr.levels[], "div ") {      /* builds "div ", "div div ", "div div div " */
+empty{
+  /* preserve — keeps loop output from being treated as extra selectors */
+}
+
+rpt(@arr.levels[], "div ") {
   background: @arr.colors[@arr.levels[]];
   padding: 10px;
   border-radius: 10px;
   color: #fff;
   margin: 8px;
 }
-&lt;/style&gt;</code></pre>
+&lt;/style&gt;
+
+&lt;div&gt;1
+  &lt;div&gt;2
+    &lt;div&gt;3
+      &lt;div&gt;4&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
             </div>
             <p style="margin-top:1rem; margin-bottom:0;">
-              That’s the whole pattern: one levels array, one colors array, one <code>rpt()</code> in selector position.
+              One colors array, one levels array driven by <code>count(@arr.colors!.length)</code>,
+              one <code>rpt()</code> in selector position, and an <code>empty{}</code> guard.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- empty preserve -->
+      <section id="empty" class="docs-section">
+        <h2>Why <code>empty{ /* preserve */ }</code>?</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              When a loop expands, intermediate tokens can sometimes be interpreted as extra selectors.
+              The <code>empty{ … }</code> block acts as a <strong>preserve barrier</strong>: it absorbs
+              those tokens so they do not become stray rules.
+            </p>
+            <div class="code-block">
+              <div class="code-header"><span>Pattern</span></div>
+              <pre><code>empty{
+  /* preserve */
+}
+rpt(@arr.levels[], "div ") {
+  /* only this becomes real selectors */
+}</code></pre>
+            </div>
+            <p style="margin-top:1rem; margin-bottom:0;">
+              Use it before (or between) loop-driven rules whenever you see unexpected selector output
+              in the compiled CSS or console. Harmless empty rules are stripped or ignored downstream.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- length -->
+      <section id="length" class="docs-section">
+        <h2><code>count(@arr.name!.length)</code> — v1.2.1+</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              Before 1.2.1, <code>count()</code> needed a <strong>literal</strong> number
+              (<code>count(3, 1)</code>). From <strong>1.2.1</strong> you can drive it from an array’s length:
+            </p>
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@arr colors[orange, purple, indigo, blue]
+@arr levels[count(@arr.colors!.length)]   /* length → 4 → levels 1..4 */</code></pre>
+            </div>
+            <p style="margin-top:1rem;">
+              That keeps depth and the colors array in sync automatically — add or remove a color
+              and the generated selector chain follows.
+            </p>
+            <p style="margin-bottom:0;">
+              See the full method list on the <a href="/arrays.html">Arrays page</a>
+              (<code>.length</code>, <code>.list</code>, <code>.indices</code>, etc.).
             </p>
           </div>
         </div>
@@ -209,7 +293,7 @@ rpt(@arr.levels[], "div ") {      /* builds "div ", "div div ", "div div div " *
         <div class="card">
           <div class="card-body">
             <div class="code-block">
-              <div class="code-header"><span>Compiled CSS</span></div>
+              <div class="code-header"><span>Compiled CSS (4 levels)</span></div>
               <pre><code>div {
   background: orange;
   padding: 10px;
@@ -232,6 +316,14 @@ div div div {
   border-radius: 10px;
   color: #fff;
   margin: 8px;
+}
+
+div div div div {
+  background: blue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
 }</code></pre>
             </div>
           </div>
@@ -244,30 +336,84 @@ div div div {
         
         <div class="card">
           <div class="card-body">
-            <ol style="line-height:1.8;">
+            <ol style="line-height:1.85;">
               <li>
-                <code>@arr levels[count(3, 1)]</code> creates the numbers <code>1, 2, 3</code>.
-                <code>count(n, start)</code> needs a <strong>literal</strong> number (see
-                <a href="building-fscss-modules.html">building modules</a> for the limit).
-                <br>From version 1.2.1 count can also count length of an array: <code>count(@arr.name!.length)</code>
+                <code>@arr colors[…]</code> holds the values you want per level.
+              </li>
+              <li>
+                <code>@arr levels[count(@arr.colors!.length)]</code> builds <code>1, 2, 3, …</code>
+                matching the array size (v1.2.1+). Older style: <code>count(4, 1)</code>.
+              </li>
+              <li>
+                <code>empty{ /* preserve */ }</code> keeps loop side-effects from becoming extra selectors.
               </li>
               <li>
                 <code>rpt(@arr.levels[], "div ")</code> sits in <strong>selector position</strong>.
                 For each level it repeats the string <code>"div "</code> that many times:
-                <code>"div "</code>, <code>"div div "</code>, <code>"div div div "</code>.
+                <code>"div "</code>, <code>"div div "</code>, <code>"div div div "</code>, …
               </li>
               <li>
-                Inside the block, <code>@arr.colors[@arr.levels[]]</code> picks the color for the current index
-                (arrays are 1-indexed in this usage).
+                Inside the block, <code>@arr.colors[@arr.levels[]]</code> picks the color for the
+                current index (1-based in this pattern).
               </li>
               <li>
                 FSCSS expands the whole rule once per array item — one clean loop, pure CSS after compile.
               </li>
             </ol>
-
             <p style="margin-top:1.25rem; margin-bottom:0;">
               The same selector-position + block rule that drives
               <a href="/arrays.html">array loops in general</a> is what makes the expansion reliable here.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- @define helper -->
+      <section id="define-helper" class="docs-section">
+        <h2>@define helper for parallel property classes</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <p>
+              Sometimes you also want utility classes that expose the same values as custom properties
+              (or other properties). A small <a href="/define.html">@define</a> + array loop does that:
+            </p>
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span></div>
+              <pre><code>@define abc(arr){`
+empty{
+  /* preserve */
+}
+@arr i-levels[count(@arr.@use(arr)!.length)]
+.p@arr.@use(arr)[@arr.i-levels[]]{
+  --@arr.i-levels[]: @arr.@use(arr)[@arr.i-levels[]];
+}
+`}
+
+@arr arr[RED, BLUE, GREEN]
+
+exec(_log, "@abc(arr)")</code></pre>
+            </div>
+            <p style="margin-top:1rem;">Console / compiled output looks like:</p>
+            <div class="code-block">
+              <div class="code-header"><span>Generated</span></div>
+              <pre><code>empty{
+  /* preserve */
+}
+.pRED {
+  --1: RED;
+}
+.pBLUE {
+  --2: BLUE;
+}
+.pGREEN {
+  --3: GREEN;
+}</code></pre>
+            </div>
+            <p style="margin-top:1rem; margin-bottom:0;">
+              This is the same preserve + length + loop idea, packaged as a reusable
+              <code>@define</code>. Call it with any array name. See also
+              <a href="docs.html#inline">inline helpers</a> for related patterns.
             </p>
           </div>
         </div>
@@ -278,13 +424,15 @@ div div div {
         <h2>Easy variations</h2>
         
         <div class="card">
-          <div class="card-header"><h3>Change depth</h3></div>
+          <div class="card-header"><h3>Change depth (synced to array)</h3></div>
           <div class="card-body">
-            <p>Update <code>count() or sync to the array length (version 1.2.1+) </code> and the colors array together so they stay in sync:</p>
+            <p>Add or remove colors — levels follow automatically:</p>
             <div class="code-block">
               <div class="code-header"><span>FSCSS</span></div>
               <pre><code>@arr colors[tomato, coral, salmon, crimson]
-@arr levels[count(4, 1)]
+@arr levels[count(@arr.colors!.length)]
+
+empty{ /* preserve */ }
 
 rpt(@arr.levels[], "div ") {
   background: @arr.colors[@arr.levels[]];
@@ -316,7 +464,9 @@ rpt(@arr.levels[], "div ") {
               <div class="code-header"><span>FSCSS</span></div>
               <pre><code>@arr colors[orange, purple, indigo]
 @arr sizes[1rem, 0.9rem, 0.8rem]
-@arr levels[count(3, 1)]
+@arr levels[count(@arr.colors!.length)]
+
+empty{ /* preserve */ }
 
 rpt(@arr.levels[], "div ") {
   background: @arr.colors[@arr.levels[]];
@@ -336,6 +486,8 @@ rpt(@arr.levels[], "div ") {
               <div class="code-header"><span>FSCSS</span></div>
               <pre><code>@arr levels[count(3, 1)]
 
+empty{ /* preserve */ }
+
 rpt(@arr.levels[], ".card ") {
   /* .card , .card .card , .card .card .card */
   border: 1px solid #334155;
@@ -352,23 +504,26 @@ rpt(@arr.levels[], ".card ") {
         
         <div class="card">
           <div class="card-body">
-            <p>After the runtime processes the styles, the nested structure below should show three levels with orange → purple → indigo:</p>
+            <p>Four levels — orange → purple → indigo → blue — as produced by the one-loop pattern:</p>
 
             <div class="example-output" style="padding:1.5rem; background:rgba(30,41,59,0.5); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
               <div style="background:orange; padding:10px; border-radius:10px; color:#fff; margin:8px;">
-                Level 1
+                1
                 <div style="background:purple; padding:10px; border-radius:10px; color:#fff; margin:8px;">
-                  Level 2
+                  2
                   <div style="background:indigo; padding:10px; border-radius:10px; color:#fff; margin:8px;">
-                    Level 3
+                    3
+                    <div style="background:blue; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                      4
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <p style="margin-top:1.25rem; margin-bottom:0;">
-              Drop the one-loop snippet into a page with
-              <code>runtime.min.js</code> (or compile with the CLI) to generate the same result from source.
+              Drop the one-loop snippet into a page with the
+              <code>1.2.1</code> runtime / esm build (or compile with the CLI) to generate the same result from source.
             </p>
           </div>
         </div>
@@ -382,13 +537,15 @@ rpt(@arr.levels[], ".card ") {
           <div class="card-body">
             <ul style="line-height:1.8;">
               <li><strong>Zero repetitive typing</strong> — depth and styles stay in one place</li>
-              <li><strong>Depth and colors stay in sync</strong> — change <code>count()</code> and the parallel arrays together</li>
+              <li><strong>Depth and colors stay in sync</strong> — <code>count(@arr.colors!.length)</code> does the bookkeeping</li>
+              <li><strong>empty{} preserve</strong> — keeps loop output clean</li>
               <li><strong>Still pure CSS after compilation</strong> — no runtime cost for the nested rules</li>
-              <li><strong>Works with browser runtime or CLI</strong> — same source either way</li>
+              <li><strong>Works with browser runtime, esm, or CLI</strong> — same source either way</li>
             </ul>
             <p style="margin-top:1rem; margin-bottom:0;">
               Hand-writing nested selectors used to be a small but annoying chore.
-              With FSCSS arrays + <code>rpt()</code>, it becomes a reusable one-liner pattern.
+              With FSCSS arrays + <code>rpt()</code> (and the 1.2.1 length + preserve helpers),
+              it becomes a reusable one-liner pattern.
             </p>
           </div>
         </div>
@@ -398,9 +555,10 @@ rpt(@arr.levels[], ".card ") {
         <div class="card">
           <div class="card-body" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
             <a href="/arrays.html" class="btn btn-primary"><i class="fas fa-layer-group"></i> Arrays &amp; Loops</a>
+            <a href="/define.html" class="btn btn-outline"><i class="fas fa-cubes"></i> @define</a>
+            <a href="docs.html#inline" class="btn btn-outline"><i class="fas fa-code"></i> Inline helpers</a>
             <a href="docs.html" class="btn btn-outline"><i class="fas fa-book"></i> Full docs</a>
             <a href="examples.html" class="btn btn-outline"><i class="fas fa-code"></i> Examples</a>
-            <a href="api.html" class="btn btn-outline"><i class="fas fa-code"></i> API</a>
           </div>
         </div>
       </section>
@@ -424,6 +582,7 @@ rpt(@arr.levels[], ".card ") {
         <ul class="footer-links">
           <li><a href="docs.html">Documentation</a></li>
           <li><a href="/arrays.html">Arrays</a></li>
+          <li><a href="/define.html">Define</a></li>
           <li><a href="examples.html">Examples</a></li>
           <li><a href="api.html">API</a></li>
           <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
