@@ -65,7 +65,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -84,7 +84,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "FSCSS Documentation – Complete Reference",
-    "description": "Complete reference documentation for FSCSS v1.2.0.",
+    "description": "Complete reference documentation for FSCSS v1.2.1.",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -97,7 +97,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-09-04",
+    "dateModified": "2026-09-12",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/docs"
@@ -188,11 +188,11 @@
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
-    <div class="logo">
+    <div class="logo nav-logo">
       <div class="logo-icn">
         <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
       </div>
-      <h1>FSCSS v1.2.0</h1>
+      <h1>FSCSS</h1>
     </div>
 
     <a href="/compiler"><div class="compiler-info">
@@ -232,6 +232,7 @@
       <li><a href="#ext"><i class="fas fa-i-cursor"></i> @ext()</a></li>
       <li><a href="#rpt"><i class="fas fa-redo"></i> rpt()</a></li>
       <li><a href="#exec"><i class="fas fa-terminal"></i> exec()</a></li>
+      <li><a href="#inline"><i class="fas fa-brush"></i> inline()</a></li>
     </ul>
 
     <h3><i class="fas fa-book"></i> Reference</h3>
@@ -296,7 +297,7 @@ fscss input.fscss output.css</code></pre>
       <p>Load FSCSS directly in an HTML file for prototyping. From v1.2.0 onward there are two entry points: <code>runtime.js</code>, which auto-scans and compiles FSCSS in the browser, and <code>esm.js</code>, a module build for manual/tooling use that never auto-runs. Browser compilation is not recommended for production; compile ahead of time with the CLI instead.</p>
       <div class="code-container">
         <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" defer&gt;&lt;/script&gt;
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
       </div>
 
@@ -641,9 +642,9 @@ an Animated keyframe for spin</code></pre>
       <p>Empty brackets <code>@arr.name[]</code> iterate through every item, generating one rule per item when used in a selector such as <code>:nth-child()</code>.</p>
       <div class="code-container">
         <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
-        <pre class="fscss"><code>@arr(delays[0.1s, 0.3s, 0.5s]);
-@arr(colors[#ef4444, #f59e0b, #10b981]);
-@arr(indexes[count(3, 1)]);
+        <pre class="fscss"><code>@arr delays[0.1s, 0.3s, 0.5s];
+@arr colors[#ef4444, #f59e0b, #10b981]
+@arr indexes[count(@arr.colors!.length, 1)]
 
 .loading-dot:nth-child(@arr.indexes[]) {
   $index: @arr.indexes[];
@@ -1056,6 +1057,7 @@ textarea {
     <section id="count" class="section">
       <h2><i class="fas fa-sort-numeric-up"></i> count()</h2>
       <p><code>count(limit)</code> generates a comma-separated sequence of numbers starting at 1. <code>count(limit, step)</code> starts from a custom step value.</p>
+      <p>limit can be an array length which returns number: <code>@arr.name!.length</code> <mark>v1.2.1+</mark></p>
       <div class="code-container">
         <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
         <pre><code>exec(_log, "count(5)")     /* 1, 2, 3, 4, 5 */
@@ -1144,6 +1146,22 @@ exec(_warn, 'deprecated variable name')</code></pre>
       </div>
     </section>
 
+    <section id="inline" class="section">
+      <h2><i class="fas fa-brush"></i> inline(...)</h2>
+      <p>Remove Curly brackets and format lines</p>
+      <p><code>inline(`...`)</code> example: <code>inline(`.selector{ color: red; }`)</code> will return: <code>color: red;</code></p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button></div>
+        <pre><code>inline(`
+        :root{
+        --primary-color: midnightblue;
+        
+        --main-bg: orange;
+        
+        }`)</code></pre>
+      </div>
+    </section>
+    
     <!-- File Structure -->
     <section id="fscss-files" class="section">
       <h2><i class="fas fa-folder-open"></i> File Structure Overview</h2>
@@ -1261,4 +1279,3 @@ exec(_warn, 'deprecated variable name')</code></pre>
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
-
