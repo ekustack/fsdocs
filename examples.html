@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +30,7 @@
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Interactive Examples Preview">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-12T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -76,7 +77,7 @@
     "operatingSystem": "All",
     "description": "FSCSS is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -544,7 +545,7 @@ exec(_log, "[@arr.a!.surround(',')]")
                 <span>HTML + FSCSS</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;style type="text/fscss"&gt;
   @define add(arr, new){
     @arr.@use(arr)!+@use(new)
@@ -567,6 +568,143 @@ exec(_log, "[@arr.a!.surround(',')]")
             <li>Wrapping it inside <code>@define</code> lets you build dynamic helpers that accept the array name as a parameter.</li>
             <li><code>exec(_log, "...")</code> is the built-in console helper — perfect for debugging array state.</li>
             <li>Works with both <code>runtime.js</code> (auto) and <code>esm.js</code> (manual <code>xfscss.reboot()</code>).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Nested Loop Example -->
+    <section id="nested-loop-example" class="section">
+      <h2>Nested Selectors with One Loop</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Styling Deeply Nested <code>div</code>s with <code>@arr</code> + <code>rpt()</code></h3>
+          <span class="badge badge-secondary">Intermediate · v1.2.1</span>
+        </div>
+        <div class="card-body">
+          <p>
+            Generate <code>div</code>, <code>div div</code>, <code>div div div</code>… with a single array loop.
+            Uses <code>count(@arr.colors!.length)</code> and the <code>empty{ /* preserve */ }</code> pattern from FSCSS 1.2.1.
+            Full walkthrough on the <a href="/nested-loop">nested-loop guide</a>.
+          </p>
+          
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>@arr colors[orange, purple, indigo, blue]
+@arr levels[count(@arr.colors!.length)]   /* → 1, 2, 3, 4 */
+
+empty{
+  /* preserve — keeps loop output clean */
+}
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>div {
+  background: orange;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+
+div div {
+  background: purple;
+  /* same properties */
+}
+
+div div div {
+  background: indigo;
+  /* same properties */
+}
+
+div div div div {
+  background: blue;
+  /* same properties */
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="example-output">
+            <div class="demo-container" style="padding: 1rem;">
+              <div style="background:orange; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                1
+                <div style="background:purple; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                  2
+                  <div style="background:indigo; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                    3
+                    <div style="background:blue; padding:10px; border-radius:10px; color:#fff; margin:8px;">
+                      4
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h4>Minimal page snippet</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML + FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
+
+&lt;style&gt;
+@arr colors[orange, purple, indigo, blue]
+@arr levels[count(@arr.colors!.length)]
+
+empty{ /* preserve */ }
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+&lt;/style&gt;
+
+&lt;div&gt;1
+  &lt;div&gt;2
+    &lt;div&gt;3
+      &lt;div&gt;4&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+
+          <p style="margin-top: 1.25rem; margin-bottom: 0;">
+            <strong>Key points:</strong>
+          </p>
+          <ul>
+            <li><code>count(@arr.colors!.length)</code> (v1.2.1+) keeps depth in sync with the colors array.</li>
+            <li><code>empty{ /* preserve */ }</code> prevents loop tokens from becoming stray selectors.</li>
+            <li><code>rpt(@arr.levels[], "div ")</code> builds the nested selector chain in selector position.</li>
+            <li>Full guide: <a href="/nested-loop">/nested-loop</a> · related: <a href="/arrays">arrays</a>, <a href="/define">@define</a>.</li>
           </ul>
         </div>
       </div>
@@ -809,7 +947,7 @@ $item-width: num(100 / $columns!);
                     <span>FSCSS</span>
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
-                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;style&gt;
 @import((
   circle-progress as clp,
@@ -985,4 +1123,3 @@ $secondary: #8b5cf6;
   <script src="assets/scripts/exm.js"></script>
 </body>
 </html>
-
