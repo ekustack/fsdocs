@@ -11,7 +11,7 @@
   <title>FSCSS Documentation – Complete Reference for Figured Shorthand CSS</title>
 
   <!-- Primary Meta -->
-  <meta name="description" content="Official FSCSS documentation. Complete reference for Figured Shorthand Cascading Style Sheets (FSCSS) v1.2.0, covering variables, define, pattern, arrays, events, imports, and every built-in function.">
+  <meta name="description" content="Official FSCSS documentation. Complete reference for Figured Shorthand Cascading Style Sheets (FSCSS), covering variables, define, pattern, arrays, events, imports, and every built-in function.">
 
   <meta name="keywords" content="FSCSS documentation, Figured Shorthand CSS, FSCSS reference, CSS preprocessor, shorthand CSS system, FSCSS arrays, FSCSS event, FSCSS pattern, FSCSS define, DevTemple FSCSS">
 
@@ -22,21 +22,21 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="FSCSS Documentation – Complete Reference">
-  <meta property="og:description" content="Complete reference for FSCSS v1.2.0, a lightweight shorthand CSS preprocessor.">
+  <meta property="og:description" content="Complete reference for FSCSS, a lightweight shorthand CSS preprocessor.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/docs">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Documentation">
   <meta property="og:site_name" content="FSCSS Docs">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-19T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
   <meta name="twitter:title" content="FSCSS Documentation – Complete Reference">
-  <meta name="twitter:description" content="Complete reference for FSCSS v1.2.0.">
+  <meta name="twitter:description" content="Complete reference for FSCSS">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
 
   <!-- Favicon -->
@@ -65,7 +65,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.2.1",
+    "version": "1.2.3",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -84,7 +84,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "FSCSS Documentation – Complete Reference",
-    "description": "Complete reference documentation for FSCSS v1.2.1.",
+    "description": "Complete reference documentation for FSCSS. ",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -97,7 +97,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-09-12",
+    "dateModified": "2026-09-19",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/docs"
@@ -173,7 +173,7 @@
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.querySelector(".page-loader").classList.add("fade-out");
-    }, 1200);
+    }, 500);
   });
   </script>
 
@@ -297,7 +297,7 @@ fscss input.fscss output.css</code></pre>
       <p>Load FSCSS directly in an HTML file for prototyping. From v1.2.0 onward there are two entry points: <code>runtime.js</code>, which auto-scans and compiles FSCSS in the browser, and <code>esm.js</code>, a module build for manual/tooling use that never auto-runs. Browser compilation is not recommended for production; compile ahead of time with the CLI instead.</p>
       <div class="code-container">
         <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" defer&gt;&lt;/script&gt;
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.3/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
       </div>
 
