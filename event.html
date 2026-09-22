@@ -84,7 +84,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.1.13"
+      "version": "1.2.4"
     }
   }
   </script>
@@ -123,9 +123,9 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-         <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
+        <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
         <span>FSCSS</span>
       </div>
       
@@ -153,6 +153,7 @@
       <h1>FSCSS Events</h1>
       <p class="lead">Add dynamic logic and conditions to your stylesheets with FSCSS @event</p>
       <p>Create reusable functions that return different values based on parameters and conditions</p>
+      <p>Single values with <code>return:</code>, or whole token blocks with <code>return| … |</code>.</p>
     </div>
   </section>
 
@@ -340,7 +341,149 @@ h2 {
         </div>
       </div>
     </section>
+<!-- Return forms: single vs block -->
+    <section class="section">
+      <h2>Return forms</h2>
 
+      <div class="card">
+        <div class="card-header">
+          <h3><code>return:</code> vs <code>return| … |</code></h3>
+          <span class="event-badge">Block conditions</span>
+        </div>
+        <div class="card-body">
+          <p>
+            <code>@event</code> branches still use <code>if</code> / <code>el-if</code> / <code>el</code>.
+            What you <strong>return</strong> can be either one value or a whole declaration block.
+          </p>
+
+          <table class="method-table" style="width:100%; margin: 1rem 0;">
+            <thead>
+              <tr>
+                <th>Form</th>
+                <th>Use when</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>return: value;</code></td>
+                <td>One color, size, keyword, or expression</td>
+                <td>Substitutes a single token at the call site</td>
+              </tr>
+              <tr>
+                <td><code>return| … |</code></td>
+                <td>Several <code>property: value</code> lines (theme packs, token sets)</td>
+                <td>Injects the full block where the event is called</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Single value</h4>
+          <div class="code-container">
+            <div class="code-header"><span>FSCSS</span></div>
+            <pre class="fscss"><code>@event theme(mode) {
+  if mode: dark {
+    return: #111111;
+  }
+  el {
+    return: #ffffff;
+  }
+}
+
+body {
+  background: @event.theme(dark);
+}</code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem;">Block return (multi property)</h4>
+          <p>
+            Use <code>return|</code> to open a block and <code>|</code> to close it.
+            Inside: normal CSS custom properties (or any declarations you want emitted).
+          </p>
+          <div class="code-container">
+            <div class="code-header"><span>FSCSS</span></div>
+            <pre class="fscss"><code>@event theme-mode(mode) {
+  if mode: dark {
+    return|
+      --tt-bg:            #0f172a;
+      --tt-surface:       #1e293b;
+      --tt-surface-2:     #334155;
+      --tt-text:          #f1f5f9;
+      --tt-muted:         #94a3b8;
+      --tt-border:        #334155;
+      --tt-border-strong: #475569;
+      --tt-shadow-sm:     0 1px 2px 0 rgb(0 0 0 / 0.4);
+      --tt-shadow:        0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+      --tt-shadow-lg:     0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    |
+  }
+  el-if mode: high-contrast {
+    return|
+      --tt-bg:            #000000;
+      --tt-surface:       #000000;
+      --tt-surface-2:     #111111;
+      --tt-text:          #ffffff;
+      --tt-muted:         #ffff00;
+      --tt-border:        #ffffff;
+      --tt-border-strong: #ffffff;
+      --tt-primary:       #00ffff;
+      --tt-primary-fg:    #000000;
+      --tt-secondary:     #ff00ff;
+      --tt-secondary-fg:  #000000;
+      --tt-success:       #00ff00;
+      --tt-success-fg:    #000000;
+      --tt-warning:       #ffff00;
+      --tt-warning-fg:    #000000;
+      --tt-danger:        #ff0000;
+      --tt-danger-fg:     #ffffff;
+      --tt-focus-ring:    0 0 0 3px #ffff00;
+    |
+  }
+  el {
+    return|
+      --tt-bg:            #ffffff;
+      --tt-surface:       #f8fafc;
+      --tt-surface-2:     #f1f5f9;
+      --tt-text:          #0f172a;
+      --tt-muted:         #64748b;
+      --tt-border:        #e2e8f0;
+      --tt-border-strong: #cbd5e1;
+    |
+  }
+}
+
+:root {
+  @event.theme-mode(light)
+}
+
+:root.dark-theme {
+  @event.theme-mode(dark)
+}
+
+:root.hc-theme {
+  @event.theme-mode(high-contrast)
+}</code></pre>
+          </div>
+
+          <p style="margin-top: 1rem;">
+            Calling <code>@event.theme-mode(dark)</code> inside a rule expands to every
+            <code>--tt-*</code> line from that branch — one event, a full theme surface.
+          </p>
+
+          <div class="philosophy-box" style="margin-top: 1rem;">
+            <h4>When to use which</h4>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li><code>return:</code> — colors, font sizes, spacing steps, single keywords</li>
+              <li><code>return|…|</code> — design-token packs, mode switches, multi-shadow sets</li>
+            </ul>
+            <p style="margin-top: 0.75rem;">
+              Prefer focused events (e.g. <code>theme-mode</code> only sets tokens).
+              Keep one responsibility per event even when the block is large.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Comparison Operators -->
     <section class="section">
       <h2>Comparison Operators</h2>
@@ -731,6 +874,7 @@ body {
             </div>
           </div>
 
+<li><strong>Block themes:</strong> use <code>return|…|</code> for token packs; use <code>return:</code> for one-off values</li>
           <div class="code-container">
             <div class="code-header">
               <span>Good Example - Clear and Focused</span>
@@ -762,9 +906,9 @@ body {
     <div class="footer-content">
       <div class="footer-section">
         <div class="footer-logo">
-           <div class="logo-icn">
-             <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon"/></span>
-          </div>
+          <div class="logo-icn">
+   <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+ </div>
           <span>FSCSS</span>
         </div>
         <p>Simplify your CSS workflow with powerful shorthand syntax</p>
@@ -800,88 +944,6 @@ body {
   <!-- Scroll to top button -->
   <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
   
-  <script>
-    // Mobile menu toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-      });
-    }
-    
-    // Copy button functionality
-    document.querySelectorAll('.copy-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const pre = this.closest('.code-container').querySelector('pre:not(.hidden)');
-        const text = pre.textContent;
-        
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i>';
-          
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
-        });
-      });
-    });
-    
-    // Toggle between FSCSS and CSS
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const container = btn.closest('.code-container');
-        const fscss = container.querySelector('.fscss');
-        const css = container.querySelector('.compiled');
-
-        fscss.classList.toggle('hidden');
-        css.classList.toggle('hidden');
-
-        btn.textContent = fscss.classList.contains('hidden') ? "Show FSCSS" : "See CSS";
-      });
-    });
-    
-    // Intersection Observer for animations
-    const fadeElements = document.querySelectorAll('.card, .example-card, .feature-highlight');
-    
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-    
-    fadeElements.forEach(element => {
-      element.classList.add('fade-in');
-      fadeObserver.observe(element);
-    });
-    
-    // Scroll to top button
-    const scrollBack = document.querySelector(".scroll-btn");
-    
-    window.addEventListener("scroll", function() {
-      if (window.pageYOffset >= 300) {
-        scrollBack.classList.add("show");
-      } else {
-        scrollBack.classList.remove("show");
-      }
-    });
-    
-    scrollBack.addEventListener("click", (e) => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-    
-    // Update copyright year
-    document.querySelector("footer .footer-bottom p").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with ❤️ for Web developers. MIT License.`;
-  </script>
+  <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
