@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e1e1e" />
+  <meta name="description" content="FSCSS Monaco Playground — write, compile, and preview Figured Shorthand CSS in the browser." />
+  <title>FSCSS Monaco Playground</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="/assets/styles/play.css">
+</head>
+<body>
+  <a class="skip-link" href="#panels">Skip to editor</a>
+
+  <div id="app">
+    <header id="toolbar" role="banner">
+      <div class="toolbar-group">
+        <button type="button" class="btn btn-ghost btn-icon" id="btn-menu"
+          aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+          <span aria-hidden="true">☰</span>
+        </button>
+        <button type="button" class="btn" id="btn-compile"
+          aria-label="Compile FSCSS" title="Compile (Ctrl or Cmd + Enter)">
+          ▶ Compile
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-preview"
+          aria-label="Compile and run live preview">
+          Run Preview
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-clear-logs"
+          aria-label="Clear compiler logs">
+          Clear logs
+        </button>
+      </div>
+      <div class="toolbar-spacer" aria-hidden="true"></div>
+      <p id="status" role="status" aria-live="polite" data-state="">Ready</p>
+    </header>
+
+    <div id="workspace">
+      <div id="tab-bar" role="tablist" aria-label="Editor panels">
+        <button type="button" role="tab" id="tab-fscss" aria-selected="true"
+          aria-controls="panel-fscss" data-panel="fscss" tabindex="0">FSCSS</button>
+        <button type="button" role="tab" id="tab-css" aria-selected="false"
+          aria-controls="panel-css" data-panel="css" tabindex="-1">CSS</button>
+        <button type="button" role="tab" id="tab-js" aria-selected="false"
+          aria-controls="panel-js" data-panel="js" tabindex="-1">JS</button>
+        <button type="button" role="tab" id="tab-html" aria-selected="false"
+          aria-controls="panel-html" data-panel="html" tabindex="-1">Preview</button>
+      </div>
+
+      <div id="panels">
+        <section class="panel is-active" id="panel-fscss" role="tabpanel"
+          aria-labelledby="tab-fscss" data-panel="fscss">
+          <div class="panel-label"><span class="dot dot-fscss" aria-hidden="true"></span> FSCSS source</div>
+          <div class="editor-host" id="editor-fscss" role="application" aria-label="FSCSS code editor"></div>
+        </section>
+
+        <section class="panel" id="panel-css" role="tabpanel"
+          aria-labelledby="tab-css" data-panel="css" hidden>
+          <div class="panel-label"><span class="dot dot-css" aria-hidden="true"></span> Compiled CSS (read-only)</div>
+          <div class="editor-host" id="editor-css" role="application" aria-label="Compiled CSS editor"></div>
+        </section>
+
+        <section class="panel" id="panel-js" role="tabpanel"
+          aria-labelledby="tab-js" data-panel="js" hidden>
+          <div class="panel-label"><span class="dot dot-js" aria-hidden="true"></span> JavaScript</div>
+          <div class="editor-host" id="editor-js" role="application" aria-label="JavaScript editor"></div>
+        </section>
+
+        <section class="panel" id="panel-html" role="tabpanel"
+          aria-labelledby="tab-html" data-panel="html" hidden>
+          <div class="panel-label"><span class="dot dot-html" aria-hidden="true"></span> Live preview</div>
+          <iframe id="preview-frame" title="FSCSS live preview"
+            sandbox="allow-scripts allow-same-origin"></iframe>
+        </section>
+      </div>
+
+      <div id="resize-handle" role="separator" aria-orientation="horizontal"
+        aria-label="Resize log panel" aria-valuemin="100" aria-valuemax="500" aria-valuenow="160"
+        tabindex="0"></div>
+      <section id="bottom" aria-label="Compiler output and logs">
+        <div id="bottom-header">
+          <span class="prompt" aria-hidden="true">&gt;_</span>
+          <span>Compiler Output &amp; Intercepted Logs</span>
+          <span class="toolbar-spacer" aria-hidden="true"></span>
+          <button type="button" class="btn btn-secondary" id="btn-clear-logs-2"
+            style="min-height:32px;min-width:auto;padding:0.25rem 0.6rem;font-size:0.75rem;"
+            aria-label="Clear logs">Clear</button>
+        </div>
+        <div id="logs" role="log" aria-live="polite" aria-relevant="additions">
+          <p class="log-empty">No output yet. Write FSCSS and press Compile.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <button type="button" id="sidebar-backdrop" aria-label="Close menu" tabindex="-1"></button>
+  <aside id="sidebar" role="dialog" aria-modal="true" aria-labelledby="sidebar-title" hidden>
+    <div class="sidebar-header">
+      <h1 id="sidebar-title">FSCSS Playground</h1>
+      <button type="button" class="btn btn-ghost btn-icon" id="btn-close-sidebar" aria-label="Close menu">
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+    <div class="sidebar-body">
+      <div class="sidebar-section">
+        <h2 class="sidebar-section-title">Editors</h2>
+        <button type="button" class="nav-item" data-go-panel="fscss" aria-current="true">
+          <span class="icon" aria-hidden="true">◇</span> FSCSS
+        </button>
+        <button type="button" class="nav-item" data-go-panel="css">
+          <span class="icon" aria-hidden="true">◈</span> Compiled CSS
+        </button>
+        <button type="button" class="nav-item" data-go-panel="js">
+          <span class="icon" aria-hidden="true">{/*</span> JavaScript
+        </button>
+        <button type="button" class="nav-item" data-go-panel="html">
+          <span class="icon" aria-hidden="true">&lt;/&gt;</span> Live Preview
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <h2 class="sidebar-section-title">Examples</h2>
+        <button type="button" class="nav-item" data-example="basic">Basic define</button>
+        <button type="button" class="nav-item" data-example="vars">Variables &amp; arrays</button>
+        <button type="button" class="nav-item" data-example="pattern">Pattern matching</button>
+        <button type="button" class="nav-item" data-example="import">Import + library</button>
+        <button type="button" class="nav-item" data-example="debug">Debug (exec log/warn)</button>
+      </div>
+      <div class="sidebar-section">
+        <h2 class="sidebar-section-title">Libraries / imports</h2>
+        
+        <button type="button" class="nav-item" data-lib="st-corev2">st-core@v2</button>
+        
+        <button type="button" class="nav-item" data-lib="flex-control">flex-control</button>
+        <button type="button" class="nav-item" data-lib="circle-progress">circle-progress</button>
+        <button type="button" class="nav-item" data-lib="icon-mask">icon-mask</button>
+        
+        <button type="button" class="nav-item" data-lib="form">form</button>
+        
+        <p class="lib-hint">
+          Inserts <code>@import((*) from …)</code>. Modules resolve when the FSCSS runtime can fetch them.
+          <br>
+          <a href="/libraries">Search Libraries</a>
+        </p>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      Monaco + FSCSS grammar · <code>xfscss.process</code><br />
+      <a href="https://github.com/Figsh/fscss-vscode-extension" target="_blank" rel="noopener noreferrer">VS Code extension</a>
+      ·
+      <a href="https://fscss.devtem.org" target="_blank" rel="noopener noreferrer">Docs</a>
+    </div>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js" crossorigin="anonymous"></script>
+  <script type="module" src="/scripts/play.js">
+  </script>
+</body>
+</html>
