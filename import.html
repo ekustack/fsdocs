@@ -43,7 +43,7 @@
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/assets/styles/import.css">
+  <link rel="stylesheet" href="/assets/styles/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
@@ -84,7 +84,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.2.0"
+      "version": "1.2.4"
     }
   }
   </script>
@@ -596,7 +596,7 @@ body {
           
           <div class="code-container">
             <div class="code-header">
-              <span>index.html (v1.2.0)</span>
+              <span>index.html (v1.2.0+)</span>
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <pre><code>&lt;!DOCTYPE html&gt;
@@ -609,8 +609,8 @@ body {
   &lt;!-- Link your main FSCSS file --&gt;
   &lt;link type="fscss" href="main.fscss"&gt;
 
-  &lt;!-- New v1.2.0 runtime (auto-runs) --&gt;
-  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.0/runtime.min.js" async&gt;&lt;/script&gt;
+  &lt;!-- New v1.2.0 + runtime (auto-runs) --&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class="container"&gt;
@@ -633,7 +633,7 @@ body {
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <pre><code>&lt;script type="module"&gt;
-  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.0/esm.min.js";
+  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.4/esm.min.js";
   await xfscss.reboot();   // processes all &lt;link type="fscss"&gt; and &lt;style&gt;
 &lt;/script&gt;</code></pre>
           </div>
@@ -874,3 +874,4 @@ exec.obj.block(f import from);</code></pre>
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
