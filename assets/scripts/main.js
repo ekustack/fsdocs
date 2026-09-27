@@ -140,4 +140,20 @@ navlogo.innerHTML=`<div class="logo-icn">
 `;
 }
 
+
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const container = btn.closest('.code-container');
+        const fscss = container.querySelector('.fscss');
+        const css = container.querySelector('.compiled');
+
+        fscss.classList.toggle('hidden');
+        css.classList.toggle('hidden');
+
+        btn.textContent = fscss.classList.contains('hidden') ? "Show FSCSS" : "See CSS";
+      });
+    });
+    
+    
 document.querySelector("footer .footer-bottom p:first-child").innerHTML=`&copy; ${new Date().getFullYear()} FSCSS. Made with 💡 for Web developers. MIT License.`;
+
