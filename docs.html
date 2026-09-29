@@ -304,7 +304,14 @@ fscss input.fscss output.css</code></pre>
         <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
       </div>
-
+      <strong>Or internal</strong>: (don't do <code>type="text/fscss"</code>) just write it directly to style elements.
+    <div class="code-container">
+      <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
+      <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" defer&gt;&lt;/script&gt;
+&lt;style&gt;
+/* here */
+&lt;/style&gt;</code></pre>
+    </div>
       <h3>CLI Compilation</h3>
       <p>For production, compile FSCSS to a standard CSS file ahead of deployment. This removes any runtime dependency from the shipped page.</p>
       <div class="code-container">
@@ -1287,3 +1294,4 @@ exec(_warn, 'deprecated variable name')</code></pre>
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
