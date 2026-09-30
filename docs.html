@@ -29,7 +29,7 @@
   <meta property="og:image:alt" content="FSCSS Documentation">
   <meta property="og:site_name" content="FSCSS Docs">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-09-26T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-30T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -65,7 +65,7 @@
     "operatingSystem": "All",
     "description": "FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -97,7 +97,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-09-26",
+    "dateModified": "2026-09-30",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/docs"
@@ -221,7 +221,8 @@
       <li><a href="#random"><i class="fas fa-random"></i> Random (@random)</a></li>
       <li><a href="#event"><i class="fas fa-code-branch"></i> Event Logic (@event)</a></li>
       <li><a href="#import"><i class="fas fa-file-import"></i> Imports (@import)</a></li>
-      <li><a href="#shared"><i class="fas fa-layer-group"></i> Shorthand Properties</a></li>
+      <li><a href="#shorthands-125"><i class="fas fa-compress-arrows-alt"></i> Property Shorthands</a></li>
+      <li><a href="#shared"><i class="fas fa-layer-group"></i>Grouping Properties</a></li>
       <li><a href="#attr"><i class="fas fa-crosshairs"></i> Attribute Selectors</a></li>
       <li><a href="#keyframes"><i class="fas fa-film"></i> Keyframes Compact</a></li>
       <li><a href="#vendors"><i class="fas fa-toolbox"></i> Vendor Prefixing</a></li>
@@ -301,13 +302,13 @@ fscss input.fscss output.css</code></pre>
       <p>Load FSCSS directly in an HTML file for prototyping. From v1.2.0 onward there are two entry points: <code>runtime.js</code>, which auto-scans and compiles FSCSS in the browser, and <code>esm.js</code>, a module build for manual/tooling use that never auto-runs. Browser compilation is not recommended for production; compile ahead of time with the CLI instead.</p>
       <div class="code-container">
         <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
-        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" defer&gt;&lt;/script&gt;
+        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;link type="text/fscss" href="style.fscss"&gt;</code></pre>
       </div>
-      <strong>Or internal</strong>: (don't do <code>type="text/fscss"</code>) just write it directly to style elements.
+      <strong>Or internal</strong>: (don't do <code>type="text/fscss"</code>) just write it directly to normal style elements.
     <div class="code-container">
       <div class="code-header"><span>html</span><button class="copy-btn">Copy</button></div>
-      <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" defer&gt;&lt;/script&gt;
+      <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" defer&gt;&lt;/script&gt;
 &lt;style&gt;
 /* here */
 &lt;/style&gt;</code></pre>
@@ -551,7 +552,7 @@ str(cardHover, "
   hello world card
 }</code></pre>
         <pre class="compiled hidden"><code>.card {
-  border-radius: 12px;
+  rounded: 12px;
   padding: 24px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff;
@@ -572,7 +573,7 @@ str(cardHover, "
 an Animated keyframe for spin</code></pre>
       </div>
 
-      <p>Availability: <code>pattern()</code> is available from v1.1.25 via CDN, API, and CLI.</p>
+      <p>Availability: <code>pattern()</code> is available from v1.1.25 via CDN, API, and CLI, @match support from v1.2.4</p>
     </section>
 
     <!-- Fun -->
@@ -657,6 +658,7 @@ an Animated keyframe for spin</code></pre>
 @arr colors[#ef4444, #f59e0b, #10b981]
 @arr indexes[count(@arr.colors!.length, 1)]
 
+empty{/* keep this */}
 .loading-dot:nth-child(@arr.indexes[]) {
   $index: @arr.indexes[];
   animation-delay: @arr.delays[$index!];
@@ -934,11 +936,243 @@ body {
     </section>
 
     <!-- Shorthand -->
+    
+    <!-- Property Shorthands 1.2.5 -->
+    <section id="shorthands-125" class="section">
+      <h2><i class="fas fa-layer-group"></i> Property Shorthands (1.2.5+)</h2>
+      <p>
+        From <strong>FSCSS 1.2.5</strong>, short property names expand at compile time into standard CSS.
+        They are optional sugar; longhand CSS remains valid. Full standalone reference:
+        <a href="/shorthands">/shorthands</a>.
+      </p>
+      <p><strong>Processing order:</strong> side blocks → axis/size → aliases &amp; helpers → border → background → <code>ratio-fit()</code>.</p>
+
+      <h3>Axis &amp; spacing</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>inset-x: V;</code></td><td style="padding:0.55rem;"><code>left: V; right: V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>inset-y: V;</code></td><td style="padding:0.55rem;"><code>top: V; bottom: V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>margin-x: V;</code> / <code>mx: V;</code></td><td style="padding:0.55rem;"><code>margin-left</code> + <code>margin-right</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>margin-y: V;</code> / <code>my: V;</code></td><td style="padding:0.55rem;"><code>margin-top</code> + <code>margin-bottom</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>padding-x: V;</code> / <code>px: V;</code></td><td style="padding:0.55rem;"><code>padding-left</code> + <code>padding-right</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>padding-y: V;</code> / <code>py: V;</code></td><td style="padding:0.55rem;"><code>padding-top</code> + <code>padding-bottom</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>gap-x: V;</code></td><td style="padding:0.55rem;"><code>column-gap: V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>gap-y: V;</code></td><td style="padding:0.55rem;"><code>row-gap: V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>scroll-mx</code> / <code>scroll-my</code></td><td style="padding:0.55rem;">scroll-margin left/right or top/bottom</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>scroll-px</code> / <code>scroll-py</code></td><td style="padding:0.55rem;">scroll-padding axes</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>safe-x: V;</code></td><td style="padding:0.55rem;"><code>padding-left/right: max(V, env(safe-area-inset-*));</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>safe-y: V;</code></td><td style="padding:0.55rem;">same for top/bottom</td></tr>
+          <tr><td style="padding:0.55rem;"><code>inset-safe: V;</code></td><td style="padding:0.55rem;">top/right/bottom/left with safe-area env</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Size</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>w: V;</code> / <code>h: V;</code></td><td style="padding:0.55rem;"><code>width</code> / <code>height</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>min-w</code> · <code>max-w</code> · <code>min-h</code> · <code>max-h</code></td><td style="padding:0.55rem;">min/max width or height</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>size: A;</code></td><td style="padding:0.55rem;"><code>width: A; height: A;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>size: A B;</code></td><td style="padding:0.55rem;"><code>width: A; height: B;</code></td></tr>
+          <tr><td style="padding:0.55rem;"><code>min-size</code> / <code>max-size</code></td><td style="padding:0.55rem;">same 1- or 2-value pattern for min/max</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Property aliases</h3>
+      <p>Each short name becomes the longhand property with the same value:</p>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">Short</th>
+            <th style="padding:0.6rem;text-align:left;">Long</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>m</code> <code>mt</code> <code>mb</code> <code>ml</code> <code>mr</code></td><td style="padding:0.55rem;">margin / sides</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>p</code> <code>pt</code> <code>pb</code> <code>pl</code> <code>pr</code></td><td style="padding:0.55rem;">padding / sides</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>fs</code> <code>fw</code> <code>ff</code> <code>lh</code> <code>ls</code></td><td style="padding:0.55rem;">font-size, weight, family, line-height, letter-spacing</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>ta</code> <code>td</code> <code>tt</code> <code>ws</code> <code>tsh</code></td><td style="padding:0.55rem;">text-align, decoration, transform, white-space, text-shadow</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>ov</code> <code>ovx</code> <code>ovy</code></td><td style="padding:0.55rem;">overflow / x / y</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>z</code> <code>op</code> <code>cur</code> <code>pe</code> <code>us</code> <code>pos</code></td><td style="padding:0.55rem;">z-index, opacity, cursor, pointer-events, user-select, position</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>jc</code> <code>ai</code> <code>ac</code> <code>ji</code> <code>js</code> <code>as</code> <code>pi</code></td><td style="padding:0.55rem;">justify/align content, items, self, place-items</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>fdir</code> <code>fwrap</code> <code>grow</code> <code>shrink</code> <code>basis</code></td><td style="padding:0.55rem;">flex-direction, wrap, grow, shrink, basis</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>trans</code> <code>anim</code> <code>tf</code> <code>fil</code></td><td style="padding:0.55rem;">transition, animation, transform, filter</td></tr>
+          <tr><td style="padding:0.55rem;"><code>shadow</code> <code>aspect</code> <code>obj-fit</code> <code>obj-pos</code></td><td style="padding:0.55rem;">box-shadow, aspect-ratio, object-fit, object-position</td></tr>
+        </tbody>
+      </table>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.title {
+  fs: 1.25rem;
+  fw: 700;
+  ta: center;
+}</code></pre>
+        <pre class="compiled hidden"><code>.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}</code></pre>
+      </div>
+
+      <h3>Layout helpers</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>center: x;</code></td><td style="padding:0.55rem;"><code>display: flex; justify-content: center;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>center: y;</code></td><td style="padding:0.55rem;"><code>display: flex; align-items: center;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>center: …;</code> (other value)</td><td style="padding:0.55rem;"><code>display: grid; place-items: center;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>stack: G;</code></td><td style="padding:0.55rem;"><code>display: flex; flex-direction: column; gap: G;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>hstack: G;</code></td><td style="padding:0.55rem;"><code>display: flex; flex-direction: row; gap: G;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>fill;</code> / <code>fill: fixed;</code></td><td style="padding:0.55rem;">absolute or fixed + <code>inset: 0</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>abs-center;</code></td><td style="padding:0.55rem;"><code>position: absolute; inset: 0; margin: auto;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>truncate;</code></td><td style="padding:0.55rem;">ellipsis single-line overflow</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>line-clamp: N;</code></td><td style="padding:0.55rem;"><code>-webkit-line-clamp</code> + overflow hidden</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>cols: N;</code> (digits)</td><td style="padding:0.55rem;"><code>display: grid; grid-template-columns: repeat(N, 1fr);</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>rows: …;</code></td><td style="padding:0.55rem;">grid-template-rows (same track rule)</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>auto-fit: MIN;</code></td><td style="padding:0.55rem;"><code>repeat(auto-fit, minmax(MIN, 1fr))</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>glass: BLUR;</code></td><td style="padding:0.55rem;"><code>backdrop-filter: blur(BLUR);</code> (+ webkit)</td></tr>
+          <tr><td style="padding:0.55rem;"><code>ring: W;</code></td><td style="padding:0.55rem;"><code>box-shadow: 0 0 0 W;</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Place, origin, object</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>place-x: V;</code></td><td style="padding:0.55rem;"><code>justify-content</code> + <code>justify-items</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>place-y: V;</code></td><td style="padding:0.55rem;"><code>align-content</code> + <code>align-items</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>origin-x: V;</code></td><td style="padding:0.55rem;"><code>transform-origin: V center;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>origin-y: V;</code></td><td style="padding:0.55rem;"><code>transform-origin: center V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>object-x: V;</code></td><td style="padding:0.55rem;"><code>object-position: V center;</code></td></tr>
+          <tr><td style="padding:0.55rem;"><code>object-y: V;</code></td><td style="padding:0.55rem;"><code>object-position: center V;</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Side-scoped blocks</h3>
+      <p><code>side| declarations |</code> rewrites known properties to that side.</p>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.card {
+  top| padding: 8px; border-width: 1px; |
+}</code></pre>
+        <pre class="compiled hidden"><code>.card {
+  padding-top: 8px;
+  border-top-width: 1px;
+}</code></pre>
+      </div>
+      <p>Sides: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>block-start</code>, <code>block-end</code>, <code>inline-start</code>, <code>inline-end</code>. Applies to padding, margin, border, border-width/style/color, inset, offset, and border-radius pairs.</p>
+
+      <h3>Border &amp; radius</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>border-x: …;</code></td><td style="padding:0.55rem;"><code>border-left</code> + <code>border-right</code> (full value)</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>border-y: …;</code></td><td style="padding:0.55rem;"><code>border-top</code> + <code>border-bottom</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>border-t</code> · <code>b</code> · <code>l</code> · <code>r</code></td><td style="padding:0.55rem;">single-side full border</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>bw</code> · <code>bw-x</code> · <code>bw-t</code> …</td><td style="padding:0.55rem;">border-width</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>bs-*</code> · <code>bc-*</code></td><td style="padding:0.55rem;">border-style / border-color</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>rounded: V;</code> / <code>radius: V;</code></td><td style="padding:0.55rem;"><code>border-radius: V;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>rounded-t</code> · <code>b</code> · <code>l</code> · <code>r</code></td><td style="padding:0.55rem;">paired corner radii on that side</td></tr>
+          <tr><td style="padding:0.55rem;"><code>rounded-tl</code> · <code>tr</code> · <code>bl</code> · <code>br</code></td><td style="padding:0.55rem;">one corner (also <code>radius-tl</code> …)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Background</h3>
+      <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1e293b;color:#fff;">
+            <th style="padding:0.6rem;text-align:left;">You write</th>
+            <th style="padding:0.6rem;text-align:left;">Compiles to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>bg: …;</code></td><td style="padding:0.55rem;"><code>background: …;</code></td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>bg-x</code> / <code>bg-y</code></td><td style="padding:0.55rem;">background-position-x / y</td></tr>
+          <tr style="border-bottom:1px solid #334155;"><td style="padding:0.55rem;"><code>bg-size-x</code> / <code>bg-size-y</code></td><td style="padding:0.55rem;"><code>background-size: W auto</code> / <code>auto H</code></td></tr>
+          <tr><td style="padding:0.55rem;"><code>bg-color</code> · <code>bg-image</code> · <code>bg-repeat</code> · <code>bg-pos</code> · <code>bg-attachment</code> · <code>bg-clip</code> · <code>bg-origin</code> · <code>bg-size</code></td><td style="padding:0.55rem;">matching longhands</td></tr>
+        </tbody>
+      </table>
+
+      <h3>ratio-fit()</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.media {
+  inset: ratio-fit(16 / 9);
+}</code></pre>
+        <pre class="compiled hidden"><code>.media {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  aspect-ratio: 16 / 9;
+  width: min(100%, 100cqh * 16 / 9);
+  height: min(100%, 100cqw * 9 / 16);
+}</code></pre>
+      </div>
+
+      <h3>Combined example</h3>
+      <div class="code-container">
+        <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
+        <pre class="fscss"><code>.card {
+  stack: 12px;
+  px: 16px;
+  rounded: 12px;
+  bg: #12121a;
+  border-x: 1px solid rgba(255,255,255,.08);
+  shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-w: 360px;
+}</code></pre>
+        <pre class="compiled hidden"><code>.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 12px;
+  background: #12121a;
+  border-left: 1px solid rgba(255,255,255,.08);
+  border-right: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-width: 360px;
+}</code></pre>
+      </div>
+
+      <p>
+        Value multiplexing (<code>%2</code>, <code>%3</code>, <code>mx()</code>, <code>mxs()</code>) is documented below under
+        <a href="#shared">Grouping Properties</a> and is separate from these 1.2.5+ property names.
+      </p>
+    </section>
+    
     <section id="shared" class="section">
-      <h2><i class="fas fa-layer-group"></i> Shorthand Properties</h2>
+      <h2><i class="fas fa-layer-group"></i> Grouping Properties</h2>
 
       <h3>Shared Values — %n</h3>
-      <p><code>%2</code> through <code>%6</code> assign a single value to two through six properties in one call. <code>%i</code> supports a custom count.</p>
+      <p><code>%2</code> through <code>%6</code> assign a single value to two through six properties in one call. you can now use more than %6, it's no longer fixed</p>
       <div class="code-container">
         <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
         <pre class="fscss"><code>div {
@@ -962,6 +1196,7 @@ body {
 
       <h3>mx() and mxs()</h3>
       <p>Both apply the same value to multiple properties. <code>mxs()</code> takes a plain shared value; <code>mx()</code> requires the colon and semicolon to be written explicitly, allowing more flexible declarations.</p>
+      prefer using %n..(...) method above.
       <div class="code-container">
         <div class="code-header"><span>fscss</span><button class="copy-btn">Copy</button><button class="toggle-btn">See CSS</button></div>
         <pre class="fscss"><code>.card {
@@ -1211,18 +1446,21 @@ exec(_warn, 'deprecated variable name')</code></pre>
       <p>Contributions, bug reports, and feature suggestions are welcome through GitHub. Tutorials and discussion are also published on dev.to.</p>
       <ul>
         <li><a href="https://github.com/fscss-ttr/FSCSS/discussions">GitHub Discussions</a></li>
-        <li><a href="https://github.com/fscss-ttr/FSCSS/blob/main/CONTRIBUTING.md">Contributing Guide</a></li>
-        <li><a href="https://github.com/fscss-ttr/FSCSS/issues">Issue Tracker</a></li>
+        <li><a href="https://github.com/Figsh/xfscss/blob/main/CONTRIBUTING.md">Contributing Guide</a></li>
+        <li><a href="https://github.com/Figsh/xfscss/issues">Issue Tracker</a></li>
         <li><a href="https://dev.to/fscss-ttr">dev.to Community</a></li>
         <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
       </ul>
     </section>
 
     <div class="footer">
-      <p>FSCSS v1.2.4 | MIT License</p>
+      <p>FSCSS v1.2.5 | MIT License</p>
     </div>
   </main>
-
+<footer>
+  <div class="footer-bottom"><code><p style="font-size: 0.7em; color: #888; font-family: sans-serif; margin: 10px; text-align: center;"></p></code></div>
+</footer>
+<button class="scroll-btn hidden"></button>
   <script>
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', function() {
@@ -1281,7 +1519,6 @@ exec(_warn, 'deprecated variable name')</code></pre>
     });
   </script>
 
-  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
   <script>
     const scrollBack = document.querySelector(".scroll-btn");
     window.addEventListener("scroll", function() {
@@ -1294,4 +1531,3 @@ exec(_warn, 'deprecated variable name')</code></pre>
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
-
