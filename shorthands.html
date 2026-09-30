@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/shorthands">
+
+  <title>FSCSS Shorthands – Axis, Aliases &amp; Layout Helpers (1.2.5+)</title>
+
+  <meta name="description" content="FSCSS 1.2.5 shorthands: mx/px, size, rounded, bg, stack, center, border-x, safe-area, side blocks, and property aliases. Full expansion reference.">
+  <meta name="keywords" content="FSCSS shorthands, FSCSS mx px, FSCSS stack center, axis shorthand CSS, FSCSS 1.2.5, property aliases">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS Shorthands – Axis, Aliases &amp; Layout Helpers">
+  <meta property="og:description" content="Compile-time shorthands for spacing, size, borders, backgrounds, and layout helpers. Available in FSCSS 1.2.5.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/shorthands">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS Shorthands (1.2.5)">
+  <meta name="twitter:description" content="Axis, aliases, borders, background helpers, and layout recipes that expand to plain CSS.">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS Shorthands – Axis, Aliases & Layout Helpers",
+    "description": "Documentation for FSCSS 1.2.5 compile-time property and layout shorthands.",
+    "author": { "@type": "Organization", "name": "Figsh" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DevTemple",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
+      }
+    },
+    "dateModified": "2026-09-30",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fscss.devtem.org/shorthands"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "FSCSS",
+      "programmingLanguage": "CSS",
+      "version": "1.2.5"
+    }
+  }
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div><img src="https://fscss.devtem.org/assets/images/fscss.png" alt="FSCSS" width="40"></div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="docs.html" class="nav-link">Documentation</a>
+        <a href="examples.html" class="nav-link">Examples</a>
+        <a href="define.html" class="nav-link">Define</a>
+        <a href="shorthands.html" class="nav-link active">Shorthands</a>
+        <a href="pattern.html" class="nav-link">Pattern</a>
+        <a href="https://github.com/Figsh/xfscss" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS Shorthands</h1>
+      <p class="lead">Axis, aliases, borders, backgrounds, and layout helpers — compile to plain CSS</p>
+      <p>Available from <strong>FSCSS 1.2.5+</strong>. Optional sugar: you can always write longhand CSS.</p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <section class="section">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>What are shorthands?</h2>
+          <span class="recommended-badge"><i class="fas fa-bolt"></i> 1.2.5+</span>
+        </div>
+        <div class="card-body">
+          <p>Shorthands are <strong>compile-time expansions</strong>. You write a short property; FSCSS rewrites it to standard CSS before the browser sees the stylesheet. No runtime API for these names.</p>
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-arrows-alt-h"></i></div>
+              <h4>Axis spacing</h4>
+              <p><code>mx</code>, <code>px</code>, <code>gap-x</code>, <code>inset-y</code>, safe-area</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-compress"></i></div>
+              <h4>Size &amp; radius</h4>
+              <p><code>w</code>/<code>h</code>, <code>size</code>, <code>rounded</code>, corners</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-th"></i></div>
+              <h4>Layout helpers</h4>
+              <p><code>stack</code>, <code>center</code>, <code>auto-fit</code>, <code>truncate</code></p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-paint-roller"></i></div>
+              <h4>Border &amp; bg</h4>
+              <p><code>border-x</code>, <code>bw-*</code>, <code>bg</code>, <code>bg-x</code></p>
+            </div>
+          </div>
+          <div class="alert note">
+            <i class="fas fa-download"></i>
+            <div>
+              <strong>Install:</strong> <code>npm install fscss@1.2.5</code> ·
+              CDN: <code>https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Processing order</h2>
+      <div class="card">
+        <div class="card-body">
+          <ol>
+            <li>Side-scoped blocks (<code>top| … |</code>)</li>
+            <li>Axis &amp; size</li>
+            <li>Aliases &amp; layout helpers</li>
+            <li>Border &amp; radius</li>
+            <li>Background</li>
+            <li><code>ratio-fit()</code></li>
+          </ol>
+          <p>Longer names win over shorter ones (e.g. <code>scroll-mx</code> before <code>mx</code>, <code>bg-size</code> before <code>size</code>).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Quick example</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header">
+              <span>card.fscss</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              <button class="toggle-btn">See Compiled</button>
+            </div>
+            <pre class="fscss"><code>.card {
+  stack: 12px;
+  px: 16px;
+  py: 14px;
+  rounded: 12px;
+  bg: #12121a;
+  border-x: 1px solid rgba(255,255,255,.08);
+  shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-w: 360px;
+}
+
+.card h3 {
+  fs: 1.1rem;
+  fw: 600;
+  m: 0;
+}</code></pre>
+            <pre class="compiled hidden"><code>.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-radius: 12px;
+  background: #12121a;
+  border-left: 1px solid rgba(255,255,255,.08);
+  border-right: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-width: 360px;
+}
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Axis &amp; spacing</h2>
+      <div class="card">
+        <div class="card-body">
+          <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="background:#1e293b;color:#fff;">
+                <th style="padding:0.75rem;text-align:left;">Shorthand</th>
+                <th style="padding:0.75rem;text-align:left;">Expands to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>inset-x</code> / <code>inset-y</code></td><td style="padding:0.75rem;">left+right / top+bottom</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>margin-x</code> / <code>mx</code></td><td style="padding:0.75rem;">margin-left + margin-right</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>margin-y</code> / <code>my</code></td><td style="padding:0.75rem;">margin-top + margin-bottom</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>padding-x</code> / <code>px</code></td><td style="padding:0.75rem;">padding-left + padding-right</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>padding-y</code> / <code>py</code></td><td style="padding:0.75rem;">padding-top + padding-bottom</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>gap-x</code> / <code>gap-y</code></td><td style="padding:0.75rem;">column-gap / row-gap</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>scroll-mx</code> · <code>scroll-my</code> · <code>scroll-px</code> · <code>scroll-py</code></td><td style="padding:0.75rem;">scroll-margin / scroll-padding axes</td></tr>
+              <tr><td style="padding:0.75rem;"><code>safe-x</code> · <code>safe-y</code> · <code>inset-safe</code></td><td style="padding:0.75rem;">padding/inset with <code>env(safe-area-inset-*)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Size</h2>
+      <div class="card">
+        <div class="card-body">
+          <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="background:#1e293b;color:#fff;">
+                <th style="padding:0.75rem;text-align:left;">Shorthand</th>
+                <th style="padding:0.75rem;text-align:left;">Expands to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>w</code> / <code>h</code></td><td style="padding:0.75rem;">width / height</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>min-w</code> · <code>max-w</code> · <code>min-h</code> · <code>max-h</code></td><td style="padding:0.75rem;">min/max width/height</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>size: A</code></td><td style="padding:0.75rem;">width + height = A</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>size: A B</code></td><td style="padding:0.75rem;">width: A; height: B</td></tr>
+              <tr><td style="padding:0.75rem;"><code>min-size</code> / <code>max-size</code></td><td style="padding:0.75rem;">same 1- or 2-value pattern</td></tr>
+            </tbody>
+          </table>
+          <div class="code-container" style="margin-top:1rem;">
+            <pre><code>.icon { size: 24px; }
+.panel { size: 100% 200px; max-w: 480px; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Property aliases</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Single-property renames (not axis pairs):</p>
+          <p><code>m</code> <code>mt</code> <code>mb</code> <code>ml</code> <code>mr</code> · <code>p</code> <code>pt</code> <code>pb</code> <code>pl</code> <code>pr</code> · <code>fs</code> <code>fw</code> <code>ff</code> <code>lh</code> <code>ls</code> · <code>ta</code> <code>td</code> <code>tt</code> <code>ws</code> <code>tsh</code> · <code>ov</code> <code>ovx</code> <code>ovy</code> · <code>z</code> <code>op</code> <code>cur</code> <code>pe</code> <code>us</code> <code>pos</code> · <code>jc</code> <code>ai</code> <code>ac</code> <code>ji</code> <code>js</code> <code>as</code> <code>pi</code> · <code>fdir</code> <code>fwrap</code> <code>grow</code> <code>shrink</code> <code>basis</code> · <code>trans</code> <code>anim</code> <code>tf</code> <code>fil</code> · <code>shadow</code> <code>aspect</code> <code>obj-fit</code> <code>obj-pos</code></p>
+          <div class="code-container">
+            <pre><code>.title {
+  fs: 1.25rem;
+  fw: 700;
+  lh: 1.2;
+  ta: center;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Layout helpers</h2>
+      <div class="card">
+        <div class="card-body">
+          <table class="benefits-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="background:#1e293b;color:#fff;">
+                <th style="padding:0.75rem;text-align:left;">Helper</th>
+                <th style="padding:0.75rem;text-align:left;">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>center: x</code> / <code>y</code> / other</td><td style="padding:0.75rem;">flex justify / align / grid place-items center</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>stack: G</code> / <code>hstack: G</code></td><td style="padding:0.75rem;">column/row flex + gap</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>fill</code> / <code>fill: fixed</code></td><td style="padding:0.75rem;">absolute or fixed + inset 0</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>abs-center</code></td><td style="padding:0.75rem;">absolute; inset 0; margin auto</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>truncate</code> / <code>line-clamp: N</code></td><td style="padding:0.75rem;">ellipsis / multi-line clamp</td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>cols</code> / <code>rows</code></td><td style="padding:0.75rem;">grid; numeric → <code>repeat(N, 1fr)</code></td></tr>
+              <tr style="border-bottom:1px solid #334155;"><td style="padding:0.75rem;"><code>auto-fit: MIN</code></td><td style="padding:0.75rem;"><code>repeat(auto-fit, minmax(MIN, 1fr))</code></td></tr>
+              <tr><td style="padding:0.75rem;"><code>glass: BLUR</code> / <code>ring: W</code></td><td style="padding:0.75rem;">backdrop-filter / box-shadow ring</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Place, origin, object</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><code>place-x</code> → justify-content + justify-items</li>
+            <li><code>place-y</code> → align-content + align-items</li>
+            <li><code>origin-x</code> / <code>origin-y</code> → transform-origin axis</li>
+            <li><code>object-x</code> / <code>object-y</code> → object-position axis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Side-scoped blocks</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-container">
+            <pre><code>.card {
+  top| padding: 8px; border-width: 1px; |
+  left| margin: 12px; |
+}</code></pre>
+          </div>
+          <p>Sides: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>block-start</code>, <code>block-end</code>, <code>inline-start</code>, <code>inline-end</code>.</p>
+          <p>Rewrites known props (padding, margin, border, border-width/style/color, inset, offset, border-radius pairs) to that side.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Border &amp; radius</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><code>border-x</code> / <code>border-y</code> — full border left/right or top/bottom</li>
+            <li><code>border-t</code> <code>border-b</code> <code>border-l</code> <code>border-r</code></li>
+            <li><code>bw</code> / <code>bw-x</code> / <code>bw-t</code> … — border-width</li>
+            <li><code>bs-*</code> — border-style · <code>bc-*</code> — border-color</li>
+            <li><code>rounded</code> / <code>radius</code> — border-radius</li>
+            <li><code>rounded-t/b/l/r</code>, <code>rounded-tl</code> …, <code>radius-top</code> …</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Background</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><code>bg</code> → background</li>
+            <li><code>bg-x</code> / <code>bg-y</code> → background-position-x/y</li>
+            <li><code>bg-size-x</code> / <code>bg-size-y</code> — partial background-size</li>
+            <li><code>bg-color</code> <code>bg-image</code> <code>bg-repeat</code> <code>bg-pos</code> <code>bg-attachment</code> <code>bg-clip</code> <code>bg-origin</code> <code>bg-size</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>ratio-fit()</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-container">
+            <pre><code>.media {
+  inset: ratio-fit(16 / 9);
+}</code></pre>
+          </div>
+          <p>Expands to absolute positioning, inset 0, margin auto, aspect-ratio, and width/height capped with container-query units so the box fits its container while keeping the ratio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Notes</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li>Shorthands are optional — longhand CSS is always valid.</li>
+            <li>Works with CLI and browser runtime; production should compile to CSS.</li>
+            <li>Older helpers such as <code>%2()</code> / <code>%3()</code> still work alongside 1.2.5 shorthands.</li>
+            <li>Hub teaser: <a href="https://hub.devtem.org/#shorthands">hub.devtem.org/#shorthands</a></li>
+          </ul>
+          <div class="alert note">
+            <i class="fas fa-book"></i>
+            <div>
+              Related: <a href="define.html">@define</a> · <a href="docs.html">Docs</a> · <a href="https://hub.devtem.org/tutorial">Hub tutorial</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icon"><i class="fas fa-code"></i></div>
+          <span>FSCSS</span>
+        </div>
+        <p>Simplify your CSS workflow with powerful shorthand syntax</p>
+      </div>
+      <div class="footer-section">
+        <h4>Core Features</h4>
+        <ul class="footer-links">
+          <li><a href="variables.html">Variables</a></li>
+          <li><a href="arrays.html">Arrays</a></li>
+          <li><a href="define.html">Define</a></li>
+          <li><a href="shorthands.html">Shorthands</a></li>
+          <li><a href="pattern.html">Pattern</a></li>
+          <li><a href="import.html">Import</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs.html">Documentation</a></li>
+          <li><a href="https://github.com/Figsh/xfscss">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/fscss">NPM</a></li>
+          <li><a href="https://hub.devtem.org">Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  <script src="/assets/scripts/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const container = this.closest('.code-container');
+          const pre = container.querySelector('pre:not(.compiled.hidden)') || container.querySelector('pre');
+          navigator.clipboard.writeText(pre.textContent).then(() => {
+            const original = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => { this.innerHTML = original; }, 2000);
+          });
+        });
+      });
+    /*  document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const container = btn.closest('.code-container');
+          const fscss = container.querySelector('.fscss');
+          const compiled = container.querySelector('.compiled');
+          if (fscss && compiled) {
+            fscss.classList.toggle('hidden');
+            compiled.classList.toggle('hidden');
+            btn.textContent = fscss.classList.contains('hidden') ? 'See FSCSS' : 'See Compiled';
+          }
+        });
+      }); */
+    });
+  </script>
+</body>
+</html>
