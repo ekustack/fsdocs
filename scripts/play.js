@@ -9,7 +9,7 @@ window.addEventListener("unhandledrejection", (event) => {
 
     let xfscss = null;
 try {
-  const mod = await import("https://cdn.jsdelivr.net/npm/fscss@1.2.4/esm.min.js");
+  const mod = await import("https://cdn.jsdelivr.net/npm/fscss@1.2.5/esm.min.js");
   xfscss = mod.default || mod;
   window.xfscss = xfscss;
 } catch (e) {
