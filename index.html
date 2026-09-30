@@ -61,7 +61,7 @@
       "programmingLanguage": "CSS",
       "description": "FSCSS is a lightweight CSS preprocessor that simplifies styling through shorthand syntax and modern workflow utilities.",
       "url": "https://fscss.devtem.org/",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "inLanguage": "en-US",
       "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
       "creator": {
@@ -101,13 +101,14 @@
          <div class="logo-icn">
    <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
  </div>
-        <span>FSCSS v1.2.4</span>
+        <span>FSCSS v1.2.5</span>
       </div>
       
       <div class="nav-menu" id="nav-menu">
-        <a href="index" class="nav-link active">Home</a>
+        <a href="/" class="nav-link active">Home</a>
         <a href="docs" class="nav-link">Documentation</a>
         <a href="examples" class="nav-link">Examples</a>
+        <a href="shorthands" class="nav-link">Shorthands</a>
         <a href="/playground" class="nav-link">Playground</a>
         <a href="libraries" class="nav-link">Libraries</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
@@ -144,13 +145,14 @@
         <div class="sidebar-section">
           <h3 class="sidebar-title">Core Concepts</h3>
           <ul class="sidebar-links">
+            <li><a href="/shorthands" class="sidebar-link">Shorthands</a></li>
             <li><a href="/variables" class="sidebar-link">Variables & Stores</a></li>
             <li><a href="/event" class="sidebar-link">Event Functions</a></li>
             <li><a href="/modular-system" class="sidebar-link">Modular System</a></li>
             <li><a href="/define" class="sidebar-link">(@define) Reusable blocks</a></li>
             <li><a href="/pattern" class="sidebar-link">Pattern</a></li>
             <li><a href="/arrays" class="sidebar-link">Arrays & Loops</a></li>
-            <li><a href="/shared" class="sidebar-link">Shorthand Properties</a></li>
+            <li><a href="/shared" class="sidebar-link">Grouping Properties</a></li>
             <li><a href="/import" class="sidebar-link">Imports</a></li>
           <li><a href="/external" class="sidebar-link">External</a></li>
           <li><a href="/random" class="sidebar-link">random</a></li>
@@ -305,7 +307,7 @@ fscss input.fscss output.css</code></pre>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
               <pre><code>&lt;link type="fscss" href="/style.fscss"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
             </div>
 
             <p><strong>esm.js</strong> — for module-based use (e.g. an FSCSS-to-CSS tool, or manipulating styles without auto-running on the page). It never auto-runs and never touches page loading, so call <code>xfscss.reboot()</code> yourself when you're ready:</p>
@@ -314,7 +316,7 @@ fscss input.fscss output.css</code></pre>
                 <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.4/esm.min.js";
+              <pre><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.5/esm.min.js";
 
 xfscss.reboot();</code></pre>
             </div>
@@ -346,11 +348,13 @@ $border-radius: 8px;
 
 /* Create a button style */
 .btn {
-  background: $primary-color;
+  bg: $primary-color;
   color: white;
-  padding: 12px 24px;
-  border-radius: $border-radius;
+  px: 12px;
+  py: 24px;
+  rounded: $border-radius;
   transition: all 0.3s ease;
+  size: 100% 200px;
 }</code></pre>
             </div>
             
@@ -374,9 +378,14 @@ $border-radius: 8px;
               <pre><code>.btn {
   background: #2563eb;
   color: white;
-  padding: 12px 24px;
+  padding-right: 12px;
+  padding-left: 12px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   border-radius: 8px;
   transition: all 0.3s ease;
+  width: 100%;
+  height: 200px;
 }
 </code></pre>
             </div>
@@ -407,8 +416,8 @@ $spacing: 1rem;
 
 /* Using variables */
 .header {
-  background: $primary-color;
-  font-size: $font-size;
+  bg: $primary-color;
+  fs: $font-size;
   padding: $spacing;
 }</code></pre>
             </div>
@@ -577,4 +586,3 @@ $spacing: 1rem;
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
-
