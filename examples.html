@@ -29,7 +29,7 @@
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Interactive Examples Preview">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-09-12T00:00:00Z">
+  <meta property="og:updated_time" content="2026-09-30T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -76,7 +76,7 @@
     "operatingSystem": "All",
     "description": "FSCSS is a lightweight CSS preprocessor designed to simplify and accelerate frontend styling workflows.",
     "url": "https://fscss.devtem.org",
-    "version": "1.2.1",
+    "version": "1.2.5",
     "author": {
       "@type": "Organization",
       "name": "Figsh"
@@ -129,6 +129,7 @@
         <a href="docs" class="nav-link">Documentation</a>
         <a href="/playground" class="nav-link">Playground</a>
         <a href="libraries.html" class="nav-link">Libraries</a>
+        <a href="shorthands" class="nav-link">Shorthands</a>
         <a href="api" class="nav-link">API</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
@@ -544,7 +545,7 @@ exec(_log, "[@arr.a!.surround(',')]")
                 <span>HTML + FSCSS</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;style type="text/fscss"&gt;
   @define add(arr, new){
     @arr.@use(arr)!+@use(new)
@@ -669,7 +670,7 @@ div div div div {
                 <span>HTML + FSCSS</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;
 
 &lt;style&gt;
 @arr colors[orange, purple, indigo, blue]
@@ -705,6 +706,157 @@ rpt(@arr.levels[], "div ") {
             <li><code>rpt(@arr.levels[], "div ")</code> builds the nested selector chain in selector position.</li>
             <li>Full guide: <a href="/nested-loop">/nested-loop</a> · related: <a href="/arrays">arrays</a>, <a href="/define">@define</a>.</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 1.2.5 Property Shorthands -->
+    <section id="shorthands-125" class="section">
+      <h2>Property Shorthands <span class="badge" style="font-size:0.7em;vertical-align:middle;">1.2.5+</span></h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>Axis, layout helpers, and aliases</h3>
+          <span class="badge badge-accent">New</span>
+        </div>
+        <div class="card-body">
+          <p>
+            From <strong>FSCSS 1.2.5</strong>, axis spacing (<code>mx</code>/<code>px</code>), size shortcuts,
+            border/radius sugar, background helpers, and layout recipes like <code>stack</code> and <code>center</code>
+            expand at compile time to plain CSS. Full list:
+            <a href="/shorthands">/shorthands</a>.
+          </p>
+
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>/* 1.2.5 shorthands → standard CSS */
+.card {
+  stack: 12px;
+  px: 16px;
+  py: 14px;
+  rounded: 12px;
+  bg: #12121a;
+  border-x: 1px solid rgba(255,255,255,.08);
+  shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-w: 360px;
+}
+
+.card h3 {
+  fs: 1.1rem;
+  fw: 600;
+  m: 0;
+}
+
+.hero {
+  center: both;
+  min-h: 40vh;
+}
+
+.grid {
+  auto-fit: 200px;
+  gap-x: 16px;
+  gap-y: 20px;
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span>Compiled CSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+              <div class="editor-content">
+                <pre><code>.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-radius: 12px;
+  background: #12121a;
+  border-left: 1px solid rgba(255,255,255,.08);
+  border-right: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  max-width: 360px;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hero {
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  column-gap: 16px;
+  row-gap: 20px;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-output">
+            <div class="demo-container" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch;">
+              <div style="display:flex;flex-direction:column;gap:12px;padding:14px 16px;border-radius:12px;background:#12121a;border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08);box-shadow:0 8px 24px rgba(0,0,0,.35);max-width:360px;color:#e2e8f0;">
+                <h3 style="font-size:1.1rem;font-weight:600;margin:0;">Shorthand card</h3>
+                <p style="margin:0;font-size:0.9rem;color:#94a3b8;">stack · px · rounded · bg · border-x</p>
+              </div>
+              <div style="display:grid;place-items:center;min-height:120px;min-width:160px;padding:1rem;border-radius:12px;background:rgba(59,130,246,.15);color:#93c5fd;font-size:0.85rem;">
+                center + min-h
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h4>Try it (runtime 1.2.5+)</h4>
+            <div class="code-block">
+              <div class="code-header">
+                <span>HTML + FSCSS</span>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+              </div>
+              <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" defer&gt;&lt;/script&gt;
+&lt;style&gt;
+.card {
+  stack: 12px;
+  px: 16px;
+  rounded: 12px;
+  bg: #12121a;
+  border-x: 1px solid rgba(255,255,255,.08);
+}
+&lt;/style&gt;
+&lt;div class="card"&gt;Hello 1.2.5&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+
+          <p style="margin-top: 1.25rem;"><strong>Also in 1.2.5+:</strong></p>
+          <ul>
+            <li>Axis: <code>mx</code>/<code>my</code>, <code>inset-x</code>/<code>y</code>, <code>gap-x</code>/<code>y</code>, scroll-m/p, safe-area</li>
+            <li>Size: <code>w</code>/<code>h</code>, <code>size</code>, <code>min-w</code>, <code>max-h</code>, …</li>
+            <li>Aliases: <code>fs</code>, <code>fw</code>, <code>jc</code>, <code>ai</code>, <code>pos</code>, <code>shadow</code>, …</li>
+            <li>Helpers: <code>stack</code>, <code>hstack</code>, <code>truncate</code>, <code>line-clamp</code>, <code>cols</code>, <code>glass</code>, <code>ring</code></li>
+            <li>Border: <code>border-x</code>, <code>bw-*</code>, <code>rounded-t</code>, corners</li>
+            <li>Background: <code>bg</code>, <code>bg-x</code>/<code>y</code>, long <code>bg-*</code></li>
+            <li>Side blocks: <code>top| padding: 8px; |</code> · <code>inset: ratio-fit(16/9)</code></li>
+          </ul>
+          <p style="margin-bottom:0;">
+            Full reference: <a href="/shorthands">fscss.devtem.org/shorthands</a> ·
+            Hub: <a href="https://hub.devtem.org/#shorthands">hub.devtem.org/#shorthands</a>
+          </p>
         </div>
       </div>
     </section>
@@ -835,15 +987,15 @@ $item-width: num(100 / $columns!);
 
     <!-- Shorthand Properties Example -->
     <section id="shorthand-example" class="section">
-      <h2>Shorthand Properties</h2>
+      <h2>Value Multiplexing (<code>%2</code> / <code>%3</code>)</h2>
       
       <div class="card">
         <div class="card-header">
-          <h3>Efficient Styling with Shorthands</h3>
+          <h3>Same value on many properties</h3>
           <span class="badge">Basic</span>
         </div>
         <div class="card-body">
-          <p>FSCSS shorthand properties like <code>%2</code>, <code>%3</code>, etc., let you apply the same value to multiple properties at once.</p>
+          <p>Classic FSCSS multiplexing (<code>%2</code>, <code>%3</code>, <code>mx(...)</code>) applies one value to several properties. For axis/layout property names in <strong>1.2.5</strong>, see <a href="#shorthands-125">Property Shorthands</a> and <a href="/shorthands">/shorthands</a>.</p>
           
           <div class="example-grid">
             <div class="example-card">
@@ -892,7 +1044,7 @@ $item-width: num(100 / $columns!);
             
             <div class="example-card">
               <div class="example-card-header">
-                <h4>mx() - Multiple Properties</h4>
+                <h4>%n() - Multiple Properties: available %4 ,%5, %6, %7...</h4>
               </div>
               <div class="example-card-body">
                 <div class="code-container">
@@ -901,7 +1053,7 @@ $item-width: num(100 / $columns!);
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
                   <pre><code>.spaced-element {
-  mx(padding, margin, gap, ": 1rem;")
+  %3(padding, margin, gap[: 1rem;])
   background: #ec4899;
 }</code></pre>
                 </div>
@@ -946,7 +1098,7 @@ $item-width: num(100 / $columns!);
                     <span>FSCSS</span>
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                   </div>
-                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.1/runtime.min.js" async&gt;&lt;/script&gt;
+                  <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;style&gt;
 @import((
   circle-progress as clp,
@@ -1060,7 +1212,7 @@ $secondary: #8b5cf6;
           <h2>Ready to try FSCSS?</h2>
         </div>
         <div class="card-body">
-          <p>Start simplifying your CSS workflow today with FSCSS. Explore the documentation to learn more about all the features and capabilities.</p>
+          <p>Start simplifying your CSS workflow today with FSCSS (1.2.5 shorthands, pattern, arrays, modules). Explore the documentation to learn more about all the features and capabilities.</p>
           <div class="demo-flex">
             <a href="docs.html" class="btn btn-primary">
               <i class="fas fa-book"></i> View Documentation
