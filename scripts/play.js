@@ -108,27 +108,31 @@ $radius: 8px;
 @arr palette[#1E2783, #8C29B2, #C41348, #0098d0]
 
 .card {
-  background: @random(@arr.palette);
+  bg: @random(@arr.palette);
   color: white;
   padding: 16px 24px;
-  border-radius: $radius!;
+  size: 150px;
+  max-size: 200px;
+  min-size: 100px;
+  rounded: $radius!;
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .btn {
-  background: $primary!;
+  bg: $primary!;
   color: #111;
-  padding: 10px 20px;
-  border-radius: $radius!;
+  px: 10px;
+  py: 20px;
+  rounded: $radius!;
   border: none;
-  font-weight: 600;
+  fw: 600;
 }`,
       pattern: `pattern(0.6: "rounded primary button with color: white, bg: red", \`
-  background: @match(bg:?\\s([#\\w\\d-_]+)) @match(background:?\\s([#\\w\\d-_]+));
+  bg: @match(bg:?\\s([#\\w\\d-_]+)) @match(background:?\\s([#\\w\\d-_]+));
   color: @match(color:?\\s([#\\w\\d-_]+));
-  border-radius: 25px;
+  rounded: 25px;
   padding: 10px 20px;
-  font-weight: 700;
+  fw: 700;
   border: 2px solid;
 \`)
 
@@ -143,9 +147,9 @@ $radius: 8px;
 .container {
   display: flex;
   gap: 12px;
-  background: @random(@arr.colors);
+  bg: @random(@arr.colors);
   padding: 24px;
-  border-radius: 12px;
+  rounded: 12px;
   color: white;
 }`,
       debug: `exec(_log, 'Hello from FSCSS compiler')
@@ -155,9 +159,9 @@ exec(_info, 'Info message from pipeline')
 $debug-color: #f0c14b;
 
 .box {
-  background: $debug-color!;
+  bg: $debug-color!;
   padding: 20px;
-  border-radius: 8px;
+  rounded: 8px;
   color: #111;
 }`
     };
