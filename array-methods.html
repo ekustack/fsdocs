@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/array-methods">
+
+  <title>FSCSS Arrays – Methods, Derived Arrays & @define</title>
+
+  <meta name="description" content="FSCSS @arr arrays: 1-based indexing, methods (!), derived arrays, mutations, and @define with array parameters. Patterns used in st-core, overlapui, and more.">
+  <meta name="keywords" content="FSCSS arrays, @arr, array methods, derived arrays, @define, FSCSS loops, st-core, overlapui">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS Arrays, Methods & @define">
+  <meta property="og:description" content="@arr, methods, derived arrays, and parameterized @define blocks.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/array-methods">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="arrays" class="nav-link" aria-current="page">Arrays</a>
+        <a href="loop" class="nav-link">Loops</a>
+        <a href="num" class="nav-link">num / count</a>
+        <a href="libraries" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Arrays, methods &amp; <code>@define</code></h1>
+      <p class="lead"><code>@arr</code> lists, method mode (<code>!</code>), derived arrays, mutations, and reusable generators</p>
+      <p>FSCSS <strong>1.2.x</strong> · Methods from <strong>1.1.14+</strong> · Derived arrays <strong>1.2.3+</strong></p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- Modules that use arrays -->
+    <section class="section" id="modules">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Where arrays show up in the ecosystem</h2>
+        </div>
+        <div class="card-body">
+          <p>Arrays are core language features. Modules build on them for data, colors, and generated CSS:</p>
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem;margin-top:0.75rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Module</th>
+                <th style="text-align:left;padding:8px">Array usage</th>
+                <th style="text-align:left;padding:8px">Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><strong>st-core@v2</strong></td>
+                <td style="padding:8px">Series data, <code>count(length)</code>, point vars, multi-line charts</td>
+                <td style="padding:8px">
+                  <a href="https://github.com/fscss-ttr/st-core.fscss">GitHub</a> ·
+                  <a href="https://hub.devtem.org/st-core.fscss/visual-builder/">Builder</a>
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><strong>overlapui</strong></td>
+                <td style="padding:8px">Letter/color maps for <code>data-alph</code>, palette indexes</td>
+                <td style="padding:8px">
+                  <a href="https://github.com/fscss-ttr/overlapui.fscss">GitHub</a> ·
+                  <a href="https://www.npmjs.com/package/overlapui">npm</a>
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><strong>circle-progress</strong></td>
+                <td style="padding:8px">Ranges / multi-slice setups via defines + tokens</td>
+                <td style="padding:8px">
+                  <a href="https://github.com/Figsh/Circle-progress.fscss">GitHub</a>
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><strong>icon-mask</strong></td>
+                <td style="padding:8px">Icon packs / named sets (module tokens + classes)</td>
+                <td style="padding:8px">
+                  <a href="https://github.com/fscss-ttr/icon-mask.fscss">GitHub</a>
+                </td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><strong>patterns</strong></td>
+                <td style="padding:8px">Phrase libraries; pair with <code>pattern()</code> + define </td>
+                <td style="padding:8px">
+                  <a href="https://github.com/fscss-ttr/patterns.fscss">GitHub</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px"><strong>/ libraries</strong></td>
+                <td style="padding:8px">More packs and templates</td>
+                <td style="padding:8px">
+                  <a href="/libraries">/libraries</a> ·
+                  <a href="/libraries">/libraries</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:1rem;margin-bottom:0">
+            Runtime: <code>https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic -->
+    <section class="section" id="basic">
+      <h2>1. Basic arrays (<code>@arr</code>)</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Arrays are <strong>1-indexed</strong>, string-native collections.</p>
+          <div class="code-block">
+            <pre><code>@arr colors[#3b82f6, #8b5cf6, #06b6d4, #10b981];
+@arr spacing[0.5rem, 1rem, 1.5rem, 2rem];
+@arr sizes[8, 12, 16, 24];
+
+.primary {
+  background: @arr.colors[1];          /* first item */
+  padding: @arr.spacing[2] @arr.spacing[3];
+}</code></pre>
+          </div>
+          <h4>Access modes</h4>
+          <ul>
+            <li><code>@arr.name</code> — direct output (list context)</li>
+            <li><code>@arr.name[1]</code> — specific index (1-based)</li>
+            <li><code>@arr.name[]</code> — <strong>auto-loop</strong> (rule expands once per item)</li>
+            <li><code>@arr.name!</code> — <strong>method access</strong> mode</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methods -->
+    <section class="section" id="methods">
+      <h2>2. Array methods (v1.1.14+)</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Append <code>!</code> to enable methods. Methods return <strong>strings</strong> (no chaining — use <a href="#derived">derived arrays</a> instead).</p>
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Method</th>
+                <th style="text-align:left;padding:8px">Description</th>
+                <th style="text-align:left;padding:8px">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.length</code></td><td style="padding:8px">Item count</td><td style="padding:8px"><code>@arr.n!.length</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.first</code> / <code>.last</code></td><td style="padding:8px">Ends of list</td><td style="padding:8px"><code>@arr.n!.first</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.list</code></td><td style="padding:8px">Comma-separated</td><td style="padding:8px"><code>@arr.n!.list</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.join(sep)</code></td><td style="padding:8px">Custom join</td><td style="padding:8px"><code>@arr.n!.join(+)</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.reverse</code></td><td style="padding:8px">Reverse order</td><td style="padding:8px"><code>@arr.n!.reverse</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.shuffle</code> / <code>.sort</code> / <code>.unique</code></td><td style="padding:8px">Reorder / dedupe</td><td style="padding:8px"><code>@arr.n!.sort</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.indices</code></td><td style="padding:8px">1-based indices</td><td style="padding:8px"><code>1,2,3</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.randint</code></td><td style="padding:8px">One random item</td><td style="padding:8px"><code>@arr.n!.randint</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.segment</code></td><td style="padding:8px">Wrap each in <code>[]</code></td><td style="padding:8px"><code>[a][b][c]</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.sum</code> / <code>.min</code> / <code>.max</code></td><td style="padding:8px">Numeric helpers</td><td style="padding:8px">with <a href="/num"><code>num()</code></a></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.unit(val)</code></td><td style="padding:8px">Append unit to each</td><td style="padding:8px"><code>@arr.n!.unit(px)</code></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px"><code>.prefix(v)</code></td><td style="padding:8px">Prefix each</td><td style="padding:8px"><code>btn-A,btn-B</code></td></tr>
+              <tr><td style="padding:8px"><code>.surround(b,a)</code></td><td style="padding:8px">Wrap each</td><td style="padding:8px"><code>[A][B][C]</code></td></tr>
+            </tbody>
+          </table>
+          <h4 style="margin-top:1.25rem">Mutation</h4>
+          <div class="code-block">
+            <pre><code>@arr.name!+[item4, item5]     /* append */
+@arr.name!-[2]                /* remove index 2 (1-based) */</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Derived -->
+    <section class="section" id="derived">
+      <h2>3. Derived arrays (v1.2.3+)</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Create a <strong>new</strong> <code>@arr</code> from another array’s method result. Official way to “chain”.</p>
+          <div class="code-block">
+            <pre><code>@arr colors[#1E2783, #8C29B2, #C41348]
+
+@arr reversed[@arr.colors!.reverse]
+@arr asList[@arr.colors!.list]
+@arr idx[count(@arr.colors!.length, 1)]   /* → 1,2,3 */
+
+@arr more[#0ea5e9]
+@arr.colors!+[@arr.more!.list]
+
+exec(_log, "@arr.reversed!.list")
+exec(_log, "@arr.idx!.list")</code></pre>
+          </div>
+          <p><strong>Common pattern</strong> (st-core charts, staggered UI, overlap color maps):</p>
+          <div class="code-block">
+            <pre><code>@arr data[30, 55, 80, 45]
+@arr idx[count(@arr.data!.length, 1)]</code></pre>
+          </div>
+          <p style="margin-bottom:0">See <a href="/num">num() &amp; count()</a> and <a href="/loop">Loops</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- define -->
+    <section class="section" id="define">
+      <h2>4. <code>@define</code> — parameterized blocks</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Reusable generators. Parameters via <code>@use(param)</code>. Full reference: <a href="/define">/define</a>.</p>
+
+          <h4>Simple property define</h4>
+          <div class="code-block">
+            <pre><code>@define card(bg: black, color: white, pad: 20px, bd-r: 10px) {
+  background: @use(bg);
+  border-radius: @use(bd-r);
+  padding: @use(pad);
+  color: @use(color);
+}
+
+.box {
+  @card(#007999)
+}</code></pre>
+          </div>
+
+          <h4>Block define (backticks)</h4>
+          <div class="code-block">
+            <pre><code>@define mobile(size){`
+@media (max-width: @use(size)) {
+  .container { padding: 10px; }
+}
+`}
+
+@mobile(768px)</code></pre>
+          </div>
+
+          <h4><code>@define</code> + arrays</h4>
+          <div class="code-block">
+            <pre><code>@define abc(arr){`
+empty{ /* preserve */ }
+@arr i-levels[count(@arr.@use(arr)!.length)]
+.p@arr.@use(arr)[@arr.i-levels[]] {
+  --@arr.i-levels[]: @arr.@use(arr)[@arr.i-levels[]];
+}
+`}
+
+@arr arr[RED, BLUE, GREEN]
+@abc(arr)</code></pre>
+          </div>
+
+          <h4>st-core-style point normalization</h4>
+          <div class="code-block">
+            <pre><code>@define st-chart-points(p){`
+inline("
+  @arr @use(p)-idx[count(@arr.@use(p)!.length, 1)]
+  empty-@arr.@use(p)-idx[] {
+    $idx: @arr.@use(p)-idx[];
+    --st-p$idx: num(100 - @arr.@use(p)[$idx])%;
+  }
+")
+`}</code></pre>
+          </div>
+
+          <h4>Reusable mutation helpers</h4>
+          <div class="code-block">
+            <pre><code>@define add(arr, new) {
+  @arr.@use(arr)!+@use(new)
+}
+
+@define remove(arr, index) {
+  @arr.@use(arr)!-[@use(index)]
+}
+
+@arr a[A, B, C]
+@add(a, [D])
+@remove(a, 2)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mental model -->
+    <section class="section" id="model">
+      <h2>Quick mental model</h2>
+      <div class="card">
+        <div class="card-body">
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Feature</th>
+                <th style="text-align:left;padding:8px">Purpose</th>
+                <th style="text-align:left;padding:8px">Key syntax</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>@arr</code></td>
+                <td style="padding:8px">Store lists</td>
+                <td style="padding:8px"><code>@arr name[val1, val2]</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Methods (<code>!</code>)</td>
+                <td style="padding:8px">Transform / inspect</td>
+                <td style="padding:8px"><code>@arr.name!.reverse</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Derived arrays</td>
+                <td style="padding:8px">New array from method</td>
+                <td style="padding:8px"><code>@arr new[@arr.old!.list]</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Auto-loop</td>
+                <td style="padding:8px">Expand per item</td>
+                <td style="padding:8px"><code>@arr.name[]</code></td>
+              </tr>
+              <tr>
+                <td style="padding:8px"><code>@define</code></td>
+                <td style="padding:8px">Reusable generators</td>
+                <td style="padding:8px"><code>@use(param)</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:1rem;margin-bottom:0">Together these power nested selectors, charts, staggered animation, design tokens, and module libraries.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header"><h2>Related</h2></div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="/loop" class="btn btn-primary">Loops</a>
+            <a href="/num" class="btn btn-outline">num / count</a>
+            <a href="/define" class="btn btn-outline">@define</a>
+            <a href="/nested-loop" class="btn btn-outline">Nested loop</a>
+            <a href="/examples" class="btn btn-outline">Examples</a>
+            <a href="/libraries" class="btn btn-outline">Libraries</a>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0.5rem"><strong>Modules</strong></p>
+          <ul style="margin-bottom:0">
+            <li><a href="https://github.com/fscss-ttr/st-core.fscss">st-core.fscss</a></li>
+            <li><a href="https://github.com/fscss-ttr/overlapui.fscss">overlapui.fscss</a></li>
+            <li><a href="https://github.com/Figsh/Circle-progress.fscss">circle-progress.fscss</a></li>
+            <li><a href="https://github.com/fscss-ttr/icon-mask.fscss">icon-mask.fscss</a></li>
+            <li><a href="https://github.com/fscss-ttr/patterns.fscss">patterns.fscss</a></li>
+            <li><a href="https://github.com/fscss-ttr/deepspace.fscss">deepspace.fscss</a></li>
+            <li><a href="https://github.com/fscss-ttr/customizable.fscss">customizable.fscss</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>@arr · methods · derived arrays · @define</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="loop">Loops</a></li>
+          <li><a href="libraries">Libraries</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
