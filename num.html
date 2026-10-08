@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/num">
+
+  <title>FSCSS num() & count() – Compile-time Math and Index Sequences</title>
+
+  <meta name="description" content="FSCSS num() for compile-time arithmetic and count() for index sequences. Group with angle brackets, combine with @arr length, sum/min/max, and loops.">
+  <meta name="keywords" content="FSCSS num, FSCSS count, compile-time math, CSS preprocessor arithmetic, array length, index array, FSCSS loops">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS num() & count()">
+  <meta property="og:description" content="Compile-time math and number sequences for loops, charts, and generated CSS.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/num">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS num() & count()">
+  <meta name="twitter:description" content="Arithmetic and index sequences in FSCSS 1.2.x">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS num() and count()",
+    "description": "Compile-time math and index sequence helpers for FSCSS.",
+    "url": "https://fscss.devtem.org/num",
+    "author": { "@type": "Person", "name": "Figsh" }
+  }
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="/playground" class="nav-link">Playground</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="arrays" class="nav-link">Arrays</a>
+        <a href="loop" class="nav-link">Loops</a>
+        <a href="num" class="nav-link" aria-current="page">num / count</a>
+        <a href="shorthands" class="nav-link">Shorthands</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1><code>num()</code> &amp; <code>count()</code></h1>
+      <p class="lead">Compile-time arithmetic and index sequences for loops, charts, and generated values</p>
+      <p>FSCSS <strong>1.2.x</strong> · Related: <a href="/loop" style="color:inherit;text-decoration:underline">Loops</a> · <a href="/arrays" style="color:inherit;text-decoration:underline">Arrays</a> · <a href="/docs" style="color:inherit;text-decoration:underline">Docs</a></p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <section class="section" id="overview">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Why these two helpers</h2>
+        </div>
+        <div class="card-body">
+          <p><code>num()</code> and <code>count()</code> are the foundation for advanced loops, keyframe generators, and chart-style calculations (including <strong>st-core@v2</strong>). They run at compile time (or in the browser runtime) and emit plain numbers into CSS.</p>
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-calculator"></i></div>
+              <h4><code>num(expression)</code></h4>
+              <p><code>+ - * /</code> with optional unit after <code>)</code></p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-sort-numeric-up"></i></div>
+              <h4><code>count(limit[, step])</code></h4>
+              <p>Sequences for index arrays and loops</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-link"></i></div>
+              <h4>With <code>@arr</code></h4>
+              <p>Length-driven indexes, sum/min/max, normalized %</p>
+            </div>
+          </div>
+          <p style="margin-top:1rem;margin-bottom:0">
+            <code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- num -->
+    <section class="section" id="num">
+      <h2>1. <code>num()</code> — compile-time math</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Arithmetic in stylesheets</h3>
+          <span class="badge">Core</span>
+        </div>
+        <div class="card-body">
+          <p><code>num(expression)</code> evaluates <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> when FSCSS runs. Append a unit <strong>immediately after</strong> the closing parenthesis.</p>
+
+          <div class="card" style="margin:1rem 0;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35)">
+            <div class="card-body">
+              <h4 style="margin-top:0"><i class="fas fa-exclamation-triangle" style="margin-right:8px;color:#f59e0b"></i> Critical rule — grouping</h4>
+              <p style="margin-bottom:0.5rem">Do <strong>not</strong> use parentheses <code>()</code>, braces <code>{}</code>, or brackets <code>[]</code> <em>inside</em> the expression (they conflict with CSS/FSCSS parsing).</p>
+              <p style="margin-bottom:0">Use <strong>angle brackets</strong> <code>&lt; &gt;</code> for grouping:</p>
+              <div class="code-block" style="margin-top:0.75rem;margin-bottom:0">
+                <pre><code>num(&lt;100 - 1&gt; / &lt;4 + 50&gt;)%</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span></div>
+              <div class="editor-content">
+                <pre><code>/* Basic */
+selector {
+  max-height: num(40 * 4)px;          /* → 160px */
+}
+
+/* Grouping with &lt; &gt; */
+something {
+  $res: num(&lt;100 - 1&gt; / &lt;4 + 50&gt;)%;   /* → ~1.85% */
+}
+
+/* With random */
+textarea {
+  max-height: num(@random([40, 10, 5, 0]) + 50);
+}
+
+/* Nested / complex (v1.2.3+) */
+.box {
+  width: num(&lt;45 - 2&gt; / 2 * &lt;5 - 3&gt;)px;
+}</code></pre>
+              </div>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-header"><span>Notes</span></div>
+              <div class="editor-content">
+                <pre><code>Unit after ):
+  num(10 * 2)px   ✓
+  num(10 * 2 px)  ✗
+
+Grouping:
+  num(&lt;a - b&gt; / c)  ✓
+  num((a - b) / c)  ✗ inside expr
+
+Variables:
+  num($n! * 2)rem
+  num(@arr.x[$i!] * 1.5)px</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- count -->
+    <section class="section" id="count">
+      <h2>2. <code>count()</code> — number sequences</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Build index lists</h3>
+          <span class="badge">Core</span>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>count(limit)          /* 1, 2, 3, …, limit */
+count(limit, step)    /* from step, by step, up to limit */</code></pre>
+          </div>
+          <p>From <strong>v1.2.1+</strong>, the limit may be an array’s <code>.length</code>:</p>
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>Examples</span></div>
+              <div class="editor-content">
+                <pre><code>exec(_log, "count(5)")       /* → 1, 2, 3, 4, 5 */
+exec(_log, "count(10, 2)")   /* → 2, 4, 6, 8, 10 */
+
+@arr colors[#ef4444, #f59e0b, #10b981, #3b82f6]
+@arr indexes[count(@arr.colors!.length)]     /* → 1,2,3,4 */
+/* or: count(@arr.colors!.length, 1) */</code></pre>
+              </div>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-header"><span>Typical use</span></div>
+              <div class="editor-content">
+                <pre><code>@arr idx[count(@arr.data!.length, 1)]
+
+/* then loop */
+.item:nth-child(@arr.idx[]) { … }
+rpt(@arr.idx[], "div ") { … }
+inline("empty-@arr.idx[] { … }")</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- patterns -->
+    <section class="section" id="patterns">
+      <h2>3. Patterns with arrays</h2>
+
+      <div class="card" style="margin-bottom:1.25rem">
+        <div class="card-header">
+          <h3>Index array for looping</h3>
+          <span class="badge badge-secondary">Most common</span>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>@arr colors[#ef4444, #f59e0b, #10b981, #3b82f6, #8b5cf6]
+@arr indexes[count(@arr.colors!.length, 1)]
+
+empty{ /* preserve */ }
+
+.loading-dot:nth-child(@arr.indexes[]) {
+  $index: @arr.indexes[];
+  background: @arr.colors[$index!];
+  animation-delay: num(@arr.indexes[] * 0.15)s;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.25rem">
+        <div class="card-header">
+          <h3>Derived values (normalize / CSS variables)</h3>
+          <span class="badge badge-secondary">v1.2.3+</span>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>@arr data[30, 55, 80, 45, 90]
+@arr idx[count(@arr.data!.length, 1)]
+
+empty-@arr.idx[] {
+  $i: @arr.idx[];
+  --st-p$i: num(100 - @arr.data[$i!])%;
+}</code></pre>
+          </div>
+          <p style="margin-bottom:0">Same idea as chart point inversion in st-core (<code>100 - value</code> → Y% for <code>clip-path</code>).</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.25rem">
+        <div class="card-header">
+          <h3>Math inside <code>rpt()</code> bodies</h3>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>@arr sizes[8, 12, 16, 24]
+@arr levels[count(@arr.sizes!.length)]
+
+empty{ /* preserve */ }
+
+rpt(@arr.levels[], ".item ") {
+  padding: num(@arr.sizes[@arr.levels[]] * 1.5)px;
+  font-size: num(@arr.sizes[@arr.levels[]] + 4)px;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Numeric array methods + <code>num()</code></h3>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>@arr nums[10, 20, 30, 40, 50]
+
+.total  { width: num(@arr.nums!.sum)px; }
+.min-w  { width: num(@arr.nums!.min)px; }
+.max-w  { width: num(@arr.nums!.max)px; }</code></pre>
+          </div>
+          <p style="margin-bottom:0">Also: <code>@arr.n!.length</code> with <code>count()</code> for index generation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- cheat sheet -->
+    <section class="section" id="cheatsheet">
+      <h2>Quick reference</h2>
+      <div class="card">
+        <div class="card-body">
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Feature</th>
+                <th style="text-align:left;padding:8px">Syntax</th>
+                <th style="text-align:left;padding:8px">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Basic math</td>
+                <td style="padding:8px"><code>num(a * b)px</code></td>
+                <td style="padding:8px">Unit after <code>)</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Grouping</td>
+                <td style="padding:8px"><code>num(&lt;a - b&gt; / &lt;c + d&gt;)</code></td>
+                <td style="padding:8px">Use <code>&lt;&gt;</code> only</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Sequence</td>
+                <td style="padding:8px"><code>count(5)</code> / <code>count(10, 2)</code></td>
+                <td style="padding:8px">From 1 or from step</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">From length</td>
+                <td style="padding:8px"><code>count(@arr.name!.length)</code></td>
+                <td style="padding:8px">v1.2.1+</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Index array</td>
+                <td style="padding:8px"><code>@arr idx[count(@arr.data!.length, 1)]</code></td>
+                <td style="padding:8px">Loop helper</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">Array numerics</td>
+                <td style="padding:8px"><code>!.sum</code> / <code>.min</code> / <code>.max</code> / <code>.length</code></td>
+                <td style="padding:8px">With <code>num()</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Related</h2>
+        </div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="/loop" class="btn btn-primary"><i class="fas fa-redo"></i> Loops</a>
+            <a href="/arrays" class="btn btn-outline">Arrays</a>
+            <a href="/nested-loop" class="btn btn-outline">Nested loop</a>
+            <a href="/examples" class="btn btn-outline">Examples</a>
+            <a href="/docs" class="btn btn-outline">Docs</a>
+            <a href="https://hub.devtem.org/st-core.fscss/visual-builder/" class="btn btn-outline">st-core builder</a>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0">
+            <code>npm install fscss@1.2.5</code> ·
+            See also docs anchor <a href="https://fscss.devtem.org/docs#num">/docs#num</a> if linked from the main manual.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>num() · count() — math and sequences</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="loop">Loops</a></li>
+          <li><a href="arrays">Arrays</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
