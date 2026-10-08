@@ -457,7 +457,7 @@ str(card-style, "
 
 /* Reusable remove-by-index helper */
 @define remove(arr, index){
-  @arr.@use(arr)!-@use(index)
+  @arr.@use(arr)!-[@use(index)]
 }
 
 /* 1. Create the array */
@@ -479,7 +479,7 @@ str(card-style, "
 
 /* Log final state */
 exec(_log, "[@arr.a!.surround(',')]")
-/* Expected console: ['C' 'D' 'A' 'B'] */</code></pre>
+/* Expected console: ['D' 'D' 'A' 'B'] */</code></pre>
               </div>
             </div>
             
@@ -489,7 +489,7 @@ exec(_log, "[@arr.a!.surround(',')]")
                 <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
               </div>
               <div class="editor-content">
-                <pre><code>['C' 'D' 'A' 'B']</code></pre>
+                <pre><code>['D' 'D' 'A' 'B']</code></pre>
               </div>
             </div>
           </div>
@@ -533,7 +533,7 @@ exec(_log, "[@arr.a!.surround(',')]")
               </table>
               <p style="margin-top: 1rem; margin-bottom: 0;">
                 Final log via <code>exec(_log, "[@arr.a!.surround(',')]")</code> produces:
-                <code>['C' 'D' 'A' 'B']</code>
+                <code>['D' 'D' 'A' 'B']</code>
               </p>
             </div>
           </div>
@@ -1248,9 +1248,9 @@ $secondary: #8b5cf6;
       <div class="footer-section">
         <h4>Resources</h4>
         <ul class="footer-links">
-          <li><a href="docs.html">Documentation</a></li>
-          <li><a href="examples.html">Examples</a></li>
-          <li><a href="api.html">API Reference</a></li>
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="examples">Examples</a></li>
+          <li><a href="api">API Reference</a></li>
           <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/fscss">NPM Package</a></li>
         </ul>
@@ -1274,4 +1274,3 @@ $secondary: #8b5cf6;
   <script src="assets/scripts/exm.js"></script>
 </body>
 </html>
-
