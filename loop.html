@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/loop">
+
+  <title>FSCSS Loops – @arr, rpt(), %n(), inline() Reference</title>
+
+  <meta name="description" content="FSCSS loop reference: property multiplexing with %n(), nth-child auto-index loops, nested selectors with rpt(), and inline() fragments. Arrays, count(), empty preserve pattern.">
+  <meta name="keywords" content="FSCSS loops, FSCSS @arr, rpt(), %n(), inline(), CSS preprocessor loops, nth-child loop, nested selector loop, FSCSS arrays">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS Loops – @arr, rpt(), %n(), inline()">
+  <meta property="og:description" content="Reference for FSCSS loop patterns: property lists, auto-index, nested selectors, and value fragments.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/loop">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS Loops Reference">
+  <meta name="twitter:description" content="@arr, rpt(), %n(), inline() — loop patterns for FSCSS 1.2.x">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "FSCSS Loops Reference",
+    "description": "Loop patterns using @arr, %n(), rpt(), inline(), and empty preserve.",
+    "url": "https://fscss.devtem.org/loop",
+    "author": { "@type": "Person", "name": "Figsh" },
+    "publisher": { "@type": "Organization", "name": "DevTemple", "url": "https://devtem.org" }
+  }
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="/playground" class="nav-link">Playground</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="arrays" class="nav-link">Arrays</a>
+        <a href="loop" class="nav-link" aria-current="page">Loops</a>
+        <a href="shorthands" class="nav-link">Shorthands</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS Loops</h1>
+      <p class="lead">Reference for <code>@arr</code>, <code>%n()</code>, <code>rpt()</code>, <code>inline()</code>, and the <code>empty{ /* preserve */ }</code> pattern</p>
+      <p>FSCSS <strong>1.2.x</strong> · Runtime or CLI · Related: <a href="/arrays" style="color:inherit;text-decoration:underline">Arrays</a> · <a href="/nested-loop" style="color:inherit;text-decoration:underline">Nested loop</a> · <a href="/examples" style="color:inherit;text-decoration:underline">Examples</a></p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- Overview -->
+    <section class="section" id="overview">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>What loops do in FSCSS</h2>
+        </div>
+        <div class="card-body">
+          <p>Loops expand arrays into <strong>properties</strong>, <strong>selectors</strong>, or <strong>value fragments</strong>. They are compile-time (or runtime) expansions — the browser only sees plain CSS.</p>
+          <div class="feature-highlights">
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-list"></i></div>
+              <h4><code>%n()</code> / multiplexing</h4>
+              <p>Same value on many property names</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-sort-numeric-down"></i></div>
+              <h4>Auto-index <code>[]</code></h4>
+              <p><code>:nth-child</code> and per-item rules from index arrays</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+              <h4><code>rpt()</code></h4>
+              <p>Repeat a selector prefix (nested <code>div </code> chains)</p>
+            </div>
+            <div class="feature-highlight">
+              <div class="feature-icon"><i class="fas fa-code"></i></div>
+              <h4><code>inline()</code></h4>
+              <p>Emit loop bodies inside values (e.g. <code>clip-path</code>)</p>
+            </div>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0">
+            <strong>Quick Test (browser runtime) :</strong>
+          </p>
+          <div class="code-block" style="margin-top:0.5rem">
+            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick rules -->
+    <section class="section" id="rules">
+      <h2>Rules of thumb</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li>Arrays are <strong>1-indexed</strong>.</li>
+            <li>Use <code>[]</code> (empty brackets) to <strong>iterate</strong>; use <code>[n]</code> for a fixed index.</li>
+            <li>Build index lists with <code>count(@arr.name!.length)</code> or <code>count(n, 1)</code> (start at 1).</li>
+            <li>Put <code>empty{ /* preserve */ }</code> <strong>before</strong> loop-driven rules when intermediate tokens would otherwise become stray selectors.</li>
+            <li><code>%n(...)</code> → property lists · <code>rpt()</code> + <code>@arr[]</code> → selectors · <code>inline("empty-@arr[] { }")</code> → fragments inside values.</li>
+            <li>Combine freely with <code>$var!</code>, <code>@define</code>, <code>num()</code>, and modules (e.g. st-core chart polygons).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. %n -->
+    <section class="section" id="property-loop">
+      <h2>1. Property loop — <code>%n()</code></h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Same value on multiple properties</h3>
+          <span class="badge">Basic</span>
+        </div>
+        <div class="card-body">
+          <p>Build a property-name array, store it, then multiplex one value across the list with <code>%4</code>, <code>%3</code>, <code>%2</code>, etc.</p>
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span></div>
+              <div class="editor-content">
+                <pre><code>@arr sizing[width, height, max-width, max-height]
+$sizing: @arr.sizing!;
+
+.box {
+  bg: red;
+  %4($sizing.list[: 200px;])
+}</code></pre>
+              </div>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-header"><span>Compiled CSS</span></div>
+              <div class="editor-content">
+                <pre><code>.box {
+  background: red;
+  width: 200px;
+  height: 200px;
+  max-width: 200px;
+  max-height: 200px;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:1rem;margin-bottom:0">Classic forms still work: <code>%2(width, height[: 100px;])</code>, <code>%3(padding, margin, gap[: 1rem;])</code>. See also <a href="/examples#shorthand-example">value multiplexing on Examples</a> and <a href="/shorthands">1.2.5 property shorthands</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. nth-child -->
+    <section class="section" id="auto-index">
+      <h2>2. Auto-index / <code>:nth-child</code> loop</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Staggered styles from parallel arrays</h3>
+          <span class="badge badge-secondary">Intermediate</span>
+        </div>
+        <div class="card-body">
+          <p>One rule template expands per index. Capture <code>$index</code> from the index array and look up delays/colors.</p>
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span></div>
+              <div class="editor-content">
+                <pre><code>@arr delays[0.1s, 0.3s, 0.5s, 0.7s]
+@arr colors[#ef4444, #f59e0b, #10b981, #3b82f6]
+@arr indexes[count(@arr.colors!.length, 1)]   /* → 1,2,3,4 */
+
+empty{ /* preserve */ }
+
+.loading-dot:nth-child(@arr.indexes[]) {
+  $index: @arr.indexes[];
+  animation: bounce 1.5s infinite @arr.delays[$index!];
+  background: @arr.colors[$index!];
+}</code></pre>
+              </div>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-header"><span>Expands to</span></div>
+              <div class="editor-content">
+                <pre><code>/* one rule per index */
+.loading-dot:nth-child(1) {
+  animation: bounce 1.5s infinite 0.1s;
+  background: #ef4444;
+}
+.loading-dot:nth-child(2) { /* … */ }
+/* … nth-child(3), nth-child(4) */</code></pre>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:1rem;margin-bottom:0">Also used for staggered keyframes and loading dots on the <a href="/examples#arrays-example">Examples · Arrays</a> page.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. rpt nested -->
+    <section class="section" id="rpt-nested">
+      <h2>3. Nested selector loop — <code>rpt()</code></h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Classic “one-loop nested divs”</h3>
+          <span class="badge badge-secondary">Intermediate</span>
+        </div>
+        <div class="card-body">
+          <p><code>rpt(level, "div ")</code> builds selector prefixes (<code>div</code>, <code>div div</code>, …). Pair with a parallel color (or token) array.</p>
+          <div class="live-editor">
+            <div class="editor-panel">
+              <div class="editor-header"><span>FSCSS</span></div>
+              <div class="editor-content">
+                <pre><code>@arr colors[orange, purple, indigo, blue]
+@arr levels[count(@arr.colors!.length)]
+
+empty{ /* preserve */ }
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}</code></pre>
+              </div>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-header"><span>Compiled CSS</span></div>
+              <div class="editor-content">
+                <pre><code>div {
+  background: orange;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 8px;
+}
+div div { background: purple; /* … */ }
+div div div { background: indigo; /* … */ }
+div div div div { background: blue; /* … */ }</code></pre>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:1rem;margin-bottom:0">Deep dive: <a href="/nested-loop">/nested-loop</a> · HTML needs matching nested <code>&lt;div&gt;</code> depth.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. inline -->
+    <section class="section" id="inline-loop">
+      <h2>4. Value fragments — <code>inline()</code></h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Loops inside declarations</h3>
+          <span class="badge badge-accent">Advanced</span>
+        </div>
+        <div class="card-body">
+          <p><code>inline()</code> strips outer braces/format noise so loop output can sit inside a property value (custom properties lists, <code>clip-path: polygon(...)</code>, etc.).</p>
+          <h4>Custom properties from an array</h4>
+          <div class="code-block">
+            <pre><code>@arr values[10, 20, 30, 40]
+@arr idx[count(@arr.values!.length, 1)]
+
+inline("empty{}
+empty-@arr.idx[] {
+  $i: @arr.idx[];
+  --val-@arr.idx[]: @arr.values[$i!]px;
+}")</code></pre>
+          </div>
+          <h4>Inside <code>clip-path</code> (chart-style)</h4>
+          <div class="code-block">
+            <pre><code>clip-path: polygon(
+  inline("{}
+    empty-@arr.idx[] {
+      $i: @arr.idx[];
+      num(&lt;$i - 1&gt; * 100 / &lt;@arr.values!.length - 1&gt;)% var(--st-p$i),
+    }
+  ")
+  100% 100%,
+  0% 100%
+);</code></pre>
+          </div>
+          <p style="margin-bottom:0">Used heavily in <strong>st-core@v2</strong> line/fill generators. Prefer <code>empty-@arr…</code> wrappers so loop machinery does not leak as selectors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Combined -->
+    <section class="section" id="combined">
+      <h2>5. Combined starter</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3><code>%n</code> + <code>rpt</code> in one page</h3>
+          <span class="badge">Practical</span>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;
+&lt;style&gt;
+@arr sizing[width, height, max-width, max-height]
+$sizing: @arr.sizing!;
+
+@arr colors[tomato, coral, salmon, crimson]
+@arr levels[count(@arr.colors!.length)]
+
+empty{ /* preserve */ }
+
+.box {
+  bg: red;
+  %4($sizing.list[: 200px;])
+}
+
+rpt(@arr.levels[], "div ") {
+  background: @arr.colors[@arr.levels[]];
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+&lt;/style&gt;
+&lt;div class="box"&gt;&lt;/div&gt;
+&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;…&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- empty preserve -->
+    <section class="section" id="empty-preserve">
+      <h2>6. <code>empty{ /* preserve */ }</code></h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Loop expansion can temporarily introduce tokens that the parser treats as selectors. A leading:</p>
+          <div class="code-block">
+            <pre><code>empty{ /* preserve */ }</code></pre>
+          </div>
+          <p>keeps the following loop blocks from “eating” surrounding structure. Required for many <code>rpt</code> / auto-index / <code>inline</code> patterns in <strong>1.2.1+</strong>. Safe to leave in production sources — it compiles away cleanly when used as documented.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- API table -->
+    <section class="section" id="cheatsheet">
+      <h2>Cheat sheet</h2>
+      <div class="card">
+        <div class="card-body">
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Construct</th>
+                <th style="text-align:left;padding:8px">Use for</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>@arr name[a, b, c]</code></td>
+                <td style="padding:8px">Declare list</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>count(n, 1)</code> / <code>count(@arr.x!.length)</code></td>
+                <td style="padding:8px">Index array 1…n</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>@arr.name[]</code></td>
+                <td style="padding:8px">Iterate all items</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>@arr.name[$i!]</code></td>
+                <td style="padding:8px">Lookup by index variable</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>%2</code> … <code>%n(...list[: value;])</code></td>
+                <td style="padding:8px">Property multiplexing</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>rpt(@arr.levels[], "div ")</code></td>
+                <td style="padding:8px">Repeated selector prefix</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>inline("…")</code></td>
+                <td style="padding:8px">Loop body inside a value</td>
+              </tr>
+              <tr>
+                <td style="padding:8px"><code>num(&lt;expr&gt;)</code></td>
+                <td style="padding:8px">Arithmetic in expansions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related -->
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>Related docs</h2>
+        </div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="/arrays" class="btn btn-primary"><i class="fas fa-list"></i> Arrays</a>
+            <a href="/nested-loop" class="btn btn-outline">Nested loop guide</a>
+            <a href="/examples" class="btn btn-outline">Examples</a>
+            <a href="/docs" class="btn btn-outline">Docs home</a>
+            <a href="/shorthands" class="btn btn-outline">Shorthands 1.2.5</a>
+            <a href="https://github.com/fscss-ttr/st-core.fscss" class="btn btn-outline">st-core</a>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0">
+            Install: <code>npm install fscss</code> ·
+            Runtime: <code>cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>Loop reference — @arr · rpt · %n · inline</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="examples">Examples</a></li>
+          <li><a href="arrays">Arrays</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
