@@ -90,7 +90,9 @@
       }
     }
   </script>
-  
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -151,13 +153,28 @@
             <li><a href="/modular-system" class="sidebar-link">Modular System</a></li>
             <li><a href="/define" class="sidebar-link">(@define) Reusable blocks</a></li>
             <li><a href="/pattern" class="sidebar-link">Pattern</a></li>
-            <li><a href="/arrays" class="sidebar-link">Arrays & Loops</a></li>
+            <li><a href="/arrays" class="sidebar-link">Arrays</a></li>
+            <li><a href="/loop" class="sidebar-link">Loops (overview)</a></li>
             <li><a href="/shared" class="sidebar-link">Grouping Properties</a></li>
             <li><a href="/import" class="sidebar-link">Imports</a></li>
           <li><a href="/external" class="sidebar-link">External</a></li>
           <li><a href="/random" class="sidebar-link">random</a></li>
         </div>
         
+
+        <div class="sidebar-section" id="deepdive">
+          <h3 class="sidebar-title">Deep dive</h3>
+          <ul class="sidebar-links">
+            <li><a href="/loop" class="sidebar-link">Loops — @arr, rpt, %n, inline</a></li>
+            <li><a href="/num" class="sidebar-link">num() &amp; count()</a></li>
+            <li><a href="/array-methods" class="sidebar-link">Array methods &amp; derived</a></li>
+            <li><a href="/str" class="sidebar-link">str() — style stores</a></li>
+            <li><a href="/nested-loop" class="sidebar-link">Nested selector loops</a></li>
+            <li><a href="/pattern" class="sidebar-link">pattern() &amp; @match</a></li>
+            <li><a href="/define" class="sidebar-link">@define deep patterns</a></li>
+          </ul>
+        </div>
+
         <div class="sidebar-section">
           <h3 class="sidebar-title">API Reference</h3>
           <ul class="sidebar-links">
@@ -261,6 +278,28 @@
       </section>
       
       
+
+
+      <!-- Deep dive index -->
+      <section id="deepdive-main" class="docs-section">
+        <h2>Deep dive</h2>
+        <div class="card">
+          <div class="card-header">
+            <h3>Language references</h3>
+          </div>
+          <div class="card-body">
+            <p>Focused pages for advanced FSCSS features used in modules (st-core, overlapui, and more):</p>
+            <ul>
+              <li><a href="/loop"><strong>Loops</strong></a> — <code>%n()</code>, auto-index, <code>rpt()</code>, <code>inline()</code>, <code>empty{ /* preserve */ }</code></li>
+              <li><a href="/num"><strong>num() &amp; count()</strong></a> — compile-time math, index sequences, <code>&lt;&gt;</code> grouping</li>
+              <li><a href="/arrays"><strong>Arrays</strong></a> · <a href="/array-methods"><strong>Array methods</strong></a> — <code>!</code> methods, derived arrays, mutations</li>
+              <li><a href="/str"><strong>str()</strong></a> — style stores; camelCase / snake_case property maps</li>
+              <li><a href="/nested-loop"><strong>Nested loops</strong></a> · <a href="/pattern"><strong>pattern()</strong></a> · <a href="/define"><strong>@define</strong></a> · <a href="/shorthands"><strong>Shorthands 1.2.5</strong></a></li>
+            </ul>
+            <p style="margin-bottom:0">Hub &amp; modules: <a href="https://hub.devtem.org">hub.devtem.org</a> · <a href="/libraries">Libraries</a></p>
+          </div>
+        </div>
+      </section>
 
       <!-- Installation Section -->
       <section id="installation" class="docs-section">
