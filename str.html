@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/str">
+
+  <title>FSCSS str() – Style Stores, Named Blocks & Property Aliases</title>
+
+  <meta name="description" content="FSCSS str() style stores: reusable multi-line blocks, property-name aliases, and how camelCase and snake_case modules map to kebab-case CSS.">
+  <meta name="keywords" content="FSCSS str, style store, camelCase, snake_case, CSS property aliases, FSCSS modules">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS str() – Style Stores">
+  <meta property="og:description" content="Named style blocks and property-name mapping via str().">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/str">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="arrays" class="nav-link">Arrays</a>
+        <a href="array-methods" class="nav-link">Array methods</a>
+        <a href="str" class="nav-link" aria-current="page">str()</a>
+        <a href="libraries" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1><code>str()</code> — style stores</h1>
+      <p class="lead">Named multi-line blocks, reusable snippets, and the property-alias map used by <strong>camelCase</strong> and <strong>snake_case</strong> modules</p>
+      <p>FSCSS core · Modules: camelCase · snake_case</p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <section class="section" id="overview">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>What <code>str()</code> is</h2>
+        </div>
+        <div class="card-body">
+          <p><code>str(name, "…")</code> registers a <strong>named entry in the style store</strong>. Entries are used for:</p>
+          <ol>
+            <li><strong>Reusable style blocks</strong> — multi-line CSS you inject by name (see Examples · Variables)</li>
+            <li><strong>Property-name aliases</strong> — map alternate spellings to standard kebab-case properties</li>
+          </ol>
+          <p style="margin-bottom:0">There is no separate “converter runtime.” Alias modules pre-register hundreds of <code>str(alias, "kebab-property")</code> pairs; the preprocessor rewrites matching property names when compiling.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="blocks">
+      <h2>1. Named style blocks</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Store a multi-line snippet, then expand it by writing the store name inside a rule (same pattern as the themed-card demo on <a href="/examples">/examples</a>):</p>
+          <div class="code-block">
+            <pre><code>$primary: #3b82f6;
+$radius: 8px;
+$shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+str(card-style, "
+  background: white;
+  border-radius: $radius!;
+  box-shadow: $shadow!;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+")
+
+.themed-card {
+  card-style
+  border-left: 4px solid $primary!;
+}</code></pre>
+          </div>
+          <p style="margin-bottom:0">Variables inside the string expand with <code>$name!</code> when the store is applied. Prefer <a href="/define"><code>@define</code></a> when you need parameters; prefer <code>str()</code> for fixed or lightly variable blocks and for <strong>alias maps</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="aliases">
+      <h2>2. Property aliases via <code>str()</code></h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Register a non-standard property token → official CSS property name:</p>
+          <div class="code-block">
+            <pre><code>str(backgroundColor, "background-color")
+str(fontSize, "font-size")
+str(flex_direction, "flex-direction")
+str(border_radius, "border-radius")
+/* …hundreds more in the official modules */</code></pre>
+          </div>
+          <p>When FSCSS sees a property written as the <strong>store name</strong>, it emits the <strong>mapped string</strong> as the property name in the final CSS.</p>
+          <div class="card" style="margin-top:1rem;background:rgba(59,130,246,0.08)">
+            <div class="card-body">
+              <h4 style="margin-top:0">How mapping works</h4>
+              <ul style="margin-bottom:0">
+                <li>No special JS converter at runtime for production CLI builds</li>
+                <li>Lookup is the style store populated by <code>str()</code> (or bulk registration equivalent)</li>
+                <li>Output is always standard <strong>kebab-case</strong> CSS</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="modules">
+      <h2>3. camelCase &amp; snake_case modules</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Both modules rely on <code>str()</code> (or the same style-store system) to register the property-name map. Import the module, write the alternate casing, get kebab-case CSS out.</p>
+
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem;margin:1rem 0">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Module</th>
+                <th style="text-align:left;padding:8px">Input style</th>
+                <th style="text-align:left;padding:8px">Mechanism</th>
+                <th style="text-align:left;padding:8px">Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>camelCase</code></td>
+                <td style="padding:8px"><code>backgroundColor</code></td>
+                <td style="padding:8px"><code>str()</code> / style store</td>
+                <td style="padding:8px"><code>background-color</code></td>
+              </tr>
+              <tr>
+                <td style="padding:8px"><code>snake_case</code></td>
+                <td style="padding:8px"><code>background_color</code></td>
+                <td style="padding:8px"><code>str()</code> / style store</td>
+                <td style="padding:8px"><code>background-color</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>camelCase</h4>
+          <div class="code-block">
+            <pre><code>@import((*) from camelCase)
+
+.card {
+  backgroundColor: #111;
+  borderRadius: 12px;
+  fontSize: 14px;
+}</code></pre>
+          </div>
+
+          <h4>snake_case</h4>
+          <div class="code-block">
+            <pre><code>@import((*) from snake_case)
+
+.card {
+  background_color: #111;
+  border_radius: 12px;
+  font_size: 14px;
+}</code></pre>
+          </div>
+
+          <h4>Both compile to</h4>
+          <div class="code-block">
+            <pre><code>.card {
+  background-color: #111;
+  border-radius: 12px;
+  font-size: 14px;
+}</code></pre>
+          </div>
+
+          <p style="margin-bottom:0">
+            Module sources live under the FSCSS libraries org — see
+            <a href="https://github.com/fscss-ttr/FSCSS">fscss-ttr/FSCSS</a> and
+            <a href="/libraries">/libraries</a> for published packs. Import by module name when using the official registry / CDN path your project already uses for <code>st-core</code>, <code>overlapui</code>, etc.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="custom">
+      <h2>4. Custom aliases</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>You can extend the map in your own stylesheet without importing a full module:</p>
+          <div class="code-block">
+            <pre><code>str(bgColor, "background-color")
+str(bdRadius, "border-radius")
+
+.panel {
+  bgColor: #0b1220;
+  bdRadius: 16px;
+}</code></pre>
+          </div>
+          <p style="margin-bottom:0">Keep aliases readable and document them for your team — large custom maps behave like the official camelCase / snake_case packs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="vs">
+      <h2>5. <code>str()</code> vs other features</h2>
+      <div class="card">
+        <div class="card-body">
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Feature</th>
+                <th style="text-align:left;padding:8px">Best for</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><code>str(name, "…")</code></td>
+                <td style="padding:8px">Fixed/reusable text blocks; property alias registration</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><a href="/define"><code>@define</code></a></td>
+                <td style="padding:8px">Parameterized mixins (<code>@use</code>)</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px"><a href="/loop"><code>inline()</code></a></td>
+                <td style="padding:8px">Strip braces / inject fragments inside values</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">1.2.5 <a href="/shorthands">shorthands</a></td>
+                <td style="padding:8px">Short property names (<code>bg</code>, <code>rounded</code>) → longhands</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:1rem;margin-bottom:0">Shorthands and <code>str()</code> aliases can coexist; they solve related problems (shorter / alternate names → standard CSS).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header"><h2>Related</h2></div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="/examples" class="btn btn-primary">Examples</a>
+            <a href="/define" class="btn btn-outline">@define</a>
+            <a href="/shorthands" class="btn btn-outline">Shorthands</a>
+            <a href="/libraries" class="btn btn-outline">Libraries</a>
+            <a href="/docs" class="btn btn-outline">Docs</a>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0">
+            <code>npm install fscss@1.2.5</code> ·
+            Modules: camelCase · snake_case ·
+            <a href="https://github.com/fscss-ttr/FSCSS">fscss-ttr/FSCSS</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>str() — style stores &amp; property aliases</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="libraries">Libraries</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
