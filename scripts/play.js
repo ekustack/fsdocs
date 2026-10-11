@@ -602,7 +602,7 @@ async function updateButton(btn) {
 
       setActivePanel("fscss");
       appendLog("system", "FSCSS Monaco Playground ready.");
-      appendLog("system", xfscss ? "xfscss.process loaded (CDN v1.2.4)." : "Warning: xfscss not loaded.");
+      appendLog("system", xfscss ? "xfscss.process loaded (CDN v1.2.5)." : "Warning: xfscss not loaded.");
       appendLog("info", "Menu opens examples & imports. Tabs switch panels. Ctrl/Cmd+Enter compiles.");
 
       compile({ preview: false });
