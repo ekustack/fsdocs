@@ -1,159 +1,801 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1e1e1e" />
-  <meta name="description" content="FSCSS Monaco Playground — write, compile, and preview Figured Shorthand CSS in the browser." />
-  <title>FSCSS Monaco Playground</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link rel="stylesheet" href="/assets/styles/play.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Canonical (this page stays on /fscss-to-css; IDE lives at /ide) -->
+  <link rel="canonical" href="https://fscss.devtem.org/fscss-to-css">
+
+  <!-- Primary SEO -->
+  <title>FSCSS Playground – Now the Free Online FSCSS IDE</title>
+  <meta name="description" content="The FSCSS compiler has evolved. Open the free browser-based FSCSS IDE: multi-file editor, live compile, preview, components, terminal and exports. Control everything. Learn, ship, experience.">
+  <meta name="keywords" content="FSCSS to CSS, FSCSS IDE, FSCSS compiler, convert FSCSS to CSS, online CSS preprocessor, Figured Shorthand CSS, free CSS IDE, fscss.devtem.org">
+  <meta name="author" content="Figsh / FSCSS">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="language" content="English">
+
+  <!-- Theme & PWA-ish -->
+  <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FSCSS IDE">
+
+  <!-- Favicons -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/compiler">
+  <meta property="og:title" content="FSCSS IDE – Free Online Editor & Live Compiler">
+  <meta property="og:description" content="The old FSCSS converter is now a full free IDE. Multi-file projects, live compile, preview, components, terminal and exports. Made with care for developers.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS IDE">
+  <meta property="og:site_name" content="FSCSS">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@fscss_ttr">
+  <meta name="twitter:creator" content="@MrFigsh">
+  <meta name="twitter:title" content="FSCSS IDE – Free Online Editor & Live Compiler">
+  <meta name="twitter:description" content="Control everything. Learn, ship, experience on our free FSCSS IDE. Multi-file, live compile, preview, terminal, exports.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta name="twitter:image:alt" content="FSCSS IDE">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FSCSS IDE",
+    "url": "https://fscss.devtem.org/ide",
+    "description": "Browser-based multi-file IDE for FSCSS. Live compiler, playground, preview, component search, terminal and project export. Free forever.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Figsh / FSCSS",
+      "url": "https://fscss.devtem.org"
+    },
+    "softwareVersion": "1.2.6",
+    "browserRequirements": "Requires JavaScript. Works best in modern Chromium, Firefox or Safari."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "FSCSS Home", "item": "https://fscss.devtem.org/"},
+      {"@type": "ListItem", "position": 2, "name": "FSCSS to CSS", "item": "https://fscss.devtem.org/fscss-to-css"},
+      {"@type": "ListItem", "position": 3, "name": "FSCSS IDE", "item": "https://fscss.devtem.org/ide"}
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #07080c;
+      --bg2: #0e1018;
+      --bg3: #151822;
+      --line: rgba(255,255,255,.08);
+      --fg: #e8eaef;
+      --mut: #8b93a7;
+      --ac: #3b9eff;
+      --ac2: #6bb6ff;
+      --pink: #ff4d8d;
+      --green: #3dd68c;
+      --purple: #a78bfa;
+      --orange: #fbbf24;
+      --r: 14px;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ---------- animated code background ---------- */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(59,158,255,.18), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(255,77,141,.12), transparent 50%),
+        radial-gradient(ellipse 50% 50% at 50% 100%, rgba(167,139,250,.1), transparent 50%);
+    }
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    }
+    .code-rain {
+      position: absolute;
+      inset: 0;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: rgba(139,147,167,.35);
+      white-space: pre;
+      overflow: hidden;
+      user-select: none;
+    }
+    .code-col {
+      position: absolute;
+      top: 0;
+      width: max-content;
+      animation: rain linear infinite;
+      will-change: transform;
+    }
+    .code-col .kw { color: rgba(199,134,192,.55); }
+    .code-col .fn { color: rgba(220,220,170,.5); }
+    .code-col .var { color: rgba(156,220,254,.5); }
+    .code-col .str { color: rgba(206,145,120,.5); }
+    .code-col .num { color: rgba(181,206,168,.5); }
+    .code-col .cm { color: rgba(106,153,85,.4); }
+    .code-col .hi {
+      color: rgba(232,234,239,.85);
+      text-shadow: 0 0 18px rgba(59,158,255,.45);
+    }
+    @keyframes rain {
+      from { transform: translateY(-15%); }
+      to { transform: translateY(-115%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .code-col { animation: none !important; opacity: .25; }
+    }
+
+    /* ---------- layout ---------- */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 650;
+      font-size: 1.05rem;
+      letter-spacing: -.02em;
+    }
+    .brand img { width: 28px; height: 28px; border-radius: 6px; }
+    .brand b { color: var(--pink); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links a {
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--mut);
+      font-size: .9rem;
+      transition: color .15s, background .15s;
+    }
+    .nav-links a:hover { color: var(--fg); background: rgba(255,255,255,.05); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--ac), #2563eb);
+      color: #fff !important;
+      font-weight: 600;
+      font-size: .9rem;
+      box-shadow: 0 0 0 1px rgba(59,158,255,.35), 0 8px 24px rgba(37,99,235,.25);
+    }
+    .nav-cta:hover { filter: brightness(1.08); }
+
+    /* hero */
+    .hero {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 6px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      font-size: .8rem;
+      color: var(--mut);
+      margin-bottom: 22px;
+    }
+    .badge i {
+      width: 22px; height: 22px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: rgba(61,214,140,.15);
+      color: var(--green);
+      font-size: 10px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5.5vw, 3.35rem);
+      font-weight: 750;
+      letter-spacing: -.035em;
+      line-height: 1.12;
+      max-width: 16ch;
+      margin: 0 auto 18px;
+    }
+    .hero h1 span {
+      background: linear-gradient(120deg, var(--ac2), var(--pink) 55%, var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p.lead {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: var(--mut);
+      max-width: 42rem;
+      margin: 0 auto 28px;
+      line-height: 1.55;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 650;
+      font-size: 1rem;
+      transition: transform .15s, filter .15s, background .15s, border-color .15s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b9eff, #2563eb 60%, #7c3aed);
+      color: #fff;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.12) inset,
+        0 12px 40px rgba(37,99,235,.35);
+      animation: pulse-glow 3.2s ease-in-out infinite;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 12px 40px rgba(37,99,235,.35); }
+      50% { box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 16px 48px rgba(59,158,255,.5); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-primary { animation: none; }
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: var(--fg);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.16); }
+    .btn-sponsor {
+      background: rgba(255,77,141,.1);
+      border: 1px solid rgba(255,77,141,.35);
+      color: #ffb3cb;
+    }
+    .btn-sponsor:hover { background: rgba(255,77,141,.18); }
+    .micro {
+      font-size: .85rem;
+      color: var(--mut);
+    }
+    .micro a { color: var(--ac2); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* editor mock */
+    .mock-wrap {
+      margin: 40px auto 0;
+      max-width: 920px;
+      perspective: 1200px;
+    }
+    .mock {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--bg2);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 30px 80px rgba(0,0,0,.55),
+        0 0 80px rgba(59,158,255,.08);
+      overflow: hidden;
+      transform: rotateX(4deg);
+      transition: transform .4s ease;
+    }
+    .mock:hover { transform: rotateX(0); }
+    .mock-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--line);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
+    .mock-title {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: var(--mut);
+      font-family: var(--mono);
+    }
+    .mock-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 280px;
+    }
+    .mock-pane {
+      padding: 16px 18px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.7;
+      overflow: hidden;
+    }
+    .mock-pane + .mock-pane { border-left: 1px solid var(--line); }
+    .mock-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--mut);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mock-label i { color: var(--pink); }
+    .mock-pane.css .mock-label i { color: var(--ac); }
+    .line { white-space: pre; }
+    .tok-kw { color: #c586c0; }
+    .tok-fn { color: #dcdcaa; }
+    .tok-var { color: #9cdcfe; }
+    .tok-str { color: #ce9178; }
+    .tok-num { color: #b5cea8; }
+    .tok-cm { color: #6a9955; }
+    .tok-prop { color: #9cdcfe; }
+    .tok-sel { color: #4ec9b0; }
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1.1em;
+      background: var(--pink);
+      vertical-align: text-bottom;
+      margin-left: 1px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .typed-out { opacity: 0; }
+    .typed-out.show { opacity: 1; transition: opacity .15s; }
+
+    /* features */
+    .section {
+      padding: 72px 0 40px;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .section-head h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      margin-bottom: 10px;
+    }
+    .section-head p {
+      color: var(--mut);
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 22px 20px;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .card:hover {
+      border-color: rgba(59,158,255,.35);
+      background: rgba(59,158,255,.05);
+      transform: translateY(-2px);
+    }
+    .card .ic {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      margin-bottom: 14px;
+      font-size: 16px;
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 650;
+      margin-bottom: 6px;
+      letter-spacing: -.015em;
+    }
+    .card p {
+      font-size: .9rem;
+      color: var(--mut);
+      line-height: 1.5;
+    }
+    .ic-blue { background: rgba(59,158,255,.15); color: var(--ac2); }
+    .ic-pink { background: rgba(255,77,141,.15); color: var(--pink); }
+    .ic-green { background: rgba(61,214,140,.15); color: var(--green); }
+    .ic-purple { background: rgba(167,139,250,.15); color: var(--purple); }
+    .ic-orange { background: rgba(251,191,36,.15); color: var(--orange); }
+    .ic-cyan { background: rgba(34,211,238,.15); color: #22d3ee; }
+
+    /* quote strip */
+    .strip {
+      margin: 48px 0;
+      padding: 28px 24px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(59,158,255,.08), rgba(255,77,141,.06));
+      text-align: center;
+    }
+    .strip h2 {
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    .strip p { color: var(--mut); max-width: 34rem; margin: 0 auto 20px; }
+    .strip .hero-actions { margin-bottom: 0; }
+
+    /* footer */
+    footer {
+      padding: 40px 0 32px;
+      border-top: 1px solid var(--line);
+      margin-top: 24px;
+    }
+    .foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .9rem;
+      color: var(--mut);
+    }
+    .foot a:hover { color: var(--fg); }
+    .foot-links { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* mobile */
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .mock-body { grid-template-columns: 1fr; }
+      .mock-pane + .mock-pane { border-left: 0; border-top: 1px solid var(--line); }
+      .mock { transform: none; }
+    }
+    @media (max-width: 560px) {
+      .nav-links a:not(.nav-cta) { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 28px; }
+      .btn { width: 100%; }
+      .hero-actions { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#panels">Skip to editor</a>
-
-  <div id="app">
-    <header id="toolbar" role="banner">
-      <div class="toolbar-group">
-        <button type="button" class="btn btn-ghost btn-icon" id="btn-menu"
-          aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
-          <span aria-hidden="true">☰</span>
-        </button>
-        <button type="button" class="btn" id="btn-compile"
-          aria-label="Compile FSCSS" title="Compile (Ctrl or Cmd + Enter)">
-          ▶ Compile
-        </button>
-        <button type="button" class="btn btn-secondary" id="btn-preview"
-          aria-label="Compile and run live preview">
-          Run Preview
-        </button>
-        <button type="button" class="btn btn-secondary" id="btn-clear-logs"
-          aria-label="Clear compiler logs">
-          Clear logs
-        </button>
-      </div>
-      <div class="toolbar-spacer" aria-hidden="true"></div>
-      <p id="status" role="status" aria-live="polite" data-state="">Ready</p>
-    </header>
-
-    <div id="workspace">
-      <div id="tab-bar" role="tablist" aria-label="Editor panels">
-        <button type="button" role="tab" id="tab-fscss" aria-selected="true"
-          aria-controls="panel-fscss" data-panel="fscss" tabindex="0">FSCSS</button>
-        <button type="button" role="tab" id="tab-css" aria-selected="false"
-          aria-controls="panel-css" data-panel="css" tabindex="-1">CSS</button>
-        <button type="button" role="tab" id="tab-js" aria-selected="false"
-          aria-controls="panel-js" data-panel="js" tabindex="-1">JS</button>
-        <button type="button" role="tab" id="tab-html" aria-selected="false"
-          aria-controls="panel-html" data-panel="html" tabindex="-1">Preview</button>
-      </div>
-
-      <div id="panels">
-        <section class="panel is-active" id="panel-fscss" role="tabpanel"
-          aria-labelledby="tab-fscss" data-panel="fscss">
-          <div class="panel-label"><span class="dot dot-fscss" aria-hidden="true"></span> FSCSS source</div>
-          <div class="editor-host" id="editor-fscss" role="application" aria-label="FSCSS code editor"></div>
-        </section>
-
-        <section class="panel" id="panel-css" role="tabpanel"
-          aria-labelledby="tab-css" data-panel="css" hidden>
-          <div class="panel-label"><span class="dot dot-css" aria-hidden="true"></span> Compiled CSS (read-only)</div>
-          <div class="editor-host" id="editor-css" role="application" aria-label="Compiled CSS editor"></div>
-        </section>
-
-        <section class="panel" id="panel-js" role="tabpanel"
-          aria-labelledby="tab-js" data-panel="js" hidden>
-          <div class="panel-label"><span class="dot dot-js" aria-hidden="true"></span> JavaScript</div>
-          <div class="editor-host" id="editor-js" role="application" aria-label="JavaScript editor"></div>
-        </section>
-
-        <section class="panel" id="panel-html" role="tabpanel"
-          aria-labelledby="tab-html" data-panel="html" hidden>
-          <div class="panel-label"><span class="dot dot-html" aria-hidden="true"></span> Live preview</div>
-          <iframe id="preview-frame" title="FSCSS live preview"
-            sandbox="allow-scripts allow-same-origin"></iframe>
-        </section>
-      </div>
-
-      <div id="resize-handle" role="separator" aria-orientation="horizontal"
-        aria-label="Resize log panel" aria-valuemin="100" aria-valuemax="500" aria-valuenow="160"
-        tabindex="0"></div>
-      <section id="bottom" aria-label="Compiler output and logs">
-        <div id="bottom-header">
-          <span class="prompt" aria-hidden="true">&gt;_</span>
-          <span>Compiler Output &amp; Intercepted Logs</span>
-          <span class="toolbar-spacer" aria-hidden="true"></span>
-          <button type="button" class="btn btn-secondary" id="btn-clear-logs-2"
-            style="min-height:32px;min-width:auto;padding:0.25rem 0.6rem;font-size:0.75rem;"
-            aria-label="Clear logs">Clear</button>
-        </div>
-        <div id="logs" role="log" aria-live="polite" aria-relevant="additions">
-          <p class="log-empty">No output yet. Write FSCSS and press Compile.</p>
-        </div>
-      </section>
-    </div>
+  <!-- Background -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="code-rain" id="codeRain"></div>
   </div>
 
-  <button type="button" id="sidebar-backdrop" aria-label="Close menu" tabindex="-1"></button>
-  <aside id="sidebar" role="dialog" aria-modal="true" aria-labelledby="sidebar-title" hidden>
-    <div class="sidebar-header">
-      <h1 id="sidebar-title">FSCSS Playground</h1>
-      <button type="button" class="btn btn-ghost btn-icon" id="btn-close-sidebar" aria-label="Close menu">
-        <span aria-hidden="true">✕</span>
-      </button>
-    </div>
-    <div class="sidebar-body">
-      <div class="sidebar-section">
-        <h2 class="sidebar-section-title">Editors</h2>
-        <button type="button" class="nav-item" data-go-panel="fscss" aria-current="true">
-          <span class="icon" aria-hidden="true">◇</span> FSCSS
-        </button>
-        <button type="button" class="nav-item" data-go-panel="css">
-          <span class="icon" aria-hidden="true">◈</span> Compiled CSS
-        </button>
-        <button type="button" class="nav-item" data-go-panel="js">
-          <span class="icon" aria-hidden="true">{/*</span> JavaScript
-        </button>
-        <button type="button" class="nav-item" data-go-panel="html">
-          <span class="icon" aria-hidden="true">&lt;/&gt;</span> Live Preview
-        </button>
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="https://fscss.devtem.org/">
+        <img src="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" width="28" height="28" alt="">
+        <span>FSCSS <b>IDE</b></span>
+      </a>
+      <div class="nav-links">
+        <a href="https://fscss.devtem.org/docs">Docs</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" target="_blank" rel="noopener">GitHub</a>
+        <a class="nav-cta" href="/ide"><i class="fa-solid fa-play" aria-hidden="true"></i> Open IDE</a>
       </div>
-      <div class="sidebar-section">
-        <h2 class="sidebar-section-title">Examples</h2>
-        <button type="button" class="nav-item" data-example="basic">Basic define</button>
-        <button type="button" class="nav-item" data-example="vars">Variables &amp; arrays</button>
-        <button type="button" class="nav-item" data-example="pattern">Pattern matching</button>
-        <button type="button" class="nav-item" data-example="import">Import + library</button>
-        <button type="button" class="nav-item" data-example="debug">Debug (exec log/warn)</button>
-      </div>
-      <div class="sidebar-section">
-        <h2 class="sidebar-section-title">Libraries / imports</h2>
-        
-        <button type="button" class="nav-item" data-lib="st-corev2">st-core@v2</button>
-        
-        <button type="button" class="nav-item" data-lib="flex-control">flex-control</button>
-        <button type="button" class="nav-item" data-lib="circle-progress">circle-progress</button>
-        <button type="button" class="nav-item" data-lib="icon-mask">icon-mask</button>
-        
-        <button type="button" class="nav-item" data-lib="form">form</button>
-        
-        <p class="lib-hint">
-          Inserts <code>@import((*) from …)</code>. Modules resolve when the FSCSS runtime can fetch them.
-          <br>
-          <a href="/libraries">Search Libraries</a>
-        </p>
-      </div>
-    </div>
-    <div class="sidebar-footer">
-      Monaco + FSCSS grammar · <code>xfscss.process</code><br />
-      <a href="https://github.com/Figsh/fscss-vscode-extension" target="_blank" rel="noopener noreferrer">VS Code extension</a>
-      ·
-      <a href="https://fscss.devtem.org" target="_blank" rel="noopener noreferrer">Docs</a>
-    </div>
-  </aside>
+    </nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js" crossorigin="anonymous"></script>
-  <script type="module" src="/scripts/play.js">
+    <header class="hero">
+      <div class="badge">
+        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+        The old converter is now a full free IDE
+      </div>
+      <h1>Control everything.<br><span>Learn. Ship. Experience.</span></h1>
+      <p class="lead">
+        Your free browser IDE for Figured Shorthand CSS — multi-file projects, live compiler,
+        preview, components, terminal and one-click exports. Made with care for developers.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/ide" id="ctaIde">
+          <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+          Launch free IDE
+        </a>
+        <a class="btn btn-ghost" href="https://fscss.devtem.org/docs">
+          <i class="fa-solid fa-book" aria-hidden="true"></i>
+          Read the docs
+        </a>
+        <a class="btn btn-sponsor" href="https://github.com/sponsors/Figsh" target="_blank" rel="noopener">
+          <i class="fa-solid fa-heart" aria-hidden="true"></i>
+          Support this project
+        </a>
+      </div>
+      <p class="micro">No install · No account · Runs in your browser · <a href="/ide">fscss.devtem.org/ide</a></p>
+
+      <!-- Animated editor mock -->
+      <div class="mock-wrap">
+        <div class="mock" role="img" aria-label="Preview of the FSCSS IDE editor compiling to CSS">
+          <div class="mock-bar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="mock-title">main.fscss → output.css</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-pane">
+              <div class="mock-label"><i class="fa-solid fa-palette"></i> FSCSS</div>
+              <div id="typeIn" aria-hidden="true"></div>
+            </div>
+            <div class="mock-pane css">
+              <div class="mock-label"><i class="fa-solid fa-file-code"></i> CSS</div>
+              <div id="typeOut" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="section-head">
+        <h2 id="features-title">Everything you need to ship styles faster</h2>
+        <p>From a simple compiler to a complete workspace — still free, still in the browser.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="ic ic-blue"><i class="fa-solid fa-folder-tree" aria-hidden="true"></i></div>
+          <h3>Multi-file projects</h3>
+          <p>Organize FSCSS, HTML, JS and CSS. Set an entry file, rename, duplicate, import and export.</p>
+        </article>
+        <article class="card">
+          <div class="ic ic-pink"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
+          <h3>Live compile</h3>
+          <p>Compile on demand or while you type. Instant feedback with problems panel and terminal logs.</p>
+        </article>
+        <article class="card">
+          <div class="ic ic-green"><i class="fa-solid fa-eye" aria-hidden="true"></i></div>
+          <h3>Live preview</h3>
+          <p>See styles applied to real HTML and JS in a sandboxed preview — full, tablet or phone width.</p>
+        </article>
+        <article class="card">
+          <div class="ic ic-purple"><i class="fa-solid fa-cubes" aria-hidden="true"></i></div>
+          <h3>Component search</h3>
+          <p>Browse and import community FSCSS modules with one click. Copy the import line or pull the repo.</p>
+        </article>
+        <article class="card">
+          <div class="ic ic-orange"><i class="fa-solid fa-terminal" aria-hidden="true"></i></div>
+          <h3>Terminal & snippets</h3>
+          <p>Run commands, insert patterns, format, minify, and keep a clear history of every compile.</p>
+        </article>
+        <article class="card">
+          <div class="ic ic-cyan"><i class="fa-solid fa-file-export" aria-hidden="true"></i></div>
+          <h3>Export anywhere</h3>
+          <p>Download CSS, minified CSS, standalone HTML, project ZIP or JSON backup in one menu.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="strip">
+      <h2>Made with care for developers</h2>
+      <p>
+        Dark and light themes, keyboard shortcuts, command palette, shareable code links,
+        and a workspace that stays in your browser. Open it, learn FSCSS, ship real CSS.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/ide">
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          Open the IDE
+        </a>
+        <a class="btn btn-sponsor" href="https://github.com/sponsors/Figsh" target="_blank" rel="noopener">
+          <i class="fa-solid fa-heart" aria-hidden="true"></i>
+          Sponsor on GitHub
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <div>© FSCSS · fscss-ttr · Free forever in the browser</div>
+        <div class="foot-links">
+          <a href="https://fscss.devtem.org/docs">Docs</a>
+          <a href="/ide">IDE</a>
+          <a href="https://github.com/fscss-ttr" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/sponsors/Figsh" target="_blank" rel="noopener">Sponsor</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function () {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- code rain background ---------- */
+    const snippets = [
+      ['@define', ' center', '(elem){', '', '  @use', '(elem){', '', '    display', ': flex;', '', '    justify-content', ': center;', '', '  }', '', '}'],
+      ['$primary', ': ', '#0BCEAE', ';', '', '@arr', ' palette', '[', '#1E2783', ', ', '#8C29B2', ']'],
+      ['.card', ' {', '', '  bg', ': ', '@random', '(@arr.palette);', '', '  rounded', ': ', '$radius', '!;', '', '}'],
+      ['@import', '((*) from ', 'flex-control', ')', '', '@flex-wrap-center', '()'],
+      ['pattern', '(0.6: ', '"rounded button"', ', `', '', '  bg', ': red;', '', '`)'],
+      ['exec', '(_log, ', "'Hello FSCSS'", ')', '', '/* compile-time log */'],
+      ['.btn', ' {', '', '  px', ': 16px;', '', '  py', ': 10px;', '', '  fw', ': 600;', '', '}'],
+      ['%2', '(width, height', ' [: ', '200px', ';])', '', '-*-', 'transform', ': scale(1);'],
+    ];
+
+    function tokenize(parts) {
+      return parts.map(p => {
+        if (/^@\w+|\$[\w-]+!?$/.test(p)) return '<span class="kw">' + p + '</span>';
+        if (/^#[0-9A-Fa-f]+$/.test(p) || /^\d/.test(p)) return '<span class="num">' + p + '</span>';
+        if (/^['"]/.test(p)) return '<span class="str">' + p + '</span>';
+        if (/^\/\*/.test(p)) return '<span class="cm">' + p + '</span>';
+        if (/^[a-z][\w-]*$/.test(p) && p.length > 2) return '<span class="var">' + p + '</span>';
+        if (/^\.\w+|@\w+\(/.test(p)) return '<span class="fn">' + p + '</span>';
+        return p;
+      }).join('');
+    }
+
+    const rain = document.getElementById('codeRain');
+    if (rain && !reduced) {
+      const cols = Math.min(14, Math.floor(window.innerWidth / 90));
+      for (let i = 0; i < cols; i++) {
+        const col = document.createElement('div');
+        col.className = 'code-col';
+        col.style.left = (i * (100 / cols) + Math.random() * 2) + '%';
+        col.style.animationDuration = (28 + Math.random() * 36) + 's';
+        col.style.animationDelay = (-Math.random() * 40) + 's';
+        let html = '';
+        for (let r = 0; r < 40; r++) {
+          const sn = snippets[Math.floor(Math.random() * snippets.length)];
+          const line = tokenize(sn);
+          const hi = Math.random() > 0.92 ? ' hi' : '';
+          html += '<div class="' + hi.trim() + '">' + line + '</div>';
+        }
+        col.innerHTML = html;
+        rain.appendChild(col);
+      }
+    } else if (rain) {
+      rain.innerHTML = '<div style="padding:40px;opacity:.2;font-family:var(--mono);font-size:12px">@define center · $primary · @import · pattern()</div>';
+    }
+
+    /* ---------- typing animation in mock editor ---------- */
+    const fscssLines = [
+      { html: '<span class="tok-cm">/* Figured Shorthand CSS */</span>' },
+      { html: '<span class="tok-kw">$primary</span>: <span class="tok-num">#0BCEAE</span>;' },
+      { html: '<span class="tok-kw">@arr</span> palette[<span class="tok-num">#1E2783</span>, <span class="tok-num">#8C29B2</span>]' },
+      { html: '' },
+      { html: '<span class="tok-sel">.card</span> {' },
+      { html: '  <span class="tok-prop">bg</span>: <span class="tok-fn">@random</span>(@arr.palette);' },
+      { html: '  <span class="tok-prop">color</span>: white;' },
+      { html: '  <span class="tok-prop">rounded</span>: <span class="tok-num">12px</span>;' },
+      { html: '  <span class="tok-prop">px</span>: <span class="tok-num">24px</span>;' },
+      { html: '}' },
+    ];
+    const cssLines = [
+      { html: '<span class="tok-cm">/* compiled output */</span>' },
+      { html: '<span class="tok-sel">.card</span> {' },
+      { html: '  <span class="tok-prop">background</span>: <span class="tok-num">#8C29B2</span>;' },
+      { html: '  <span class="tok-prop">color</span>: white;' },
+      { html: '  <span class="tok-prop">border-radius</span>: <span class="tok-num">12px</span>;' },
+      { html: '  <span class="tok-prop">padding-left</span>: <span class="tok-num">24px</span>;' },
+      { html: '  <span class="tok-prop">padding-right</span>: <span class="tok-num">24px</span>;' },
+      { html: '}' },
+    ];
+
+    const typeIn = document.getElementById('typeIn');
+    const typeOut = document.getElementById('typeOut');
+
+    function renderStatic() {
+      if (typeIn) typeIn.innerHTML = fscssLines.map(l => '<div class="line">' + (l.html || '&nbsp;') + '</div>').join('');
+      if (typeOut) typeOut.innerHTML = cssLines.map(l => '<div class="line typed-out show">' + (l.html || '&nbsp;') + '</div>').join('');
+    }
+
+    async function typeDemo() {
+      if (!typeIn || !typeOut) return;
+      if (reduced) { renderStatic(); return; }
+
+      typeIn.innerHTML = '';
+      typeOut.innerHTML = '';
+
+      for (let i = 0; i < fscssLines.length; i++) {
+        const div = document.createElement('div');
+        div.className = 'line';
+        div.innerHTML = (fscssLines[i].html || '&nbsp;') + (i === fscssLines.length - 1 ? '<span class="cursor"></span>' : '');
+        typeIn.appendChild(div);
+        await wait(90 + Math.random() * 70);
+      }
+
+      await wait(400);
+
+      for (let i = 0; i < cssLines.length; i++) {
+        const div = document.createElement('div');
+        div.className = 'line typed-out';
+        div.innerHTML = cssLines[i].html || '&nbsp;';
+        typeOut.appendChild(div);
+        requestAnimationFrame(() => div.classList.add('show'));
+        await wait(80);
+      }
+
+      // loop after pause
+      await wait(4200);
+      typeDemo();
+    }
+
+    function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // start after first paint
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(typeDemo, 300));
+    } else {
+      setTimeout(typeDemo, 300);
+    }
+  })();
   </script>
 </body>
 </html>
