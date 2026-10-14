@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO -->
+  <title>FSCSS IDE – Online Editor, Live Compiler & Preview for Figured Shorthand CSS</title>
+  <meta name="description" content="Free browser-based FSCSS IDE. Multi-file editor, live compiler, component search, live preview, terminal, and one-click exports. Write Figured Shorthand CSS and compile to standard CSS instantly.">
+  <meta name="keywords" content="FSCSS, FSCSS IDE, Figured Shorthand CSS, CSS preprocessor, online CSS editor, FSCSS compiler, live CSS preview, shorthand CSS, fscss.devtem.org">
+  <meta name="author" content="Figsh / FSCSS">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://fscss.devtem.org/ide"> <!-- update to your real URL -->
+  
+  <!-- Theme & PWA-ish -->
+  <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FSCSS IDE">
+  
+  <!-- Favicons -->
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fscss.devtem.org/ide">
+  <meta property="og:title" content="FSCSS IDE – Online Editor & Live Compiler">
+  <meta property="og:description" content="Browser IDE for FSCSS: multi-file editor, live compiler, component search, live preview, terminal and exports. Write shorter, more expressive CSS that compiles to plain CSS.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta property="og:image:alt" content="FSCSS IDE logo">
+  <meta property="og:site_name" content="FSCSS">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS IDE – Online Editor & Live Compiler">
+  <meta name="twitter:description" content="Free browser IDE for Figured Shorthand CSS. Live compile, preview, multi-file projects, component library search and exports.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+  <meta name="twitter:image:alt" content="FSCSS IDE">
+  
+  <!-- Structured Data (JSON-LD) – helps Google understand it is a WebApplication -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FSCSS IDE",
+      "url": "https://fscss.devtem.org/ide",
+      "description": "Browser-based multi-file IDE for FSCSS (Figured Shorthand Cascading Style Sheets). Live compiler, preview, component search, terminal and project export.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Figsh / FSCSS",
+        "url": "https://fscss.devtem.org"
+      },
+      "softwareVersion": "1.2.6",
+      "browserRequirements": "Requires JavaScript. Works best in modern Chromium, Firefox or Safari."
+    }
+  </script>
+  
+  <!-- Existing assets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/ide.css">
+</head>
+<body>
+
+<div id="splash"><div class="sp">
+  <img src="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" alt="" onerror="this.style.display='none'">
+  <h1>FSCSS <b>IDE</b></h1>
+  <div class="bar"><i id="spBar"></i></div>
+  <p id="spTxt">Starting...</p>
+</div></div>
+
+<header id="top">
+  <button class="ib" data-cmd="toggleSide" title="Toggle sidebar (Ctrl+B)" aria-label="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>
+  <div class="brand"><img src="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" alt="" onerror="this.style.display='none'"><span>FSCSS <b>IDE</b></span></div>
+  <button class="pal" data-cmd="palette" title="Command palette (Ctrl+Shift+P)"><i class="fa-solid fa-magnifying-glass"></i><span>Search commands, files, examples</span><kbd>Ctrl+Shift+P</kbd></button>
+  <button class="btn ok" id="btnRun" data-cmd="run" title="Compile (Ctrl+Enter)"><i class="fa-solid fa-play"></i><span class="lb">Run</span></button>
+  <button class="btn ghost" data-cmd="runPrev" title="Compile and preview (Ctrl+Shift+Enter)"><i class="fa-solid fa-eye"></i><span class="lb">Preview</span></button>
+  <label class="auto" title="Compile while typing (Alt+A)"><input type="checkbox" id="autoChk"><span>Auto</span></label>
+  <div class="dd" id="ddExp"><button class="btn ghost" data-dd><i class="fa-solid fa-file-export"></i><span class="lb">Export</span><i class="fa-solid fa-caret-down"></i></button><div class="menu" id="menuExp"></div></div>
+  <button class="btn ghost" data-cmd="importFiles" title="Import files"><i class="fa-solid fa-file-import"></i><span class="lb">Import</span></button>
+  <button class="ib" id="btnTheme" data-cmd="theme" title="Toggle theme (Alt+T)" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+  <button class="ib" data-cmd="settings" title="Settings" aria-label="Settings"><i class="fa-solid fa-gear"></i></button>
+</header>
+
+<div id="main">
+  <nav id="act" aria-label="Views">
+    <button class="ib" data-view="files" title="Files (Alt+1)" aria-label="Files"><i class="fa-regular fa-folder-open"></i></button>
+    <button class="ib" data-view="libs" title="Components (Alt+2)" aria-label="Components"><i class="fa-solid fa-cubes"></i></button>
+    <button class="ib" data-view="snips" title="Snippets (Alt+3)" aria-label="Snippets"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+    <button class="ib" data-view="tools" title="Tools (Alt+4)" aria-label="Tools"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+    <div class="sp2"></div>
+    <button class="ib" data-cmd="docs" title="FSCSS docs" aria-label="Docs"><i class="fa-solid fa-book"></i></button>
+    <button class="ib" data-cmd="keys" title="Shortcuts (Alt+/)" aria-label="Shortcuts"><i class="fa-regular fa-keyboard"></i></button>
+  </nav>
+
+  <aside id="side">
+    <section class="view" data-v="files">
+      <div class="vh"><span>Files</span><div class="acts">
+        <button class="ib" data-cmd="newFile" title="New file (Alt+N)" aria-label="New file"><i class="fa-solid fa-file-circle-plus"></i></button>
+        <button class="ib" data-cmd="importFiles" title="Upload files" aria-label="Upload"><i class="fa-solid fa-upload"></i></button>
+      </div></div>
+      <div class="vb"><div id="tree"></div><div class="sec">Examples</div><div id="exList"></div></div>
+    </section>
+    <section class="view" data-v="libs">
+      <div class="vh"><span>Components</span><div class="acts"><button class="ib" id="btnLibsRefresh" data-cmd="reloadLibs" title="Refresh list" aria-label="Refresh"><i class="fa-solid fa-rotate"></i></button></div></div>
+      <div class="srch"><i class="fa-solid fa-magnifying-glass"></i><input class="in" id="libSearch" placeholder="Search components" autocomplete="off"></div>
+      <div class="vb"><div class="sec" style="margin-top:0">Suggestions</div><div class="chips" id="builtin"></div><div class="cnt" id="libCount">Not loaded</div><div id="libGrid"></div></div>
+    </section>
+    <section class="view" data-v="snips">
+      <div class="vh"><span>Snippets</span></div>
+      <div class="srch"><i class="fa-solid fa-magnifying-glass"></i><input class="in" id="snipSearch" placeholder="Filter snippets" autocomplete="off"></div>
+      <div class="vb" id="snipList"></div>
+    </section>
+    <section class="view" data-v="tools">
+      <div class="vh"><span>Tools</span></div>
+      <div class="vb"><div class="tg" id="toolGrid"></div><div id="stats"><div class="empty">Compile a file to see stats.</div></div></div>
+    </section>
+  </aside>
+  <div class="rs rs-v" id="rsSide" role="separator" aria-orientation="vertical"></div>
+
+  <div id="wb">
+    <div id="split">
+      <div id="pL">
+        <div id="tabs" role="tablist"></div>
+        <div id="edHost"></div>
+        <div id="welcome" hidden><h2>No file open</h2><p>Open a file from the sidebar or start a new one.</p>
+          <div class="bt"><button class="btn" data-cmd="newFile"><i class="fa-solid fa-file-circle-plus"></i>New file</button><button class="btn ghost" data-cmd="importFiles"><i class="fa-solid fa-upload"></i>Import</button><button class="btn ghost" data-cmd="palette"><i class="fa-solid fa-magnifying-glass"></i>Search</button></div></div>
+      </div>
+      <div class="rs rs-v" id="rsSplit" role="separator" aria-orientation="vertical"></div>
+      <div id="pR">
+        <div class="oh">
+          <button class="ot on" data-out="css"><i class="fa-solid fa-file-code"></i>CSS</button>
+          <button class="ot" data-out="preview"><i class="fa-solid fa-eye"></i>Preview</button>
+          <span class="sp3"></span>
+          <span id="outName"></span>
+          <select id="devSel" title="Preview width" hidden><option value="full">Full</option><option value="768">768</option><option value="375">375</option></select>
+          <button class="ib" data-cmd="copyCss" title="Copy CSS" aria-label="Copy CSS"><i class="fa-regular fa-copy"></i></button>
+          <button class="ib" data-cmd="dlCss" title="Download CSS" aria-label="Download CSS"><i class="fa-solid fa-download"></i></button>
+          <button class="ib" id="btnPrevTab" data-cmd="openPrev" title="Open preview in new tab" aria-label="Open preview in new tab" hidden><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+          <button class="ib" id="btnPrevRef" data-cmd="refreshPrev" title="Reload preview" aria-label="Reload preview" hidden><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div id="cssHost"></div>
+        <div id="outPrev" hidden><div id="prevLoad" hidden><i class="fa-solid fa-spinner spin"></i></div><iframe id="prev" title="Preview" sandbox="allow-scripts allow-modals allow-forms allow-popups"></iframe></div>
+      </div>
+    </div>
+    <div class="rs rs-h" id="rsBot" role="separator" aria-orientation="horizontal"></div>
+    <div id="bot">
+      <div class="bh">
+        <button class="bt2 on" data-bt="term"><i class="fa-solid fa-terminal"></i>Terminal</button>
+        <button class="bt2" data-bt="probs"><i class="fa-solid fa-circle-exclamation"></i>Problems <span class="badge" id="probBadge" hidden>0</span></button>
+        <span class="sp3"></span>
+        <div class="fl" id="logFilter"><button class="on" data-f="all">All</button><button data-f="info">Info</button><button data-f="warn">Warn</button><button data-f="error">Error</button></div>
+        <button class="ib" data-cmd="clearLogs" title="Clear terminal" aria-label="Clear terminal"><i class="fa-solid fa-trash-can"></i></button>
+        <button class="ib" data-cmd="toggleBottom" title="Close panel (Ctrl+J)" aria-label="Close panel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="bp on" id="bpTerm"><div id="termLog"></div><div id="termRow"><i class="fa-solid fa-angle-right"></i><input id="termIn" placeholder="Type help and press Enter" autocomplete="off" spellcheck="false" aria-label="Terminal input"></div></div>
+      <div class="bp" id="bpProbs"><div id="probs"></div></div>
+    </div>
+  </div>
+</div>
+
+<footer id="status">
+  <span id="stComp"><i class="dot off"></i>Loading</span>
+  <button id="stProb" data-cmd="showProblems" title="Problems"><i class="fa-solid fa-circle-xmark"></i><span id="stProbN">0</span></button>
+  <span class="sp3"></span>
+  <span id="stPos">Ln 1, Col 1</span>
+  <span id="stLang">-</span>
+  <span id="stSave">Not saved yet</span>
+  <span id="stVer"></span>
+</footer>
+
+<div id="modal" hidden></div>
+<div id="pal" hidden><div class="pbox"><input id="palIn" placeholder="Type a command, file name or example" autocomplete="off" spellcheck="false" aria-label="Command palette"><div id="palList"></div></div></div>
+<div id="toasts" aria-live="polite"></div>
+<div id="dropHint" hidden>Drop files to import</div>
+<input type="file" id="fileIn" multiple hidden accept=".fscss,.xfscss,.css,.html,.js,.json,.md,.txt">
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+<script src="/scripts/ide.js" type="module"></script>
+</body>
+</html>
