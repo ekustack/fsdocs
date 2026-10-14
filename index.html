@@ -13,7 +13,7 @@
   <!-- Primary SEO -->
   <meta name="description" content="FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight, powerful CSS preprocessor designed for fast, scalable frontend development. Write less CSS, build more.">
   
-  <meta name="keywords" content="FSCSS, CSS preprocessor, Sass alternative, shorthand CSS framework, lightweight CSS tool, modern CSS workflow, frontend styling system, Figured Shorthand CSS">
+  <meta name="keywords" content="FSCSS, CSS preprocessor, Sass alternative, shorthand CSS framework, lightweight CSS tool, modern CSS workflow, frontend styling system, Figured Shorthand CSS, fscss ide">
   
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
@@ -61,7 +61,7 @@
       "programmingLanguage": "CSS",
       "description": "FSCSS is a lightweight CSS preprocessor that simplifies styling through shorthand syntax and modern workflow utilities.",
       "url": "https://fscss.devtem.org/",
-      "version": "1.2.5",
+      "version": "1.2.6",
       "inLanguage": "en-US",
       "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
       "creator": {
@@ -103,7 +103,7 @@
          <div class="logo-icn">
    <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
  </div>
-        <span>FSCSS v1.2.5</span>
+        <span>FSCSS v1.2.6</span>
       </div>
       
       <div class="nav-menu" id="nav-menu">
@@ -111,7 +111,7 @@
         <a href="docs" class="nav-link">Documentation</a>
         <a href="examples" class="nav-link">Examples</a>
         <a href="shorthands" class="nav-link">Shorthands</a>
-        <a href="/playground" class="nav-link">Playground</a>
+        <a href="/ide" class="nav-link">IDE</a>
         <a href="libraries" class="nav-link">Libraries</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
@@ -346,7 +346,7 @@ fscss input.fscss output.css</code></pre>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
               <pre><code>&lt;link type="fscss" href="/style.fscss"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.5/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.6/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
             </div>
 
             <p><strong>esm.js</strong> — for module-based use (e.g. an FSCSS-to-CSS tool, or manipulating styles without auto-running on the page). It never auto-runs and never touches page loading, so call <code>xfscss.reboot()</code> yourself when you're ready:</p>
@@ -355,7 +355,7 @@ fscss input.fscss output.css</code></pre>
                 <span>JavaScript</span>
                 <button class="copy-btn"><i class="fas fa-copy"></i></button>
               </div>
-              <pre><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.5/esm.min.js";
+              <pre><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.6/esm.min.js";
 
 xfscss.reboot();</code></pre>
             </div>
@@ -575,8 +575,11 @@ $spacing: 1rem;
             <a href="https://www.npmjs.com/package/fscss" class="btn btn-primary">
               <i class="fab fa-npm"></i> Install via NPM
             </a>
-            <a href="examples.html" class="btn btn-outline">
+            <a href="/examples" class="btn btn-outline">
               <i class="fas fa-code"></i> View Examples
+            </a>
+            <a href="/ide" class="btn btn-primary">
+              <i class="fas fa-code"></i> FSCSS IDE
             </a>
           </div>
         </div>
@@ -625,3 +628,4 @@ $spacing: 1rem;
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
