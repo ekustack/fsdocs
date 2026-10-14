@@ -9,7 +9,7 @@ window.addEventListener("unhandledrejection", (event) => {
 
     let xfscss = null;
 try {
-  const mod = await import("https://cdn.jsdelivr.net/npm/fscss@1.2.5/esm.min.js");
+  const mod = await import("https://cdn.jsdelivr.net/npm/fscss@1.2.6/esm.min.js");
   xfscss = mod.default || mod;
   window.xfscss = xfscss;
 } catch (e) {
@@ -602,7 +602,7 @@ async function updateButton(btn) {
 
       setActivePanel("fscss");
       appendLog("system", "FSCSS Monaco Playground ready.");
-      appendLog("system", xfscss ? "xfscss.process loaded (CDN v1.2.5)." : "Warning: xfscss not loaded.");
+      appendLog("system", xfscss ? "xfscss.process loaded (CDN v1.2.6)." : "Warning: xfscss not loaded.");
       appendLog("info", "Menu opens examples & imports. Tabs switch panels. Ctrl/Cmd+Enter compiles.");
 
       compile({ preview: false });
