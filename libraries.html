@@ -319,8 +319,10 @@
       <div class="nav-menu" id="nav-menu">
         <a href="index.html" class="nav-link">Home</a>
         <a href="docs.html" class="nav-link">Documentation</a>
-        <a href="examples.html" class="nav-link">Examples</a>
-        <a href="libraries.html" class="nav-link active">Libraries</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="libraries" class="nav-link active">Libraries</a>
+                        <a href="/ide" class="nav-link">Online IDE</a>
+                <a href="https://marketplace.visualstudio.com/items?itemName=Figsh.fscss" class="nav-link">VScode Extention</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
       </div>
@@ -380,7 +382,7 @@
               </div>
             </div>
             <div style="text-align: center; margin-top: 24px;">
-              <i class="fas fa-globe"></i> Remote import: <code style="background:#0f172a; padding:4px 10px; border-radius:30px;">@import(exec(_init library-name))</code>
+              <i class="fas fa-globe"></i> Remote import: <code style="background:#0f172a; padding:4px 10px; border-radius:30px;">@import((*) from library-name))</code>
             </div>
           </div>
         </div>
