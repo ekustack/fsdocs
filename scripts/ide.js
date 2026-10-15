@@ -170,7 +170,8 @@ const models={},views={};
    Splash, toasts, dialogs
    ============================================================ */
 function splash(p,t){$('#spBar').style.width=p+'%';$('#spTxt').textContent=t}
-function toast(msg,type='',ms=2600){const d=document.createElement('div');d.className='toast '+type;d.textContent=msg;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),ms)}
+
+window.toast = function toast(msg,type='',ms=2600){const d=document.createElement('div');d.className='toast '+type;d.textContent=msg;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),ms)}
 
 let modalDone=null;
 function modal(title,html,o={}){
