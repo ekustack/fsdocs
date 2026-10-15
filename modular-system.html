@@ -30,7 +30,7 @@
   <meta property="og:title" content="FSCSS Modular System – Build Reusable Style Generators">
   <meta property="og:description" content="Complete guide to FSCSS modules: Learn @define, why modules need initialization, named imports vs wildcard, and how to build your own modular CSS system.">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://fscss.onrender.com/modular-system.html">
+  <meta property="og:url" content="https://fscss.devtem.org/modular-system">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Logo - Modular System Documentation">
   <meta property="og:site_name" content="FSCSS Docs">
@@ -45,8 +45,8 @@
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   
   <!-- Article Specific Meta -->
-  <meta property="article:published_time" content="2026-03-14T00:00:00Z">
-  <meta property="article:modified_time" content="2026-03-14T00:00:00Z">
+  <meta property="article:published_time" content="2026-10-15T00:00:00Z">
+  <meta property="article:modified_time" content="2026-10-15T00:00:00Z">
   <meta property="article:section" content="Documentation">
   <meta property="article:tag" content="FSCSS Modules">
   <meta property="article:tag" content="@define">
@@ -74,11 +74,11 @@
       }
     },
     "datePublished": "2026-03-14",
-    "dateModified": "2026-03-14",
+    "dateModified": "2026-10-15",
     "image": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://fscss.devtem.org/modular-system.html"
+      "@id": "https://fscss.devtem.org/modular-system"
     },
     "about": {
       "@type": "SoftwareSourceCode",
@@ -112,7 +112,7 @@
         "@type": "ListItem",
         "position": 3,
         "name": "Modular System",
-        "item": "https://fscss.devtem.org/modular-system.html"
+        "item": "https://fscss.devtem.org/modular-system"
       }
     ]
   }
@@ -244,7 +244,9 @@
         <a href="variables.html" class="nav-link">Variables</a>
         <a href="arrays.html" class="nav-link">Arrays</a>
         <a href="shared.html" class="nav-link">Shared Properties</a>
-        <a href="modular-system.html" class="nav-link active">Modular System</a>
+        <a href="/modular-system" class="nav-link active">Modular System</a>
+        <a href="/define" class="nav-link">Define</a>
+        <a href="/libraries" class="nav-link">Libraries</a>
         <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
         <a href="https://www.npmjs.com/package/fscss" class="nav-link">NPM</a>
       </div>
@@ -690,6 +692,182 @@ https://cdn.jsdelivr.net/gh/fscss-ttr/FSCSS@main/xf/styles/icon-mask_v2.fscss</c
       </div>
     </section>
 
+
+    <!-- Import & define pipeline (1.2.6) -->
+    <section class="section" id="import-pipeline">
+      <h2>How <code>@import</code> and <code>@define</code> communicate</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Modules follow a <strong>publisher → subscriber</strong> contract. <code>@define</code> registers a blueprint; <code>@import</code> extracts it into the current file; a <strong>call</strong> runs substitution and emits CSS.</p>
+          <div class="code-block">
+<pre>1. REGISTRATION  @define mixin(param)   → blueprint only (no CSS yet)
+2. EXTRACTION    @import((mixin)…)      → this file’s scope
+3. SUBSTITUTION  @mixin(value)          → @use filled → CSS</pre>
+          </div>
+          <table class="comparison-table">
+            <thead>
+              <tr><th>Phase</th><th>What happens</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Registration</strong></td><td><code>@define</code> stores body + parameters; nothing is printed as CSS</td></tr>
+              <tr><td><strong>Extraction</strong></td><td><code>@import</code> binds names (or aliases) <strong>in this file only</strong></td></tr>
+              <tr><td><strong>Substitution</strong></td><td><code>@name(args)</code> fills <code>@use(param)</code> and compiles to normal CSS</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-bottom:0"><code>@import</code> does not “run” the module. CSS appears only when you <strong>invoke</strong> the mixin.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rename-as">
+      <h2>Rename with <code>as</code> <span class="define-badge">v1.2.6+</span></h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><code>as</code> <strong>fully renames</strong> the binding for the <strong>current file</strong>.</li>
+            <li>The <strong>original name is undefined</strong> in that file.</li>
+            <li>Other files and the source module are unchanged.</li>
+            <li><strong>No re-<code>@define</code> wrapper</strong> is required to pass a name along.</li>
+            <li>A file <strong>owns</strong> the names it imported (including aliases). Another file can import <strong>those owned names</strong> from it.</li>
+          </ul>
+          <div class="code-container">
+            <div class="code-header"><span>style.fscss — owns m, not mirror</span></div>
+            <pre class="fscss"><code>@import((mirror as m) from fscss:micros)</code></pre>
+          </div>
+          <div class="code-container">
+            <div class="code-header"><span>app.fscss — owns mirr</span></div>
+            <pre class="fscss"><code>@import((m as mirr) from "style.fscss")
+@import((
+  ou-root,
+  avatar-overlap,
+  circle-overlap,
+  ou-reduced-motion
+) from overlapui)
+
+@arr colors[#1E2783, #8C29B2, #C41348]
+@mirr(colors, indices)
+exec(_log, "@arr.indices")
+
+@ou-root()
+@avatar-overlap(.team-faces)
+@circle-overlap(.fab-menu)
+@ou-reduced-motion()</code></pre>
+          </div>
+          <div class="info-box">
+            <pre style="margin:0;white-space:pre-wrap">fscss:micros   defines  mirror
+      │
+style.fscss    import mirror as m     → owns m
+      │
+app.fscss      import m as mirr       → owns mirr
+               @mirr(...)             ✅
+               @m / @mirror           ❌ in app</pre>
+          </div>
+          <p style="margin-bottom:0">Release: <a href="https://github.com/Figsh/xfscss/releases/tag/v1.2.6">v1.2.6</a> · Prefer <code>fscss@1.2.6</code> runtime.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="import-types">
+      <h2>Import types</h2>
+      <div class="card">
+        <div class="card-body">
+          <h4>Named</h4>
+          <div class="code-block"><pre><code>@import((flex-x, flex-center) from flex-control)
+
+.container {
+  @flex-center()
+}</code></pre></div>
+
+          <h4>Alias</h4>
+          <div class="code-block"><pre><code>@import((circle-progress as cp, progress-range as pr) from circle-progress)
+
+@cp(.progress-circle)
+.p75 { @pr(75) }</code></pre></div>
+
+          <h4>Everything</h4>
+          <div class="code-block"><pre><code>@import((*) from "animations.fscss")</code></pre></div>
+
+          <h4>Remote (quoted URL)</h4>
+          <div class="code-block"><pre><code>@import((btn) from "https://cdn.example/buttons.fscss")</code></pre></div>
+
+          <h4>Registry library (no quotes)</h4>
+          <div class="code-block"><pre><code>@import((*) from st-core@v2)
+@import((mirror as m) from fscss:micros)</code></pre></div>
+          <p>Catalog: <a href="https://fscss.devtem.org/libraries">/libraries</a></p>
+
+          <h4>Local path</h4>
+          <div class="code-block"><pre><code>@import((card) from "mycomponents/card.fscss")</code></pre></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trace">
+      <h2>End-to-end trace</h2>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>Module</strong> <code>theme-pack.fscss</code></p>
+          <div class="code-block"><pre><code>@define elevate(space: 12px) {
+  box-shadow: 0 @use(space) 20px rgba(0, 0, 0, 0.1);
+  padding: @use(space);
+}</code></pre></div>
+          <p><strong>Consumer</strong></p>
+          <div class="code-block"><pre><code>@import((elevate as shadow) from "theme-pack.fscss")
+
+.card {
+  @shadow(16px)
+}</code></pre></div>
+          <p><strong>CSS output</strong></p>
+          <div class="code-block"><pre><code>.card {
+  box-shadow: 0 16px 20px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}</code></pre></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="errors">
+      <h2>Import errors</h2>
+      <div class="card">
+        <div class="card-body">
+          <table class="comparison-table">
+            <thead>
+              <tr><th>Case</th><th>Result</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>@import((* as all) from "…")</code></td><td>Warning: cannot assign <code>*</code> to alias</td></tr>
+              <tr><td><code>@import((flex-x as) from "…")</code></td><td>Warning: empty / invalid alias</td></tr>
+              <tr><td>Missing <code>@define</code> name</td><td>Error: not defined in module</td></tr>
+              <tr><td>Call original after <code>as</code></td><td>Error: original name not defined <strong>in this file</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quick-ref">
+      <h2>Quick reference</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-block"><pre><code>// Named / alias / star
+@import((function1, function2) from "path.fscss")
+@import((original as alias) from "path.fscss")
+@import((*) from "path.fscss")
+
+// Remote / registry
+@import((name) from "https://url/file.fscss")
+@import((*) from library-name)
+@import((mirror as m) from fscss:micros)
+
+// Chain rename (1.2.6+ — no re-define)
+// style.fscss:  @import((mirror as m) from fscss:micros)
+// app.fscss:    @import((m as mirr) from "style.fscss")</code></pre></div>
+          <p style="margin-bottom:0">
+            Runtime: <code>https://cdn.jsdelivr.net/npm/fscss@1.2.6/runtime.min.js</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Summary -->
     <section class="section">
       <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
@@ -708,11 +886,12 @@ https://cdn.jsdelivr.net/gh/fscss-ttr/FSCSS@main/xf/styles/icon-mask_v2.fscss</c
             </div>
             <div class="benefit-item" style="background: rgba(255,255,255,0.1); color: white; border-left-color: white;">
               <h4 style="color: white;"> Key Takeaway 3</h4>
-              <p>Use named imports instead of <code>*</code> for smaller CSS</p>
+              <p>Use named imports; rename with <code>as</code> (original undefined in this file)</p>
             </div>
           </div>
           
           <p style="margin-top: 2rem; font-style: italic;">The modular approach keeps code organized, reusable, and efficient.</p>
+          <p style="margin-top: 1rem;"><a href="/define" style="color:#fff;text-decoration:underline">@define</a> · <a href="/libraries" style="color:#fff;text-decoration:underline">Libraries</a></p>
         </div>
       </div>
     </section>
@@ -759,7 +938,7 @@ https://cdn.jsdelivr.net/gh/fscss-ttr/FSCSS@main/xf/styles/icon-mask_v2.fscss</c
   </footer>
 
   <!-- Scroll to top button -->
-  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  <button class="scroll-btn hidden"><i class="fas fa-arrow-up"></i></button>
   
   <script src="/assets/scripts/main.js"></script>
 </body>
