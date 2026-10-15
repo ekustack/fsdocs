@@ -11,7 +11,7 @@
   <title>FSCSS @import – Modular CSS Architecture & File Organization</title>
 
   <!-- Primary SEO -->
-  <meta name="description" content="Master FSCSS @import (v1.2.0). Build modular, scalable stylesheet architectures with selective imports, aliases, and the modern runtime / esm entry points.">
+  <meta name="description" content="Master FSCSS @import (v1.2.6+). Selective imports, aliases, chained modules, dependency @define resolution, circular/duplicate warnings, runtime and CLI.">
 
   <meta name="keywords" content="FSCSS @import, FSCSS import system, modular CSS architecture, CSS preprocessor import, selective import, organize CSS files, reusable stylesheets, FSCSS documentation, scalable CSS structure">
 
@@ -29,7 +29,7 @@
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS Import Documentation">
   <meta property="og:locale" content="en_US">
-  <meta property="og:updated_time" content="2026-09-04T00:00:00Z">
+  <meta property="og:updated_time" content="2026-10-15T00:00:00Z">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -75,7 +75,7 @@
         "url": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png"
       }
     },
-    "dateModified": "2026-09-04",
+    "dateModified": "2026-10-15",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://fscss.devtem.org/import"
@@ -84,7 +84,7 @@
       "@type": "SoftwareSourceCode",
       "name": "FSCSS",
       "programmingLanguage": "CSS",
-      "version": "1.2.4"
+      "version": "1.2.6"
     }
   }
   </script>
@@ -152,7 +152,7 @@
   <section class="hero">
     <div class="hero-content">
       <h1>FSCSS @import</h1>
-      <h3>Recommended: <a href="https://github.com/fscss-ttr/fscss-modules/" style="color: white;">fscss-modules</a> + v1.2.0 up import system</h3>
+      <h3>Recommended: <a href="https://github.com/fscss-ttr/fscss-modules/" style="color: white;">fscss-modules</a> · FSCSS <strong>v1.2.6+</strong> import system</h3>
       <p class="lead">Organize your stylesheets into modular, reusable components with FSCSS @import</p>
       <p>Create a scalable, maintainable CSS architecture by splitting your styles into logical modules</p>
     </div>
@@ -610,7 +610,7 @@ body {
   &lt;link type="fscss" href="main.fscss"&gt;
 
   &lt;!-- New v1.2.0 + runtime (auto-runs) --&gt;
-  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.4/runtime.min.js" async&gt;&lt;/script&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.6/runtime.min.js" async&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class="container"&gt;
@@ -633,7 +633,7 @@ body {
               <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
             </div>
             <pre><code>&lt;script type="module"&gt;
-  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.4/esm.min.js";
+  import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.6/esm.min.js";
   await xfscss.reboot();   // processes all &lt;link type="fscss"&gt; and &lt;style&gt;
 &lt;/script&gt;</code></pre>
           </div>
@@ -745,6 +745,203 @@ exec.obj.block(f import from);</code></pre>
       </div>
     </section>
 
+
+    <!-- v1.2.6 dependency resolution -->
+    <section class="section" id="v126-deps">
+      <h2>v1.2.6+ — Chained imports &amp; dependency <code>@define</code></h2>
+      <div class="card glow-card">
+        <div class="card-header">
+          <h3><i class="fas fa-link" style="margin-right:8px;"></i> How dependencies resolve</h3>
+          <span class="import-badge">1.2.6</span>
+        </div>
+        <div class="card-body">
+          <p>From <a href="https://github.com/Figsh/xfscss/releases/tag/v1.2.6" target="_blank" rel="noopener">FSCSS 1.2.6</a>, the import graph is resolved fully before your file finishes compiling.</p>
+          <ul>
+            <li><strong>Chained imports resolve fully.</strong> If <code>c</code> imports <code>b</code> and <code>b</code> imports <code>a</code>, <code>b</code>’s imports are resolved first so everything arrives in <code>c</code>’s output. Works for both <code>*</code> and named imports.</li>
+            <li><strong>Relative paths resolve against the importing file.</strong> <code>./a.fscss</code> inside <code>b</code> is read relative to <code>b</code>, not the page or the process cwd. Same rule for local files and remote URL bases.</li>
+            <li><strong>Named imports carry their dependencies.</strong> Importing <code>foo</code> also brings any <code>@define</code> that <code>foo</code> calls, and anything those call in turn. Carried dependencies keep their <strong>original names</strong>, even when <code>foo</code> is imported with an alias.</li>
+            <li><strong>Output is inserted as written.</strong> <code>$</code> sequences in imported code (<code>$&amp;</code>, <code>$1</code>, etc.) are not reinterpreted.</li>
+          </ul>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Alias + carried dependencies</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>@import((foo as my-foo) from "./b.fscss")
+
+/* Output includes:
+   - @define my-foo(...)   (aliased export)
+   - @define blocks that foo depends on, under their ORIGINAL names
+*/</code></pre>
+          </div>
+
+          <div class="alert note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>Known limitation:</strong> a carried dependency can clash with a <code>@define</code> of the same name already in the importing file. Prefer selective imports and unique prefixes in shared modules.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rename / ownership -->
+    <section class="section" id="rename-ownership">
+      <h2>Rename with <code>as</code> — file ownership</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Original name is undefined in this file</h3>
+        </div>
+        <div class="card-body">
+          <p><code>as</code> fully renames the binding for the <strong>current file</strong>. No re-<code>@define</code> wrapper is required to pass names along in 1.2.6+: a file owns the names it imported; the next file can import those owned names.</p>
+          <div class="code-container">
+            <div class="code-header"><span>style.fscss</span></div>
+            <pre><code>@import((mirror as m) from fscss:micros)</code></pre>
+          </div>
+          <div class="code-container">
+            <div class="code-header"><span>app.fscss</span></div>
+            <pre><code>@import((m as mirr) from "style.fscss")
+@mirr(colors, indices)   /* ✅ */
+/* @m / @mirror          ❌ undefined in app */</code></pre>
+          </div>
+          <p style="margin-bottom:0">See also <a href="/modular-system">Modular system</a> and <a href="/define">@define</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registry / types quick -->
+    <section class="section" id="import-forms">
+      <h2>Import forms (quick reference)</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-container">
+            <div class="code-header"><span>FSCSS</span></div>
+            <pre><code>/* Named + alias */
+@import((circle-progress as cp, progress-range as pr) from circle-progress)
+
+/* Everything */
+@import((*) from "animations.fscss")
+
+/* Registry (no quotes) */
+@import((*) from st-core@v2)
+@import((mirror as m) from fscss:micros)
+
+/* Remote (quotes) */
+@import((btn) from "https://cdn.example/buttons.fscss")
+
+/* Local */
+@import((card) from "./components/card.fscss")</code></pre>
+          </div>
+          <p style="margin-bottom:0">Libraries: <a href="/libraries">/libraries</a> · modules org: <a href="https://github.com/fscss-ttr/fscss-modules" target="_blank" rel="noopener">fscss-modules</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Warnings & errors -->
+    <section class="section" id="warnings">
+      <h2>Console warnings &amp; CSS comments (v1.2.6+)</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Duplicate, circular, and failed imports</h3>
+        </div>
+        <div class="card-body">
+          <p>The compiler logs to the console and often mirrors the same text as a <strong>CSS comment</strong> in the output so you can spot issues in exported CSS.</p>
+
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem;margin:1rem 0">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Situation</th>
+                <th style="text-align:left;padding:8px">Behavior</th>
+                <th style="text-align:left;padding:8px">Typical message</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Same file imported with <code>*</code> more than once</td>
+                <td style="padding:8px">First wins; later skipped</td>
+                <td style="padding:8px"><code>/* Can't import &lt;file&gt; multiple times */</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Circular graph (<code>a → b → a</code>)</td>
+                <td style="padding:8px">Cycle broken; no infinite loop</td>
+                <td style="padding:8px"><code>/* Circular import: &lt;file&gt; */</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Missing / failed fetch</td>
+                <td style="padding:8px">Import skipped</td>
+                <td style="padding:8px"><code>/* Failed import: &lt;file&gt; */</code></td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Name not exported</td>
+                <td style="padding:8px">Error / no binding</td>
+                <td style="padding:8px">not defined with <code>@define</code> in module</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                <td style="padding:8px">Call original after <code>as</code></td>
+                <td style="padding:8px">Undefined in this file</td>
+                <td style="padding:8px">original name is not defined</td>
+              </tr>
+              <tr>
+                <td style="padding:8px"><code>* as alias</code></td>
+                <td style="padding:8px">Invalid</td>
+                <td style="padding:8px">Cannot assign <code>*</code> to alias</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Circular example</span>
+              <button class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre><code>/* a.fscss */
+@import((*) from "./b.fscss")
+
+/* b.fscss */
+@import((*) from "./a.fscss")
+
+/* Output may include: */
+/* Circular import: ./a.fscss */
+/* Console: FSCSS [@import] … circular / can't import &lt;file&gt; multiple times */</code></pre>
+          </div>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Duplicate * import</span>
+            </div>
+            <pre><code>@import((*) from "./utils.fscss")
+@import((*) from "./utils.fscss")
+
+/* Second becomes a comment, e.g.: */
+/* Can't import ./utils.fscss multiple times */</code></pre>
+          </div>
+
+          <div class="alert warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              Exact console prefix may look like <code>FSCSS [@import] …</code>. Always check the <strong>compiled CSS</strong> for the matching <code>/* … */</code> markers when debugging IDE or CLI output.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pipeline phases -->
+    <section class="section" id="pipeline">
+      <h2>Compiler phases (register → extract → substitute)</h2>
+      <div class="card">
+        <div class="card-body">
+          <ol>
+            <li><strong>Registration</strong> — <code>@define</code> stores blueprints (no CSS yet).</li>
+            <li><strong>Extraction</strong> — <code>@import</code> binds names / aliases into <em>this</em> file (and resolves the dependency graph in 1.2.6+).</li>
+            <li><strong>Substitution</strong> — calling <code>@name(args)</code> fills <code>@use</code> and emits CSS.</li>
+          </ol>
+          <p style="margin-bottom:0">Import stages can still be disabled with <code>exec.obj.block(f import)</code>, <code>exec.obj.block(f import pick)</code>, or <code>exec.obj.block(f import from)</code> when needed.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Benefits -->
     <section class="section">
       <h2>Benefits of Using @import</h2>
@@ -807,7 +1004,7 @@ exec.obj.block(f import from);</code></pre>
           <h2>Ready to modularize?</h2>
         </div>
         <div class="card-body">
-          <p>Start with the official modules or build your own. The v1.2.0 runtime and selective import syntax make it straightforward.</p>
+          <p>Start with the official modules or build your own. The v1.2.6 runtime resolves chained imports, carries @define dependencies, and surfaces clear circular/duplicate messages.</p>
           <div class="demo-flex" style="gap: 0.75rem; flex-wrap: wrap;">
             <a href="https://github.com/fscss-ttr/fscss-modules" class="btn btn-primary" target="_blank" rel="noopener">
               <i class="fab fa-github"></i> fscss-modules
@@ -815,8 +1012,11 @@ exec.obj.block(f import from);</code></pre>
             <a href="api.html" class="btn btn-outline">
               <i class="fas fa-code"></i> API Reference
             </a>
-            <a href="examples.html" class="btn btn-outline">
-              <i class="fas fa-laptop-code"></i> Examples
+            <a href="/ide" class="btn btn-outline">
+              <i class="fas fa-laptop-code"></i> IDE
+            </a>
+            <a href="/modular-system" class="btn btn-outline">
+              <i class="fas fa-cubes"></i> Modular system
             </a>
             <a href="docs.html" class="btn btn-outline">
               <i class="fas fa-book"></i> Documentation
@@ -869,9 +1069,8 @@ exec.obj.block(f import from);</code></pre>
   </footer>
 
   <!-- Scroll to top button -->
-  <button class="scroll-btn"><i class="fas fa-arrow-up"></i></button>
+  <button class="scroll-btn hidden"><i class="fas fa-arrow-up"></i></button>
   
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
-
