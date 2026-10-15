@@ -1029,7 +1029,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 function showInstallButton() {
   // Example: toast + permanent button in the status bar
-  toast('Install FSCSS IDE as an app for a better experience', 'ok', 8000);
+  /* toast('Install FSCSS IDE as an app for a better experience', 'ok', 8000); */
 
   // Or create a permanent button (recommended)
   if ($('#btnInstall')) return;          // already exists
