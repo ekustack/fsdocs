@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/ide-guide">
+
+  <title>FSCSS IDE Guide – Browser Editor, Compile & Preview</title>
+
+  <meta name="description" content="How to use the FSCSS IDE: multi-file editor, live compile, preview, components registry, snippets, terminal, export, and keyboard shortcuts.">
+  <meta name="keywords" content="FSCSS IDE, FSCSS editor, online FSCSS compiler, Monaco FSCSS, fscss.devtem.org/ide">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="FSCSS IDE Guide">
+  <meta property="og:description" content="Write FSCSS in the browser: compile, preview, components, export.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/ide-guide">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FSCSS IDE Guide">
+  <meta name="twitter:description" content="Browser IDE for FSCSS — layout, shortcuts, compile, preview, export.">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="/ide" class="nav-link">IDE</a>
+        <a href="ide-guide" class="nav-link" aria-current="page">IDE guide</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="libraries" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>FSCSS IDE guide</h1>
+      <p class="lead">Browser IDE for FSCSS — multi-file workspace, live compile, preview, components, and export</p>
+      <p>
+        <a href="https://fscss.devtem.org/ide" class="btn btn-primary" style="display:inline-block;margin-top:0.5rem">Open IDE</a>
+        <span style="margin-left:12px;opacity:0.85">Single HTML app · Monaco · localStorage workspace</span>
+      </p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <section class="section" id="overview">
+      <div class="card glow-card">
+        <div class="card-header">
+          <h2>What it is</h2>
+        </div>
+        <div class="card-body">
+          <p>The <a href="https://fscss.devtem.org/ide">FSCSS IDE</a> is a browser workspace for FSCSS. You can edit several files, compile live, preview HTML, search the component registry, run terminal commands, and export CSS, HTML, ZIP, or a JSON backup.</p>
+          <p style="margin-bottom:0">It loads the compiler from jsDelivr (<code>esm.min.js</code>). You can change the compiler version in settings or with the terminal command <code>version x.y.z</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="layout">
+      <h2>Layout</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Top bar:</strong> sidebar toggle, command palette, <strong>Run</strong>, <strong>Preview</strong>, <strong>Auto</strong>, <strong>Export</strong> menu, <strong>Import</strong>, theme, settings.</li>
+            <li><strong>Left strip:</strong> Files, Components, Snippets, Tools — plus Docs and Shortcuts at the bottom.</li>
+            <li><strong>Center-left:</strong> file tabs and the editor.</li>
+            <li><strong>Center-right:</strong> CSS output and Preview (two tabs).</li>
+            <li><strong>Bottom:</strong> Terminal and Problems.</li>
+            <li><strong>Status bar:</strong> compiler state, error count, cursor position, language, last save, compiler version.</li>
+            <li><strong>Resizing:</strong> drag the dividers for sidebar, editor/output split, and bottom panel. On phones the sidebar overlays the editor and panes stack vertically.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quick-start">
+      <h2>Quick start</h2>
+      <div class="card">
+        <div class="card-body">
+          <ol>
+            <li>Open <code>main.fscss</code> and write some FSCSS.</li>
+            <li>Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to compile. CSS appears on the right.</li>
+            <li>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd> to compile and open the live preview.</li>
+            <li>Use <strong>Export</strong> to download the result.</li>
+          </ol>
+          <p style="margin-bottom:0">On Mac, use <kbd>Cmd</kbd> in place of <kbd>Ctrl</kbd>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="files">
+      <h2>Files <span class="badge">Alt+1</span></h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Types:</strong> <code>.fscss</code>, <code>.xfscss</code>, <code>.css</code>, <code>.html</code>, <code>.js</code>, <code>.json</code>, <code>.md</code>, <code>.txt</code>.</li>
+            <li><strong>New file:</strong> <kbd>Alt</kbd>+<kbd>N</kbd>. No extension → <code>.fscss</code> is added.</li>
+            <li><strong>Folders:</strong> type a path like <code>components/card.fscss</code> and the folder appears in the tree.</li>
+            <li><strong>Name cleanup:</strong> spaces become dashes.</li>
+            <li><strong>Row actions (hover):</strong> set as entry (star), rename, duplicate, delete.</li>
+            <li><strong>Entry file:</strong> compiles when the active tab is not an <code>.fscss</code> file. Marked with a star.</li>
+            <li><strong>Tabs:</strong> click to switch; X or middle-click to close; <kbd>Alt</kbd>+<kbd>[</kbd> / <kbd>Alt</kbd>+<kbd>]</kbd> to cycle.</li>
+            <li><strong>Examples:</strong> under the tree — basic, variables, pattern, imports, debug — load into <code>examples/</code>.</li>
+            <li><strong>Welcome screen:</strong> shows when every tab is closed.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="editor">
+      <h2>Editor</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Engine:</strong> Monaco with FSCSS syntax highlighting.</li>
+            <li><strong>Autocomplete:</strong> triggers such as <code>def</code>, <code>use</code>, <code>var</code>, <code>arr</code>, <code>rand</code>, <code>imp</code>, <code>kf</code>, <code>event</code>, <code>pat</code> — snippets with tab stops.</li>
+            <li><strong>Monaco:</strong> find, replace, comment toggle, multi-cursor, etc.</li>
+            <li><strong>Problems:</strong> compile errors in the Problems tab and as red markers when the message includes a line number. Click a problem to jump.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="compile">
+      <h2>Compiling and output</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Run</strong> (<kbd>Ctrl</kbd>+<kbd>Enter</kbd>): active <code>.fscss</code>, or the entry file otherwise.</li>
+            <li><strong>Compile all:</strong> every <code>.fscss</code> file — palette and Tools panel.</li>
+            <li><strong>Auto</strong> (<kbd>Alt</kbd>+<kbd>A</kbd>): compile 700&nbsp;ms after you stop typing.</li>
+            <li><strong>Compile-time logs:</strong> <code>exec(_log, …)</code> and similar appear in the Terminal.</li>
+            <li><strong>CSS tab:</strong> read-only output with copy and download.</li>
+            <li><strong>Preview tab:</strong> builds from <code>index.html</code> (or a default), compiled CSS from all <code>.fscss</code> files, plain <code>.css</code> files, and <code>.js</code> as a module script.</li>
+            <li><strong>Preview extras:</strong> width (Full, 768, 375), reload, open in new tab. <code>console.*</code> and preview errors go to the Terminal.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="components">
+      <h2>Components <span class="badge">Alt+2</span></h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Source:</strong> public <code>libs.json</code>, then each repo’s <code>package.json</code> (<code>main</code>, then <code>master</code>). Falls back to known repos if fetch fails.</li>
+            <li><strong>Cards:</strong> name, version, description, keywords.
+              <ul>
+                <li><strong>Import</strong> — inserts <code>@import((*) from name)</code> at the top of the current FSCSS file (skips if already present).</li>
+                <li><strong>Copy</strong> — copies the import line.</li>
+                <li><strong>Repo</strong> — opens GitHub.</li>
+              </ul>
+            </li>
+            <li><strong>Search:</strong> name, description, author, keywords.</li>
+            <li><strong>Cache:</strong> 30 minutes; refresh forces reload.</li>
+            <li><strong>Chips:</strong> e.g. <code>flex-control</code>, <code>icon-mask_v2</code>, <code>st-core</code>, <code>circle-progress</code> — confirm import names against each package.</li>
+          </ul>
+          <p style="margin-bottom:0">Network required for registry and remote <code>@import</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="snippets">
+      <h2>Snippets <span class="badge">Alt+3</span></h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Built-in snippets include <code>@define</code>, <code>@use</code>, variables, <code>@arr</code>, <code>@random</code>, <code>@import</code>, keyframes, <code>-*-</code> prefixes, <code>%n()</code>, <code>@event</code>, <code>@obj</code>, <code>@fun</code>, <code>pattern()</code>, <code>num()</code>, and <code>exec(_log/_warn)</code>.</p>
+          <p style="margin-bottom:0">Click to insert with tab stops. Also available via autocomplete and the command palette.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <h2>Tools <span class="badge">Alt+4</span></h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Format:</strong> brace-based re-indent (backtick blocks left alone).</li>
+            <li><strong>Beautify / Minify:</strong> apply to CSS output.</li>
+            <li><strong>Also:</strong> Copy CSS, Share link, Compile all, Set as entry, wrap/minimap toggles, Open preview, Docs, Reset.</li>
+            <li><strong>Stats:</strong> after each compile — input/output size, gzip size, rules, lines, compile time.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="terminal">
+      <h2>Terminal and Problems</h2>
+      <div class="card">
+        <div class="card-body">
+          <p><kbd>Ctrl</kbd>+<kbd>`</kbd> focuses the terminal; <kbd>Ctrl</kbd>+<kbd>J</kbd> shows or hides the bottom panel. Filters: All, Info, Warn, Error. History with Up/Down; Tab completes commands and file names.</p>
+          <div class="code-block">
+            <pre><code>help
+ls · cat &lt;file&gt;
+open &lt;file&gt; · new &lt;file&gt; · rm &lt;file&gt; · mv &lt;old&gt; &lt;new&gt;
+compile | run · all · preview
+fscss &lt;code&gt;          # compile a snippet inline
+libs [query] · theme dark|light · version [x.y.z]
+export · clear</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="export">
+      <h2>Export and import</h2>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>Export menu</strong></p>
+          <ul>
+            <li>Current file</li>
+            <li>Compiled CSS / minified CSS</li>
+            <li>Standalone HTML page</li>
+            <li>ZIP (project files + <code>dist/*.css</code>)</li>
+            <li>JSON backup</li>
+            <li>Copy CSS / copy share link</li>
+          </ul>
+          <p><strong>Import:</strong> Import button, drag-and-drop files, or JSON backup (Merge or Replace all).</p>
+          <p style="margin-bottom:0"><strong>URL load:</strong> <code>#code=…</code> or <code>#run?code=…</code> creates <code>shared.fscss</code> and compiles. <code>#run?code=</code> matches the fscss-to-css page pattern.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="palette">
+      <h2>Command palette</h2>
+      <div class="card">
+        <div class="card-body">
+          <p style="margin-bottom:0"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or <kbd>F1</kbd> — search commands, files, examples, and snippets. Arrows + Enter; Esc to close.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <h2>Keyboard shortcuts</h2>
+      <div class="card">
+        <div class="card-body">
+          <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.15)">
+                <th style="text-align:left;padding:8px">Action</th>
+                <th style="text-align:left;padding:8px">Keys</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Compile</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Compile and preview</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Save workspace</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>S</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Download current file</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Command palette</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or <kbd>F1</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Format</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Toggle sidebar</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>B</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Toggle bottom panel</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>J</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Focus terminal</td><td style="padding:8px"><kbd>Ctrl</kbd>+<kbd>`</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Files / Components / Snippets / Tools</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>1</kbd> … <kbd>Alt</kbd>+<kbd>4</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">New file</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>N</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Close tab</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>W</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Next / previous tab</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>]</kbd> / <kbd>Alt</kbd>+<kbd>[</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Toggle preview</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>P</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Toggle auto compile</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>A</kbd></td></tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><td style="padding:8px">Toggle theme</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>T</kbd></td></tr>
+              <tr><td style="padding:8px">Shortcut list</td><td style="padding:8px"><kbd>Alt</kbd>+<kbd>/</kbd></td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:1rem;margin-bottom:0">Mac: <kbd>Cmd</kbd> replaces <kbd>Ctrl</kbd>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="settings">
+      <h2>Developer settings</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Gear icon in the top bar.</p>
+          <ul>
+            <li><strong>Display:</strong> theme, font size, word wrap, minimap.</li>
+            <li><strong>Compile while typing:</strong> same as <strong>Auto</strong> in the top bar.</li>
+            <li><strong>Entry file:</strong> default compile target.</li>
+            <li><strong>Compiler version:</strong> type a version and Load — from <code>cdn.jsdelivr.net/npm/fscss@&lt;version&gt;/esm.min.js</code>. Terminal: <code>version 1.2.6</code>.</li>
+            <li><strong>Console:</strong> compiler exposed as <code>window.xfscss</code>.</li>
+            <li><strong>Saving:</strong> autosave to <code>localStorage</code> (keys <code>fside:</code>). <strong>Reset workspace</strong> clears those keys.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="notes">
+      <h2>Good to know</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><code>@import</code> and component loading need a network connection.</li>
+            <li>Preview runs in a sandboxed iframe — no localStorage or same-origin access to the parent.</li>
+            <li>If the browser blocks localStorage (some embedded viewers), work will not persist — export a JSON backup.</li>
+            <li>Error markers appear only when the compiler message includes a line number.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header"><h2>Related</h2></div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="https://fscss.devtem.org/ide" class="btn btn-primary">Open IDE</a>
+            <a href="/docs" class="btn btn-outline">Docs</a>
+            <a href="/examples" class="btn btn-outline">Examples</a>
+            <a href="/libraries" class="btn btn-outline">Libraries</a>
+            <a href="/playground" class="btn btn-outline">Playground</a>
+          </div>
+          <p style="margin-top:1.25rem;margin-bottom:0">
+            Compiler: <code>npm install fscss</code> ·
+            <a href="https://github.com/Figsh/xfscss">Figsh/xfscss</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>IDE guide — write, compile, preview, export</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="/ide">IDE</a></li>
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
