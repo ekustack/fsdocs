@@ -1010,3 +1010,61 @@ async function boot(){
   log('system','Ready. Press Ctrl+Shift+P for commands or type help below.');
 }
 boot();
+
+
+
+  /* ============================================================
+   PWA Install Prompt (Chrome-style)
+   ============================================================ */
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Show your custom install button / toast
+  showInstallButton();
+});
+
+function showInstallButton() {
+  // Example: toast + permanent button in the status bar
+  toast('Install FSCSS IDE as an app for a better experience', 'ok', 8000);
+
+  // Or create a permanent button (recommended)
+  if ($('#btnInstall')) return;          // already exists
+
+  const btn = document.createElement('button');
+  btn.id = 'btnInstall';
+  btn.className = 'ib';
+  btn.title = 'Install as app';
+  btn.innerHTML = '<i class="fa-solid fa-download"></i>';
+  btn.style.marginLeft = '4px';
+
+  btn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();               // shows the native Chrome dialog
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      toast('Thanks! FSCSS IDE is now installed', 'ok');
+      btn.remove();
+    }
+    deferredPrompt = null;
+  });
+
+  // Put it next to the theme/settings buttons in the header
+  $('#top').appendChild(btn);
+}
+
+// Optional: detect if already installed
+window.addEventListener('appinstalled', () => {
+  toast('FSCSS IDE installed successfully!', 'ok');
+  $('#btnInstall')?.remove();
+  deferredPrompt = null;
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
