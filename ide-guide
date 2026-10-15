@@ -178,7 +178,7 @@
             </li>
             <li><strong>Search:</strong> name, description, author, keywords.</li>
             <li><strong>Cache:</strong> 30 minutes; refresh forces reload.</li>
-            <li><strong>Chips:</strong> e.g. <code>flex-control</code>, <code>icon-mask_v2</code>, <code>st-core</code>, <code>circle-progress</code> — confirm import names against each package.</li>
+            <li><strong>Chips:</strong> e.g. <code>flex-control</code>, <code>icon-mask</code>, <code>st-core</code>, <code>circle-progress</code> — confirm import names against each package.</li>
           </ul>
           <p style="margin-bottom:0">Network required for registry and remote <code>@import</code>.</p>
         </div>
