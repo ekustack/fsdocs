@@ -1010,6 +1010,10 @@ async function boot(){
   setTimeout(()=>{$('#splash').classList.add('out');setTimeout(()=>$('#splash').remove(),500)},250);
   log('system','Ready. Press Ctrl+Shift+P for commands or type help below.');
 }
+
+window.IDE={S,TERM,SNIPS,log,out,toast,addFile,openFile,renderAll,renderSnips,persistSoon,compile,compileAll,insertImport,setView,setBottom,setOut,runTerm,loadLibs,parseGH,store,cleanName,getLibs:()=>LIBS};
+import('./xfcmds.js').catch(e=>log('warn','xfcmds.js not loaded: '+e.message));
+
 boot();
 
 
@@ -1069,3 +1073,4 @@ window.addEventListener('appinstalled', () => {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
+
