@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -110,6 +111,8 @@
     <div class="sp2"></div>
     <button class="ib" data-cmd="docs" title="FSCSS docs" aria-label="Docs"><i class="fa-solid fa-book"></i></button>
     <button class="ib" data-cmd="keys" title="Shortcuts (Alt+/)" aria-label="Shortcuts"><i class="fa-regular fa-keyboard"></i></button>
+<button class="ib" data-cmd="Guide" aria-label="Guide"><i class="fas fa-question-circle"></i></button>
+
   </nav>
 
   <aside id="side">
@@ -133,7 +136,7 @@
     <section class="view" data-v="tools">
       <div class="vh"><span>Tools</span></div>
       <div class="vb"><div class="tg" id="toolGrid"></div><div id="stats"><div class="empty">Compile a file to see stats.</div></div>
-      <i onclick="window.open('https://fscss.devtem.org/ide-guide')" target="_blank" title="IDE Documentation"><button class="btn btn-primary"><i class="fas fa-book"></i> IDE GUIDE</button></i>
+      <i onclick="window.open('https://fscss.devtem.org/ide-guide')" target="_blank" title="IDE Documentation"><button class="btn btn-primary"><i class="fas fa-book"></i> IDE GUIDE</button></i> <i onclick="location.href='/xfcmds-guide'" target="_blank" title="IDE Documentation"><button class="btn btn-primary"><i class="fas fa-gear"></i> XFCMDS GUIDE</button></i>
       </div>
       
     </section>
@@ -176,7 +179,7 @@
         <button class="ib" data-cmd="clearLogs" title="Clear terminal" aria-label="Clear terminal"><i class="fa-solid fa-trash-can"></i></button>
         <button class="ib" data-cmd="toggleBottom" title="Close panel (Ctrl+J)" aria-label="Close panel"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="bp on" id="bpTerm"><div id="termLog"></div><div id="termRow"><i class="fa-solid fa-angle-right"></i><input id="termIn" placeholder="Type help and press Enter" autocomplete="off" spellcheck="false" aria-label="Terminal input"></div></div>
+      <div class="bp on" id="bpTerm"><div id="termLog"></div><div id="termRow"><i class="fa-solid fa-angle-right"></i>$<input id="termIn" placeholder="Type help and press Enter" autocomplete="off" spellcheck="false" aria-label="Terminal input"></div></div>
       <div class="bp" id="bpProbs"><div id="probs"></div></div>
     </div>
   </div>
