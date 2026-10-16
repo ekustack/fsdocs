@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="canonical" href="https://fscss.devtem.org/xfcmds-guide">
+
+  <title>xfcmds and .xfcmd Guide - FSCSS IDE Packages and Scripts</title>
+
+  <meta name="description" content="Learn xfcmds for the FSCSS IDE: check and enable component packages with libck and libon, write .xfcmd sentence scripts, plug custom commands through cmd.json, and control what runs.">
+  <meta name="keywords" content="xfcmd, xfcmds, FSCSS IDE scripts, libck, libon, FSCSS packages, cmd.json, FSCSS terminal commands">
+  <meta name="author" content="Figsh">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111827">
+
+  <meta property="og:title" content="xfcmds and .xfcmd Guide">
+  <meta property="og:description" content="Check, enable and script FSCSS packages from the IDE terminal.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://fscss.devtem.org/xfcmds-guide">
+  <meta property="og:site_name" content="FSCSS Docs">
+  <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="xfcmds and .xfcmd Guide">
+  <meta name="twitter:description" content="Package commands and the .xfcmd sentence script format for the FSCSS IDE.">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
+  <link rel="stylesheet" href="/assets/styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="//fscss.devtem.org/styles/highlight.css">
+  <script src="//fscss.devtem.org/scripts/highlight.js" defer></script>
+  <style>
+    .tbl-wrap{overflow-x:auto;margin:0 0 1rem}
+    .tbl{width:100%;border-collapse:collapse;font-size:.95rem}
+    .tbl th,.tbl td{text-align:left;padding:8px;border-bottom:1px solid rgba(255,255,255,.1);vertical-align:top}
+    .tbl th{border-bottom-color:rgba(255,255,255,.2)}
+    .toc{display:flex;flex-wrap:wrap;gap:8px}
+    .toc a{padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.15);text-decoration:none}
+    .note{border-left:3px solid #ff9800;padding:8px 14px;margin:1rem 0 0;background:rgba(255,152,0,.08);border-radius:4px}
+    .tip{border-left:3px solid #4caf50;padding:8px 14px;margin:1rem 0 0;background:rgba(76,175,80,.08);border-radius:4px}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icn">
+          <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+        </div>
+        <span>FSCSS</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="docs" class="nav-link">Documentation</a>
+        <a href="/ide" class="nav-link">IDE</a>
+        <a href="ide-guide" class="nav-link">IDE guide</a>
+        <a href="xfcmds-guide" class="nav-link" aria-current="page">xfcmds guide</a>
+        <a href="examples" class="nav-link">Examples</a>
+        <a href="libraries" class="nav-link">Libraries</a>
+        <a href="https://github.com/fscss-ttr/FSCSS" class="nav-link">GitHub</a>
+      </div>
+      <div class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>xfcmds and .xfcmd guide</h1>
+      <p class="lead">Check packages, enable them with one prompt, and automate the IDE with plain sentence scripts</p>
+      <p>
+        <a href="https://fscss.devtem.org/ide" class="btn btn-primary" style="display:inline-block;margin-top:0.5rem">Open IDE</a>
+        <a href="ide-guide" class="btn btn-outline" style="display:inline-block;margin-top:0.5rem;margin-left:8px">IDE guide</a>
+      </p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <section class="section" id="overview">
+      <div class="card glow-card">
+        <div class="card-header"><h2>What it is</h2></div>
+        <div class="card-body">
+          <p><strong>xfcmds</strong> is the package and automation layer of the FSCSS IDE. It has four parts:</p>
+          <ul>
+            <li><strong>Package commands</strong> in the terminal: <code>libs</code>, <code>libck</code>, <code>libon</code>, <code>liboff</code>, <code>yes</code>, <code>no</code>.</li>
+            <li><strong>The <code>xfcmd</code> command</strong> to run scripts by hand.</li>
+            <li><strong><code>.xfcmd</code> scripts</strong>: short, readable sentences that drive the IDE (create files, add snippets, compile, show panels).</li>
+            <li><strong>The registry</strong> <code>xfcmds/cmd.json</code> in the FSCSS GitHub repo, which maps packages and commands to scripts.</li>
+          </ul>
+          <div class="toc" style="margin-top:1rem">
+            <a href="#quick-start">Quick start</a>
+            <a href="#usage">Usage</a>
+            <a href="#checks">What libck checks</a>
+            <a href="#language">.xfcmd language</a>
+            <a href="#examples">Examples</a>
+            <a href="#custom">Custom scripts</a>
+            <a href="#control">Control and safety</a>
+            <a href="#package">Package authors</a>
+            <a href="#registry">Registry</a>
+            <a href="#troubleshooting">Troubleshooting</a>
+            <a href="#cheatsheet">Cheat sheet</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quick-start">
+      <h2>Quick start</h2>
+      <div class="card">
+        <div class="card-body">
+          <ol>
+            <li>Open the terminal with <kbd>Ctrl</kbd>+<kbd>`</kbd>.</li>
+            <li>Type <code>libs</code> to list components.</li>
+            <li>Type <code>libck st-core</code>. The IDE loads the package, checks it and prints a report.</li>
+            <li>When it asks <code>Enable st-core? Type yes or no.</code>, type <code>yes</code>.</li>
+            <li>The package script runs: helper snippets are added and a demo file opens and compiles.</li>
+          </ol>
+          <div class="code-block">
+            <pre><code>&gt; libck st-core
+Checking st-core...
+st-core@2  by fscss-ttr  (MIT)
+  import    @import((*) from st-core@v2)
+Checks:
+  [ok]   needs fscss ^1.1.24, compiler is 1.2.6
+  [ok]   all 9 helpers found in modules
+8 passed, 0 warnings, 0 failed
+Status: not enabled. On enable it creates demos/st-core-demo.fscss; adds snippets; compiles.
+Enable st-core? Type yes or no.
+&gt; yes</code></pre>
+          </div>
+          <p style="margin-bottom:0">Afterwards, type a helper name such as <code>st-root</code> in the editor to insert its snippet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="usage">
+      <h2>Usage: terminal commands</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+              <tbody>
+                <tr><td><code>libs</code></td><td>List all components from the public registry. <code>[on]</code> marks enabled ones.</td></tr>
+                <tr><td><code>libs &lt;query&gt;</code></td><td>Search name, description, author and keywords.</td></tr>
+                <tr><td><code>libs on</code></td><td>List enabled packages with their import names.</td></tr>
+                <tr><td><code>libs refresh</code></td><td>Reload the registry from GitHub, ignoring the 30 minute cache.</td></tr>
+                <tr><td><code>libck &lt;name&gt;</code></td><td>Load and check a package, print a report, then offer to enable it.</td></tr>
+                <tr><td><code>libon &lt;name&gt;</code></td><td>Enable a package without the prompt. Fails if checks failed.</td></tr>
+                <tr><td><code>libon &lt;name&gt; force</code></td><td>Enable even when checks failed, or run the enable script again.</td></tr>
+                <tr><td><code>liboff &lt;name&gt;</code></td><td>Disable a package: runs its disable script (if any), removes its snippets, forgets it. Files it created are kept.</td></tr>
+                <tr><td><code>yes</code> / <code>y</code></td><td>Confirm the pending prompt.</td></tr>
+                <tr><td><code>no</code> / <code>n</code></td><td>Cancel the pending prompt.</td></tr>
+                <tr><td><code>xfcmd list</code></td><td>Show registry commands, package hooks and <code>.xfcmd</code> files in your workspace.</td></tr>
+                <tr><td><code>xfcmd &lt;name&gt;</code></td><td>Run a workspace file or a registry command. Same as <code>xfcmd run &lt;name&gt;</code>.</td></tr>
+                <tr><td><code>xfcmd check &lt;name&gt;</code></td><td>Parse a script and show problems without running it.</td></tr>
+                <tr><td><code>xfcmd eval &lt;sentence&gt;</code></td><td>Run a single sentence, for example <code>xfcmd eval say "hi"</code>.</td></tr>
+                <tr><td><code>xfcmd refresh</code></td><td>Reload <code>cmd.json</code> from GitHub.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Names you can use</strong> with <code>libck</code> and <code>libon</code>:</p>
+          <ul>
+            <li>A registry name: <code>st-core</code>. A version suffix is ignored for lookup, so <code>st-core@v2</code> works too.</li>
+            <li>A GitHub shorthand: <code>Koolkidkonrad/siri-wave.fscss</code>.</li>
+            <li>A full URL: <code>https://github.com/fscss-ttr/st-core.fscss</code>. This works for packages that are not in <code>libs.json</code>.</li>
+            <li>A compiler built-in. The IDE tells you it is built in and there is nothing to download.</li>
+          </ul>
+          <p style="margin-bottom:0"><strong>The prompt</strong> waits for 2 minutes. Running another <code>libck</code> replaces it. If you answer after it expired you get <code>Nothing to confirm.</code></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="checks">
+      <h2>What libck checks</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>The report starts with package info (name, version, author, license, repo, issues link, import line, directive, helpers with their arguments, keywords). Then each check is marked <code>[ok]</code>, <code>[warn]</code> or <code>[fail]</code>.</p>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Check</th><th>Result when it goes wrong</th></tr></thead>
+              <tbody>
+                <tr><td><code>name</code>, <code>version</code>, <code>description</code></td><td>warn</td></tr>
+                <tr><td><code>extension</code> should be <code>"fscss"</code></td><td>warn</td></tr>
+                <tr><td><code>fscss_version</code> against your compiler version</td><td>warn if not satisfied or missing. Supports <code>^</code>, <code>~</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&lt;</code>, exact and <code>||</code>.</td></tr>
+                <tr><td><code>directive</code> such as <code>st-*</code> matches every helper prefix</td><td>warn</td></tr>
+                <tr><td><code>file.modules</code> or <code>file.remote</code> present</td><td><strong>fail</strong></td></tr>
+                <tr><td>Each module file downloads (size and time are shown)</td><td><strong>fail</strong> on HTTP error or network error</td></tr>
+                <tr><td>Every listed helper is defined (<code>@define name</code>) or called in the module source</td><td>warn, with the missing names</td></tr>
+                <tr><td><code>blocked_methods</code> are not used by the modules</td><td>warn</td></tr>
+                <tr><td>The enable script parses cleanly</td><td><strong>fail</strong> per bad sentence, with the line number</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Modules are fetched from the repo root on <code>main</code>, then <code>master</code>. Paths such as <code>./st-core@v2.fscss</code> are resolved against that root.</p>
+          <div class="note"><strong>Warnings do not block enabling.</strong> Only failures do, and <code>libon &lt;name&gt; force</code> overrides those.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="language">
+      <h2>The .xfcmd language</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>A script is plain text. One sentence per line, run top to bottom. Lines that start with <code>#</code> or <code>//</code> are comments. Verbs are not case sensitive. Text goes in double quotes.</p>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Sentence</th><th>Effect</th></tr></thead>
+              <tbody>
+                <tr><td><code>say "text"</code> (also <code>print</code>, <code>info</code>)</td><td>Print a line in the terminal.</td></tr>
+                <tr><td><code>warn "text"</code> / <code>error "text"</code></td><td>Print at warning or error level.</td></tr>
+                <tr><td><code>toast "text" ok</code></td><td>Show a toast. The last word is optional: <code>ok</code>, <code>warn</code> or <code>err</code>.</td></tr>
+                <tr><td><code>add import &lt;name&gt;</code></td><td>Insert <code>@import((*) from name)</code> at the top of the active FSCSS file (or the entry file). Skipped if already imported.</td></tr>
+                <tr><td><code>create file &lt;path&gt; with:</code><br>...lines...<br><code>end</code></td><td>Create a file from the lines between the sentence and a line that says <code>end</code>. Indentation is removed.</td></tr>
+                <tr><td><code>create file &lt;path&gt; with "text"</code></td><td>Create a file from one quoted string. Use <code>\n</code> for new lines.</td></tr>
+                <tr><td><code>open file &lt;path&gt;</code></td><td>Open a file in the editor.</td></tr>
+                <tr><td><code>set entry &lt;path&gt;</code></td><td>Make a file the entry file.</td></tr>
+                <tr><td><code>compile</code> / <code>compile all</code> / <code>preview</code></td><td>Compile the active file (or entry), every FSCSS file, or compile and show the preview.</td></tr>
+                <tr><td><code>show &lt;view&gt;</code></td><td>Show <code>files</code>, <code>components</code>, <code>snippets</code>, <code>tools</code>, <code>terminal</code>, <code>problems</code>, <code>css</code> or <code>preview</code>.</td></tr>
+                <tr><td><code>add snippet &lt;key&gt; "&lt;title&gt;" as "&lt;body&gt;"</code></td><td>Add an editor snippet. The key is what you type to trigger it.</td></tr>
+                <tr><td><code>add snippets for helpers</code></td><td>Add one snippet per helper listed in the package (package scripts only).</td></tr>
+                <tr><td><code>run command "&lt;terminal command&gt;"</code></td><td>Run an allowed terminal command (see <a href="#control">Control</a>).</td></tr>
+                <tr><td><code>wait &lt;n&gt; ms</code></td><td>Pause, up to 3000 ms.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Variables</h3>
+          <p>Put a name in braces and it is filled in when the script runs.</p>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Variable</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td><code>{name}</code> <code>{version}</code> <code>{author}</code> <code>{description}</code> <code>{license}</code> <code>{repo}</code></td><td>From the package.json of the package being enabled.</td></tr>
+                <tr><td><code>{import}</code></td><td>The import name, from the main module file name (<code>st-core@v2.fscss</code> gives <code>st-core@v2</code>).</td></tr>
+                <tr><td><code>{helpers}</code></td><td>Helper names, comma separated.</td></tr>
+                <tr><td><code>{fscss}</code></td><td>The <code>fscss_version</code> range.</td></tr>
+                <tr><td><code>{file}</code></td><td>The last file created or kept by <code>create file</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Only the names above are replaced. Anything else in braces is left alone, so normal FSCSS like <code>.card{ ... }</code> inside a <code>create file</code> block is safe. In scripts you run yourself (not package scripts) the package variables are empty and only <code>{file}</code> is useful.</p>
+
+          <h3>Quotes, escapes and blocks</h3>
+          <ul>
+            <li>Inside quotes, <code>\n</code> is a new line, <code>\t</code> a tab, <code>\"</code> a quote and <code>\\</code> a backslash.</li>
+            <li>A sentence may end with a period right after the closing quote: <code>say "Done".</code></li>
+            <li>Lines inside a <code>create file ... with:</code> block are not parsed, so <code>#</code> and <code>//</code> in your FSCSS are kept. The block ends at the first line that says <code>end</code>.</li>
+            <li>If the file already exists it is kept, not overwritten, and <code>{file}</code> points to it. Spaces in names become dashes and a name without an extension gets <code>.fscss</code>.</li>
+            <li>Snippet bodies use editor snippet syntax: <code>${1:name}</code> for tab stops and <code>$0</code> for the final cursor. To write a literal FSCSS variable such as <code>$primary</code> in a body, write <code>\\$primary</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="examples">
+      <h2>Examples</h2>
+
+      <div class="card">
+        <div class="card-header"><h3>st-core.xfcmd (runs on libon st-core)</h3></div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code># st-core.xfcmd
+say "Setting up {name}@{version} by {author}"
+say "Helpers: {helpers}"
+add snippets for helpers
+create file demos/{name}-demo.fscss with:
+  /* {name} demo, generated by xfcmd */
+  @import((*) from {import})
+
+  body{
+    margin: 0;
+    padding: 24px;
+    font-family: system-ui, sans-serif;
+  }
+end
+open file {file}
+compile
+show terminal
+say "Done. Type a helper name such as st-root in the editor to insert it."</code></pre>
+          </div>
+          <p style="margin-bottom:0">Order matters: the file is created, then opened, then compiled. <code>compile</code> works on the active file, so <code>open file</code> comes first.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header"><h3>hello.xfcmd (runs with xfcmd hello)</h3></div>
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>say "Hello from xfcmd."
+run command "ls"
+toast "Hello from xfcmd" ok</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header"><h3>What the helper snippets look like</h3></div>
+        <div class="card-body">
+          <p>Each helper becomes a snippet named after it. Arguments in the helper signature become tab stops:</p>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Helper in package.json</th><th>Snippet inserted</th></tr></thead>
+              <tbody>
+                <tr><td><code>st-root</code></td><td><code>@st-root()</code> with the cursor inside</td></tr>
+                <tr><td><code>siri-wave(st:.siri-wave)</code></td><td><code>@siri-wave(.siri-wave)</code> with the default selected</td></tr>
+                <tr><td><code>siri-blob-variant(st, color)</code></td><td><code>@siri-blob-variant(st, color)</code> with both selectable</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-bottom:0">Snippets are saved with the package and come back after a reload. <code>liboff</code> removes them.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="custom">
+      <h2>Custom scripts</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>You can write your own scripts in the workspace. They are normal files, so they are saved, exported in the ZIP and JSON backup, and can be shared.</p>
+          <ol>
+            <li>Create a file with the <code>.xfcmd</code> extension, for example <code>starter.xfcmd</code>.</li>
+            <li>Write sentences in it.</li>
+            <li>Test with <code>xfcmd check starter.xfcmd</code>. Fix any line it reports.</li>
+            <li>Run with <code>xfcmd run starter.xfcmd</code>.</li>
+          </ol>
+          <div class="code-block">
+            <pre><code># starter.xfcmd
+say "Creating a starter theme"
+create file styles/theme.fscss with:
+  $primary: #0BCEAE;
+  $radius: 8px;
+
+  .btn {
+    bg: $primary!;
+    rounded: $radius!;
+    px: 16px;
+    py: 8px;
+  }
+end
+set entry {file}
+open file {file}
+add snippet card "Card block" as ".card{\n  padding: ${1:16px};\n  rounded: ${2:8px};\n}"
+compile
+show preview
+say "Starter ready."</code></pre>
+          </div>
+          <div class="note"><strong>Snippets from your own scripts last until you reload the page.</strong> Only enabled packages save their snippets. To keep a snippet permanently, run the script again after a reload, or ship it in a package script.</div>
+          <div class="tip"><strong>Try one line first.</strong> <code>xfcmd eval say "hi"</code> runs a single sentence without making a file. Blocks like <code>create file ... with:</code> need a real script.</div>
+
+          <h3>Attach a script to your own package</h3>
+          <p>Add an <code>xfcmd</code> field to the package.json (at the top level, or under <code>file</code>), pointing to a script in your repo:</p>
+          <div class="code-block">
+            <pre><code>{
+  "name": "my-lib",
+  "xfcmd": "./xfcmds/enable.xfcmd"
+}
+
+// or, to also run something on liboff
+{
+  "xfcmd": {
+    "enable": "./xfcmds/enable.xfcmd",
+    "disable": "./xfcmds/disable.xfcmd"
+  }
+}</code></pre>
+          </div>
+          <p style="margin-bottom:0">The string form is the enable script. A script you ship is shown in the <code>libck</code> report (source and number of sentences), and the prompt lists what it will do before you answer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="control">
+      <h2>Control and safety</h2>
+      <div class="card">
+        <div class="card-body">
+          <ul>
+            <li><strong>Order:</strong> sentences run top to bottom. There are no <code>if</code> or loops by design, so a script always does the same thing.</li>
+            <li><strong>Parse first:</strong> the whole script is parsed before anything runs. If any sentence is unknown or a block has no <code>end</code>, nothing runs and you get the line numbers.</li>
+            <li><strong>Stops on error:</strong> if a sentence fails at run time (for example <code>open file</code> on a missing file), the script stops at that line. During enable, snippets added so far are removed and the package is not marked enabled. Files already created stay.</li>
+            <li><strong>Preview before you commit:</strong> <code>libck</code> summarizes what enabling will do (files it creates, snippets, compile, commands) before you type <code>yes</code>.</li>
+            <li><strong>Limits:</strong> 200 sentences per script, 3000 ms per <code>wait</code>.</li>
+            <li><strong>Scripts are not code:</strong> they are never evaluated as JavaScript. They can only do what the sentence table above allows.</li>
+            <li><strong>Allowed commands:</strong> <code>run command</code> accepts only <code>compile</code>, <code>run</code>, <code>all</code>, <code>preview</code>, <code>ls</code>, <code>open</code>, <code>new</code>, <code>libs</code>, <code>clear</code> and <code>theme</code>. Anything else, such as <code>rm</code> or <code>version</code>, stops the script with <code>"rm" is not allowed in scripts</code>.</li>
+            <li><strong>Sources:</strong> remote scripts are fetched from <code>raw.githubusercontent.com</code> only.</li>
+            <li><strong>Re-enabling:</strong> <code>libon &lt;name&gt; force</code> runs the script again. Existing files are kept and snippets with the same key are replaced.</li>
+            <li><strong>Disabling:</strong> <code>liboff</code> never deletes files. Delete demo files yourself if you do not want them.</li>
+            <li><strong>Where state lives:</strong> enabled packages are stored in <code>localStorage</code> under <code>fside:pkgs</code> (version, repo, import name, helpers, snippets, files created). <strong>Reset workspace</strong> clears them.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="package">
+      <h2>Package authors: making a package that passes libck</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>{
+  "name": "my-lib",
+  "version": "1.0.0",
+  "description": "What it does in one line",
+  "extension": "fscss",
+  "fscss_version": "&gt;=1.2.0",
+  "blocked_methods": [],
+  "repository": "https://github.com/you/my-lib.fscss",
+  "bugs": "https://github.com/you/my-lib.fscss/issues",
+  "author": "you",
+  "license": "MIT",
+  "keywords": ["fscss", "ui"],
+  "file": {
+    "usage": {
+      "directive": "my-*",
+      "helpers": ["my-card", "my-grid(cols:3)", "my-badge(label, color)"]
+    },
+    "modules": ["my-lib.fscss"],
+    "remote": "my-lib.fscss"
+  }
+}</code></pre>
+          </div>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td><code>name</code>, <code>version</code></td><td>Shown in <code>libs</code> and <code>libck</code>. <code>version</code> can be a string like <code>"2"</code>.</td></tr>
+                <tr><td><code>extension</code></td><td>Use <code>"fscss"</code>.</td></tr>
+                <tr><td><code>fscss_version</code></td><td>Compiler range you support. It is compared with the IDE compiler version.</td></tr>
+                <tr><td><code>repository</code>, <code>bugs</code>, <code>author</code></td><td>Each can be a string or an object (<code>{"url": "..."}</code>, <code>{"name": "..."}</code>).</td></tr>
+                <tr><td><code>file.usage.directive</code></td><td>Prefix pattern such as <code>my-*</code>. Every helper should start with it.</td></tr>
+                <tr><td><code>file.usage.helpers</code></td><td>Helper names. Add arguments in the signature to get good snippets: <code>name(a, b:default)</code>.</td></tr>
+                <tr><td><code>file.modules</code> / <code>file.remote</code></td><td>Paths relative to the repo root. The file name of <code>remote</code> (without extension) becomes the import name.</td></tr>
+                <tr><td><code>blocked_methods</code></td><td>Methods your modules must not use. <code>libck</code> warns if they appear.</td></tr>
+                <tr><td><code>xfcmd</code></td><td>Optional enable and disable scripts (see Custom scripts).</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Checklist for a clean report:</strong></p>
+          <ul>
+            <li>The repo has <code>package.json</code> on <code>main</code> or <code>master</code>.</li>
+            <li>Every path in <code>file.modules</code> exists.</li>
+            <li>Every helper in <code>file.usage.helpers</code> is defined with <code>@define</code> in a module.</li>
+            <li><code>fscss_version</code> covers the current compiler.</li>
+            <li>Add the repo URL to <code>libs.json</code> so it shows up in <code>libs</code> and the Components panel.</li>
+          </ul>
+          <p style="margin-bottom:0">Run <code>libck owner/repo</code> from the IDE to test before you publish. It works for repos that are not in the registry yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="registry">
+      <h2>The registry: xfcmds/cmd.json</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>The IDE reads <code>xfcmds/cmd.json</code> from the FSCSS GitHub repo. Scripts sit in the same folder. Add a package hook or a new command by editing this file and adding the <code>.xfcmd</code> file next to it.</p>
+          <div class="code-block">
+            <pre><code>FSCSS/
+  xfcmds/
+    cmd.json
+    st-core.xfcmd
+    hello.xfcmd</code></pre>
+          </div>
+          <div class="code-block">
+            <pre><code>{
+  "xfcmds": 1,
+  "about": "IDE command scripts for FSCSS packages.",
+  "packages": {
+    "st-core": {
+      "enable": "st-core.xfcmd",
+      "disable": "st-core-off.xfcmd",
+      "about": "Adds st-* helper snippets and a stats demo file"
+    }
+  },
+  "commands": {
+    "hello": {
+      "script": "hello.xfcmd",
+      "about": "Prints a greeting and lists your files"
+    }
+  }
+}</code></pre>
+          </div>
+          <ul>
+            <li><strong><code>packages</code></strong>: scripts that run when a package is enabled (<code>enable</code>) or disabled (<code>disable</code>, optional). The key is the package name from its package.json.</li>
+            <li><strong><code>commands</code></strong>: standalone scripts anyone can run with <code>xfcmd &lt;name&gt;</code>.</li>
+            <li><strong>Lookup order for enable:</strong> the package's own <code>xfcmd</code> field, then <code>packages</code> in this registry, then a built-in default (a message, helper snippets and the import line to use).</li>
+            <li><strong>Fallback:</strong> if the registry cannot be fetched, the IDE uses a built-in copy for <code>st-core</code> and <code>hello</code>. <code>xfcmd list</code> tells you which one is active.</li>
+          </ul>
+          <p style="margin-bottom:0">After you push changes, run <code>xfcmd refresh</code> in the IDE to reload the registry.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Message</th><th>Meaning and fix</th></tr></thead>
+              <tbody>
+                <tr><td><code>No component named "x"</code></td><td>Not in <code>libs.json</code>. Use <code>owner/repo</code> or the full GitHub URL, or run <code>libs refresh</code>.</td></tr>
+                <tr><td><code>No package.json found on main or master</code></td><td>Wrong repo, private repo, or the file is on another branch.</td></tr>
+                <tr><td><code>module ...: HTTP 404</code></td><td>A path in <code>file.modules</code> or <code>file.remote</code> does not exist. Paths start at the repo root.</td></tr>
+                <tr><td><code>helpers not found in modules</code></td><td>A listed helper has no <code>@define</code>. Fix the name or remove it from the list. This is only a warning.</td></tr>
+                <tr><td><code>needs fscss ^x but the compiler is y</code></td><td>Change the compiler with <code>version x.y.z</code> or in Settings, or update the package range.</td></tr>
+                <tr><td><code>Unknown sentence: ...</code></td><td>The line does not match any sentence. Check the verb and that text is in double quotes.</td></tr>
+                <tr><td><code>create file block is missing "end"</code></td><td>Add a line that says <code>end</code> after the block.</td></tr>
+                <tr><td><code>"x" is not allowed in scripts</code></td><td><code>run command</code> only allows the commands listed under Control.</td></tr>
+                <tr><td><code>xfcmd line N: no such file</code></td><td>The path in <code>open file</code> or <code>set entry</code> does not exist yet. Create it first, and check <code>{file}</code> if you used it.</td></tr>
+                <tr><td><code>Nothing to confirm.</code></td><td>No prompt is pending, or it expired after 2 minutes. Run <code>libck</code> again.</td></tr>
+                <tr><td><code>xfcmd list</code> says built-in fallback</td><td>The GitHub <code>xfcmds/cmd.json</code> was not found. Check the path and branch, then <code>xfcmd refresh</code>.</td></tr>
+                <tr><td>Import fails after enabling</td><td>Check the <code>import</code> line in the <code>libck</code> report. Import names come from the module file name, for example <code>st-core@v2</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cheatsheet">
+      <h2>Cheat sheet</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="code-block">
+            <pre><code>libs                    list components
+libs on                 enabled packages
+libck st-core           load, check, offer to enable
+yes | no                answer the prompt
+libon st-core [force]   enable
+liboff st-core          disable
+
+xfcmd list              commands and scripts
+xfcmd hello             run a registry command
+xfcmd run my.xfcmd      run a workspace script
+xfcmd check my.xfcmd    find problems first
+xfcmd eval say "hi"     one sentence
+xfcmd refresh           reload cmd.json</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="related">
+      <div class="card glow-card">
+        <div class="card-header"><h2>Related</h2></div>
+        <div class="card-body">
+          <div class="demo-flex" style="flex-wrap:wrap;gap:12px">
+            <a href="https://fscss.devtem.org/ide" class="btn btn-primary">Open IDE</a>
+            <a href="/ide-guide" class="btn btn-outline">IDE guide</a>
+            <a href="/libraries" class="btn btn-outline">Libraries</a>
+            <a href="/docs" class="btn btn-outline">Docs</a>
+            <a href="https://github.com/fscss-ttr/FSCSS" class="btn btn-outline">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="logo-icn">
+            <span class="f"><img src="/assets/images/fscss.png" width="45" height="45" alt="FSCSS icon" /></span>
+          </div>
+          <span>FSCSS</span>
+        </div>
+        <p>xfcmds guide: check, enable and script packages</p>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="/ide">IDE</a></li>
+          <li><a href="ide-guide">IDE guide</a></li>
+          <li><a href="docs">Documentation</a></li>
+          <li><a href="https://github.com/fscss-ttr/FSCSS">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FSCSS. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
