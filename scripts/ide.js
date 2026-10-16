@@ -214,7 +214,10 @@ function renderLogs(){termLog.innerHTML=LOGS.filter(logMatch).map(lineHtml).join
 function clearLogs(){LOGS.length=0;termLog.innerHTML='';log('system','Terminal cleared')}
 const orig={log:console.log,warn:console.warn,info:console.info,error:console.error};
 function intercept(){for(const k of Object.keys(orig))console[k]=(...a)=>{orig[k].apply(console,a);log(k,...a)};return()=>Object.assign(console,orig)}
-window.addEventListener('error',e=>log('error','Uncaught: '+e.message));
+window.addEventListener('error',e=>{
+  if(/ResizeObserver loop/.test(e.message)){e.stopImmediatePropagation();return}
+  log('error','Uncaught: '+e.message);
+});
 window.addEventListener('unhandledrejection',e=>log('error','Unhandled rejection: '+fmtArg(e.reason)));
 window.addEventListener('message',e=>{
   const d=e.data;if(!d||!d.fside||e.source!==$('#prev').contentWindow)return;
@@ -578,7 +581,7 @@ const TERM={
   export:()=>CMD.dlZip.run(),clear:()=>clearLogs()
 };
 async function runTerm(line){
-  log('cmd','> '+line);
+  log('cmd','$ '+line);
   const [cmd,...args]=line.split(/\s+/);
   const rest=line.slice(cmd.length).trim();
   const f=TERM[cmd];
@@ -605,16 +608,19 @@ async function fetchLib(u){
     try{
       const r=await fetch(`https://raw.githubusercontent.com/${p.owner}/${p.repo}/${br}/package.json`);
       if(!r.ok)continue;
+      
       const j=await r.json();
+      
       if(j.name)lib.name=j.name;if(j.version)lib.version=j.version;if(j.description)lib.description=j.description;
       if(j.author)lib.author=typeof j.author==='string'?j.author:j.author?.name||null;
       if(Array.isArray(j.keywords))lib.keywords=j.keywords;
+      const f=j.file?.remote||j.file?.modules?.[0];if(f)lib.imp=f.split('/').pop().replace(/\.x?fscss$/,'');
       break;
     }catch{}
   }
   return lib;
 }
-const impName=l=>l.name.replace(/\.fscss$/,'');
+const impName=l=>l.imp||l.name.replace(/\.fscss$/,'');
 function libSkeleton(n){$('#libGrid').innerHTML=Array.from({length:n},()=>'<div class="card"><div class="sk" style="height:14px;width:55%;margin-bottom:10px"></div><div class="sk" style="height:10px;margin-bottom:6px"></div><div class="sk" style="height:10px;width:75%;margin-bottom:12px"></div><div class="sk" style="height:22px;width:40%"></div></div>').join('')}
 async function loadLibs(force=false){
   if(libsLoading)return;
@@ -1073,4 +1079,3 @@ window.addEventListener('appinstalled', () => {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
-
