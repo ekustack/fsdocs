@@ -323,7 +323,7 @@ export function createVFS(S) {
     const html = page && has(page) ? S.files[page] : '';
     const list = [];
     for (const tag of html.match(/<link\b[^>]*>/gi) || []) {
-      if (!/rel\s*=\s*["']?stylesheet/i.test(tag)) continue;
+      if (!/(?:rel\s*=\s*["']?stylesheet|type\s*=\s*["'](?:\w*[\.\/])\s*x?fscss)/i.test(tag)) continue;
       const m = tag.match(/href\s*=\s*(["'])(.*?)\1/i);
       const f = m && resolve(page, m[2]);
       if (f && CSS_TYPES.includes(ext(f))) list.push(f);
@@ -351,7 +351,7 @@ export function createVFS(S) {
     };
 
     html = html.replace(/<link\b[^>]*>/gi, tag => {
-      if (!/rel\s*=\s*["']?stylesheet/i.test(tag)) return tag;
+      if (!/(?:rel\s*=\s*["']?stylesheet|type\s*=\s*["'](?:\w*[\.\/])\s*x?fscss)/.test(tag)) return tag;
       const m = tag.match(/href\s*=\s*(["'])(.*?)\1/i);
       const f = m && resolve(from, m[2]);
       if (!f || !CSS_TYPES.includes(ext(f))) return tag;
