@@ -168,7 +168,7 @@ Enable st-core? Type yes or no.
             <li>A registry name: <code>st-core</code>. A version suffix is ignored for lookup, so <code>st-core@v2</code> works too.</li>
             <li>A GitHub shorthand: <code>Koolkidkonrad/siri-wave.fscss</code>.</li>
             <li>A full URL: <code>https://github.com/fscss-ttr/st-core.fscss</code>. This works for packages that are not in <code>libs.json</code>.</li>
-            <li>A compiler built-in. The IDE tells you it is built in and there is nothing to download.</li>
+            <li>A compiler built-in such as. The IDE tells you it is built in and there is nothing to download.</li>
           </ul>
           <p style="margin-bottom:0"><strong>The prompt</strong> waits for 2 minutes. Running another <code>libck</code> replaces it. If you answer after it expired you get <code>Nothing to confirm.</code></p>
         </div>
@@ -384,7 +384,7 @@ say "Starter ready."</code></pre>
             <li><strong>Preview before you commit:</strong> <code>libck</code> summarizes what enabling will do (files it creates, snippets, compile, commands) before you type <code>yes</code>.</li>
             <li><strong>Limits:</strong> 200 sentences per script, 3000 ms per <code>wait</code>.</li>
             <li><strong>Scripts are not code:</strong> they are never evaluated as JavaScript. They can only do what the sentence table above allows.</li>
-            <li><strong>Allowed commands:</strong> <code>run command</code> accepts only <code>compile</code>, <code>run</code>, <code>all</code>, <code>preview</code>, <code>ls</code>, <code>open</code>, <code>new</code>, <code>libs</code>, <code>clear</code> and <code>theme</code>. Anything else, such as <code>rm</code> or <code>version</code>, stops the script with <code>"rm" is not allowed in scripts</code>.</li>
+            <li><strong>Allowed commands:</strong> <code>run command</code> accepts only <code>compile</code>, <code>run</code>, <code>all</code>, <code>preview</code>, <code>ls</code>, <code>open</code>, <code>new</code>, <code>libs</code>, <code>clear</code>, <code>theme</code>, <code>routes</code>, <code>deps</code> and <code>resolve</code>. Anything else, such as <code>rm</code> or <code>version</code>, stops the script with <code>"rm" is not allowed in scripts</code>.</li>
             <li><strong>Sources:</strong> remote scripts are fetched from <code>raw.githubusercontent.com</code> only.</li>
             <li><strong>Re-enabling:</strong> <code>libon &lt;name&gt; force</code> runs the script again. Existing files are kept and snippets with the same key are replaced.</li>
             <li><strong>Disabling:</strong> <code>liboff</code> never deletes files. Delete demo files yourself if you do not want them.</li>
@@ -588,3 +588,4 @@ xfcmd refresh           reload cmd.json</code></pre>
   <script src="/assets/scripts/main.js"></script>
 </body>
 </html>
+
