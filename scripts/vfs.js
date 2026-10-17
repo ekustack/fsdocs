@@ -319,17 +319,29 @@ export function createVFS(S) {
   }
 
   /* ---------- preview page ---------- */
+
+  /** Match stylesheet links and FSCSS type links:
+      <link rel="stylesheet" href="…">
+      <link type="text/fscss" href="…">
+      <link type="text/xfscss" href="…"> */
+  function isStyleLink(tag) {
+    if (/rel\s*=\s*["']?stylesheet/i.test(tag)) return true;
+    if (/type\s*=\s*["'][^"']*fscss["']/i.test(tag)) return true;
+    return false;
+  }
+
   function linkedCss(page) {
     const html = page && has(page) ? S.files[page] : '';
     const list = [];
     for (const tag of html.match(/<link\b[^>]*>/gi) || []) {
-      if (!/(?:rel\s*=\s*["']?stylesheet|type\s*=\s*["'](?:\w*[\.\/])\s*x?fscss)/i.test(tag)) continue;
+      if (!isStyleLink(tag)) continue;
       const m = tag.match(/href\s*=\s*(["'])(.*?)\1/i);
       const f = m && resolve(page, m[2]);
       if (f && CSS_TYPES.includes(ext(f))) list.push(f);
     }
     return list;
   }
+
   const neededFscss = page => {
     const l = linkedCss(page);
     return l.length ? l.filter(isF) : roots();
@@ -340,22 +352,41 @@ export function createVFS(S) {
     let html = page && has(page) ? S.files[page] : defaultHtml;
     let linkedC = 0, linkedJ = 0;
 
+    /** Compiled CSS when available; otherwise data:-rewritten FSCSS/CSS source. */
     const cssOf = f => {
-      if (isF(f)) {
-        if (css[f] === undefined) warn.push(f + ' is not compiled yet');
-        return css[f] ?? '/* ' + f + ' not compiled */';
-      }
+      if (isF(f) && css && css[f] !== undefined) return css[f];
       const b = bundle(f);
       b.warnings.forEach(w => warn.push(w));
       return b.text;
     };
 
+    /**
+     * Rewrite <link> tags:
+     * - FSCSS with precompiled css[f] → <style> compiled output
+     * - FSCSS without compile → keep type="text/fscss" and point href at a data:
+     *   URI of the source (local imports already rewritten to data: URIs)
+     * - Plain CSS → <style> with bundled content
+     */
     html = html.replace(/<link\b[^>]*>/gi, tag => {
-      if (!/(?:rel\s*=\s*["']?stylesheet|type\s*=\s*["'](?:\w*[\.\/])\s*x?fscss)/.test(tag)) return tag;
+      if (!isStyleLink(tag)) return tag;
       const m = tag.match(/href\s*=\s*(["'])(.*?)\1/i);
       const f = m && resolve(from, m[2]);
       if (!f || !CSS_TYPES.includes(ext(f))) return tag;
       linkedC++;
+
+      if (isF(f)) {
+        // Prefer precompiled CSS when the IDE already ran the compiler
+        if (css && css[f] !== undefined) {
+          return '<style data-src="' + f + '">\n' + safe(css[f]) + '\n</style>';
+        }
+        // Otherwise hand source to the FSCSS runtime via data: URI
+        const b = bundle(f);
+        b.warnings.forEach(w => warn.push(w));
+        const uri = 'data:text/plain;charset=utf-8,' + enc(b.text);
+        return '<link type="text/fscss" data-src="' + f + '" href="' + uri + '">';
+      }
+
+      // Plain CSS — inline
       return '<style data-src="' + f + '">\n' + safe(cssOf(f)) + '\n</style>';
     });
 
@@ -377,11 +408,24 @@ export function createVFS(S) {
 
     if (!linkedC) {
       const imp = importedSet();
-      const all = [
-        ...roots().map(n => css[n]),
-        ...names().filter(n => ext(n) === 'css' && !imp.has(n)).map(n => bundle(n).text)
-      ].filter(Boolean).join('\n');
-      html = head(html, '<style id="fscss-out">\n' + safe(all) + '\n</style>');
+      // Prefer precompiled FSCSS roots; fall back to data:-rewritten sources as text/fscss links
+      const compiled = roots().map(n => css && css[n]).filter(Boolean);
+      const plainCss = names()
+        .filter(n => ext(n) === 'css' && !imp.has(n))
+        .map(n => bundle(n).text);
+      const all = [...compiled, ...plainCss].filter(Boolean).join('\n');
+      if (all) {
+        html = head(html, '<style id="fscss-out">\n' + safe(all) + '\n</style>');
+      } else {
+        // No compiled CSS yet — emit FSCSS roots as data: links for the runtime
+        const links = roots().map(f => {
+          const b = bundle(f);
+          b.warnings.forEach(w => warn.push(w));
+          const uri = 'data:text/plain;charset=utf-8,' + enc(b.text);
+          return '<link type="text/fscss" data-src="' + f + '" href="' + uri + '">';
+        }).join('\n');
+        if (links) html = head(html, links);
+      }
     }
 
     if (!linkedJ) {
