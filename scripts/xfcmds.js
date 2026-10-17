@@ -270,7 +270,7 @@ const helperFound = (src, h) => new RegExp('@define\\s+' + reEsc(h) + '(?![\\w-]
 /* ---------- resolve a name, URL or owner/repo ---------- */
 async function resolve(q) {
   q = String(q).trim();
-  if (/^fscss:/i.test(q)) return { builtin: q };
+  /* if (/^fscss:/i.test(q)) return { builtin: q };*/
   if (/github\.com\//i.test(q)) return { repoUrl: q };
   if (/^[\w.-]+\/[\w.-]+$/.test(q)) return { repoUrl: 'https://github.com/' + q };
   const key = q.replace(/@.*$/, '').toLowerCase().replace(/\.fscss$/, '');
@@ -356,7 +356,7 @@ TERM.libck = async ([q]) => {
   if (!q) return log('error', 'Usage: libck <name | owner/repo | github url>');
   pending = null; out('Checking ' + q + '...');
   const d = await inspect(q);
-  if (d.builtin) return out(d.builtin + ' is built into the compiler. Nothing to download or enable.');
+  /* if (d.builtin) return out(d.builtin + ' is built into the compiler. Nothing to download or enable.');*/
   printReport(d);
   const on = findOn(d.info.name);
   if (on) return out('Status: enabled (' + pkgs()[on].version + '). Use liboff ' + on + ' to disable.');
@@ -367,7 +367,7 @@ TERM.libck = async ([q]) => {
 TERM.libon = async ([q, flag]) => {
   if (!q) return log('error', 'Usage: libon <name> [force]');
   const d = await inspect(q);
-  if (d.builtin) return out(d.builtin + ' is built in, nothing to enable.');
+  /* if (d.builtin) return out(d.builtin + ' is built in, nothing to enable.'); */
   if (findOn(d.info.name) && flag !== 'force') return out(d.info.name + ' is already enabled. Use: libon ' + d.info.name + ' force to run it again.');
   if (d.failed && flag !== 'force') { printReport(d); return log('error', 'Checks failed. Use: libon ' + d.info.name + ' force') }
   await enableFrom(d);
