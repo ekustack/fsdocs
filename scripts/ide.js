@@ -1,4 +1,3 @@
-
 import {createVFS} from './vfs.js';
 /* ============================================================
    Helpers
@@ -16,7 +15,7 @@ const store={
   set(k,v){try{localStorage.setItem('fside:'+k,JSON.stringify(v))}catch{}}
 };
 const langOf=n=>({fscss:'fscss',xfscss:'fscss',css:'css',html:'html',js:'javascript',json:'json',md:'markdown'}[ext(n)]||'plaintext');
-const iconOf=n=>({fscss:['fa-solid fa-palette','#ff4081'],xfscss:['fa-solid fa-palette','#ff4081'],css:['fa-brands fa-css3-alt','#42a5f5'],html:['fa-brands fa-html5','#e65100'],js:['fa-brands fa-js','#f7df1e'],json:['fa-solid fa-code','#cbcb41'],md:['fa-brands fa-markdown','#9a9a9a']}[ext(n)]||['fa-regular fa-file','#9a9a9a']);
+const iconOf=n=>({fscss:['fa-solid fa-palette','#ff4081'],xfscss:['fa-solid fa-palette','#ff4081'],css:['fa-brands fa-css3-alt','#42a5f5'],html:['fa-brands fa-html5','#e65100'],js:['fa-brands fa-js','#f7df1e'],json:['fa-solid fa-code','#cbcb41'],md:['fa-brands fa-markdown','#9a9a9a'], xfcmd:['fa-solid fa-gear', '#9a9a9a']}[ext(n)]||['fa-regular fa-file','#9a9a9a']);
 
 /* ============================================================
    Data
@@ -837,7 +836,7 @@ function cycleTab(d){if(S.open.length<2)return;const i=S.open.indexOf(S.active);
 async function resetWorkspace(){
   if(!await confirmBox('Reset workspace','This replaces all files with the defaults and clears saved settings. Export a backup first if you need one.',true))return;
   try{Object.keys(localStorage).filter(k=>k.startsWith('fside:')).forEach(k=>localStorage.removeItem(k))}catch{}
-  location.reload();
+  setTimeout(()=>{location.reload();}, 1000);
 }
 
 function combo(e){
