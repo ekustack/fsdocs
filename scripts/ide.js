@@ -1,3 +1,4 @@
+import {createVFS} from './vfs.js';
 /* ============================================================
    Helpers
    ============================================================ */
@@ -162,6 +163,8 @@ if(!S.open.length&&Object.keys(S.files).length)S.open=[Object.keys(S.files)[0]];
 if(!(S.active in S.files))S.active=S.open[0]||null;
 if(!(S.settings.entry in S.files))S.settings.entry=Object.keys(S.files).find(isFscss)||'';
 document.documentElement.dataset.theme=S.settings.theme;
+S.page=null;
+const VFS=createVFS(S);
 
 let ed=null,outEd=null,xf=null;
 const models={},views={};
@@ -221,6 +224,13 @@ window.addEventListener('error',e=>{
 window.addEventListener('unhandledrejection',e=>log('error','Unhandled rejection: '+fmtArg(e.reason)));
 window.addEventListener('message',e=>{
   const d=e.data;if(!d||!d.fside||e.source!==$('#prev').contentWindow)return;
+  if(d.nav){
+    const f=VFS.resolve(S.page||'',d.nav);
+    if(f&&VFS.isPage(f)){S.page=f;refreshPreview();renderPages()}
+    else if(/^(https?:)?\/\//i.test(d.nav))window.open(d.nav,'_blank','noopener');
+    else log('warn','[preview] no workspace page for '+d.nav);
+    return;
+  }
   log(d.level==='log'?'out':d.level,'[preview] '+d.args.join(' '));
 });
 
@@ -356,6 +366,7 @@ function openFile(n,focus=true){
   if(ed&&S.active&&models[S.active]&&!models[S.active].isDisposed())views[S.active]=ed.saveViewState();
   if(!S.open.includes(n))S.open.push(n);
   S.active=n;
+  if(ext(n)==='html'){S.page=n;if(S.layout.outTab==='preview')refreshPreview()}
   if(ed){ed.setModel(modelFor(n));if(views[n])ed.restoreViewState(views[n])}
   renderTabs();renderTree();updateLang();persistSoon();
   if(focus&&ed)ed.focus();
@@ -368,29 +379,39 @@ function closeFile(n){
     else{S.active=null;ed.setModel(null);renderTabs();renderTree();updateLang();persistSoon()}
   }else{renderTabs();persistSoon()}
 }
+/* update imports, links and module paths in other files when a file moves */
+function fixRefs(o,n){
+  const changed=VFS.moveRefs(o,n);
+  changed.filter(f=>f!==o).forEach(f=>{const m=models[f];if(m&&!m.isDisposed())m.setValue(S.files[f])});
+  if(changed.length)log('system','Updated references in '+changed.join(', '));
+}
 async function renameFile(o){
   const v=await askInput('Rename file',o);if(!v)return;
   const n=cleanName(v);if(!n||n===o)return;
   if(n in S.files)return toast('That name is already used','err');
+  fixRefs(o,n);
   const content=S.files[o];delete S.files[o];S.files[n]=content;
   if(models[o]){models[o].dispose();delete models[o]}
   if(S.css[o]!==undefined){S.css[n]=S.css[o];delete S.css[o]}
   delete views[o];
   S.open=S.open.map(x=>x===o?n:x);
   if(S.settings.entry===o)S.settings.entry=n;
-  PROBS=PROBS.filter(p=>p.file!==o);
+  if(S.page===o)S.page=n;
+  PROBS=PROBS.filter(p=>p.file!==o&&p.root!==o);
   if(S.active===o){S.active=n;ed.setModel(modelFor(n))}
   renderAll();persistSoon();
 }
 async function deleteFile(n){
   if(!await confirmBox('Delete file',`Delete ${n}? This cannot be undone.`,true))return;
   const wasActive=S.active===n;
+  const refs=VFS.refsTo(n);
   delete S.files[n];delete S.css[n];delete views[n];
   if(models[n]){models[n].dispose();delete models[n]}
-  PROBS=PROBS.filter(p=>p.file!==n);
+  PROBS=PROBS.filter(p=>p.file!==n&&p.root!==n);
   S.open=S.open.filter(x=>x!==n);
   if(S.settings.entry===n)S.settings.entry=Object.keys(S.files).find(isFscss)||'';
   if(wasActive){S.active=null;if(S.open.length)openFile(S.open[S.open.length-1]);else{ed.setModel(null)}}
+  if(refs.length)log('warn',`${n} was referenced by: ${refs.join(', ')}`);
   renderAll();persistSoon();
 }
 function dupFile(n){const m=n.match(/^(.*?)(\.[^./]+)?$/);addFile(`${m[1]}-copy${m[2]||''}`,S.files[n])}
@@ -420,6 +441,13 @@ function renderTree(){
   }).join('');
   $('#tree').innerHTML=draw(root,0)||'<div class="empty">No files yet</div>';
   $('#exList').innerHTML=Object.keys(EXAMPLES).map(k=>`<div class="row" data-ex="${k}"><i class="fa-solid fa-flask" style="color:var(--pink);width:14px;text-align:center"></i><span class="nm">${k}</span><i class="fa-solid fa-plus" style="color:var(--mut);font-size:11px"></i></div>`).join('');
+  renderPages();
+}
+function renderPages(){
+  const sel=$('#pageSel');if(!sel)return;
+  const pg=VFS.pages();
+  sel.innerHTML=pg.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('')||'<option value="">default page</option>';
+  sel.value=VFS.pickPage(S.page)||'';
 }
 function updateLang(){const m=ed?.getModel();$('#stLang').textContent=m?m.getLanguageId().replace('javascript','JavaScript').replace(/^./,c=>c.toUpperCase()).replace('Fscss','FSCSS'):'-'}
 function renderAll(){renderTabs();renderTree();renderProblems();updateLang()}
@@ -428,14 +456,21 @@ function renderAll(){renderTabs();renderTree();renderProblems();updateLang()}
    Problems
    ============================================================ */
 let PROBS=[];
-function addProblem(file,err){
+function addProblem(file,err,b){
   const msg=err?.message||String(err);
   const m=msg.match(/line\s*(\d+)(?:\D+(\d+))?/i);
-  PROBS=PROBS.filter(x=>x.file!==file);
-  PROBS.push({file,msg,line:m?+m[1]:1,col:m&&m[2]?+m[2]:1});
-  markers(file);renderProblems();
+  const o=b&&m?b.map[+m[1]-1]:null;
+  const at=o?{file:o.file,line:o.line}:{file,line:m?+m[1]:1};
+  const old=PROBS.filter(x=>x.root===file).map(x=>x.file);
+  PROBS=PROBS.filter(x=>x.root!==file);
+  PROBS.push({file:at.file,root:file,line:at.line,col:m&&m[2]?+m[2]:1,msg:at.file!==file?`${msg} (in ${at.file}, imported by ${file})`:msg});
+  new Set([file,at.file,...old]).forEach(f=>markers(f));renderProblems();
 }
-function clearProblems(file){PROBS=PROBS.filter(x=>x.file!==file);markers(file);renderProblems()}
+function clearProblems(file){
+  const old=PROBS.filter(x=>x.root===file||x.file===file).map(x=>x.file);
+  PROBS=PROBS.filter(x=>x.root!==file&&x.file!==file);
+  new Set([file,...old]).forEach(f=>markers(f));renderProblems();
+}
 function markers(file){
   const m=models[file];if(!m||m.isDisposed())return;
   const lc=m.getLineCount();
@@ -468,13 +503,15 @@ async function loadCompiler(v){
 async function build(name){
   if(!xf){log('error','Compiler is not loaded. Check your network or the version in Settings.');return null}
   const restore=intercept();
+  const b=VFS.bundle(name);
+  b.warnings.forEach(w=>log('warn',w));
   try{
     const t0=performance.now();
-    const css=await xf.process(S.files[name]);
+    const css=await xf.process(b.text);
     S.css[name]=css||'';clearProblems(name);
-    return{ok:true,css:S.css[name],ms:performance.now()-t0};
+    return{ok:true,css:S.css[name],ms:performance.now()-t0,deps:b.deps};
   }catch(err){
-    addProblem(name,err);
+    addProblem(name,err,b);
     return{ok:false,err};
   }finally{restore()}
 }
@@ -494,6 +531,7 @@ async function compile({preview=false}={}){
   if(r.ok){
     showOutput(name);setStatus('ok','OK '+r.ms.toFixed(0)+' ms');
     log('system',`Compiled ${name} in ${r.ms.toFixed(1)} ms`);
+    if(r.deps?.length)log('system','Bundled imports: '+r.deps.join(', '));
     stats(name,r.ms);
     if(preview)setOut('preview');else if(S.layout.outTab==='preview')refreshPreview();
   }else{
@@ -502,7 +540,7 @@ async function compile({preview=false}={}){
   }
 }
 async function compileAll(quiet=false){
-  const names=Object.keys(S.files).filter(isFscss);if(!names.length)return;
+  const names=VFS.roots();if(!names.length)return;
   if(!quiet){setBusy(true);log('system',`Compiling ${names.length} file(s)...`)}
   let ok=0,bad=0;
   for(const n of names){const r=await build(n);r?.ok?ok++:bad++}
@@ -512,7 +550,7 @@ async function compileAll(quiet=false){
   if(!quiet)log(bad?'warn':'system',`Compile all: ${ok} ok, ${bad} failed`);
   if(S.layout.outTab==='preview')refreshPreview();
 }
-const autoCompile=debounce(()=>compile(),700);
+const autoCompile=debounce(()=>VFS.isPartial(target())?compileAll(true):compile(),700);
 const autoPreview=debounce(()=>refreshPreview(),700);
 
 async function gz(str){
@@ -526,25 +564,17 @@ async function stats(name,ms){
 /* ============================================================
    Preview
    ============================================================ */
-const BRIDGE="(function(){['log','warn','info','error'].forEach(function(l){var o=console[l];console[l]=function(){var a=[].slice.call(arguments).map(function(x){try{return typeof x==='string'?x:JSON.stringify(x)}catch(e){return String(x)}});o.apply(console,arguments);parent.postMessage({fside:1,level:l,args:a},'*')}});addEventListener('error',function(e){parent.postMessage({fside:1,level:'error',args:[e.message]},'*')})})();";
-const safe=s=>String(s).replace(/<\/(style|script)/gi,'<\\/$1');
+const BRIDGE="(function(){['log','warn','info','error'].forEach(function(l){var o=console[l];console[l]=function(){var a=[].slice.call(arguments).map(function(x){try{return typeof x==='string'?x:JSON.stringify(x)}catch(e){return String(x)}});o.apply(console,arguments);parent.postMessage({fside:1,level:l,args:a},'*')}});addEventListener('error',function(e){parent.postMessage({fside:1,level:'error',args:[e.message]},'*')});document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href');if(!h||h.charAt(0)==='#')return;e.preventDefault();parent.postMessage({fside:1,nav:h},'*')})})();";
 function buildPreview(bridge=true){
-  const names=Object.keys(S.files);
-  const css=[...names.filter(isFscss).map(n=>S.css[n]),...names.filter(n=>ext(n)==='css').map(n=>S.files[n])].filter(Boolean).join('\n');
-  const js=names.filter(n=>ext(n)==='js').map(n=>S.files[n]).join('\n');
-  let html=S.files['index.html']??DEFAULT_HTML;
-  const style='<style id="fscss-out">\n'+safe(css)+'\n<'+'/style>';
-  const b=bridge?'<script>'+BRIDGE+'<'+'/script>':'';
-  html=/<head[^>]*>/i.test(html)?html.replace(/<head[^>]*>/i,m=>m+b):b+html;
-  html=/<\/head>/i.test(html)?html.replace(/<\/head>/i,()=>style+'</head>'):style+html;
-  if(js.trim()){
-    const sc='<script type="module">\n'+safe(js)+'\n<'+'/script>';
-    html=/<\/body>/i.test(html)?html.replace(/<\/body>/i,()=>sc+'</body>'):html+sc;
-  }
-  return html;
+  S.page=VFS.pickPage(S.page);
+  const r=VFS.buildPage({page:S.page,css:S.css,defaultHtml:DEFAULT_HTML,bridge,bridgeJs:BRIDGE});
+  r.warnings.forEach(w=>log('warn','[preview] '+w));
+  return r.html;
 }
-function refreshPreview(){
+async function refreshPreview(){
   $('#prevLoad').hidden=false;
+  S.page=VFS.pickPage(S.page);
+  for(const n of VFS.neededFscss(S.page))if(S.css[n]===undefined)await build(n);
   $('#prev').onload=()=>{$('#prevLoad').hidden=true};
   $('#prev').srcdoc=buildPreview();
   setTimeout(()=>{$('#prevLoad').hidden=true},2500);
@@ -554,7 +584,7 @@ function setOut(t){
   S.layout.outTab=t;
   $$('[data-out]').forEach(b=>b.classList.toggle('on',b.dataset.out===t));
   $('#cssHost').hidden=t!=='css';$('#outPrev').hidden=t!=='preview';
-  ['#devSel','#btnPrevTab','#btnPrevRef'].forEach(s=>$(s).hidden=t!=='preview');
+  ['#pageSel','#devSel','#btnPrevTab','#btnPrevRef'].forEach(s=>{const el=$(s);if(el)el.hidden=t!=='preview'});
   if(t==='preview')refreshPreview();
   persistSoon();
 }
@@ -565,16 +595,20 @@ function setOut(t){
 const HIST=[];let hi=0;
 const out=(...a)=>log('out',...a);
 const TERM={
-  help:()=>out('Commands:\n  ls                  list files\n  cat <file>          print a file\n  open <file>         open in editor\n  new <file>          create a file\n  rm <file>           delete a file\n  mv <old> <new>      rename a file\n  compile | run       compile active file\n  all                 compile every .fscss file\n  preview             compile and show preview\n  fscss <code>        compile a snippet inline\n  libs [query]        search components\n  theme dark|light    switch theme\n  version [x.y.z]     show or change compiler version\n  export              download project zip\n  clear               clear terminal'),
-  ls:()=>Object.keys(S.files).sort().forEach(n=>out(n+(n===S.settings.entry?'  (entry)':'')+'  '+bytes(S.files[n].length))),
+  help:()=>out('Commands:\n  ls                  list files\n  cat <file>          print a file\n  open <file>         open in editor\n  new <file>          create a file\n  rm <file>           delete a file\n  mv <old> <new>      rename a file (updates imports and links)\n  compile | run       compile active file\n  all                 compile every root .fscss file\n  preview             compile and show preview\n  fscss <code>        compile a snippet inline\n  routes              list preview pages\n  deps [file]         show imports, links and who uses a file\n  resolve <from> <ref>  test how a path resolves\n  libs [query]        search components\n  theme dark|light    switch theme\n  version [x.y.z]     show or change compiler version\n  export              download project zip\n  clear               clear terminal'),
+  ls:()=>Object.keys(S.files).sort().forEach(n=>out(n+(n===S.settings.entry?'  (entry)':'')+(VFS.isPartial(n)?'  (partial)':'')+'  '+bytes(S.files[n].length))),
   cat:([n])=>n in S.files?out(S.files[n]):log('error','No such file: '+n),
   open:([n])=>n in S.files?openFile(n):log('error','No such file: '+n),
   new:([n])=>n?out('Created '+addFile(n)):log('error','Usage: new <file>'),
   rm:async([n])=>{if(!(n in S.files))return log('error','No such file: '+n);await deleteFile(n)},
   mv:async([a,b])=>{if(!(a in S.files)||!b)return log('error','Usage: mv <old> <new>');const n=cleanName(b);if(n in S.files)return log('error','Target exists');
-    S.files[n]=S.files[a];delete S.files[a];if(models[a]){models[a].dispose();delete models[a]}S.open=S.open.map(x=>x===a?n:x);if(S.active===a){S.active=n;ed.setModel(modelFor(n))}if(S.settings.entry===a)S.settings.entry=n;renderAll();persistSoon();out(a+' to '+n)},
+    fixRefs(a,n);
+    S.files[n]=S.files[a];delete S.files[a];if(models[a]){models[a].dispose();delete models[a]}S.open=S.open.map(x=>x===a?n:x);if(S.active===a){S.active=n;ed.setModel(modelFor(n))}if(S.settings.entry===a)S.settings.entry=n;if(S.page===a)S.page=n;renderAll();persistSoon();out(a+' to '+n)},
   compile:()=>compile(),run:()=>compile(),all:()=>compileAll(),preview:()=>compile({preview:true}),
   fscss:async(_,rest)=>{if(!rest)return log('error','Usage: fscss <code>');if(!xf)return log('error','Compiler not loaded');const r=intercept();try{out(await xf.process(rest)||'(empty)')}catch(e){log('error',e.message)}finally{r()}},
+  routes:()=>{const r=VFS.routes();r.length?r.forEach(x=>out(x.route.padEnd(22)+x.file)):out('No html pages yet')},
+  deps:([f])=>{f=f||S.active;if(!f||!(f in S.files))return log('error','Usage: deps <file>');const d=VFS.deps(f);if(d.length)d.forEach(x=>out(x.kind.padEnd(7)+x.ref+'  ->  '+(x.to||(x.kind==='remote'?'remote library':'not in workspace'))));else out('No references in '+f);const by=VFS.refsTo(f);if(by.length)out('Referenced by: '+by.join(', '))},
+  resolve:([from,ref])=>from&&ref?out(VFS.resolve(from,ref)||'not found'):log('error','Usage: resolve <from-file> <ref>'),
   libs:async([q])=>{if(!LIBS.length)await loadLibs();const l=LIBS.filter(x=>!q||(x.name+x.description).toLowerCase().includes(q.toLowerCase()));l.forEach(x=>out(`${x.name}${x.version?'@'+x.version:''}  ${x.repoUrl}`));if(!l.length)out('No matches')},
   theme:([t])=>{if(!['dark','light'].includes(t))return log('error','Usage: theme dark|light');S.settings.theme=t;applySettings()},
   version:async([v])=>{if(!v)return out('fscss@'+S.settings.version);S.settings.version=v;persistSoon();if(await loadCompiler(v))compileAll(true)},
@@ -585,7 +619,7 @@ async function runTerm(line){
   const [cmd,...args]=line.split(/\s+/);
   const rest=line.slice(cmd.length).trim();
   const f=TERM[cmd];
-  if(!f)return log('error',`Unknown command: ${cmd}. Type help.`);
+  if(!f)return log('error',`Unknown command: ${cmd}. Type help`);
   try{await f(args,rest)}catch(e){log('error',e.message)}
 }
 $('#termIn').addEventListener('keydown',e=>{
@@ -718,7 +752,7 @@ function makeZip(entries){
   return new Blob([...chunks,...central,new Uint8Array(end.buffer)],{type:'application/zip'});
 }
 async function ensureCss(){
-  if(!Object.keys(S.files).filter(isFscss).some(n=>S.css[n]===undefined))return;
+  if(!VFS.roots().some(n=>S.css[n]===undefined))return;
   await compileAll(true);
 }
 async function importFiles(list){
@@ -761,7 +795,7 @@ const cmds=[
  ['dlCss','Download compiled CSS','download','',async()=>{const n=target();if(!n)return toast('No FSCSS file','warn');if(S.css[n]===undefined)await compile();if(S.css[n]!==undefined)download(base(n).replace(/\.x?fscss$/,'')+'.css',S.css[n],'text/css')}],
  ['dlMin','Download minified CSS','compress','',async()=>{const n=target();if(!n)return;if(S.css[n]===undefined)await compile();if(S.css[n]!==undefined)download(base(n).replace(/\.x?fscss$/,'')+'.min.css',minify(S.css[n]),'text/css')}],
  ['dlHtml','Download standalone HTML page','file-code','',async()=>{await ensureCss();download('index-standalone.html',buildPreview(false),'text/html')}],
- ['dlZip','Download project (ZIP with compiled CSS)','file-zipper','',async()=>{await ensureCss();const e=Object.entries(S.files);for(const n of Object.keys(S.files).filter(isFscss))if(S.css[n])e.push(['dist/'+n.replace(/\.x?fscss$/,'')+'.css',S.css[n]]);download('fscss-project.zip',makeZip(e));log('system','Exported ZIP with '+e.length+' files')}],
+ ['dlZip','Download project (ZIP with compiled CSS)','file-zipper','',async()=>{await ensureCss();const e=Object.entries(S.files);for(const n of VFS.roots())if(S.css[n])e.push(['dist/'+n.replace(/\.x?fscss$/,'')+'.css',S.css[n]]);download('fscss-project.zip',makeZip(e));log('system','Exported ZIP with '+e.length+' files')}],
  ['dlJson','Download project (JSON backup)','database','',()=>download('fscss-project.json',JSON.stringify({fside:1,entry:S.settings.entry,files:S.files},null,2),'application/json')],
  ['copyCss','Copy compiled CSS','copy','',async()=>{try{await navigator.clipboard.writeText(outEd.getValue());toast('CSS copied','ok')}catch{toast('Clipboard blocked by the browser','err')}}],
  ['share','Copy share link for active file','link','',async()=>{if(!S.active)return;const u=location.href.split('#')[0]+'#code='+encodeURIComponent(S.files[S.active]);try{await navigator.clipboard.writeText(u);toast(u.length>4000?'Link copied (long, may not work everywhere)':'Share link copied','ok')}catch{toast('Clipboard blocked by the browser','err')}}],
@@ -939,6 +973,9 @@ function bindUI(){
   $('#toolGrid').innerHTML=['format','beautify','minify','copyCss','share','runAll','entry','wrap','minimap','openPrev','docs','reset'].map(id=>`<button data-cmd="${id}"><i class="fa-solid fa-${CMD[id].icon}"></i><span>${esc(CMD[id].label.replace('Compile all FSCSS files','Compile all').replace('Set active file as entry','Set as entry').replace('Open preview in new tab','Open preview').replace('Open FSCSS documentation','Docs'))}</span></button>`).join('');
   $('#builtin').innerHTML=BUILTIN_LIBS.map(n=>`<button class="chip" data-imp="${n}" title="Insert import">${n}</button>`).join('');
 
+  const ps=document.createElement('select');ps.id='pageSel';ps.title='Preview page';ps.hidden=true;ps.style.maxWidth='130px';$('#devSel').before(ps);
+  ps.addEventListener('change',e=>{S.page=e.target.value;refreshPreview()});
+
   document.addEventListener('click',e=>{
     const dd=e.target.closest('[data-dd]');
     if(dd){const p=dd.closest('.dd');const was=p.classList.contains('open');$$('.dd.open').forEach(x=>x.classList.remove('open'));p.classList.toggle('open',!was);return}
@@ -1017,7 +1054,7 @@ async function boot(){
   log('system','Ready. Press Ctrl+Shift+P for commands or type help below.');
 }
 
-window.IDE={S,TERM,SNIPS,log,out,toast,addFile,openFile,renderAll,renderSnips,persistSoon,compile,compileAll,insertImport,setView,setBottom,setOut,runTerm,loadLibs,parseGH,store,cleanName,getLibs:()=>LIBS};
+window.IDE={S,TERM,SNIPS,VFS,log,out,toast,addFile,openFile,renderAll,renderSnips,persistSoon,compile,compileAll,insertImport,setView,setBottom,setOut,runTerm,loadLibs,parseGH,store,cleanName,getLibs:()=>LIBS};
 import('./xfcmds.js').catch(e=>log('warn','xfcmds.js not loaded: '+e.message));
 
 boot();
