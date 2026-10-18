@@ -1,4 +1,5 @@
 import {createVFS} from './vfs.js';
+import {registerXfcmd} from './xfcmd-lang.js';
 /* ============================================================
    Helpers
    ============================================================ */
@@ -14,8 +15,8 @@ const store={
   get(k,d){try{const v=localStorage.getItem('fside:'+k);return v==null?d:JSON.parse(v)}catch{return d}},
   set(k,v){try{localStorage.setItem('fside:'+k,JSON.stringify(v))}catch{}}
 };
-const langOf=n=>({fscss:'fscss',xfscss:'fscss',css:'css',html:'html',js:'javascript',json:'json',md:'markdown'}[ext(n)]||'plaintext');
-const iconOf=n=>({fscss:['fa-solid fa-palette','#ff4081'],xfscss:['fa-solid fa-palette','#ff4081'],css:['fa-brands fa-css3-alt','#42a5f5'],html:['fa-brands fa-html5','#e65100'],js:['fa-brands fa-js','#f7df1e'],json:['fa-solid fa-code','#cbcb41'],md:['fa-brands fa-markdown','#9a9a9a'], xfcmd:['fa-solid fa-gear', '#9a9a9a']}[ext(n)]||['fa-regular fa-file','#9a9a9a']);
+const langOf=n=>({fscss:'fscss',xfscss:'fscss',css:'css',html:'html',js:'javascript',json:'json',md:'markdown',xfcmd:'xfcmd'}[ext(n)]||'plaintext');
+const iconOf=n=>({fscss:['fa-solid fa-palette','#ff4081'],xfscss:['fa-solid fa-palette','#ff4081'],css:['fa-brands fa-css3-alt','#42a5f5'],html:['fa-brands fa-html5','#e65100'],js:['fa-brands fa-js','#f7df1e'],json:['fa-solid fa-code','#cbcb41'],md:['fa-brands fa-markdown','#9a9a9a'],xfcmd:['fa-solid fa-terminal','#0BCEAE']}[ext(n)]||['fa-regular fa-file','#9a9a9a']);
 
 /* ============================================================
    Data
@@ -293,6 +294,7 @@ const FSCSS_MONARCH={
 };
 
 function setupMonaco(){
+  registerXfcmd(monaco);
   monaco.languages.register({id:'fscss',extensions:['.fscss','.xfscss'],aliases:['FSCSS']});
   monaco.languages.setMonarchTokensProvider('fscss',FSCSS_MONARCH);
   monaco.languages.setLanguageConfiguration('fscss',{
@@ -619,7 +621,7 @@ async function runTerm(line){
   const [cmd,...args]=line.split(/\s+/);
   const rest=line.slice(cmd.length).trim();
   const f=TERM[cmd];
-  if(!f)return log('error',`Unknown command: ${cmd}. Type help`);
+  if(!f)return log('error',`Unknown command: ${cmd}. Type help.`);
   try{await f(args,rest)}catch(e){log('error',e.message)}
 }
 $('#termIn').addEventListener('keydown',e=>{
@@ -836,7 +838,7 @@ function cycleTab(d){if(S.open.length<2)return;const i=S.open.indexOf(S.active);
 async function resetWorkspace(){
   if(!await confirmBox('Reset workspace','This replaces all files with the defaults and clears saved settings. Export a backup first if you need one.',true))return;
   try{Object.keys(localStorage).filter(k=>k.startsWith('fside:')).forEach(k=>localStorage.removeItem(k))}catch{}
-  setTimeout(()=>{location.reload();}, 1000);
+  location.reload();
 }
 
 function combo(e){
@@ -1116,3 +1118,4 @@ window.addEventListener('appinstalled', () => {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
+
