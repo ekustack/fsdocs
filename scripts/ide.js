@@ -119,7 +119,8 @@ const DEFAULT_HTML=`<!DOCTYPE html>
 const defaultFiles=()=>({
   'main.fscss':EXAMPLES.variables,
   'index.html':DEFAULT_HTML,
-  'app.js':"// Runs inside the preview page\nconsole.log('Preview ready');\n"
+  'app.js':"// Runs inside the preview page\nconsole.log('Preview ready');\n", 
+  'cmd.xfcmd':'print "Hello, World!"\nrun command "ls"', 
 });
 
 const SNIPS=[
