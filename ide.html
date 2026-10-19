@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Primary SEO -->
-  <title>FSCSS IDE – Online Editor, Live Compiler & Preview for Figured Shorthand CSS</title>
-  <meta name="description" content="Free browser-based FSCSS IDE. Multi-file editor, live compiler, component search, live preview, terminal, and one-click exports. Write Figured Shorthand CSS and compile to standard CSS instantly.">
-  <meta name="keywords" content="FSCSS, FSCSS IDE, Figured Shorthand CSS, CSS preprocessor, online CSS editor, FSCSS compiler, live CSS preview, shorthand CSS, fscss.devtem.org">
+  <title>FSCSS IDE – Browser Editor, Live Compiler, Multi-file Workspace &amp; Package Automation</title>
+  <meta name="description" content="Free browser IDE for FSCSS (Figured Shorthand CSS). Multi-file workspace with virtual FS and local @import (selective aliases, *, exec), Monaco editor, live compile &amp; multi-page preview, component registry, terminal + xfcmd scripts (libck / libon), snippets, PWA install, and export to CSS, HTML, ZIP or JSON. Runs fscss@1.2.6+ with no install.">
+  <meta name="keywords" content="FSCSS IDE, Figured Shorthand CSS, online CSS editor, FSCSS compiler, live CSS preview, CSS preprocessor, multi-file CSS project, virtual file system, @import aliases, selective import, xfcmd, libck, libon, st-core, overlapui, circle-progress, flex-control, modular CSS, pattern matching, Monaco editor, browser IDE, shorthand CSS, fscss.devtem.org, PWA">
   <meta name="author" content="Figsh / FSCSS">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <link rel="canonical" href="https://fscss.devtem.org/ide"> <!-- update to your real URL -->
-  
-  <!-- Theme & PWA-ish -->
+  <link rel="canonical" href="https://fscss.devtem.org/ide">
+
+  <!-- Theme & app chrome -->
   <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="color-scheme" content="dark light">
@@ -20,62 +20,100 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="FSCSS IDE">
-  
+
   <!-- Favicons -->
   <link rel="icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
-  
-  <!-- Open Graph / Facebook / LinkedIn -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/ide">
-  <meta property="og:title" content="FSCSS IDE – Online Editor & Live Compiler">
-  <meta property="og:description" content="Browser IDE for FSCSS: multi-file editor, live compiler, component search, live preview, terminal and exports. Write shorter, more expressive CSS that compiles to plain CSS.">
+  <meta property="og:title" content="FSCSS IDE – Editor, Live Compiler, Preview &amp; Packages">
+  <meta property="og:description" content="Multi-file FSCSS workspace in the browser: virtual FS with local imports, live compile, multi-page preview, component search, terminal, xfcmd automation (enable modules like st-core in one command), snippets, PWA, and export CSS / HTML / ZIP.">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
-  <meta property="og:image:alt" content="FSCSS IDE logo">
+  <meta property="og:image:alt" content="FSCSS IDE">
   <meta property="og:site_name" content="FSCSS">
   <meta property="og:locale" content="en_US">
-  
-  <!-- Twitter Card -->
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FSCSS IDE – Online Editor & Live Compiler">
-  <meta name="twitter:description" content="Free browser IDE for Figured Shorthand CSS. Live compile, preview, multi-file projects, component library search and exports.">
+  <meta name="twitter:title" content="FSCSS IDE – Online Editor &amp; Live Compiler">
+  <meta name="twitter:description" content="Write FSCSS in the browser. Live compile, multi-file projects, local @import via virtual FS, package enable (libck/libon), terminal xfcmd scripts, and one-click exports to plain CSS.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta name="twitter:image:alt" content="FSCSS IDE">
- <!-- PWA / Install as App -->
-<link rel="manifest" href="/manifest.json">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FSCSS IDE">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
-  
-  
-  <!-- Structured Data (JSON-LD) – helps Google understand it is a WebApplication -->
+
+  <!-- WebApplication -->
   <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "FSCSS IDE",
-      "url": "https://fscss.devtem.org/ide",
-      "description": "Browser-based multi-file IDE for FSCSS (Figured Shorthand Cascading Style Sheets). Live compiler, preview, component search, terminal and project export.",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "Figsh / FSCSS",
-        "url": "https://fscss.devtem.org"
-      },
-      "softwareVersion": "1.2.6",
-      "browserRequirements": "Requires JavaScript. Works best in modern Chromium, Firefox or Safari."
-    }
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FSCSS IDE",
+    "alternateName": "Figured Shorthand CSS IDE",
+    "url": "https://fscss.devtem.org/ide",
+    "description": "Browser-based multi-file IDE for FSCSS. Virtual workspace with path-aware local @import (selective aliases, wildcard, exec), live compiler and multi-page preview, Monaco editor, component registry, terminal with xfcmd package automation (libck, libon, enable scripts), snippets, PWA install, and export to CSS, HTML, ZIP, or JSON backup.",
+    "applicationCategory": "DeveloperApplication",
+    "applicationSubCategory": "Code Editor",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript. Best in modern Chromium, Firefox, or Safari.",
+    "softwareVersion": "1.2.6",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Multi-file workspace (.fscss, .xfscss, .css, .html, .js, .xfcmd)",
+      "Virtual file system with resolve, deps, roots, and rename-safe refs",
+      "Local @import rewritten for the runtime (selective aliases, *, exec, registry remotes)",
+      "Live FSCSS compile and CSS output",
+      "Multi-page HTML preview with device widths and missing-link safety",
+      "Monaco editor with FSCSS and xfcmd highlighting, folding, and snippets",
+      "Component registry search and one-click @import",
+      "Terminal: libs, libck, libon, xfcmd package scripts",
+      "Command palette, keyboard shortcuts, dark/light theme",
+      "Compile-while-typing and switchable compiler version via jsDelivr",
+      "Export CSS, minified CSS, HTML, ZIP, JSON backup",
+      "PWA install and localStorage workspace autosave"
+    ],
+    "screenshot": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
+    "creator": {
+      "@type": "Organization",
+      "name": "Figsh / FSCSS",
+      "url": "https://fscss.devtem.org"
+    },
+    "isAccessibleForFree": true,
+    "inLanguage": "en"
+  }
   </script>
-  
-  <!-- Existing assets -->
+
+  <!-- Breadcrumb -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FSCSS",
+        "item": "https://fscss.devtem.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "IDE",
+        "item": "https://fscss.devtem.org/ide"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="related" href="https://fscss.devtem.org/ide-guide" title="FSCSS IDE guide">
+  <link rel="related" href="https://fscss.devtem.org/xfcmds-guide" title="xfcmds and package automation">
+  <link rel="related" href="https://fscss.devtem.org/docs" title="FSCSS documentation">
+  <link rel="related" href="https://fscss.devtem.org/libraries" title="FSCSS libraries">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/assets/styles/ide.css">
 </head>
@@ -205,3 +243,4 @@
 
 </body>
 </html>
+
