@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Canonical (this page stays on /fscss-to-css; IDE lives at /ide) -->
-  <link rel="canonical" href="https://fscss.devtem.org/fscss-to-css">
+  <!-- Canonical (landing stays on /compiler; product lives at /ide) -->
+  <link rel="canonical" href="https://fscss.devtem.org/compiler">
 
   <!-- Primary SEO -->
-  <title>FSCSS to CSS Converter – Now the Free Online FSCSS IDE</title>
-  <meta name="description" content="The FSCSS compiler has evolved. Open the free browser-based FSCSS IDE: multi-file editor, live compile, preview, components, terminal and exports. Control everything. Learn, ship, experience.">
-  <meta name="keywords" content="FSCSS to CSS, FSCSS IDE, FSCSS compiler, convert FSCSS to CSS, online CSS preprocessor, Figured Shorthand CSS, free CSS IDE, fscss.devtem.org">
-  <meta name="author" content="Figsh / FSCSS">
+  <title>FSCSS to CSS Converter – Free Online FSCSS IDE (Live Compiler &amp; Preview)</title>
+  <meta name="description" content="Convert FSCSS to CSS in a free browser IDE: multi-file workspace, virtual FS with local @import (aliases, *, exec), live compile &amp; multi-page preview, component registry, terminal + xfcmd (libck/libon), snippets, PWA, and export to CSS, HTML, ZIP or JSON. No install.">
+  <meta name="keywords" content="FSCSS to CSS, FSCSS converter, FSCSS IDE, FSCSS compiler, convert FSCSS to CSS, online CSS preprocessor, Figured Shorthand CSS, free CSS IDE, multi-file CSS, virtual file system, @import aliases, selective import, xfcmd, libck, libon, st-core, flex-control, circle-progress, modular CSS, live preview, Monaco editor, fscss.devtem.org">
+  <meta name="author" content="Figsh / fscss-ttr">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="language" content="English">
 
@@ -31,8 +31,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/compiler">
-  <meta property="og:title" content="FSCSS IDE – Free Online Editor & Live Compiler">
-  <meta property="og:description" content="The old FSCSS converter is now a full free IDE. Multi-file projects, live compile, preview, components, terminal and exports. Made with care for developers.">
+  <meta property="og:title" content="FSCSS to CSS – Free Online IDE &amp; Live Compiler">
+  <meta property="og:description" content="The classic FSCSS→CSS converter is now a full free IDE: multi-file projects, local imports, live compile, multi-page preview, registry, terminal, xfcmd automation, and one-click exports.">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta property="og:image:alt" content="FSCSS IDE">
   <meta property="og:site_name" content="FSCSS">
@@ -42,33 +42,52 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
-  <meta name="twitter:title" content="FSCSS IDE – Free Online Editor & Live Compiler">
-  <meta name="twitter:description" content="Control everything. Learn, ship, experience on our free FSCSS IDE. Multi-file, live compile, preview, terminal, exports.">
+  <meta name="twitter:title" content="FSCSS to CSS – Free Online IDE &amp; Live Compiler">
+  <meta name="twitter:description" content="Convert FSCSS to CSS in the browser. Multi-file workspace, live compile &amp; preview, local @import, xfcmd package scripts, and export to plain CSS — free, no install.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   <meta name="twitter:image:alt" content="FSCSS IDE">
 
-  <!-- Structured Data -->
+  <!-- WebApplication (product URL is /ide) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "FSCSS IDE",
+    "alternateName": ["FSCSS to CSS Converter", "Figured Shorthand CSS IDE"],
     "url": "https://fscss.devtem.org/ide",
-    "description": "Browser-based multi-file IDE for FSCSS. Live compiler, preview, component search, terminal and project export. Free forever.",
+    "description": "Browser-based multi-file IDE for FSCSS. Convert FSCSS to CSS with a virtual workspace, local @import (selective aliases, wildcard, exec), live compiler, multi-page preview, component registry, terminal with xfcmd package automation (libck, libon), snippets, PWA install, and export to CSS, HTML, ZIP, or JSON. Free forever.",
     "applicationCategory": "DeveloperApplication",
+    "applicationSubCategory": "Code Editor",
     "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript. Works best in modern Chromium, Firefox or Safari.",
+    "softwareVersion": "1.2.6",
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
     },
+    "featureList": [
+      "FSCSS to CSS live conversion in the browser",
+      "Multi-file workspace (.fscss, .xfscss, .css, .html, .js, .xfcmd)",
+      "Virtual file system with path resolve, deps, roots, and rename-safe refs",
+      "Local @import for selective aliases, wildcard *, exec, and registry remotes",
+      "Live compile, problems panel, and compile-while-typing",
+      "Multi-page HTML preview with device widths",
+      "Monaco editor with FSCSS and xfcmd highlighting and snippets",
+      "Component registry search and one-click @import",
+      "Terminal: libs, libck, libon, xfcmd package scripts",
+      "Command palette, keyboard shortcuts, dark and light themes",
+      "Export CSS, minified CSS, HTML, ZIP, JSON backup",
+      "PWA install and localStorage workspace autosave"
+    ],
+    "screenshot": "https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png",
     "creator": {
       "@type": "Organization",
-      "name": "Figsh / FSCSS",
+      "name": "Figsh / fscss-ttr",
       "url": "https://fscss.devtem.org"
     },
-    "softwareVersion": "1.2.6",
-    "browserRequirements": "Requires JavaScript. Works best in modern Chromium, Firefox or Safari."
+    "isAccessibleForFree": true,
+    "inLanguage": "en"
   }
   </script>
   <script type="application/ld+json">
@@ -82,6 +101,43 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is FSCSS to CSS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FSCSS (Figured Shorthand CSS) compiles to standard CSS. The free online FSCSS IDE at fscss.devtem.org/ide converts FSCSS to CSS in the browser with live preview, multi-file projects, and exports."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to install anything?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The FSCSS IDE runs entirely in the browser. Open /ide, write FSCSS, compile to CSS, and export — no account or install required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use local @import and modules?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The IDE virtual file system resolves local paths and selective imports such as @import((name as alias) from \"./mod.fscss\"), wildcard *, exec forms, and remote registry libraries like flex-control or st-core."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="related" href="https://fscss.devtem.org/ide" title="FSCSS IDE">
+  <link rel="related" href="https://fscss.devtem.org/docs" title="FSCSS documentation">
+  <link rel="related" href="https://fscss.devtem.org/libraries" title="FSCSS libraries">
+  <link rel="related" href="https://fscss.devtem.org/ide-guide" title="FSCSS IDE guide">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -118,7 +174,6 @@
     button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
     img { display: block; max-width: 100%; }
 
-    /* ---------- animated code background ---------- */
     .bg {
       position: fixed;
       inset: 0;
@@ -180,7 +235,6 @@
       .code-col { animation: none !important; opacity: .25; }
     }
 
-    /* ---------- layout ---------- */
     .wrap {
       position: relative;
       z-index: 1;
@@ -189,7 +243,6 @@
       padding: 0 20px;
     }
 
-    /* nav */
     .nav {
       display: flex;
       align-items: center;
@@ -234,7 +287,6 @@
     }
     .nav-cta:hover { filter: brightness(1.08); }
 
-    /* hero */
     .hero {
       padding: 48px 0 32px;
       text-align: center;
@@ -264,7 +316,7 @@
       font-weight: 750;
       letter-spacing: -.035em;
       line-height: 1.12;
-      max-width: 16ch;
+      max-width: 18ch;
       margin: 0 auto 18px;
     }
     .hero h1 span {
@@ -276,7 +328,7 @@
     .hero p.lead {
       font-size: clamp(1rem, 2.2vw, 1.2rem);
       color: var(--mut);
-      max-width: 42rem;
+      max-width: 44rem;
       margin: 0 auto 28px;
       line-height: 1.55;
     }
@@ -333,7 +385,6 @@
     }
     .micro a { color: var(--ac2); text-decoration: underline; text-underline-offset: 3px; }
 
-    /* editor mock */
     .mock-wrap {
       margin: 40px auto 0;
       max-width: 920px;
@@ -418,7 +469,6 @@
     .typed-out { opacity: 0; }
     .typed-out.show { opacity: 1; transition: opacity .15s; }
 
-    /* features */
     .section {
       padding: 72px 0 40px;
     }
@@ -434,7 +484,7 @@
     }
     .section-head p {
       color: var(--mut);
-      max-width: 36rem;
+      max-width: 38rem;
       margin: 0 auto;
     }
     .grid {
@@ -479,7 +529,6 @@
     .ic-orange { background: rgba(251,191,36,.15); color: var(--orange); }
     .ic-cyan { background: rgba(34,211,238,.15); color: #22d3ee; }
 
-    /* quote strip */
     .strip {
       margin: 48px 0;
       padding: 28px 24px;
@@ -495,10 +544,9 @@
       letter-spacing: -.02em;
       margin-bottom: 8px;
     }
-    .strip p { color: var(--mut); max-width: 34rem; margin: 0 auto 20px; }
+    .strip p { color: var(--mut); max-width: 36rem; margin: 0 auto 20px; }
     .strip .hero-actions { margin-bottom: 0; }
 
-    /* footer */
     footer {
       padding: 40px 0 32px;
       border-top: 1px solid var(--line);
@@ -516,7 +564,6 @@
     .foot a:hover { color: var(--fg); }
     .foot-links { display: flex; gap: 16px; flex-wrap: wrap; }
 
-    /* mobile */
     @media (max-width: 800px) {
       .grid { grid-template-columns: 1fr 1fr; }
       .mock-body { grid-template-columns: 1fr; }
@@ -537,7 +584,6 @@
   </style>
 </head>
 <body>
-  <!-- Background -->
   <div class="bg" aria-hidden="true">
     <div class="bg-grid"></div>
     <div class="code-rain" id="codeRain"></div>
@@ -551,6 +597,7 @@
       </a>
       <div class="nav-links">
         <a href="https://fscss.devtem.org/docs">Docs</a>
+        <a href="https://fscss.devtem.org/libraries">Libraries</a>
         <a href="https://github.com/fscss-ttr/FSCSS" target="_blank" rel="noopener">GitHub</a>
         <a class="nav-cta" href="/ide"><i class="fa-solid fa-play" aria-hidden="true"></i> Open IDE</a>
       </div>
@@ -559,12 +606,14 @@
     <header class="hero">
       <div class="badge">
         <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
-        The old converter is now a full free IDE
+        FSCSS to CSS converter → full free IDE
       </div>
-      <h1>Control everything.<br><span>Learn. Ship. Experience.</span></h1>
+      <h1>Convert FSCSS to CSS.<br><span>Control everything.</span></h1>
       <p class="lead">
-        Your free browser IDE for Figured Shorthand CSS — multi-file projects, live compiler,
-        preview, components, terminal and one-click exports. Made with care for developers.
+        Free browser IDE for Figured Shorthand CSS — multi-file workspace, local
+        <code style="font-family:var(--mono);font-size:.9em;color:var(--ac2)">@import</code>,
+        live compile &amp; multi-page preview, component registry, terminal + xfcmd, and one-click exports.
+        No install. No account.
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/ide" id="ctaIde">
@@ -582,9 +631,8 @@
       </div>
       <p class="micro">No install · No account · Runs in your browser · <a href="/ide">fscss.devtem.org/ide</a></p>
 
-      <!-- Animated editor mock -->
       <div class="mock-wrap">
-        <div class="mock" role="img" aria-label="Preview of the FSCSS IDE editor compiling to CSS">
+        <div class="mock" role="img" aria-label="Preview of the FSCSS IDE editor compiling FSCSS to CSS">
           <div class="mock-bar">
             <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
             <span class="mock-title">main.fscss → output.css</span>
@@ -605,39 +653,39 @@
 
     <section class="section" aria-labelledby="features-title">
       <div class="section-head">
-        <h2 id="features-title">Everything you need to ship styles faster</h2>
-        <p>From a simple compiler to a complete workspace — still free, still in the browser.</p>
+        <h2 id="features-title">From simple converter to a complete FSCSS workspace</h2>
+        <p>Still free, still in the browser — now with the tools you need to learn, ship, and experience Figured Shorthand CSS.</p>
       </div>
       <div class="grid">
         <article class="card">
           <div class="ic ic-blue"><i class="fa-solid fa-folder-tree" aria-hidden="true"></i></div>
           <h3>Multi-file projects</h3>
-          <p>Organize FSCSS, HTML, JS and CSS. Set an entry file, rename, duplicate, import and export.</p>
+          <p>Organize .fscss, HTML, JS and CSS. Entry file, rename, duplicate, import/export — workspace stays in your browser.</p>
         </article>
         <article class="card">
           <div class="ic ic-pink"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
-          <h3>Live compile</h3>
-          <p>Compile on demand or while you type. Instant feedback with problems panel and terminal logs.</p>
+          <h3>Live FSCSS → CSS</h3>
+          <p>Compile on demand or while you type. Problems panel and terminal logs give instant feedback on every change.</p>
         </article>
         <article class="card">
           <div class="ic ic-green"><i class="fa-solid fa-eye" aria-hidden="true"></i></div>
-          <h3>Live preview</h3>
-          <p>See styles applied to real HTML and JS in a sandboxed preview — full, tablet or phone width.</p>
+          <h3>Multi-page preview</h3>
+          <p>Sandboxed HTML/JS preview at full, tablet or phone width. Local links resolve in the workspace — no host 404s.</p>
         </article>
         <article class="card">
-          <div class="ic ic-purple"><i class="fa-solid fa-cubes" aria-hidden="true"></i></div>
-          <h3>Component search</h3>
-          <p>Browse and import community FSCSS modules with one click. Copy the import line or pull the repo.</p>
+          <div class="ic ic-purple"><i class="fa-solid fa-file-import" aria-hidden="true"></i></div>
+          <h3>Local &amp; registry imports</h3>
+          <p>Selective aliases, <code style="font-family:var(--mono);font-size:.85em">*</code>, and <code style="font-family:var(--mono);font-size:.85em">exec</code> — plus one-click registry modules like flex-control and st-core.</p>
         </article>
         <article class="card">
           <div class="ic ic-orange"><i class="fa-solid fa-terminal" aria-hidden="true"></i></div>
-          <h3>Terminal & snippets</h3>
-          <p>Run commands, insert patterns, format, minify, and keep a clear history of every compile.</p>
+          <h3>Terminal &amp; xfcmd</h3>
+          <p>Run libs, libck, libon and package scripts. Snippets, format, minify, and a clear history of every compile.</p>
         </article>
         <article class="card">
           <div class="ic ic-cyan"><i class="fa-solid fa-file-export" aria-hidden="true"></i></div>
           <h3>Export anywhere</h3>
-          <p>Download CSS, minified CSS, standalone HTML, project ZIP or JSON backup in one menu.</p>
+          <p>Download CSS, minified CSS, standalone HTML, project ZIP or JSON backup — ship plain CSS with one menu.</p>
         </article>
       </div>
     </section>
@@ -646,7 +694,7 @@
       <h2>Made with care for developers</h2>
       <p>
         Dark and light themes, keyboard shortcuts, command palette, shareable code links,
-        and a workspace that stays in your browser. Open it, learn FSCSS, ship real CSS.
+        PWA install, and a workspace that never leaves your browser. Open it, convert FSCSS to CSS, ship real styles.
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/ide">
@@ -666,7 +714,8 @@
         <div class="foot-links">
           <a href="https://fscss.devtem.org/docs">Docs</a>
           <a href="/ide">IDE</a>
-          <a href="https://github.com/fscss-ttr" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://fscss.devtem.org/libraries">Libraries</a>
+          <a href="https://github.com/fscss-ttr/FSCSS" target="_blank" rel="noopener">GitHub</a>
           <a href="https://github.com/sponsors/Figsh" target="_blank" rel="noopener">Sponsor</a>
         </div>
       </div>
@@ -677,12 +726,12 @@
   (function () {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ---------- code rain background ---------- */
     const snippets = [
       ['@define', ' center', '(elem){', '', '  @use', '(elem){', '', '    display', ': flex;', '', '    justify-content', ': center;', '', '  }', '', '}'],
       ['$primary', ': ', '#0BCEAE', ';', '', '@arr', ' palette', '[', '#1E2783', ', ', '#8C29B2', ']'],
       ['.card', ' {', '', '  bg', ': ', '@random', '(@arr.palette);', '', '  rounded', ': ', '$radius', '!;', '', '}'],
       ['@import', '((*) from ', 'flex-control', ')', '', '@flex-wrap-center', '()'],
+      ['@import', '((print as say) from ', '"./hello.fscss"', ')'],
       ['pattern', '(0.6: ', '"rounded button"', ', `', '', '  bg', ': red;', '', '`)'],
       ['exec', '(_log, ', "'Hello FSCSS'", ')', '', '/* compile-time log */'],
       ['.btn', ' {', '', '  px', ': 16px;', '', '  py', ': 10px;', '', '  fw', ': 600;', '', '}'],
@@ -724,7 +773,6 @@
       rain.innerHTML = '<div style="padding:40px;opacity:.2;font-family:var(--mono);font-size:12px">@define center · $primary · @import · pattern()</div>';
     }
 
-    /* ---------- typing animation in mock editor ---------- */
     const fscssLines = [
       { html: '<span class="tok-cm">/* Figured Shorthand CSS */</span>' },
       { html: '<span class="tok-kw">$primary</span>: <span class="tok-num">#0BCEAE</span>;' },
@@ -782,14 +830,12 @@
         await wait(80);
       }
 
-      // loop after pause
       await wait(4200);
       typeDemo();
     }
 
     function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    // start after first paint
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => setTimeout(typeDemo, 300));
     } else {
