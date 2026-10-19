@@ -21,8 +21,8 @@ const SENTENCES = [
   ['error', 'Print an error', 'error "${1:text}"'],
   ['toast', 'Show a toast', 'toast "${1:text}" ${2|ok,warn,err|}'],
   ['add import', 'Insert an @import', 'add import ${1:name}'],
-  ['create file (block)', 'Create a file from lines up to "end"', 'create file ${1:folder/name.fscss} with:\n  ${2}\nend'],
-  ['create file (inline)', 'Create a file from one string', 'create file ${1:name.fscss} with "${2:text}"'],
+  ['create file (block)', 'Create a file from lines up to "end"', 'create file "${1:folder/name.fscss}" with:\n  ${2}\nend'],
+  ['create file (inline)', 'Create a file from one string', 'create file "${1:name.fscss}" with "${2:text}"'],
   ['open file', 'Open a file in the editor', 'open file ${1:{file\\}}'],
   ['set entry', 'Set the entry file', 'set entry ${1:{file\\}}'],
   ['compile', 'Compile the active file', 'compile'],
@@ -186,3 +186,4 @@ export function registerXfcmd(monaco) {
   /* models created before the language existed */
   monaco.editor.getModels().filter(m => /\.xfcmd$/i.test(m.uri.path)).forEach(m => monaco.editor.setModelLanguage(m, 'xfcmd'));
 }
+
