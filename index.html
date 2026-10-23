@@ -11,9 +11,9 @@
   <title>FSCSS – Lightweight CSS Preprocessor | Figured Shorthand CSS</title>
   
   <!-- Primary SEO -->
-  <meta name="description" content="FSCSS (Figured Shorthand Cascading Style Sheets) is a lightweight, powerful CSS preprocessor designed for fast, scalable frontend development. Write less CSS, build more.">
+  <meta name="description" content="FSCSS — lightweight Figured Shorthand CSS. Property shorthands, @define, arrays, modules. CLI, VS Code, browser IDE, runtime and ESM builds. Compiles to plain CSS.">
   
-  <meta name="keywords" content="FSCSS, CSS preprocessor, Sass alternative, shorthand CSS framework, lightweight CSS tool, modern CSS workflow, frontend styling system, Figured Shorthand CSS, fscss ide">
+  <meta name="keywords" content="FSCSS, CSS preprocessor, Sass alternative, shorthand CSS, Figured Shorthand CSS, FSCSS IDE, xfcmd, libck, st-core, property shorthands, @define, pattern(), lightweight CSS tool, fscss.devtem.org">
   
   <meta name="author" content="Figsh">
   <meta name="robots" content="index, follow">
@@ -22,7 +22,7 @@
   
   <!-- Open Graph -->
   <meta property="og:title" content="FSCSS – Lightweight CSS Preprocessor">
-  <meta property="og:description" content="Build faster with FSCSS. A powerful shorthand CSS system designed for scalable and efficient frontend styling.">
+  <meta property="og:description" content="Figured Shorthand CSS: property shorthands, @define, modules. CLI, IDE, VS Code, runtime & ESM — compiles to plain CSS.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fscss.devtem.org/">
   <meta property="og:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
@@ -35,7 +35,7 @@
   <meta name="twitter:site" content="@fscss_ttr">
   <meta name="twitter:creator" content="@MrFigsh">
   <meta name="twitter:title" content="FSCSS – Modern Shorthand CSS Preprocessor">
-  <meta name="twitter:description" content="A lightweight and powerful CSS preprocessor built for modern frontend development.">
+  <meta name="twitter:description" content="Shorthands, modules, IDE & CLI. FSCSS compiles to dependency-free CSS.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/ekustack/fsdocs/refs/heads/main/fscss_logo.png">
   
   <!-- Favicon -->
@@ -138,6 +138,7 @@
           <h3 class="sidebar-title">Getting Started</h3>
           <ul class="sidebar-links">
             <li><a href="#introduction" class="sidebar-link">Introduction</a></li>
+            <li><a href="#tools" class="sidebar-link">Tools</a></li>
             <li><a href="#installation" class="sidebar-link">Installation</a></li>
             <li><a href="#quick-start" class="sidebar-link">Quick Start</a></li>
             <li><a href="/playground" class="sidebar-link">Playground</a></li>
@@ -201,7 +202,18 @@
             <h2>What is FSCSS?</h2>
           </div>
           <div class="card-body">
-            <p>FSCSS (Figured Shorthand CSS) is a lightweight, modern CSS preprocessor that simplifies your styling workflow with intuitive shorthand syntax. It allows you to write cleaner, more maintainable stylesheets with less code.<p>Shorthand &amp; token-driven. FSCSS compiles down to dependency-free CSS using distinct syntaxes</p> </p>
+            <p>
+              <strong>FSCSS</strong> (Figured Shorthand Cascading Style Sheets) is a lightweight CSS preprocessor
+              for fewer keystrokes and clearer structure: property shorthands, variables and stores,
+              <code>@define</code> blocks, arrays and loops, <code>pattern()</code>, and importable modules.
+              It compiles to <strong>plain, dependency-free CSS</strong> — use the CLI for production, the
+              <a href="/ide">browser IDE</a> to learn and scaffold, or the CDN runtime to prototype.
+            </p>
+            <p>
+              Choose FSCSS when you want a comprehensive but small toolchain: structural tokens, shorthand rules,
+              and functional design blocks so you can build customizable, DRY, dynamic style templates
+              <em>in the stylesheet</em> — then ship only CSS.
+            </p>
             
             <div class="feature-grid">
               <div class="feature-item">
@@ -280,6 +292,66 @@
       
 
 
+
+      <!-- Tools -->
+      <section id="tools" class="docs-section">
+        <h2>Tools</h2>
+        <div class="card">
+          <div class="card-header">
+            <h3>How you run FSCSS</h3>
+          </div>
+          <div class="card-body">
+            <div class="feature-grid">
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-terminal"></i></div>
+                <h4>CLI</h4>
+                <p>Local or global install. Compile <code>.fscss</code> → <code>.css</code> in CI or prebuild.</p>
+                <pre style="margin-top:8px;font-size:12px"><code>npm install fscss
+npm install -g fscss
+fscss input.fscss output.css</code></pre>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                <h4>Browser IDE</h4>
+                <p>Multi-file workspace, live compile, preview, <code>libck</code>, <code>libon</code> / xfcmd, export CSS or ZIP.</p>
+                <a href="/ide" class="btn btn-outline" style="margin-top:10px;display:inline-block;padding:6px 12px;font-size:14px">Open IDE</a>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-code"></i></div>
+                <h4>VS Code extension</h4>
+                <p>Highlighting and snippets for <code>.fscss</code> / <code>.xfscss</code>.</p>
+                <p style="margin-top:8px">
+                  <a href="https://marketplace.visualstudio.com/items?itemName=Figsh.fscss">Marketplace</a>
+                  ·
+                  <a href="https://github.com/Figsh/fscss-vscode-extension">GitHub</a>
+                </p>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                <h4>runtime.min.js</h4>
+                <p>Auto-scan the page; compile <code>&lt;style&gt;</code> / <code>&lt;link type="text/fscss" href="..."</code> links / inline elements style="...". Prototyping.</p>
+                <pre style="margin-top:8px;font-size:12px"><code>&lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.6/runtime.min.js" defer&gt;&lt;/script&gt;</code></pre>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <h4>esm.min.js</h4>
+                <p>ESM build — no auto-run. Import, then use exposed APIs.</p>
+                <pre style="margin-top:8px;font-size:12px"><code>import xfscss from "https://cdn.jsdelivr.net/npm/fscss@1.2.6/esm.min.js";
+                // const css = await xfscss.process("fscss code");</code></pre>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-keyboard"></i></div>
+                <h4>Vim</h4>
+                <p><em>Soon</em> — community-friendly syntax support. Until then, the VS Code grammar/snippets are open source</p>
+              </div>
+            </div>
+            <p style="margin:16px 0 0;font-size:0.9rem;opacity:0.9">
+              Same language everywhere: CLI, IDE, and CDN. Production sites should prefer <strong>compiled CSS</strong>, not the browser runtime.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <!-- Deep dive index -->
       <section id="deepdive-main" class="docs-section">
         <h2>Deep dive</h2>
@@ -288,9 +360,9 @@
             <h3>Language references</h3>
           </div>
           <div class="card-body">
-            <p>Focused pages for advanced FSCSS features used in modules (st-core, overlapui, and more):</p>
+            <p>Focused pages for advanced FSCSS features used in modules</p>
             <ul>
-              <li><a href="/loop"><strong>Loops</strong></a> — <code>%n()</code>, auto-index, <code>rpt()</code>, <code>inline()</code>, <code>empty{ /* preserve */ }</code></li>
+              <li><a href="/loop"><strong>Loops</strong></a> — <code>@arr</code>, auto-index, <code>rpt()</code>, <code>inline()</code>, <code>empty{ /* preserve */ }</code></li>
               <li><a href="/num"><strong>num() &amp; count()</strong></a> — compile-time math, index sequences, <code>&lt;&gt;</code> grouping</li>
               <li><a href="/arrays"><strong>Arrays</strong></a> · <a href="/array-methods"><strong>Array methods</strong></a> — <code>!</code> methods, derived arrays, mutations</li>
               <li><a href="/str"><strong>str()</strong></a> — style stores; camelCase / snake_case property maps</li>
@@ -349,7 +421,7 @@ fscss input.fscss output.css</code></pre>
 &lt;script src="https://cdn.jsdelivr.net/npm/fscss@1.2.6/runtime.min.js" async&gt;&lt;/script&gt;</code></pre>
             </div>
 
-            <p><strong>esm.js</strong> — for module-based use (e.g. an FSCSS-to-CSS tool, or manipulating styles without auto-running on the page). It never auto-runs and never touches page loading, so call <code>xfscss.reboot()</code> yourself when you're ready:</p>
+            <p><strong>esm.js</strong> — for module-based use (e.g. an FSCSS-to-CSS tool, or manipulating styles without auto-running on the page). It never auto-runs and never touches page loading, so call <code>xfscss.reboot()</code> if there is fscss to scan and compile in the main page:</p>
             <div class="code-block">
               <div class="code-header">
                 <span>JavaScript</span>
@@ -430,6 +502,28 @@ $border-radius: 8px;
             </div>
           </div>
         </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <h3>Shorthands</h3>
+            <small>since 1.2.5</small>
+          </div>
+          <div class="card-body">
+            <p>Axis spacing, radius, size, and color aliases expand to standard properties:</p>
+            <div class="code-block">
+              <div class="code-header"><span>FSCSS</span><button class="copy-btn"><i class="fas fa-copy"></i></button></div>
+              <pre><code>/* FSCSS 1.2.5 – 1.2.6+ */
+.card {
+  bg: #fff;
+  px: 15px;
+  py: 10px;
+  rounded: 8px;
+}</code></pre>
+            </div>
+            <p>Full list: <a href="/shorthands">Shorthands reference</a>. Layout helpers also include <code>stack</code>, <code>hstack</code>, <code>center</code>, <code>size</code>, <code>ratio-fit</code>, and more.</p>
+          </div>
+        </div>
+
       </section>
 
       <!-- Variables Section -->
@@ -579,7 +673,13 @@ $spacing: 1rem;
               <i class="fas fa-code"></i> View Examples
             </a>
             <a href="/ide" class="btn btn-primary">
-              <i class="fas fa-code"></i> FSCSS IDE
+              <i class="fas fa-laptop-code"></i> FSCSS IDE
+            </a>
+            <a href="/shorthands" class="btn btn-outline">
+              <i class="fas fa-compress"></i> Shorthands
+            </a>
+            <a href="/libraries" class="btn btn-outline">
+              <i class="fas fa-cubes"></i> Libraries
             </a>
           </div>
         </div>
@@ -625,7 +725,8 @@ $spacing: 1rem;
     </div>
   </footer>
 
-  <script src="/assets/scripts/main.js"></script>
-</body>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/assets/scripts/main.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4f0eb84ecac8982',t:'MTc5Mjc2MDM3Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
